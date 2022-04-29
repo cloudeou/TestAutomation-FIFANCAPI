@@ -1,0 +1,7 @@
+{
+	"retryCheck": true,
+	"statePivotCheck": true,
+	"threadNumbersCheck": true,
+	"datasetCheck": true,
+	"dbCheck": true
+}

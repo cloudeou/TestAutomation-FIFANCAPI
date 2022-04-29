@@ -1,0 +1,22 @@
+{
+	"featuresPath": "./bdd/features",
+	"stepsPath": "./bdd/steps",
+	"db": {
+		"user": "",
+		"passwd": "",
+		"host": "",
+		"port": 0,
+		"database": ""
+	},
+	"envsPath": "",
+	"contextsPath": "./bdd/contexts",
+	"threadsNumber": 1,
+	"bootstrapPath": "./bdd/DBBootstrap.config.js",
+	"reporters": [
+		"default"
+	],
+	"webapp": {
+		"host": "",
+		"port": 0
+	}
+}
