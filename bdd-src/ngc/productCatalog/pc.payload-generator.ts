@@ -5,9 +5,6 @@ export class payloadGenerator {
     ) {
         this.offers = [];
     }
-    // static queryGenerator (offers: Array<String>) {
-    //     return `id=${offers.join(',')}`;
-    // }
     public generateQueryParams(): any {
                 return `id=${this.offers.join(',')}`
     }
