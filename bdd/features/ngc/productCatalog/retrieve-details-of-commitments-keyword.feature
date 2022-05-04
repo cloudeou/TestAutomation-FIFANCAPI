@@ -11,16 +11,14 @@ Feature: Retrieve product offering details of a list of Commitment offers
       | 9155352401613907466 |
     When user try to retrieve offer details
     Then list of offer details should be returned
-#       # ???
-#    And user validate offers attributes:
-#      | attributeName |
-#      | name          |
-#      | category      |
-#        # ???
-#    And user validate attachment attributes:
-#      | attributeName               |
-#      | offeringDetailedDescription |
-#      | offeringName                |
-#      | initiativeContext           |
-#      | conditions                  |
-#      | benefits                    |
+    And user validate offers attributes:
+      | attributeName |
+      | name          |
+      | category      |
+    And user validate attachment attributes:
+      | attributeName               |
+      | offeringDetailedDescription |
+      | offeringName                |
+      | initiativeContext           |
+      | conditions                  |
+      | benefits                    |
