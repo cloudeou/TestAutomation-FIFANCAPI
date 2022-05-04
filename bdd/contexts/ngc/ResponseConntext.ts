@@ -6,6 +6,8 @@ export default class ResponseContext {
     private _PCresponse: any;
     private _PCresponseBody: any;
     private _PCstatusCode: number = NaN;
+    private _shoppingCartResponse: JSON | null = null;
+    private _shopppingCartResonseText: string | null = null;
 
     public get PCresponse(): any {
         return this._PCresponse;
@@ -46,5 +48,21 @@ export default class ResponseContext {
                     status: this._PCstatusCode,
                 };
         }
+    }
+
+    public getShoppingCartResponse() {
+        return this._shoppingCartResponse;
+    }
+
+    public setShoppingCartResponse(value: JSON | null) {
+        this._shoppingCartResponse = value;
+    }
+
+    public getshoppingCartResponseText() {
+        return this._shopppingCartResonseText;
+    }
+
+    public setshopppingCartResonseText(value: string | null) {
+        this._shopppingCartResonseText = value;
     }
 }

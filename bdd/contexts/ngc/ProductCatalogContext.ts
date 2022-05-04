@@ -1,7 +1,7 @@
 import { Identificators } from "../Identificators";
 export default class ProductCatalogContext {
     private requestedItems: Array<String> = [];
-    private productCatalogResponse: JSON;
+    //private productCatalogResponse: JSON;
 
     private responsedItems: Map<string, JSON> = new Map();
 
@@ -12,7 +12,7 @@ export default class ProductCatalogContext {
         return this.requestedItems;
     }
     public setProductCatalogResponse(value: JSON) {
-        this.productCatalogResponse = value;
+        //this.productCatalogResponse = value;
     }
     public setResponsedItem(id: string, item: JSON) {
         this.responsedItems.set(id, item);
