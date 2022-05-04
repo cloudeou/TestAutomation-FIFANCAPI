@@ -1,10 +1,9 @@
-import {ProductCatalogApi} from "../../../bdd-src/ngc/productCatalog/pc.api";
-import {Common} from "../../../bdd-src/utils/commonBDD/Common";
+import { ProductCatalogApi } from "../../../bdd-src/ngc/productCatalog/pc.api";
+import { Common } from "../../../bdd-src/utils/commonBDD/Common";
 import ProductCatalogContext from "../../contexts/ngc/ProductCatalogContext";
 import ResponseContext from "../../contexts/ngc/ResponseConntext"
-import {Identificators} from "../../contexts/Identificators";
-import {AssertionModes, test} from "@cloudeou/telus-bdd";
-const { featureContext } = require("@telus-bdd/telus-bdd");
+import { Identificators } from "../../contexts/Identificators";
+import { AssertionModes, featureContext, test } from "@cloudeou/telus-bdd";
 
 type step = (
     stepMatcher: string | RegExp,
