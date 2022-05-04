@@ -1,5 +1,6 @@
 // create identificators for contexts here
 
 export const Identificators = {
-  // your identificators
+  ProductCatalogContext: "ProductCatalogContext",
+  ResponseContext: "ResponseContext",
 }

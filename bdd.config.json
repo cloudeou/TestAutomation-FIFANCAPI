@@ -1,6 +1,6 @@
 {
 	"featuresPath": "./bdd/features",
-	"stepsPath": "./bdd/steps",
+	"stepsPath": "./dist/bdd/steps",
 	"db": {
 		"user": "",
 		"passwd": "",
