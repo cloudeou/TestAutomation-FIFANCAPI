@@ -1,1 +1,0 @@
-export const envConfig = {envName: "int03"}
