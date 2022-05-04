@@ -1,5 +1,4 @@
 @ngc
-@api
 @PC
 @retrieve-details-of-coupon-code-offers-keyword
 Feature: Retrieve product offering details of a list of Commitment offers

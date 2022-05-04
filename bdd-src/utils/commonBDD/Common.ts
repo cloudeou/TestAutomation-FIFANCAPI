@@ -13,14 +13,14 @@ export class Common {
         });
         return productOfferingList;
     }
-    static checkValidResponse(success, statusCode?) {
-        test('Actual result', success, AssertionModes.strict ).not(null,'Response should not be empty');
-        test('Actual result',  success.response, AssertionModes.strict).not(null,'Response field should be present');
-        test('Actual result', success.response.body, AssertionModes.strict).not(null,'Response should contain body');
-        test('Actual result', success.response.body,AssertionModes.strict).not(null,'Response should contain body')
+    static checkValidResponse(success: any, statusCode?: any) {
+        test('Actual result', success, AssertionModes.strict ).isnot(null,'Response should not be empty');
+        test('Actual result',  success.response, AssertionModes.strict).isnot(null,'Response field should be present');
+        test('Actual result', success.response.body, AssertionModes.strict).isnot(null,'Response should contain body');
+        test('Actual result', success.response.body,AssertionModes.strict).isnot(null,'Response should contain body')
         if (statusCode !== undefined) {
-            test(`statusCode should be ${statusCode + JSON.stringify(success, null, '\t')}`,
-                success.response.statusCode, AssertionModes.strict ).is(statusCode)
+            test('Actual result',
+                success.response.statusCode, AssertionModes.strict).is(statusCode, `statusCode should be ${statusCode + JSON.stringify(success, null, '\t')}`)
         }
         return true;
     }

@@ -20,6 +20,7 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
     const fifaNcApi = new ProductCatalogApi();
 
     and('user set list of offers:', (table) => {
+        console.log('tryuiopp')
         let productOfferingList: Array<String> = Common.getOffersFromTable(
             table,
             productCatalogContext,
@@ -34,17 +35,17 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
             console.log(JSON.stringify(pcResponse));
             Common.checkValidResponse(pcResponse, 200);
             const response = JSON.parse(pcResponse.data);
-            test('Validate response',response,AssertionModes.strict).not([]);
-            response.forEach((detItem) => {
+            test('Validate response',response,AssertionModes.strict).isnot([], 'Error has occured due to PC API call received an empty array.');
+            response.forEach((detItem: any) => {
                 test('Response must to be defined',
                     detItem.id,
                     AssertionModes.strict
-                ).not(undefined);
+                ).isnot(undefined, 'Error has occured due to offer details item id is not defined.');
             });
             ResponseContext().PCresponse(response);
         }
         catch(error: any) {
-            test('Error Message', error, AssertionModes.strict).not(undefined);
+            test('Error Message', error, AssertionModes.strict).isnot(undefined, `Error response is received: \n ${JSON.stringify(error)}`);
             console.log('ERROR:',error);
         }
     })
@@ -59,9 +60,9 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
         PCreponse.forEach((detItem) => {
             //todo .toContain()
             test('PC items should be in response',
-                requestedItems,
+                requestedItems.includes(detItem.id),
                 AssertionModes.strict,
-            ).is(detItem.id);
+            ).is(true, `PC Item ${detItem.id} had not been requested but was received in response.`);
             responseItemIds.push(detItem.id);
             productCatalogContext().setResponsedItem(detItem.id, detItem);
         });
@@ -69,9 +70,9 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
             //todo .toContain()
             test(
                 'requestedItems should contain id',
-                responseItemIds,
+                responseItemIds.includes(id),
                AssertionModes.strict,
-            ).is(id);
+            ).is(true, `PC item ${id} had been requested, but was not received in response.`);
         });
         test(
             'Response contain length',
