@@ -2,7 +2,7 @@ import {AssertionModes, test} from "@cloudeou/telus-bdd";
 
 const { featureContext } = require("@telus-bdd/telus-bdd");
 import { Identificators } from '../../contexts/Identificators';
-import { PreconditionContext } from '../../contexts/ngc/PreconditionContext';
+import PreconditionContext  from '../../contexts/ngc/PreconditionContext';
 import ResponseContext from '../../contexts/ngc/ResponseConntext';
 import ShoppingCartContext from '../../contexts/ngc/ShoppingCartContext';
 import ErrorContext from "../../contexts/ngc/ErrorContext";
