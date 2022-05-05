@@ -1,3 +1,5 @@
+import {AssertionModes, test} from "@cloudeou/telus-bdd";
+
 const { featureContext } = require("@telus-bdd/telus-bdd");
 import { Identificators } from '../../contexts/Identificators';
 import { PreconditionContext } from '../../contexts/ngc/PreconditionContext';
@@ -33,7 +35,7 @@ export const createShoppingCartSteps = ({
     featureContext().getContextById(Identificators.shoppingCartContext);
   const errorContext = (): ErrorContext =>
     featureContext().getContextById(Identificators.ErrorContext);
-
+  const shoppingCartApi = new ShoppingCartApi();
 
 
 
@@ -72,7 +74,7 @@ export const createShoppingCartSteps = ({
     });
     const comCharMap = Common.createCharMapFromTable(commitmentCharsTable);
     const oldCharMap = shoppingCartContext().getCharMap();
-    const newCharMap = Common.mergeMaps(oldCharMap, comCharMap);
+    const newCharMap = Common.mergeMaps(oldCharMap!, comCharMap);
     shoppingCartContext().setCharMap(newCharMap);
   });
 
@@ -152,56 +154,60 @@ export const createShoppingCartSteps = ({
     console.log('BODY IN CREATE:\n' + JSON.stringify(body));
 
 
-
     try {
-      const response = await ShoppingCartApi.createShoppingCart()
-    }
-    catch (e) {
-      console.log(e)
-    }
+      const response = await shoppingCartApi.createShoppingCart({
+        prevResponse: null,
+        lpdsid: externalLocationId,
+        customerCategory: customerCategory,
+        distributionChannel: distChannelOption,
+        charMap,
+        childOfferMap: undefined,
+        ecid: customerAccountECID,
+        offersToAdd: selectedOffers,
+        promotionMap: undefined
+      })
+
+      if (response.status != 201) {
+        errorContext().error = `Unexpected http status code in create ShoppingCart: ${response.status}`;
+        errorContext().status = ErrorStatus.skipped;
+      }
+      Common.checkValidResponse(response, 201);
+      const body = response.data;
+      // logger.debug('CART CREATED: '+ JSON.stringify(body));
+      const responseText = JSON.stringify(response, null, '\t');
+      test('SC should have OPEN status', body.status, AssertionModes.strict )
+        .is('OPEN','SC should have OPEN status\n' + responseText);
+
+      test('Response should contain cartItem', body.cartItem, AssertionModes.strict)
+        .isnot(undefined,'Response should contain cartItem\n' + responseText,)
+
+      test('Expecting some offers to be returned',body.cartItem.length,AssertionModes.strict)
+        .isnot(0,'Expecting some offers to be returned \n Body: ' + JSON.stringify(body))
 
 
-
-    return await btapi
-      .$requestShoppingCart(btapi.TYPES.createShoppingCart(), body, null)
-      .toPromise()
-      .then(
-        (success) => {
-          Common.checkValidResponse(success, 201);
-          const body = success.response.body;
-          // logger.debug('CART CREATED: '+ JSON.stringify(body));
-          const responseText = JSON.stringify(success, null, '\t');
-          expect(
-            body.status,
-            'SC should have OPEN status\n' + responseText,
-          ).toBe('OPEN');
-          expect(
-            body.cartItem,
-            'Response should contain cartItem\n' + responseText,
-          ).toBeDefined();
-          expect(
-            body.cartItem.length,
-            'Expecting some offers to be returned \n Body: ' +
-            JSON.stringify(body),
-          ).toBeGreaterThan(0);
-          let shoppingCartId = body.id;
-          console.log(shoppingCartId);
-          shoppingCartContext().setShoppingCartId(shoppingCartId);
-          responseContext().setShoppingCartResponse(success.response.body);
-          responseContext().setshopppingCartResonseText(responseText);
-          let existingChildOfferMap = Common.createExistingChildOffersMap(
-            success.response.body,
-          );
-          shoppingCartContext().setExistingChildOffers(existingChildOfferMap);
-        },
-        (error) => {
-          expect(
-            true,
-            'Error response is received\n' + JSON.stringify(error, null, '\t'),
-          ).toBe(false);
-        },
+      let shoppingCartId = body.id;
+      console.log(shoppingCartId);
+      shoppingCartContext().setShoppingCartId(shoppingCartId);
+      responseContext().setShoppingCartResponse(response.data);
+      responseContext().setshopppingCartResonseText(responseText);
+      let existingChildOfferMap = Common.createExistingChildOffersMap(
+        response.data,
       );
-  });
+      shoppingCartContext().setExistingChildOffers(existingChildOfferMap);
+
+
+    }
+    catch (error) {
+      console.log(error)
+      errorContext().error = error;
+      errorContext().status = ErrorStatus.failed;
+      responseContext().SCstatusCode = error.response.status;
+      responseContext().SCresponse = error.response.data;
+      responseContext().SCresponseBody = error.response.data;
+    }
+  })
+
+
 
   then('validate shopping cart is created successfully', async () => {
     let response: any;
@@ -227,9 +233,9 @@ export const createShoppingCartSteps = ({
     );
 
     let responseText = responseContext().getshoppingCartResponseText();
-    var offers = shoppingCartContext().getOffersToAdd();
-    var offerList = [];
-    var offersDeleted = [];
+    const offers = shoppingCartContext().getOffersToAdd();
+    const offerList = [];
+    const offersDeleted = [];
     for (let [key, value] of offers) {
       if (String(value) === 'Add') {
         offerList.push(String(key));
@@ -238,9 +244,10 @@ export const createShoppingCartSteps = ({
       }
     }
     let charMap = shoppingCartContext().getCharMap();
-    expect(response.status, 'SC should have OPEN status\n' + responseText).toBe(
-      'OPEN',
-    );
+
+    test('SC should have OPEN status',response.status, AssertionModes.strict)
+      .is('OPEN','SC should have OPEN status\n' + responseText)
+
     Common.validateAllOffersPresentInResponse(response, offerList);
     Common.validateAllOffersNotPresentInResponse(response, offersDeleted);
     //Common.validateTheCharMapInResponse(response, charMap);
@@ -280,7 +287,7 @@ export const createShoppingCartSteps = ({
       let distributionChannel = preconditionContext().getDistributionChannel();
       let customerCategory = preconditionContext().getCustomerCategory();
       let selectedOffers = shoppingCartContext().getOffersToAdd();
-      charMap = shoppingCartContext().getCharMap();
+      charMap = shoppingCartContext().getCharMap()!;
       let customerAccountECID = preconditionContext().getExternalCustomerId();
       let childOfferMap = shoppingCartContext().getChildOfferMap();
       let response = responseContext().getShoppingCartResponse();
@@ -289,44 +296,41 @@ export const createShoppingCartSteps = ({
       if (responseText.includes(customerAccountECID)) {
         customerAccountECID = null;
       }
-      // logger.debug('RESPONSE:' + JSON.stringify(response));
-      //console.log('RESPONSE:' + JSON.stringify(response));
-      let bodyGen = new bodyGenerator(
-        customerAccountECID,
-        customerCategory,
-        distributionChannel,
-        externalLocationId,
-        response,
-        selectedOffers,
-        childOfferMap,
-        charMap,
-      );
 
-      let body = bodyGen.generateBody();
-      logger.debug('BODY IN UPDATE: ' + JSON.stringify(body));
-      return await btapi
-        .$requestShoppingCart(
-          btapi.TYPES.updateShoppingCart(shoppingCartId),
-          body,
-        )
-        .toPromise()
-        .then(
-          (success) => {
-            Common.checkValidResponse(success, 200);
-            const body = success.response.body;
-            const responseText = JSON.stringify(success, null, '\t');
-            // logger.debug('CART UPDATED: '+ JSON.stringify(body));
-            responseContext().setShoppingCartResponse(success.response.body);
-            responseContext().setshopppingCartResonseText(responseText);
-          },
-          (error) => {
-            expect(
-              true,
-              'Error response is received\n' +
-              JSON.stringify(error, null, '\t'),
-            ).toBe(false);
-          },
-        );
+      const requestBody = {
+        prevResponse: null,
+        lpdsid: externalLocationId,
+        customerCategory: customerCategory,
+        distributionChannel,
+        charMap,
+        childOfferMap: undefined,
+        ecid: customerAccountECID,
+        offersToAdd: selectedOffers,
+        promotionMap: undefined
+
+      }
+
+      logger.debug('BODY IN UPDATE: ' + JSON.stringify(requestBody));
+
+      try {
+        const response = await shoppingCartApi.updateShoppingCart(requestBody);
+
+        Common.checkValidResponse(response, 200);
+        const body = response.data;
+        const responseText = JSON.stringify(response, null, '\t');
+        // logger.debug('CART UPDATED: '+ JSON.stringify(body));
+        responseContext().setShoppingCartResponse(response.data);
+        responseContext().setshopppingCartResonseText(responseText);
+
+
+
+
+      }
+      catch (error) {
+        test('Error response should not be received', true,AssertionModes.strict)
+          .is(false,'Error response is received\n' + JSON.stringify(error, null, '\t'))
+      }
+
     }
   });
 };

@@ -19,13 +19,13 @@ export enum ShoppingCartActions {
 
 export type SCParams = {
   ecid?: number;
-  lpdsid?: number;
+  lpdsid?: string;
   customerCategory: string;
   distributionChannel: string;
   prevResponse?: any;
-  offersToAdd?: Map<string, string>;
+  offersToAdd?: Map<string, string> | null;
   childOfferMap?: Map<Map<string, string[]>, string>;
-  charMap?: Map<string, Array<{}>>;
+  charMap?: Map<string, Array<{}>> | null;
   promotionMap?: Map<Map<string, any[]>, string>;
 };
 
@@ -65,16 +65,19 @@ export class ShoppingCartApi {
     } else {
       const body = new BodyGenerator(
         <number>scParams.ecid,
-        <number>scParams.lpdsid,
-        <ShoppingCartActions>action,
         scParams.customerCategory,
         scParams.distributionChannel,
+        scParams.lpdsid,
         scParams.prevResponse,
         scParams.offersToAdd,
         scParams.childOfferMap,
-        scParams.charMap
+        scParams.charMap,
+        null,
+        undefined,
+        <ShoppingCartActions>action,
+
       );
-      return body.generateBody();
+      return body.generateBody()!;
     }
   }
 

@@ -1,5 +1,6 @@
 import {skipScenario, featureContext, test, AssertionModes} from '@cloudeou/telus-bdd';
 import {RandomValueGenerator} from '../common/RandomValueGenerator';
+import {bodyParser} from "../../ngc/shopping-cart-tmf/shopping-cart-tmf.body-parser";
 
 export class Common {
     static getOffersFromTable(table: any, shoppingCartContext: any) {
@@ -107,5 +108,74 @@ export class Common {
 
     static resolveAddressId(EAID: string, addressId: string) {
         return EAID && EAID != "None" ? EAID : addressId;
+    }
+
+    static createExistingChildOffersMap(response: any) {
+        let existingChildOffersMap = new Map();
+        response.cartItem.forEach((tloItem: any) => {
+            const tloId = tloItem.productOffering.id;
+            existingChildOffersMap.set(tloId, new Map());
+            const uniqueSloIds = tloItem.cartItem
+              .map((sloItem: any) => sloItem.productOffering.id)
+              .filter((sloId: any, index: any, self: any) => self.indexOf(sloId) == index);
+            uniqueSloIds.forEach((sloId: any) => {
+                const sloIdCount = tloItem.cartItem.filter(
+                  (item: any) => item.productOffering.id == sloId,
+                ).length;
+                existingChildOffersMap.get(tloId).set(sloId, sloIdCount);
+            });
+        });
+
+        return existingChildOffersMap;
+    }
+
+    static validateAllOffersPresentInResponse(response: any, offers: any) {
+        var flag = true;
+        let errorMessage = '';
+        if (offers !== null && offers !== undefined && offers.length > 0) {
+            offers.forEach((offer: any) => {
+                if (bodyParser.getItemIdByProductOffering(response, offer) === null) {
+                    flag = false;
+                    errorMessage = errorMessage + offer + ' not present\n';
+                }
+            });
+        }
+        test('flag to be truthy', flag, AssertionModes.strict).is(true,'flag should be truthy')
+        //expect(flag, errorMessage).toBeTruthy();
+    }
+
+    static validateAllOffersNotPresentInResponse(response: any, offers: any) {
+        var flag = true;
+        let n: any;
+        let errorMessage = '';
+        if (offers !== null && offers !== undefined && offers.length > 0) {
+            offers.forEach((offer: any) => {
+                if (bodyParser.getItemIdByProductOffering(response, offer) !== null) {
+                    n = bodyParser.getItemByProductOffering(response, offer);
+                    if (
+                      String(n.action).toLowerCase() !== 'cancel' &&
+                      String(n.action).toLowerCase() !== 'delete'
+                    ) {
+                        flag = false;
+                        errorMessage = errorMessage + offer + ' present\n';
+                    }
+                }
+            });
+        }
+        test('flag to be truthy', flag, AssertionModes.strict).is(true,'flag should be truthy')
+        //expect(flag, errorMessage).toBeTruthy();
+    }
+
+    static checkIfHasShippmentOrder(response: any) {
+        let flag = false;
+        for (let i = 0; i < response.cartItem.length; i++) {
+            if (
+              String(response.cartItem[i].product.name).toLowerCase() === 'shipment'
+            ) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 }

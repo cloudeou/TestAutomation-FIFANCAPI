@@ -8,6 +8,9 @@ export default class ResponseContext {
     private _PCstatusCode: number = NaN;
     private _shoppingCartResponse: JSON | null = null;
     private _shopppingCartResonseText: string | null = null;
+    private _SCstatusCode: number = NaN;
+    private _SCresponse: any;
+    private _SCresponseBody: any;
 
     public get PCresponse(): any {
         return this._PCresponse;
@@ -64,5 +67,29 @@ export default class ResponseContext {
 
     public setshopppingCartResonseText(value: string | null) {
         this._shopppingCartResonseText = value;
+    }
+
+    public get SCstatusCode(): number {
+        return this._SCstatusCode!;
+    }
+
+    public set SCstatusCode(statusCode: number) {
+        this._SCstatusCode = statusCode;
+    }
+
+    public get SCresponse(): any {
+        return this._SCresponse;
+    }
+
+    public set SCresponse(response: any) {
+        this._SCresponse = response;
+    }
+
+    public get SCresponseBody(): any {
+        return this._SCresponseBody;
+    }
+
+    public set SCresponseBody(responseBody: any) {
+        this._SCresponseBody = responseBody;
     }
 }
