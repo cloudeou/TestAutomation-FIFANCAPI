@@ -36,7 +36,7 @@ export class OauthToken {
         try {
             const tokenValid =
                 this.token !== undefined && this.tokenExpireTime > this.getTime();
-            return tokenValid && this.lastAccessFailed === false;
+            return tokenValid && !this.lastAccessFailed;
         } catch (err) {
             return false;
         }
@@ -74,6 +74,8 @@ export class OauthToken {
                 authorizationMethod: "body",
             },
         };
+
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = <string><unknown>0;
 
         const client = new ClientCredentials(config);
 

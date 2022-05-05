@@ -8,6 +8,13 @@ import {payloadGenerator} from "./pc.payload-generator";
 export class ProductCatalogApi {
     private _oauthToken: any;
 
+    constructor() {
+        this._oauthToken = new OauthToken(
+            envConfig.serviceQualification.clientId,
+            envConfig.serviceQualification.clientSecret
+        );
+    }
+
     private generateParams(offers: Array<String>): string {
             const params = new payloadGenerator(offers);
             return params.generateQueryParams();
