@@ -3,6 +3,7 @@ import { data } from "../../../test-data/test.data";
 
 
 export default class PreconditionContext {
+    public identificator = Identificators.preConditionContext;
     private streetNumberId!: bigint;
     private addressType: string = '';
     private bootstrapData: { [key: string]: any } = {};
@@ -34,23 +35,23 @@ export default class PreconditionContext {
     public getAddressType() {
         return this.addressType;
       }
-    public setBootstrapData() {
-        try {
-          const tempData: Object[] = JSON.parse(process.env.bootstrapParams!);
-          this.bootstrapData = tempData.pop()!;
-          process.env.bootstrapParams = JSON.stringify(tempData);
-        } catch (error) {
-          throw Error('No Bootstrap Data found in env!');
-        }
-      }
-    public getBootstrapData(key: string) {
-        const value = this.bootstrapData[key];
-        if (value !== undefined) {
-          return value;
-        } else {
-          throw Error(`No value found in getBootstrapData method by key ${key}`);
-        }
-      }
+    // public setBootstrapData() {
+    //     try {
+    //       const tempData: Object[] = JSON.parse(process.env.bootstrapParams!);
+    //       this.bootstrapData = tempData.pop()!;
+    //       process.env.bootstrapParams = JSON.stringify(tempData);
+    //     } catch (error) {
+    //       throw Error('No Bootstrap Data found in env!');
+    //     }
+    //   }
+    // public getBootstrapData(key: string) {
+    //     const value = this.bootstrapData[key];
+    //     if (value !== undefined) {
+    //       return value;
+    //     } else {
+    //       throw Error(`No value found in getBootstrapData method by key ${key}`);
+    //     }
+    //   }
     public setAddressId(value: string) {
         this.addressId = value;
       }

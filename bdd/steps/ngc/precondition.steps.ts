@@ -31,9 +31,9 @@ export const preconditionSteps = async ({ given, and, when, then } : { [key: str
     // given('addresses are in process env', () => {
     //   preconditionContext().setAllAddressesFromEnv();
     // });
-    given('testData from dbbootstrap', () => {
-      preconditionContext().setBootstrapData();
-    });
+    // given('testData from dbbootstrap', () => {
+    //   preconditionContext().setBootstrapData();
+    // });
   
     given(/^user has address with address id (.*)$/, (addressId) => {
       preconditionContext().setAddressId(addressId);
@@ -66,11 +66,9 @@ export const preconditionSteps = async ({ given, and, when, then } : { [key: str
     and(/^EXTERNAL_ID of distribution channel is (.*)$/, (distChannelExtId) => {
       preconditionContext().setDistributionChannelExternalId(distChannelExtId);
     });
-  
+    //
     and(/^customer category is (.*)$/, (custCategory: string) => {
-      const value = Common.getBootstrapIfExists(custCategory);
-  
-      preconditionContext().setCustomerCategory(value);
+        preconditionContext().setCustomerCategory(custCategory);
     });
   
     and(/^market for an address is (.*)$/, (market) => {
@@ -96,7 +94,7 @@ export const preconditionSteps = async ({ given, and, when, then } : { [key: str
   
     then('test case passed', () => {
       repContext().setTestResult(TestResultStatus.Pass);
-      repContext().writeTestResultFile();
+      // repContext().writeTestResultFile();
     });
   
     and('drop customer id', async () => {
