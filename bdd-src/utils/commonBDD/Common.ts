@@ -1,4 +1,9 @@
-import {skipScenario, featureContext, test, AssertionModes} from '@cloudeou/telus-bdd';
+import { skipScenario, featureContext, test, AssertionModes } from '@cloudeou/telus-bdd';
+import PreconditionContext from "../../../bdd/contexts/ngc/PreconditionContext";
+import { Identificators } from "../../../bdd/contexts/Identificators";
+
+let preconditionContext = (): PreconditionContext =>
+    featureContext().getContextById(Identificators.preConditionContext);
 
 export class Common {
     static getOffersFromTable(table: any, shoppingCartContext: any) {
@@ -43,5 +48,10 @@ export class Common {
                 : (isCatContain = false);
         });
         return isCatContain;
+    }
+    static getBootstrapIfExists(defaultValue: any) {
+        return defaultValue[0] === '@'
+            ? preconditionContext().getBootstrapData(defaultValue.slice(1))
+            : defaultValue;
     }
 }
