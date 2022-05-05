@@ -10,4 +10,8 @@ export const envConfig = {
         tokenHost: "https://apigw-st.tsl.telus.com",
         tokenPath: "/st/token",
     },
+    serviceQualification: {
+        baseUrl: "https://servicequalification-itn03-foma.paas-app-west-np.tsl.telus.com/v2/cmo/ordermgmt/servicequalificationmanagement/serviceQualification",
+
+    }
 }

@@ -7,6 +7,8 @@ export default class ResponseContext {
     private _PCresponseBody: any;
     private _PCstatusCode: number = NaN;
 
+    private _SCresponse: any;
+
     public get PCresponse(): any {
         return this._PCresponse;
     }
@@ -25,6 +27,14 @@ export default class ResponseContext {
 
     public get PCstatusCode(): number {
         return this._PCstatusCode;
+    }
+
+    public get SCresponse(): any {
+        return this._SCresponse;
+    }
+
+    public set SCresponse(response: any) {
+        this._SCresponse = response;
     }
 
     public setResponse(apiName: APIs, response: any) {

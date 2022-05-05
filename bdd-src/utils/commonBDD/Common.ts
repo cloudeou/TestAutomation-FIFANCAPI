@@ -54,4 +54,22 @@ export class Common {
             ? preconditionContext().getBootstrapData(defaultValue.slice(1))
             : defaultValue;
     }
+    static IsItemQualified(qItem: any, body: any) {
+        let flag = false;
+        body.serviceQualificationItem.forEach((item: any) => {
+            if (
+                item.serviceSpecification.name.toLowerCase() === qItem.toLowerCase()
+            ) {
+                test('Item should be qualified',
+                    item.qualificationResult,
+                    AssertionModes.strict)
+                    .is(
+                    'qualified',
+                        'Item is not qualified');
+                flag = true;
+            }
+        });
+        return flag;
+    }
+
 }
