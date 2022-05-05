@@ -8,7 +8,7 @@ import { bodyParser } from "./shopping-cart-tmf.body-parser";
 import { BodySamples } from "./shopping-cart-tmf.body-samples";
 import { BodyGenerator } from "./shopping-cart-tmf.body-generator";
 
-export enum SCActions {
+export enum ShoppingCartActions {
   create = "Create",
   update = "Update",
   delete = "Delete",
@@ -57,7 +57,7 @@ export class ShoppingCartApi {
     const isDistChanExtId = !Object.values(
       ncConstants.distributionChannel
     ).includes(scParams.distributionChannel);
-    if (action == SCActions.submit || action == SCActions.validate) {
+    if (action == ShoppingCartActions.submit || action == ShoppingCartActions.validate) {
       return BodySamples.validateOrSubmitBody(
         scParams.customerCategory,
         scParams.distributionChannel
@@ -66,7 +66,7 @@ export class ShoppingCartApi {
       const body = new BodyGenerator(
         <number>scParams.ecid,
         <number>scParams.lpdsid,
-        <SCActions>action,
+        <ShoppingCartActions>action,
         scParams.customerCategory,
         scParams.distributionChannel,
         scParams.prevResponse,
@@ -79,8 +79,8 @@ export class ShoppingCartApi {
   }
 
   public async createShoppingCart(scParams: SCParams): Promise<AxiosResponse> {
-    const body = this.generateBody(SCActions.create, scParams);
-    console.log(`${SCActions.create} shopping cart`);
+    const body = this.generateBody(ShoppingCartActions.create, scParams);
+    console.log(`${ShoppingCartActions.create} shopping cart`);
     console.log(JSON.stringify(body));
     try {
       const headers = await this.generateKongHeaders();
@@ -93,15 +93,15 @@ export class ShoppingCartApi {
       this._SCid = response.data.id;
       return response;
     } catch (error) {
-      console.log(`Error while ${SCActions.create} of SC: ${error}`);
+      console.log(`Error while ${ShoppingCartActions.create} of SC: ${error}`);
       throw error;
     }
   }
 
   public async updateShoppingCart(scParams: SCParams): Promise<AxiosResponse> {
-    const body = this.generateBody(SCActions.update, scParams);
+    const body = this.generateBody(ShoppingCartActions.update, scParams);
     console.dir(scParams.charMap);
-    console.log(`${SCActions.update} shopping cart`);
+    console.log(`${ShoppingCartActions.update} shopping cart`);
     console.log(JSON.stringify(body));
     try {
       const headers = await this.generateKongHeaders();
@@ -113,13 +113,13 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error: any) {
-      console.log(`Error while ${SCActions.create} of SC: ${error}`);
+      console.log(`Error while ${ShoppingCartActions.create} of SC: ${error}`);
       throw error;
     }
   }
 
   public async getShoppingCart(): Promise<AxiosResponse> {
-    console.log(`${SCActions.get} shopping cart`);
+    console.log(`${ShoppingCartActions.get} shopping cart`);
     try {
       const headers = await this.generateKongHeaders();
       const response = await axiosInstance({
@@ -129,13 +129,13 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error: any) {
-      console.log(`Error while ${SCActions.get} of SC: ${error}`);
+      console.log(`Error while ${ShoppingCartActions.get} of SC: ${error}`);
       throw error;
     }
   }
 
   public async deleteShoppingCart(): Promise<AxiosResponse> {
-    console.log(`${SCActions.delete} shopping cart`);
+    console.log(`${ShoppingCartActions.delete} shopping cart`);
     try {
       const headers = await this.generateKongHeaders();
       const response = await axiosInstance({
@@ -145,7 +145,7 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error: any) {
-      console.log(`Error while ${SCActions.delete} of SC: ${error}`);
+      console.log(`Error while ${ShoppingCartActions.delete} of SC: ${error}`);
       throw error;
     }
   }
@@ -153,8 +153,8 @@ export class ShoppingCartApi {
   public async validateShoppingCart(
     scParams: SCParams
   ): Promise<AxiosResponse> {
-    const body = this.generateBody(SCActions.validate, scParams);
-    console.log(`${SCActions.validate} shopping cart`);
+    const body = this.generateBody(ShoppingCartActions.validate, scParams);
+    console.log(`${ShoppingCartActions.validate} shopping cart`);
     console.log(body);
     try {
       const headers = await this.generateKongHeaders();
@@ -166,14 +166,14 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error: any) {
-      console.log(`Error while ${SCActions.validate} of SC: ${error}`);
+      console.log(`Error while ${ShoppingCartActions.validate} of SC: ${error}`);
       throw error;
     }
   }
 
   public async submitShoppingCart(scParams: SCParams): Promise<AxiosResponse> {
-    const body = this.generateBody(SCActions.submit, scParams);
-    console.log(`${SCActions.submit} shopping cart`);
+    const body = this.generateBody(ShoppingCartActions.submit, scParams);
+    console.log(`${ShoppingCartActions.submit} shopping cart`);
     console.log(body);
     try {
       const headers = await this.generateKongHeaders();
@@ -185,7 +185,7 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error) {
-      console.log(`Error while ${SCActions.submit} of SC: ${error}`);
+      console.log(`Error while ${ShoppingCartActions.submit} of SC: ${error}`);
       throw error;
     }
   }

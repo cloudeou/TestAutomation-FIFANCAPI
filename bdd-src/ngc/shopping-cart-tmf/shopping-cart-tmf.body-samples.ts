@@ -3,7 +3,7 @@ import ncConstants from "../../utils/nc-constants";
 
 // module.exports = {
 export class BodySamples {
-   mainBody(
+  mainBody(
     ecid: number,
     customerCategory: string,
     distributionChannel: string,
@@ -46,7 +46,7 @@ export class BodySamples {
     offer: string,
     itemId: string,
     action: string,
-    charItems?: Array<any>
+    charItems?: Array<any>,
   ) {
     return {
       action: action ? action : "Add",
@@ -89,14 +89,14 @@ export class BodySamples {
         action == ""
           ? ""
           : [
-              {
-                id: parentItem,
-                productOffering: {
-                  id: parentProductOffering,
-                },
-                type: "parent",
+            {
+              id: parentItem,
+              productOffering: {
+                id: parentProductOffering,
               },
-            ],
+              type: "parent",
+            },
+          ],
     };
   }
 
