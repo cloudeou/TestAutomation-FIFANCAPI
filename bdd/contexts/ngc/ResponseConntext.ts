@@ -8,6 +8,8 @@ export default class ResponseContext {
     private _PCstatusCode: number = NaN;
 
     private _SCresponse: any;
+    private _SCresponseBody: any;
+    private _SCstatusCode: number = NaN;
 
     public get PCresponse(): any {
         return this._PCresponse;
@@ -37,12 +39,18 @@ export default class ResponseContext {
         this._SCresponse = response;
     }
 
-    public setResponse(apiName: APIs, response: any) {
+    public setResponse(apiName: string, response: any) {
         switch (apiName) {
             case APIs.pc: {
                 this._PCresponse = response;
                 this._PCresponseBody = response.data;
                 this._PCstatusCode = response.status;
+            }
+            break;
+            case APIs.sc: {
+                this._SCresponse = response;
+                this._SCresponseBody = response.data;
+                this._SCstatusCode = response.status;
             }
         }
     }

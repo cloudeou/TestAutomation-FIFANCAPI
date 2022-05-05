@@ -34,22 +34,20 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
                 const sqResponse = await fifaNcApi.requestServiceQualification(externalLocationId);
                 if (typeof sqResponse !== 'undefined')
                 {
-                    console.log(JSON.stringify(sqResponse));
                     Common.checkValidResponse(sqResponse, 200);
-                    ResponseContext().SCresponse(sqResponse.data);
+                    ResponseContext().setResponse("SC",sqResponse);
                 }
                 else throw new Error(`Address qualification is failed`);
         }
         catch (e){
-            test('Catch error',
-                true,
-                AssertionModes.strict
-            ).is(false,'Error response is received\n' + JSON.stringify(e, null, '\t'))
+            console.log("ERROR", e);
+            // test('Catch error',
+            //     true,
+            //     AssertionModes.strict
+            // ).is(false,'Error response is received\n' + JSON.stringify(e, null, '\t'))
         }
     })
-    then(/^address should be qualified for (.*)$/, (arg0) => {
-        const value = Common.getBootstrapIfExists(arg0);
-
+    then(/^address should be qualified for (.*)$/, (value) => {
         test(
             'Technology is present in response',
             Common.IsItemQualified(

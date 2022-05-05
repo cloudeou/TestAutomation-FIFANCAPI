@@ -11,7 +11,9 @@ export const envConfig = {
         tokenPath: "/st/token",
     },
     serviceQualification: {
-        baseUrl: "https://servicequalification-itn03-foma.paas-app-west-np.tsl.telus.com/v2/cmo/ordermgmt/servicequalificationmanagement/serviceQualification",
-
+        baseUrl: "https://apigw-st.tsl.telus.com/service/serviceQualification/v2/serviceQualification",
+        scope: 26,
+        clientId: "816a3968-064a-4901-80b9-adf56e73d632",
+        clientSecret: "412cc102-ee52-4aa4-8c23-271b40838e90cac74781-751f-4e0e-87ed-befa7f4c35bb"
     }
 }

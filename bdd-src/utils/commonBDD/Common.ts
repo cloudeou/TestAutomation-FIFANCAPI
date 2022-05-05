@@ -21,13 +21,13 @@ export class Common {
         return productOfferingList;
     }
     static checkValidResponse(success: any, statusCode?: any) {
-        test('Actual result', success, AssertionModes.strict ).isnot(null,'Response should not be empty');
-        test('Actual result',  success.response, AssertionModes.strict).isnot(null,'Response field should be present');
-        test('Actual result', success.response.body, AssertionModes.strict).isnot(null,'Response should contain body');
-        test('Actual result', success.response.body,AssertionModes.strict).isnot(null,'Response should contain body')
+        test('Response should not be empty', success, AssertionModes.strict ).isnot(null,'Response is empty');
+        test('Response field should be present',  success.res, AssertionModes.strict).isnot(null,'Response is not present');
+        test('Response should contain body', success.data, AssertionModes.strict).isnot(null,'Response is not contain body');
+        //test('Actual result', success,AssertionModes.strict).isnot(null,'Response should contain body')
         if (statusCode !== undefined) {
-            test('Actual result',
-                success.response.statusCode, AssertionModes.strict).is(statusCode, `statusCode should be ${statusCode + JSON.stringify(success, null, '\t')}`)
+            test('Status code',
+                success.status, AssertionModes.strict).is(statusCode, `statusCode should be statusCode`)
         }
         return true;
     }
@@ -49,11 +49,11 @@ export class Common {
         });
         return isCatContain;
     }
-    static getBootstrapIfExists(defaultValue: any) {
-        return defaultValue[0] === '@'
-            ? preconditionContext().getBootstrapData(defaultValue.slice(1))
-            : defaultValue;
-    }
+    // static getBootstrapIfExists(defaultValue: any) {
+    //     return defaultValue[0] === '@'
+    //         ? preconditionContext().getBootstrapData(defaultValue.slice(1))
+    //         : defaultValue;
+    // }
     static IsItemQualified(qItem: any, body: any) {
         let flag = false;
         body.serviceQualificationItem.forEach((item: any) => {

@@ -1,8 +1,6 @@
-# SuiteNames
 @atlas
 @PQ
 @retrieve-all-child-offers-per-prod-offering-wco-keyword
-@addressType=LTE
 Feature: Retrieve all child offers per selected product offering with commitment offerings
 
 	Scenario: Check address
