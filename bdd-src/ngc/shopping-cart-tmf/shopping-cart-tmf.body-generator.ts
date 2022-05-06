@@ -16,14 +16,13 @@ export class BodyGenerator {
   customerCategory: any;
   externalLocationId: any;
   distributionChannel: any;
-  type: any;
   scResponse: any;
   action?: ShoppingCartActions;
+  envcfg: any;
+  type: any;
   productOfferingId: any;
   charList: any;
   categoryList: any;
-  envcfg: any;
-  btapicfg: any;
   promoEnv: any;
   commitmentId: any;
   shoppingCartId: any;
@@ -92,29 +91,6 @@ export class BodyGenerator {
     // this.promoEnv = brconfig.getPromotionEnv(this.envcfg);
     this.envcfg = envConfig;
     this.promoEnv = envConfig.env;
-  }
-
-  constructProductQualification(
-    customerCategory: any,
-    distributionChannel: any,
-    externalLocationId: any,
-    categoryList: any,
-    type: any,
-    productOfferingId?: any,
-    charList?: any,
-    commitmentId?: any,
-    shoppingCartId?: any,
-
-  ) {
-    this.productOfferingId = productOfferingId;
-    this.charList = charList;
-    this.categoryList = categoryList;
-    this.customerCategory = customerCategory;
-    this.distributionChannel = distributionChannel;
-    this.externalLocationId = externalLocationId;
-    this.commitmentId = commitmentId;
-    this.type = type;
-    this.shoppingCartId = shoppingCartId;
   }
 
   generateBody() {

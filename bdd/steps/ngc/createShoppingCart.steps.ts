@@ -1,6 +1,5 @@
-import {AssertionModes, test} from "@cloudeou/telus-bdd";
+import {AssertionModes, featureContext , test} from "@cloudeou/telus-bdd";
 
-const { featureContext } = require("@telus-bdd/telus-bdd");
 import { Identificators } from '../../contexts/Identificators';
 import PreconditionContext  from '../../contexts/ngc/PreconditionContext';
 import ResponseContext from '../../contexts/ngc/ResponseConntext';
@@ -10,9 +9,7 @@ import { ErrorStatus } from "../../../bdd-src/utils/error-status";
 import { Common } from "../../../bdd-src/utils/commonBDD/Common";
 import { ShoppingCartApi } from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.api";
 import { BodyGenerator } from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.body-generator"
-
-import { Logger } from '../../../bdd-src/logger/Logger';
-const logger = new Logger();
+import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 type step = (
   stepMatcher: string | RegExp,
@@ -36,7 +33,6 @@ export const createShoppingCartSteps = ({
   const errorContext = (): ErrorContext =>
     featureContext().getContextById(Identificators.ErrorContext);
   const shoppingCartApi = new ShoppingCartApi();
-
 
 
   and('user select offers:', function (table) {
@@ -130,7 +126,7 @@ export const createShoppingCartSteps = ({
       shoppingCartContext().setCharMap(null);
     }
     shoppingCartContext().resetChildOffers();
-    console.log('EID' + preconditionContext().getExternalCustomerId());
+    console.log('EID ' + preconditionContext().getExternalCustomerId());
     let customerAccountECID = preconditionContext().getExternalCustomerId();
 
     shoppingCartContext().clearAddingOffer();
@@ -138,20 +134,7 @@ export const createShoppingCartSteps = ({
     shoppingCartContext().clearAddingCharMap();
 
 
-    let bodyGen = new BodyGenerator(
-      customerAccountECID,
-      customerCategory,
-      distChannelOption,
-      externalLocationId,
-      null,
-      selectedOffers,
-      null,
-      charMap,
-    );
-    let body = bodyGen.generateBody();
-
-    logger.debug('BODY IN CREATE:\n' + JSON.stringify(body));
-    console.log('BODY IN CREATE:\n' + JSON.stringify(body));
+    //console.log('BODY IN CREATE:\n' + JSON.stringify(body));
 
 
     try {
@@ -172,9 +155,10 @@ export const createShoppingCartSteps = ({
         errorContext().status = ErrorStatus.skipped;
       }
       Common.checkValidResponse(response, 201);
+
       const body = response.data;
-      // logger.debug('CART CREATED: '+ JSON.stringify(body));
-      const responseText = JSON.stringify(response, null, '\t');
+
+      const responseText = JSON.stringify(response, replacerFunc(), '\t');
       test('SC should have OPEN status', body.status, AssertionModes.strict )
         .is('OPEN','SC should have OPEN status\n' + responseText);
 
@@ -197,7 +181,7 @@ export const createShoppingCartSteps = ({
 
 
     }
-    catch (error) {
+    catch (error: any) {
       console.log(error)
       errorContext().error = error;
       errorContext().status = ErrorStatus.failed;
@@ -212,7 +196,7 @@ export const createShoppingCartSteps = ({
   then('validate shopping cart is created successfully', async () => {
     let response: any;
     response = responseContext().getShoppingCartResponse();
-    console.log(JSON.stringify(response));
+    //console.log(JSON.stringify(response));
     let salesOrderRecurrentPrice =
       response.cartTotalPrice[0].price.dutyFreeAmount.value;
     let salesOrderOneTimePrice =
@@ -310,20 +294,15 @@ export const createShoppingCartSteps = ({
 
       }
 
-      logger.debug('BODY IN UPDATE: ' + JSON.stringify(requestBody));
-
       try {
         const response = await shoppingCartApi.updateShoppingCart(requestBody);
 
         Common.checkValidResponse(response, 200);
         const body = response.data;
         const responseText = JSON.stringify(response, null, '\t');
-        // logger.debug('CART UPDATED: '+ JSON.stringify(body));
+
         responseContext().setShoppingCartResponse(response.data);
         responseContext().setshopppingCartResonseText(responseText);
-
-
-
 
       }
       catch (error) {

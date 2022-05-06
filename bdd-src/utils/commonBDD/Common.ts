@@ -3,6 +3,7 @@ import {RandomValueGenerator} from '../common/RandomValueGenerator';
 import {bodyParser} from "../../ngc/shopping-cart-tmf/shopping-cart-tmf.body-parser";
 import PreconditionContext from "../../../bdd/contexts/ngc/PreconditionContext";
 import { Identificators } from "../../../bdd/contexts/Identificators";
+import {AxiosResponse} from "axios";
 
 let preconditionContext = (): PreconditionContext =>
     featureContext().getContextById(Identificators.preConditionContext);
@@ -23,14 +24,14 @@ export class Common {
         });
         return productOfferingList;
     }
-    static checkValidResponse(success: any, statusCode?: any) {
-        test('Response should not be empty', success, AssertionModes.strict ).isnot(null,'Response is empty');
-        test('Response field should be present',  success.res, AssertionModes.strict).isnot(null,'Response is not present');
-        test('Response should contain body', success.data, AssertionModes.strict).isnot(null,'Response is not contain body');
-        //test('Actual result', success,AssertionModes.strict).isnot(null,'Response should contain body')
+    static checkValidResponse(response: AxiosResponse, statusCode?: any) {
+        test('Response should not be empty', response, AssertionModes.strict ).isnot(null,'Response is empty');
+        test('Response field should be present',  response.data, AssertionModes.strict).isnot(undefined,'Response is not present');
+        test('Response should contain body', response.data, AssertionModes.strict).isnot(undefined,'Response is not contain body');
+        //test('Actual result', response,AssertionModes.strict).isnot(null,'Response should contain body')
         if (statusCode !== undefined) {
             test('Status code',
-              success.status, AssertionModes.strict).is(statusCode, `statusCode should be statusCode`)
+              response.status, AssertionModes.strict).is(statusCode, `statusCode should be statusCode`)
         }
         return true;
     }
@@ -59,7 +60,9 @@ export class Common {
     //         : defaultValue;
     // }
     static IsItemQualified(qItem: any, body: any) {
+
         let flag = false;
+
         body.serviceQualificationItem.forEach((item: any) => {
             if (
                 item.serviceSpecification.name.toLowerCase() === qItem.toLowerCase()
@@ -70,9 +73,11 @@ export class Common {
                     .is(
                     'qualified',
                         'Item is not qualified');
+
                 flag = true;
             }
         });
+
         return flag;
     }
 

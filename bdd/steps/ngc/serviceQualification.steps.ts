@@ -6,6 +6,7 @@ import {Common} from "../../../bdd-src/utils/commonBDD/Common";
 import PreconditionContext from "../../contexts/ngc/PreconditionContext";
 import ResponseContext from "../../contexts/ngc/ResponseConntext";
 import {ServiceQualificationApi} from "../../../bdd-src/ngc/serviceQualification/sq.api";
+import {AxiosResponse} from "axios";
 
 
 type step = (
@@ -51,8 +52,8 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
         test(
             'Technology is present in response',
             Common.IsItemQualified(
-                value,
-                ResponseContext().SCresponse(),
+               value,
+               ResponseContext().SCresponse.data
             ),
             AssertionModes.strict,
         ).is(true, `Technology is not present in response ${value}`);

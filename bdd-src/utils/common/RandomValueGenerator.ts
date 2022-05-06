@@ -1,8 +1,5 @@
 import { StringUtils } from './StringUtils';
 
-import { Logger } from '../../logger/Logger';
-const logger = new Logger();
-
 const supportedRandomKeywords = [
   "${RANDOMALNUM",
   "${RANDOMALPHA",
@@ -15,8 +12,7 @@ export class RandomValueGenerator {
    * if empty; it would generate any random string
    * @param {String} str Specifies string in which random value would be placed;
    */
-  static generateValueFor(str) {
-    logger.enterMethod(`generateValueFor: Generating value for ${str}`);
+  static generateValueFor(str: string): string {
     try {
       if (
         !StringUtils.isEmpty(str) &&
@@ -29,13 +25,11 @@ export class RandomValueGenerator {
         );
         const rndKeyword = `\${RANDOM${rndType}#`;
         let len =
-          StringUtils.substringBetweenIgnoreCase(str, rndKeyword, "}") * 1;
+          StringUtils.substringBetweenIgnoreCase(str, rndKeyword, "}").length;
         if (len < 0) len = 5;
 
         let rndStr = '';
-        logger.debug(
-          `RandomType: ${rndType} -> RandomKeyword: ${rndKeyword} -> Length: ${len}`,
-        );
+
         switch (rndType.toUpperCase()) {
           case "ALPHA":
             rndStr = this.generateRandomAlphabetic(len);
@@ -55,16 +49,12 @@ export class RandomValueGenerator {
           `${rndKeyword + len}}`,
           rndStr
         );
-        logger.debug(`Generated value to recursive call: ${genValue}`);
 
-        logger.exitMethod('generateValueFor after generation');
         // Call recursively to generate and replace random strings
         return this.generateValueFor(genValue);
       }
     } catch (err) {
-      logger.error(err);
     }
-    logger.exitMethod('generateValueFor');
     return str;
   }
 
@@ -72,7 +62,7 @@ export class RandomValueGenerator {
    * @description Generates numeric string of given length; by default of length = 5
    * @param {Number} len Specifies length of random string to be generated; default = 5
    */
-  static generateNumeric(len) {
+  static generateNumeric(len: number) {
     const numbers = "0123456789";
 
     return this.generateRandom(numbers, len);
@@ -82,7 +72,7 @@ export class RandomValueGenerator {
    * @description Generates alphabetic string of given length; by default of length = 5
    * @param {Number} len Specifies length of random string to be generated; default = 5
    */
-  static generateRandomAlphabetic(len) {
+  static generateRandomAlphabetic(len: number) {
     const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     return this.generateRandom(alphabets, len);
@@ -92,7 +82,7 @@ export class RandomValueGenerator {
    * @description Generates alphanumeric string of given length; by default of length = 5
    * @param {Number} len Specifies length of random string to be generated; default = 5
    */
-  static generateRandomAlphaNumeric(len) {
+  static generateRandomAlphaNumeric(len: number) {
     const alphaNumChars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -104,7 +94,7 @@ export class RandomValueGenerator {
    * @param {Number} chars Specifies list of characters to be used in random string generation
    * @param {Number} len Specifies length of random string to be generated; default = 5
    */
-  static generateRandom(chars, len) {
+  static generateRandom(chars: any, len: number) {
     if (len == null || len === undefined || len * 1 <= 0) {
       len = 5;
     }
@@ -115,12 +105,10 @@ export class RandomValueGenerator {
     for (let i = 0; i < len; i++) {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-
-    logger.debug(`Generated random string: ${result}`);
     return result;
   }
 
-  static getRandomInt(min, max) {
+  static getRandomInt(min: any, max: any) {
     return min + Math.floor(Math.random() * (max - min + 1));
   }
 }

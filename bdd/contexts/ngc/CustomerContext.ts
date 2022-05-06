@@ -1,4 +1,4 @@
-import { Identificators } from "./Identificators";
+import { Identificators } from "../Identificators";
 
 export default class CustomerContext {
   public identificator = Identificators.CustomerContext;
