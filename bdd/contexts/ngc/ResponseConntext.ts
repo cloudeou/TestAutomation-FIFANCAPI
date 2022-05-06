@@ -6,6 +6,7 @@ export default class ResponseContext {
     private _PCresponse: any;
     private _PCresponseBody: any;
     private _PCstatusCode: number = NaN;
+    private createCustomerResponse: { [key: string]: any } = {};
 
     public get PCresponse(): any {
         return this._PCresponse;
@@ -47,4 +48,10 @@ export default class ResponseContext {
                 };
         }
     }
+    public getCreateCustomerResponse() {
+        return this.createCustomerResponse;
+      }
+    public setCreateCustomerResponse(value: object) {
+        this.createCustomerResponse = value;
+      }
 }

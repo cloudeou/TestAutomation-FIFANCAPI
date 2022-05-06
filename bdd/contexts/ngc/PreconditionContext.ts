@@ -3,6 +3,7 @@ import { data } from "../../../test-data/test.data";
 
 
 export default class PreconditionContext {
+    public identificator = Identificators.preConditionContext;
     private streetNumberId!: bigint;
     private addressType: string = '';
     private bootstrapData: { [key: string]: any } = {};
@@ -20,6 +21,7 @@ export default class PreconditionContext {
     private allAddreses: undefined | string[] = undefined;
     private externalCustomerId: any;
     private customerObjectId: string | null = null;
+    private customerEmail: string = '';
 
 
     public setStreetNumberId(value: bigint) {
@@ -167,4 +169,12 @@ export default class PreconditionContext {
     public getCustomerObjectId() {
         return this.customerObjectId;
       }
+    public setCustomerEmail(value: string) {
+        this.customerEmail = value;
+      }
+    public getCustomerEmail() {
+        return this.customerEmail;
+      }
+    
+   
 }
