@@ -7,7 +7,7 @@ export const envConfig = {
         scope: 363,
     },
     createCustomer: {
-        baseUrl: "https://flcncapp-itn01.tsl.telus.com",
+        baseUrl: "https://flcncapp-itn03.tsl.telus.com",
     },
     token: {
         tokenHost: "https://apigw-st.tsl.telus.com",

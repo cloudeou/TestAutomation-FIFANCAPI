@@ -1,15 +1,15 @@
-{
+module.exports = {
 	"featuresPath": "./bdd/features",
 	"stepsPath": "./dist/bdd/steps",
-	"db": {
-		"user": "",
-		"passwd": "",
-		"host": "",
-		"port": 0,
-		"database": ""
-	},
+	// "db": {
+	// 	"user": "",
+	// 	"passwd": "",
+	// 	"host": "",
+	// 	"port": 0,
+	// 	"database": ""
+	// },
 	"envsPath": "",
-	"contextsPath": "./bdd/contexts",
+	"contextsPath": "./dist/bdd/contexts",
 	"threadsNumber": 1,
 	"bootstrapPath": "./bdd/DBBootstrap.config.js",
 	"reporters": [
@@ -18,5 +18,6 @@
 	"webapp": {
 		"host": "",
 		"port": 0
-	}
+	},
+	"recordCases": false,
 }

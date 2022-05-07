@@ -49,9 +49,9 @@ export class Common {
         });
         return isCatContain;
     }
-    static getBootstrapIfExists(defaultValue: any) {
-        return defaultValue[0] === '@'
-            ? preconditionContext().getBootstrapData(defaultValue.slice(1))
-            : defaultValue;
-    }
+    // static getBootstrapIfExists(defaultValue: any) {
+    //     return defaultValue[0] === '@'
+    //         ? preconditionContext().getBootstrapData(defaultValue.slice(1))
+    //         : defaultValue;
+    // }
 }

@@ -56,12 +56,16 @@ export class CreateCustomerApi {
                     body,
                   );
                   console.log(reqOption);
-          
+                  console.log('method ' + reqOption.method);
+                  console.log('url ' + reqOption.url);
+                  console.log('headers ' + JSON.stringify(reqOption.headers));
+                  console.log('data ' + JSON.stringify(reqOption.body));
+                  const data = JSON.stringify(reqOption.body)
             const response = await axiosInstance({
                 method: reqOption.method,
                 url: reqOption.url,
                 headers: reqOption.headers,
-                data: reqOption.body
+                data: data
             });
             // console.log(JSON.stringify(response));
             return response;
