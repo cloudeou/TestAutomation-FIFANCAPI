@@ -4,7 +4,8 @@ export enum APIs {
   gem = "GEM",
   sc = "SC",
   sq = "SQ",
-  pc = "PC"
+  pc = "PC",
+  pq = "PQ"
 }
 export const TestResultStatus = {
   Pass: "PASS",
