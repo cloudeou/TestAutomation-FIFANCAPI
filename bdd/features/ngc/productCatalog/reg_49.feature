@@ -12,9 +12,14 @@ Feature: Try to add a MR STB to an active PikTV
     And technology type is GPON
     When get address based on entered data: '5481938'
     Then address id should be returned
+
+  Scenario: Check service qualification for an address
+    Given preconditions by user are selected
+    When user check availability
+    Then address should be qualified for LTE
    
   Scenario: Check create a customer
-    # Given preconditions by user are selected
+    Given preconditions by user are selected
     When user try to create customer
     Then external customer id should be returned
     And billing account number is returned
