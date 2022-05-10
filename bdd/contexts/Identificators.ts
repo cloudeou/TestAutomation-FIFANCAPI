@@ -5,5 +5,7 @@ export const Identificators = {
   ResponseContext: "ResponseContext",
   preConditionContext: "preConditionContext",
   reportContext: "reportContext",
-  ProductQualificationContext: "ProductQualificationContext"
+  ProductQualificationContext: "ProductQualificationContext",
+  shoppingCartContext: "shoppingCartContext",
+  ErrorContext: "ErrorContext"
 }

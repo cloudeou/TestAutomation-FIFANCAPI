@@ -56,13 +56,38 @@ export default class ResponseContext {
         return this._PCstatusCode;
     }
 
-    public get SCresponse(): any {
+    public get SCresponse() {
+        return this._SCresponse;
+    }
+
+    public getSCresponse() {
         return this._SCresponse;
     }
 
     public set SCresponse(response: any) {
         this._SCresponse = response;
     }
+
+    public get SCresponseBody(): any {
+        return this._SCresponseBody;
+    }
+
+    public getSCresponseBody(): any {
+        return this._SCresponseBody;
+    }
+
+    public set SCresponseBody(response: any) {
+        this._SCresponseBody = response;
+    }
+
+    public get SCstatusCode(): number {
+        return this._SCstatusCode;
+    }
+    public set SCstatusCode(code: any) {
+        this._SCstatusCode = code;
+    }
+
+
 
     public setResponse(apiName: string, response: any) {
         switch (apiName) {

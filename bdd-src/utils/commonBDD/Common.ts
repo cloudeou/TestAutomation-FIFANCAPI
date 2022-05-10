@@ -1,6 +1,7 @@
 import { skipScenario, featureContext, test, AssertionModes } from '@cloudeou/telus-bdd';
 import PreconditionContext from "../../../bdd/contexts/ngc/PreconditionContext";
 import { Identificators } from "../../../bdd/contexts/Identificators";
+import {RandomValueGenerator} from "../common/RandomValueGenerator";
 
 let preconditionContext = (): PreconditionContext =>
     featureContext().getContextById(Identificators.preConditionContext);
@@ -89,4 +90,110 @@ export class Common {
         return paramsList;
     }
 
+    static createCharMapFromTable(table: any) {
+        let charMap = new Map<string, any[]>();
+        table.forEach(async (row: any) => {
+            let email = RandomValueGenerator.generateRandomAlphaNumeric(15);
+            let randomText = RandomValueGenerator.generateRandomAlphabetic(10);
+
+            let charList: any = [];
+            charList = charMap.get(row.Item);
+
+            let rowVal = String(row.Value).toLowerCase();
+            let val: any = '';
+            switch (rowVal) {
+                case 'randomemail':
+                    val = email + '@telus.net';
+                    break;
+                case 'username':
+                    val = email;
+                    break;
+                case 'resourceid':
+                    val = `resourceid${randomText}`;
+                    break;
+                default:
+                    val = row.Value;
+                    break;
+            }
+
+            let char = {
+                name: row.Name,
+                value: val,
+                itemNumber:
+                    row.ItemNumber === undefined ||
+                    row.ItemNumber === 'undefined' ||
+                    String(row.ItemNumber) === ''
+                        ? 'none'
+                        : row.ItemNumber,
+            };
+            if (charList !== undefined && charList !== null) {
+                charList.push(char);
+                charMap.set(row.Item, charList);
+            } else {
+                charList = [];
+                charList.push(char);
+                charMap.set(row.Item, charList);
+            }
+        });
+
+        return charMap;
+    }
+    static createExistingChildOffersMap(response: any) {
+        let existingChildOffersMap = new Map();
+        response.cartItem.forEach((tloItem: any) => {
+            const tloId = tloItem.productOffering.id;
+            existingChildOffersMap.set(tloId, new Map());
+            const uniqueSloIds = tloItem.cartItem
+                .map((sloItem: any) => sloItem.productOffering.id)
+                .filter((sloId: any, index: any, self: any) => self.indexOf(sloId) == index);
+            uniqueSloIds.forEach((sloId: any) => {
+                const sloIdCount = tloItem.cartItem.filter(
+                    (item: any) => item.productOffering.id == sloId,
+                ).length;
+                existingChildOffersMap.get(tloId).set(sloId, sloIdCount);
+            });
+        });
+
+        return existingChildOffersMap;
+    }
+    static checkIfHasShippmentOrder(response: any) {
+        let flag = false;
+        for (let i = 0; i < response.cartItem.length; i++) {
+            if (
+                String(response.cartItem[i].product.name).toLowerCase() === 'shipment'
+            ) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
+    static getCommitmentPeriodChars(commitment: string, periodType: string) {
+        const today = new Date();
+        const startDate = new Date(today);
+        const endDate = new Date(today.setMonth(today.getMonth() + 3));
+        let dateChars = [
+            { Name: "9149604606813116277", Value: startDate, Item: commitment }, // start date char
+            { Name: "9149604821113116295", Value: endDate, Item: commitment }, // end date char
+        ];
+        switch (periodType) {
+            case "trial":
+                dateChars.pop();
+                return dateChars;
+            case "regular":
+                return dateChars;
+            case "earlyRenewal":
+                dateChars[0].Value = new Date(
+                    startDate.setMonth(startDate.getMonth() - 3)
+                );
+                dateChars[1].Value = new Date(today.setMonth(today.getMonth() + 1));
+                return dateChars;
+        }
+    }
+    static mergeMaps(map1: Map<any, any>, map2: Map<any, any>): Map<any, any> {
+        for (const [key, value] of Object.entries(map2)) {
+            map1.set(key, value);
+        }
+        return map1;
+    }
 }

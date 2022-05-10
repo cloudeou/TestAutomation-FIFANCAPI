@@ -13,8 +13,6 @@ export class RandomValueGenerator {
         for (let i = 0; i < len; i++) {
           result += chars.charAt(Math.floor(Math.random() * chars.length));
         }
-    
-        console.log(`Generated random string: ${result}`);
         return result;
       }
 
@@ -29,4 +27,14 @@ export class RandomValueGenerator {
         // min is included and max is excluded
         return Math.floor(Math.random() * (max - min)) + min;
       }
+
+    /**
+     * @description Generates alphabetic string of given length; by default of length = 5
+     * @param {Number} len Specifies length of random string to be generated; default = 5
+     */
+    static generateRandomAlphabetic(len: number) {
+        const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+        return this.generateRandom(alphabets, len);
+    }
 }
