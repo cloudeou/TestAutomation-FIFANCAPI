@@ -66,12 +66,18 @@ export class CreateCustomerApi {
                 method: reqOption.method,
                 url: reqOption.url,
                 headers: reqOption.headers,
-                data: data
-            });
-            // console.log(JSON.stringify(response));
-            return response;
+                data: reqOption.body
+            }).catch((er: any)=> {
+              console.log(er)
+              return er
+              });
+            console.log('response: ' + response);
+            // return response;
+            
         } catch (error: any) {
             console.log(`Error while send requestCreateCustomer: ${error}`);
+            console.log(`Error while send requestCreateCustomer: ${error.response.data}`);
+
             throw error;
         }
         

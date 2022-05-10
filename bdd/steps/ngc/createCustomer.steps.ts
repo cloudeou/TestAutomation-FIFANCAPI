@@ -41,7 +41,7 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
        try{
         const CreateCustomerResponse = await fifaNcApi.verifyCreateCustomerAccountTBAPI(body);
 
-        // console.log(JSON.stringify(CreateCustomerResponse));
+        console.log(JSON.stringify(CreateCustomerResponse));
 
         if (CreateCustomerResponse !== null && typeof CreateCustomerResponse !== 'undefined') {
           test(
@@ -52,9 +52,12 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
 
           const body = CreateCustomerResponse;
           responseContext().setCreateCustomerResponse(body);
+       } else {
+         console.log("TRY")
        }
       }
-       catch(error) {
+       catch(error: any) {
+         console.log('CreateCustomerError: '+ error.response.data)
         throw new Error(`Customer creation is failed`);
        }
     });

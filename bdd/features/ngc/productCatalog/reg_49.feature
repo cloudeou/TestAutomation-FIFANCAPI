@@ -10,7 +10,7 @@ Feature: Try to add a MR STB to an active PikTV
   Scenario: Check address
     Given user has address with type FIBER
     And technology type is GPON
-    When get address based on entered data: '2190903'
+    When get address based on entered data: '5481938'
     Then address id should be returned
    
   Scenario: Check create a customer
