@@ -7,5 +7,6 @@ export const Identificators = {
   reportContext: "reportContext",
   ProductQualificationContext: "ProductQualificationContext",
   shoppingCartContext: "shoppingCartContext",
-  ErrorContext: "ErrorContext"
+  ErrorContext: "ErrorContext",
+  productInventoryContext: "productInventoryContext",
 }
