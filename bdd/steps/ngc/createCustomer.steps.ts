@@ -52,12 +52,10 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
 
           const body = CreateCustomerResponse;
           responseContext().setCreateCustomerResponse(body);
-       } else {
-         console.log("TRY")
-       }
+        } 
       }
        catch(error: any) {
-         console.log('CreateCustomerError: '+ error.response.data)
+        console.log('CreateCustomerError: '+ error.response.data)
         throw new Error(`Customer creation is failed`);
        }
     });
@@ -79,9 +77,7 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
       let ban = response.ban;
       test('Ban should create', ban, AssertionModes.strict).isnot(undefined,'Ban is not created');
       test('Ban should create', ban, AssertionModes.strict).isnot(null,'Ban is not created');;
-      //response.customerBillingAccountIds
-      //response.customerDefaultBillingAccountId
-      //response.customerAccountNumber
+      
     });
 
     and('credit check is performed', () => {
