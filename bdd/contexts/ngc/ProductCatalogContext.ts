@@ -1,5 +1,6 @@
 import { Identificators } from "../Identificators";
 export default class ProductCatalogContext {
+    public identificator = Identificators.ProductCatalogContext;
     private requestedItems: Array<String> = [];
     public identificator = Identificators.ProductCatalogContext;
     private responsedItems: Map<string, JSON> = new Map();

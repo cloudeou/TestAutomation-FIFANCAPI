@@ -1,1 +1,1 @@
-export const { envConfig } = require(`./${process.env.bddEnv || "int01"}`);
+export const { envConfig } = require(`./${process.env.bddEnv || "itn01"}`);

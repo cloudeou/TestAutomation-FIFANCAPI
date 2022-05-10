@@ -6,6 +6,9 @@ export const envConfig = {
         clientSecret: '12711511-fa3f-4d4e-bebd-6c28ecc51871e213fac9-3c02-43ee-9a9d-f5e8da6ddeaa',
         scope: 363,
     },
+    createCustomer: {
+        baseUrl: "https://flcncapp-itn03.tsl.telus.com",
+    },
     token: {
         tokenHost: "https://apigw-st.tsl.telus.com",
         tokenPath: "/st/token",

@@ -54,6 +54,11 @@ export class Common {
     //         ? preconditionContext().getBootstrapData(defaultValue.slice(1))
     //         : defaultValue;
     // }
+    // static getBootstrapIfExists(defaultValue: any) {
+    //     return defaultValue[0] === '@'
+    //         ? preconditionContext().getBootstrapData(defaultValue.slice(1))
+    //         : defaultValue;
+    // }
     static IsItemQualified(qItem: any, body: any) {
         console.log("inside IsItemQualified")
         let flag = false;

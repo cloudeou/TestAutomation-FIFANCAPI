@@ -3,9 +3,11 @@ import {productCatalogSteps} from "./ngc/productCatalog.steps";
 import {preconditionSteps} from "./ngc/precondition.steps";
 import {serviceQualificationSteps} from "./ngc/serviceQualification.steps";
 import {productQualificationSteps} from "./ngc/productQualification.steps";
+import {createCustomerSteps} from "./ngc/createCustomer.steps";
 
 export default [
     productCatalogSteps,
     preconditionSteps,
     serviceQualificationSteps,
-    productQualificationSteps];
+    productQualificationSteps,
+    createCustomerSteps];
