@@ -48,6 +48,7 @@ export class CreateCustomerApi {
         customerCategoryID: any,
       ): Promise<AxiosResponse> {
         try {
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
             let reqOption = this.buildCreateCustomerOptions(
                     type,
                     queryParameters,
@@ -69,7 +70,7 @@ export class CreateCustomerApi {
             });
             // console.log(JSON.stringify(response));
             return response;
-        } catch (error) {
+        } catch (error: any) {
             console.log(`Error while send requestCreateCustomer: ${error}`);
             throw error;
         }
