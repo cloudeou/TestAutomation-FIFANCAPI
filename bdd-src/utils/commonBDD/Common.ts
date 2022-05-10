@@ -55,6 +55,7 @@ export class Common {
     //         : defaultValue;
     // }
     static IsItemQualified(qItem: any, body: any) {
+        console.log("inside IsItemQualified")
         let flag = false;
         body.serviceQualificationItem.forEach((item: any) => {
             if (
@@ -70,6 +71,17 @@ export class Common {
             }
         });
         return flag;
+    }
+    static resolveAddressId(EAID: any, addressId: any) {
+        console.log('inside resolveAddressId')
+        return EAID && EAID != 'None' ? EAID : addressId;
+    }
+    static getParamsListFromTable(table: any) {
+        let paramsList: any = [];
+        table.forEach((row: any) => {
+            paramsList.push(row);
+        });
+        return paramsList;
     }
 
 }

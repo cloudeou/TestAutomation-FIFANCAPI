@@ -11,6 +11,10 @@ export default class ResponseContext {
     private _SCresponseBody: any;
     private _SCstatusCode: number = NaN;
 
+    private _PQresponse: any;
+    private _PQresponseBody: any;
+    private _PQstatusCode: number = NaN;
+
     public get PCresponse(): any {
         return this._PCresponse;
     }
@@ -28,6 +32,26 @@ export default class ResponseContext {
     }
 
     public get PCstatusCode(): number {
+        return this._PCstatusCode;
+    }
+
+    public get PQresponse(): any {
+        return this._PCresponse;
+    }
+
+    public set PQresponse(response: any) {
+        this._PCresponse = response;
+    }
+
+    public get PQresponseBody(): any {
+        return this._PCresponseBody;
+    }
+
+    public set PQresponseBody(responseBody: any) {
+        this._PCresponseBody = responseBody;
+    }
+
+    public get PQstatusCode(): number {
         return this._PCstatusCode;
     }
 
@@ -51,6 +75,12 @@ export default class ResponseContext {
                 this._SCresponse = response;
                 this._SCresponseBody = response.data;
                 this._SCstatusCode = response.status;
+            }
+                break;
+            case APIs.pq: {
+                this._PQresponse = response;
+                this._PQresponseBody = response.data;
+                this._PQstatusCode = response.status;
             }
         }
     }
