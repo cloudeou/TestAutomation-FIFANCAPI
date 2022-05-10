@@ -1,5 +1,5 @@
 import { Identificators } from "../Identificators";
-import { data } from "../../../test-data/test.data";
+import { testData } from "../../../test-data/test.data";
 
 
 export default class PreconditionContext {
@@ -93,11 +93,11 @@ export default class PreconditionContext {
       }
     public setDistributionChannel(value: string) {
         value = value.toUpperCase();
-        this.distributionChannel = data.distributionChannel[value as keyof typeof data.distributionChannel] ?? value;
+        this.distributionChannel = testData.distributionChannel[value as keyof typeof testData.distributionChannel] ?? value;
       }
     public getDistributionChannel() {
         if (this.distributionChannel == null) {
-          this.distributionChannel = data.distributionChannel.CSR;
+          this.distributionChannel = testData.distributionChannel.CSR;
         }
         return this.distributionChannel;
       }
@@ -111,16 +111,16 @@ export default class PreconditionContext {
         value = value.toUpperCase();
         switch (value) {
           case 'RESIDENTIAL':
-            this.customerCategory = data.customerCategory.CONSUMER;
+            this.customerCategory = testData.customerCategory.CONSUMER;
             break;
           case 'CUSTOMER':
-            this.customerCategory = data.customerCategory.CONSUMER;
+            this.customerCategory = testData.customerCategory.CONSUMER;
             break;
           case 'COMMERCIAL':
-            this.customerCategory = data.customerCategory.BUSINESS;
+            this.customerCategory = testData.customerCategory.BUSINESS;
             break;
           case 'BUSINESS':
-            this.customerCategory = data.customerCategory.BUSINESS;
+            this.customerCategory = testData.customerCategory.BUSINESS;
             break;
           default:
             throw new Error(
@@ -131,7 +131,7 @@ export default class PreconditionContext {
       }
     public getCustomerCategory() {
         if (this.customerCategory == null) {
-          this.customerCategory = data.customerCategory.CONSUMER;
+          this.customerCategory = testData.customerCategory.CONSUMER;
         }
         return this.customerCategory;
       }

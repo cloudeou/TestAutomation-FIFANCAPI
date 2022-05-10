@@ -28,7 +28,7 @@ export default class ShoppingCartContext {
   private _distributionChannel: string = ncConstants.distributionChannel.CSR;
   private _distributionChannelExternalId: string = "";
   private _customerCategory: string = ncConstants.customerCategory.RESIDENTIAL;
-  private _scInstance: ShoppingCartApi = <ShoppingCartApi>(<unknown>null);
+  private _shoppingCartApiInstance: ShoppingCartApi = <ShoppingCartApi>(<unknown>null);
 
 
   public set soStatus(status: string) {
@@ -264,12 +264,12 @@ export default class ShoppingCartContext {
     return this._customerCategory;
   }
 
-  public set scInstance(scInstance: ShoppingCartApi) {
-    this._scInstance = scInstance;
+  public set shoppingCartApiInstance(scInstance: ShoppingCartApi) {
+    this._shoppingCartApiInstance = scInstance;
   }
 
-  public get scInstance(): ShoppingCartApi {
-    return this._scInstance;
+  public get shoppingCartApiInstance(): ShoppingCartApi {
+    return this._shoppingCartApiInstance;
   }
 
 }

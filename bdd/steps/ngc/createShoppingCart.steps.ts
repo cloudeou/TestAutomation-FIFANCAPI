@@ -1,5 +1,4 @@
 import {AssertionModes, featureContext , test} from "@cloudeou/telus-bdd";
-
 import { Identificators } from '../../contexts/Identificators';
 import PreconditionContext  from '../../contexts/ngc/PreconditionContext';
 import ResponseContext from '../../contexts/ngc/ResponseConntext';
@@ -8,7 +7,6 @@ import ErrorContext from "../../contexts/ngc/ErrorContext";
 import { ErrorStatus } from "../../../bdd-src/utils/error-status";
 import { Common } from "../../../bdd-src/utils/commonBDD/Common";
 import { ShoppingCartApi } from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.api";
-import { BodyGenerator } from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.body-generator"
 import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 type step = (
@@ -103,6 +101,7 @@ export const createShoppingCartSteps = ({
   });
 
   when('user try to create Shopping Cart', async () => {
+    shoppingCartContext().shoppingCartApiInstance = shoppingCartApi;
     let externalLocationId = preconditionContext().getAddressId();
     let distributionChannel = preconditionContext().getDistributionChannel();
     let distributionChannelExternalId = preconditionContext().getDistributionChannelExternalId();
@@ -171,6 +170,7 @@ export const createShoppingCartSteps = ({
 
       let shoppingCartId = body.id;
       console.log(shoppingCartId);
+      shoppingCartApi.shoppingCartId = shoppingCartId;
       shoppingCartContext().setShoppingCartId(shoppingCartId);
       responseContext().setShoppingCartResponse(response.data);
       responseContext().setshopppingCartResonseText(responseText);

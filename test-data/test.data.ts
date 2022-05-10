@@ -1,4 +1,4 @@
-export class data {
+export class testData {
     static distributionChannel = {
       SSP: '9144413504413358534',
       F2F: '9150392274313172201',

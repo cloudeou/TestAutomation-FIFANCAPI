@@ -24,18 +24,22 @@ export type SCParams = {
   distributionChannel: string;
   prevResponse?: any;
   offersToAdd?: Map<string, string> | null;
-  childOfferMap?: Map<Map<string, string[]>, string>;
+  childOfferMap?: Map<Map<string, string[]>, string> | null;
   charMap?: Map<string, Array<{}>> | null;
-  promotionMap?: Map<Map<string, any[]>, string>;
+  promotionMap?: Map<Map<string, any[]>, string> | null;
 };
 
 export class ShoppingCartApi {
   private _oauthToken: any;
   private _body: { [key: string]: any } = {};
-  private _SCid: string = "";
+  private _shoppingCartId: string = "";
+  // //no usage found
+  // public get shoppingCartId(): string {
+  //   return this._shoppingCartId;
+  // }
 
-  public get SCid(): string {
-    return this._SCid;
+  public set shoppingCartId(shoppingCartId: string) {
+    this._shoppingCartId = shoppingCartId;
   }
 
   public get body(): { [key: string]: any } {
@@ -43,7 +47,7 @@ export class ShoppingCartApi {
   }
 
   constructor(scId: string = "") {
-    this._SCid = scId;
+    this._shoppingCartId = scId;
     this._oauthToken = new OauthToken(
       envConfig.shoppingCart.clientId,
       envConfig.shoppingCart.clientSecret
@@ -93,7 +97,7 @@ export class ShoppingCartApi {
         data: body,
         headers,
       });
-      this._SCid = response.data.id;
+      this._shoppingCartId = response.data.id;
       return response;
     } catch (error) {
       console.log(`Error while ${ShoppingCartActions.create} of SC: ${error}`);
@@ -110,7 +114,7 @@ export class ShoppingCartApi {
       const headers = await this.generateKongHeaders();
       const response = await axiosInstance({
         method: "PUT",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._SCid}`,
+        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
         data: body,
         headers,
       });
@@ -127,7 +131,7 @@ export class ShoppingCartApi {
       const headers = await this.generateKongHeaders();
       const response = await axiosInstance({
         method: "GET",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._SCid}`,
+        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
         headers,
       });
       return response;
@@ -143,7 +147,7 @@ export class ShoppingCartApi {
       const headers = await this.generateKongHeaders();
       const response = await axiosInstance({
         method: "DELETE",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._SCid}`,
+        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
         headers,
       });
       return response;
@@ -163,7 +167,7 @@ export class ShoppingCartApi {
       const headers = await this.generateKongHeaders();
       const response = await axiosInstance({
         method: "POST",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._SCid}/validate`,
+        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}/validate`,
         data: body,
         headers,
       });
@@ -182,7 +186,7 @@ export class ShoppingCartApi {
       const headers = await this.generateKongHeaders();
       const response = await axiosInstance({
         method: "POST",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._SCid}/checkout`,
+        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}/checkout`,
         data: body,
         headers,
       });
