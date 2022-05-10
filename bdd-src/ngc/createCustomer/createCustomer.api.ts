@@ -67,12 +67,9 @@ export class CreateCustomerApi {
                 url: reqOption.url,
                 headers: reqOption.headers,
                 data: reqOption.body
-            }).catch((er: any)=> {
-              console.log(er)
-              return er
-              });
+            })
             console.log('response: ' + response);
-            // return response;
+            return response;
             
         } catch (error: any) {
             console.log(`Error while send requestCreateCustomer: ${error}`);
@@ -110,7 +107,8 @@ export class CreateCustomerApi {
               distributionChannel,
               customerCategory,
             )
-            const response = JSON.parse(responseCustomer.data);
+            const response = responseCustomer.data;
+           
             test(
                 'Create customer response should be received',
                 response,
