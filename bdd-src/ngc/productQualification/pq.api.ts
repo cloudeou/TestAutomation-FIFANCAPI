@@ -72,7 +72,7 @@ export class ProductQualificationApi {
         console.log("return token")
         return {
             Authorization: `Bearer ${token}`,
-            env: 'it03'
+            env: envConfig.envName
         };
     }
 
