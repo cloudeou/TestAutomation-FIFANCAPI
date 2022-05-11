@@ -1,4 +1,4 @@
-import { envConfig } from "../env-config";
+import { envConfig } from "../../env-config";
 export default `CREATE TABLE IF NOT EXISTS ${envConfig.adtTables.adtAddresses} (
   id uuid PRIMARY KEY default md5(random()::text || clock_timestamp()::text)::uuid,
   site_number int not null,

@@ -1,5 +1,5 @@
 import { adtFlags, commonFlags } from "../../../bdd/steps/common.steps";
-import { envConfig } from "../env-config";
+import { envConfig } from "../../env-config/index";
 
 export const completeMigrationQuery = (
   tableName: string,

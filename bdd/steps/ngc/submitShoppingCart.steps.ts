@@ -7,8 +7,9 @@ import ErrorContext from "../../contexts/ngc/ErrorContext";
 import { ErrorStatus } from "../../../bdd-src/utils/error-status";
 import { Common } from "../../../bdd-src/utils/commonBDD/Common";
 import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
-import { writeSoIdQuery } from "../../../bdd-src/ngc/db/db-queries";
+import { getSalesOrderStatusQuery } from "../../../bdd-src/ngc/db/db-queries";
 import {AxiosResponse} from "axios";
+import retry from 'retry-as-promised';
 
 type step = (
   stepMatcher: string | RegExp,
@@ -79,24 +80,30 @@ export const submitShoppingCartSteps = ({
 
     shoppingCartContext().setSalesOrderId(body.id);
 
-
     await retry(
       async function (options) {
         // options.current, times callback has been called including this call
-        return await du
-          .select(dbcfg, dq.getSalesOrderStatus(dbcfg, body.id))
-          .then((response) => {
-            response = String(response).replace('6#009B00$', '');
-            if (
-              !(
-                response.includes('Processing') ||
-                response.includes('Processed') ||
-                response.includes('Superseded')
-              )
-            ) {
-              throw 'Sales Order status is not Processing' + response;
-            }
-          });
+        try {
+          const response = await postgresQueryExecutor(getSalesOrderStatusQuery(body.id));
+          let filteredResponse = String(response).replace('6#009B00$', '');
+          if (
+            !(
+              filteredResponse.includes('Processing') ||
+              filteredResponse.includes('Processed') ||
+              filteredResponse.includes('Superseded')
+            )
+          ) {
+            throw 'Sales Order status is not Processing' + filteredResponse;
+          }
+
+          return response
+
+        } catch (error: any) {
+          errorContext().status = ErrorStatus.skipped;
+          errorContext().error = `Error while getting sales order status from DB: ${JSON.stringify(
+            error
+          )}`;
+        }
       },
       {
         max: 5, // maximum amount of tries

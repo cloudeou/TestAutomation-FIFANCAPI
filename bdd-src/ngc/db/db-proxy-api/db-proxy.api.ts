@@ -1,7 +1,7 @@
-import { envConfig } from "../../env-config";
-import { IkongApi, KongHeaders } from "../../utils/IkongApi";
-import { OauthToken } from "../../utils/telus-api-integrations/oauth-token";
-import { axiosInstance } from "../../axios-instance";
+import { envConfig } from "../../../env-config";
+import { IkongApi, KongHeaders } from "../../../ngc/IkongApi";
+import { OauthToken } from "../../../ngc/oauth-token";
+import { axiosInstance } from "../../../axios-instance";
 import { AxiosResponse } from "axios";
 
 export enum dbActions {
