@@ -12,8 +12,6 @@ export default class ReportContext {
     private caseResult: any;
     private testId: string = '';
     public identificator = Identificators.reportContext;
-
-
     public setTestResult(value: string) {
         this.caseResult.datasets[0].result = value;
       }
