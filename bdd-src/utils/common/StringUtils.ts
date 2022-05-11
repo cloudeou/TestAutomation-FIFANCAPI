@@ -17,6 +17,7 @@ export class StringUtils {
    * @param {String} value
    */
   static isEmpty(value: string | string[]) {
+
     if (value == null || value === undefined || value.length === 0) {
       return true;
     }

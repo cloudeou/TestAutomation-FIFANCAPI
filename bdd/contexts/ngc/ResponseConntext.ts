@@ -6,11 +6,16 @@ export default class ResponseContext {
     private _PCresponse: any;
     private _PCresponseBody: any;
     private _PCstatusCode: number = NaN;
-    private _shoppingCartResponse: JSON | null = null;
-    private _shopppingCartResonseText: string | null = null;
+
+    private _shoppingCartResponseBody: JSON | null = null;
+    private _shoppingCartResponseText: string | null = null;
     private _SCstatusCode: number = NaN;
-    private _SCresponse: any;
-    private _SCresponseBody: any;
+
+    private createCustomerResponse: { [key: string]: any } = {};
+
+    private _PQresponse: any;
+    private _PQresponseBody: any;
+    private _PQstatusCode: number = NaN;
 
     public get PCresponse(): any {
         return this._PCresponse;
@@ -32,7 +37,34 @@ export default class ResponseContext {
         return this._PCstatusCode;
     }
 
-    public setResponse(apiName: string, response: any) {
+    public get PQresponse(): any {
+        return this._PCresponse;
+    }
+
+    public set PQresponse(response: any) {
+        this._PCresponse = response;
+    }
+
+    public get PQresponseBody(): any {
+        return this._PCresponseBody;
+    }
+
+    public set PQresponseBody(responseBody: any) {
+        this._PCresponseBody = responseBody;
+    }
+
+    public get PQstatusCode(): number {
+        return this._PCstatusCode;
+    }
+
+    public get SCstatusCode(): number {
+        return this._SCstatusCode;
+    }
+    public set SCstatusCode(code: number) {
+        this._SCstatusCode = code;
+    }
+
+    /*public setResponse(apiName: string, response: any) {
         switch (apiName) {
             case APIs.pc: {
                 this._PCresponse = response;
@@ -45,8 +77,14 @@ export default class ResponseContext {
                 this._SCresponseBody = response.data;
                 this._SCstatusCode = response.status;
             }
+                break;
+            case APIs.pq: {
+                this._PQresponse = response;
+                this._PQresponseBody = response.data;
+                this._PQstatusCode = response.status;
+            }
         }
-    }
+    }*/
 
     public getResponse(apiName: APIs) {
         switch (apiName) {
@@ -60,42 +98,26 @@ export default class ResponseContext {
     }
 
     public getShoppingCartResponse() {
-        return this._shoppingCartResponse;
+        return this._shoppingCartResponseBody;
     }
 
     public setShoppingCartResponse(value: JSON | null) {
-        this._shoppingCartResponse = value;
+        this._shoppingCartResponseBody = value;
     }
 
     public getshoppingCartResponseText() {
-        return this._shopppingCartResonseText;
+        return this._shoppingCartResponseText;
     }
 
     public setshopppingCartResonseText(value: string | null) {
-        this._shopppingCartResonseText = value;
+        this._shoppingCartResponseText = value;
     }
 
-    public get SCstatusCode(): number {
-        return this._SCstatusCode!;
+    public getCreateCustomerResponse() {
+        return this.createCustomerResponse;
     }
 
-    public set SCstatusCode(statusCode: number) {
-        this._SCstatusCode = statusCode;
-    }
-
-    public get SCresponse(): any {
-        return this._SCresponse;
-    }
-
-    public set SCresponse(response: any) {
-        this._SCresponse = response;
-    }
-
-    public get SCresponseBody(): any {
-        return this._SCresponseBody;
-    }
-
-    public set SCresponseBody(responseBody: any) {
-        this._SCresponseBody = responseBody;
+    public setCreateCustomerResponse(value: object) {
+        this.createCustomerResponse = value;
     }
 }

@@ -7,6 +7,8 @@ import {shoppingCartResponseValidationSteps} from './ngc/ShoppingCartResposneVal
 import  {updateShoppingCartSteps} from  './ngc/updateShoppingCart.steps';
 import {validateShoppingCartSteps} from "./ngc/validateShoppingCart.steps";
 import {submitShoppingCartSteps} from "./ngc/submitShoppingCart.steps";
+import {productQualificationSteps} from "./ngc/productQualification.steps";
+import {createCustomerSteps} from "./ngc/createCustomer.steps";
 
 export default [
     productCatalogSteps,
@@ -16,5 +18,8 @@ export default [
     shoppingCartResponseValidationSteps,
     updateShoppingCartSteps,
     validateShoppingCartSteps,
-    submitShoppingCartSteps
+    submitShoppingCartSteps,
+    productQualificationSteps,
+    createCustomerSteps,
 ];
+

@@ -1,5 +1,5 @@
 import { Identificators } from "../Identificators";
-import { testData } from "../../../test-data/test.data";
+import { data } from "../../../test-data/data";
 
 
 export default class PreconditionContext {
@@ -21,14 +21,9 @@ export default class PreconditionContext {
     private allAddreses: undefined | string[] = undefined;
     private externalCustomerId: any;
     private customerObjectId: string | null = null;
-    private _customerObjectId: string = '';
-    private _streetNumberId: bigint = BigInt(1);
-    private _oltName: string = '';
-    private _deviceType: string = '';
-    private _scenarioType: string = '';
+    private customerEmail: string = '';
     private _errors: string[] = [];
     private _bootstrapData: Object = {};
-    private _customerEmail: string = '';
     private _emailId: string = '';
 
 
@@ -93,11 +88,11 @@ export default class PreconditionContext {
       }
     public setDistributionChannel(value: string) {
         value = value.toUpperCase();
-        this.distributionChannel = testData.distributionChannel[value as keyof typeof testData.distributionChannel] ?? value;
+        this.distributionChannel = data.distributionChannel[value as keyof typeof data.distributionChannel] ?? value;
       }
     public getDistributionChannel() {
         if (this.distributionChannel == null) {
-          this.distributionChannel = testData.distributionChannel.CSR;
+          this.distributionChannel = data.distributionChannel.CSR;
         }
         return this.distributionChannel;
       }
@@ -111,16 +106,16 @@ export default class PreconditionContext {
         value = value.toUpperCase();
         switch (value) {
           case 'RESIDENTIAL':
-            this.customerCategory = testData.customerCategory.CONSUMER;
+            this.customerCategory = data.customerCategory.CONSUMER;
             break;
           case 'CUSTOMER':
-            this.customerCategory = testData.customerCategory.CONSUMER;
+            this.customerCategory = data.customerCategory.CONSUMER;
             break;
           case 'COMMERCIAL':
-            this.customerCategory = testData.customerCategory.BUSINESS;
+            this.customerCategory = data.customerCategory.BUSINESS;
             break;
           case 'BUSINESS':
-            this.customerCategory = testData.customerCategory.BUSINESS;
+            this.customerCategory = data.customerCategory.BUSINESS;
             break;
           default:
             throw new Error(
@@ -131,7 +126,7 @@ export default class PreconditionContext {
       }
     public getCustomerCategory() {
         if (this.customerCategory == null) {
-          this.customerCategory = testData.customerCategory.CONSUMER;
+          this.customerCategory = data.customerCategory.CONSUMER;
         }
         return this.customerCategory;
       }
@@ -179,11 +174,11 @@ export default class PreconditionContext {
       }
 
   public getCustomerEmail() {
-    return this._customerEmail;
+    return this.customerEmail;
   }
 
   public setCustomerEmail(value: string) {
-    this._customerEmail = value;
+    this.customerEmail = value;
   }
 
   public getEmailId() {

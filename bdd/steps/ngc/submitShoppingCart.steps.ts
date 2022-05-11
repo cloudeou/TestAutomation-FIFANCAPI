@@ -61,8 +61,7 @@ export const submitShoppingCartSteps = ({
       errorContext().error = error;
       errorContext().status = ErrorStatus.failed;
       responseContext().SCstatusCode = error.response.status;
-      responseContext().SCresponse = error.response;
-      responseContext().SCresponseBody = error.response.data;
+      responseContext().setShoppingCartResponse(error.response.data);
       test('is error response received', true, AssertionModes.strict)
         .is(false,'Error response is received\n' + JSON.stringify(error, null, '\t'))
     }

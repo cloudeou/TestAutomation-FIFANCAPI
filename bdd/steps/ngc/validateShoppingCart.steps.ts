@@ -146,8 +146,7 @@ export const validateShoppingCartSteps = ({
         errorContext().error = error;
         errorContext().status = ErrorStatus.failed;
         responseContext().SCstatusCode = error.response.status;
-        responseContext().SCresponse = error.response.data;
-        responseContext().SCresponseBody = error.response.data;
+        responseContext().setShoppingCartResponse(error.response.data);
         test('is previousResponse received', true, AssertionModes.strict)
           .is(false, 'Error previousResponse is received\n' + JSON.stringify(error, null, '\t'))
       }
@@ -181,8 +180,7 @@ export const validateShoppingCartSteps = ({
       errorContext().error = error;
       errorContext().status = ErrorStatus.failed;
       responseContext().SCstatusCode = error.response.status;
-      responseContext().SCresponse = error.response.data;
-      responseContext().SCresponseBody = error.response.data;
+      responseContext().setShoppingCartResponse(error.response.data);
       test('Error response is received', true, AssertionModes.strict)
         .is(false, 'Error response is received\n' + JSON.stringify(error, null, '\t'))
     }

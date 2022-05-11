@@ -186,8 +186,7 @@ export const createShoppingCartSteps = ({
       errorContext().error = error;
       errorContext().status = ErrorStatus.failed;
       responseContext().SCstatusCode = error.response.status;
-      responseContext().SCresponse = error.response.data;
-      responseContext().SCresponseBody = error.response.data;
+      responseContext().setShoppingCartResponse(error.response.data);
     }
   })
 

@@ -1,12 +1,9 @@
-import ProductCatalogContext from "../../contexts/ngc/ProductCatalogContext";
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
 import {Identificators} from "../../contexts/Identificators";
-import {ProductCatalogApi} from "../../../bdd-src/ngc/productCatalog/pc.api";
 import {Common} from "../../../bdd-src/utils/commonBDD/Common";
 import PreconditionContext from "../../contexts/ngc/PreconditionContext";
 import ResponseContext from "../../contexts/ngc/ResponseConntext";
 import {ServiceQualificationApi} from "../../../bdd-src/ngc/serviceQualification/sq.api";
-import {AxiosResponse} from "axios";
 
 
 type step = (
@@ -36,7 +33,7 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
                 if (typeof sqResponse !== 'undefined')
                 {
                     Common.checkValidResponse(sqResponse, 200);
-                    ResponseContext().setResponse("SC",sqResponse);
+                    ResponseContext().setShoppingCartResponse(sqResponse.data)
                 }
                 else throw new Error(`Address qualification is failed`);
         }
@@ -53,7 +50,7 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
             'Technology is present in response',
             Common.IsItemQualified(
                value,
-               ResponseContext().SCresponse.data
+               ResponseContext().getShoppingCartResponse()
             ),
             AssertionModes.strict,
         ).is(true, `Technology is not present in response ${value}`);

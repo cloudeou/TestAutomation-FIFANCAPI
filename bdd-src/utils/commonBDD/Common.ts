@@ -6,7 +6,7 @@ import { Identificators } from "../../../bdd/contexts/Identificators";
 import {AxiosResponse} from "axios";
 import {priceSchema} from './JoiSchemas/priceSchema';
 import {priceAlterationSchema} from './JoiSchemas/priceAlterationSchema';
-import {testData} from "../../../test-data/test.data";
+import {data} from "../../../test-data/data";
 import * as _ from 'lodash';
 
 
@@ -199,7 +199,7 @@ export class Common {
                 }
             });
         }
-        test('flag to be truthy', flag, AssertionModes.strict).is(true,'flag should be truthy')
+        test('validateAllOffersPresentInResponse flag to be truthy', flag, AssertionModes.strict).is(true,'flag should be truthy')
         //expect(flag, errorMessage).toBeTruthy();
     }
 
@@ -221,7 +221,7 @@ export class Common {
                 }
             });
         }
-        test('flag to be truthy', flag, AssertionModes.strict).is(true,'flag should be truthy')
+        test('validateAllOffersNotPresentInResponse flag to be truthy', flag, AssertionModes.strict).is(true,'flag should be truthy')
         //expect(flag, errorMessage).toBeTruthy();
     }
 
@@ -506,13 +506,13 @@ export class Common {
             //const prodNameV1 = cartItem.product.displayName;
             const prodNameV2 = cartItem.product.name;
             if (prodNameV2 !== 'Work Offer') {
-                if (categories.includes(testData.categories.optikTVHome)) {
-                    if (!counter.has(testData.categories.optikTVHome)) {
-                        counter.set(testData.categories.optikTVHome, 1);
+                if (categories.includes(data.categories.optikTVHome)) {
+                    if (!counter.has(data.categories.optikTVHome)) {
+                        counter.set(data.categories.optikTVHome, 1);
                     } else {
                         counter.set(
-                          testData.categories.optikTVHome,
-                          counter.get(testData.categories.optikTVHome) + 1,
+                          data.categories.optikTVHome,
+                          counter.get(data.categories.optikTVHome) + 1,
                         );
                     }
                     if (
@@ -521,13 +521,13 @@ export class Common {
                     ) {
                         addForTV = addForTV + 1;
                     }
-                } else if (categories.includes(testData.categories.telusConnectivity)) {
-                    if (!counter.has(testData.categories.telusConnectivity)) {
-                        counter.set(testData.categories.telusConnectivity, 1);
+                } else if (categories.includes(data.categories.telusConnectivity)) {
+                    if (!counter.has(data.categories.telusConnectivity)) {
+                        counter.set(data.categories.telusConnectivity, 1);
                     } else {
                         counter.set(
-                          testData.categories.telusConnectivity,
-                          counter.get(testData.categories.telusConnectivity) + 1,
+                          data.categories.telusConnectivity,
+                          counter.get(data.categories.telusConnectivity) + 1,
                         );
                     }
                     if (
@@ -536,13 +536,13 @@ export class Common {
                     ) {
                         addFortelusConnectivity = addFortelusConnectivity + 1;
                     }
-                } else if (categories.includes(testData.categories.voicePlans)) {
-                    if (!counter.has(testData.categories.voicePlans)) {
-                        counter.set(testData.categories.voicePlans, 1);
+                } else if (categories.includes(data.categories.voicePlans)) {
+                    if (!counter.has(data.categories.voicePlans)) {
+                        counter.set(data.categories.voicePlans, 1);
                     } else {
                         counter.set(
-                          testData.categories.voicePlans,
-                          counter.get(testData.categories.voicePlans) + 1,
+                          data.categories.voicePlans,
+                          counter.get(data.categories.voicePlans) + 1,
                         );
                     }
                     if (
@@ -557,7 +557,7 @@ export class Common {
                         if (
                           String(characteristic.displayName) === 'Delivery Method' &&
                           _.includes(
-                            testData.characteristics.proInstall,
+                            data.characteristics.proInstall,
                             characteristic.value,
                           )
                         ) {
@@ -569,17 +569,17 @@ export class Common {
         });
 
         if (addForTV === 1) {
-            if (counter.get(testData.categories.optikTVHome) === 1) {
+            if (counter.get(data.categories.optikTVHome) === 1) {
                 workOrderCount = workOrderCount + 1;
             }
         }
         if (addForPhone === 1) {
-            if (counter.get(testData.categories.voicePlans) === 1) {
+            if (counter.get(data.categories.voicePlans) === 1) {
                 workOrderCount = workOrderCount + 1;
             }
         }
         if (addFortelusConnectivity === 1) {
-            if (counter.get(testData.categories.telusConnectivity) === 1) {
+            if (counter.get(data.categories.telusConnectivity) === 1) {
                 workOrderCount = workOrderCount + 1;
             }
         }
@@ -624,5 +624,4 @@ export class Common {
             error: null,
         };
     }
-
 }
