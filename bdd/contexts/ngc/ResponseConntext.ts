@@ -7,6 +7,7 @@ export default class ResponseContext {
     private _PCresponseBody: any;
     private _PCstatusCode: number = NaN;
     private createCustomerResponse: { [key: string]: any } = {};
+    private productInventoryResponse: { [key: string]: any } = {};;
 
     private _SCresponse: any;
     private _SCresponseBody: any;
@@ -126,5 +127,11 @@ export default class ResponseContext {
       }
     public setCreateCustomerResponse(value: object) {
         this.createCustomerResponse = value;
+      }
+    public getProductInventoryResponse() {
+        return this.productInventoryResponse;
+      }
+    public setProductInventoryResponse(value: object) {
+        this.productInventoryResponse = value;
       }
 }

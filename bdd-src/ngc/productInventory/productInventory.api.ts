@@ -28,6 +28,8 @@ export class ProductInventoryApi {
     public async requestProductInventory(uri?: any, body?: any, queryParams?: any): Promise<AxiosResponse> {
         
         try {
+            body = body || null;
+            queryParams = queryParams || null;
             const headers = await this.generateKongHeaders();
             const response = await axiosInstance({
                 method: "GET",
