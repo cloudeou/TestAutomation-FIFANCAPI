@@ -11,7 +11,7 @@ const fifaNcApi = new ProductInventoryApi();
 
 type step = (
     stepMatcher: string | RegExp,
-    callback: (args: any) => void
+    callback: (...args: any) => void
 ) => void;
 
 export const productInventorySteps = ({ given, and, when, then } : { [key: string]: step }) => {
