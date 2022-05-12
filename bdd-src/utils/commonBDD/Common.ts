@@ -139,6 +139,7 @@ export class Common {
         return charMap;
     }
     static createExistingChildOffersMap(response: any) {
+        console.log('inside createExistingChildOffersMap')
         let existingChildOffersMap = new Map();
         response.cartItem.forEach((tloItem: any) => {
             const tloId = tloItem.productOffering.id;
@@ -195,5 +196,25 @@ export class Common {
             map1.set(key, value);
         }
         return map1;
+    }
+    static getChildOfferMapFromTable(table: any, topOffer?: any) {
+        let offerMap = new Map<string, Array<string>>();
+        table.forEach((row: any) => {
+            let offerList: any = [];
+            offerList = offerMap.get(row.Parent);
+            let offer = {
+                OfferId: String(row.OfferId) === 'any' ? topOffer : row.OfferId,
+                Parent: row.Parent,
+            };
+            if (offerList !== undefined && offerList !== null) {
+                offerList.push(offer.OfferId);
+                offerMap.set(offer.Parent, offerList);
+            } else {
+                offerList = [];
+                offerList.push(offer.OfferId);
+                offerMap.set(offer.Parent, offerList);
+            }
+        });
+        return offerMap;
     }
 }

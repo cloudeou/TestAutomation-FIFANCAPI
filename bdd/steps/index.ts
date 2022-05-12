@@ -5,6 +5,7 @@ import {serviceQualificationSteps} from "./ngc/serviceQualification.steps";
 import {productQualificationSteps} from "./ngc/productQualification.steps";
 import {createCustomerSteps} from "./ngc/createCustomer.steps";
 import {createShoppingCartSteps} from "./ngc/createShoppingCart.steps";
+import {updateShoppingCartSteps} from "./ngc/updateShoppingCart.steps";
 
 export default [
     productCatalogSteps,
@@ -12,4 +13,5 @@ export default [
     serviceQualificationSteps,
     productQualificationSteps,
     createCustomerSteps,
-    createShoppingCartSteps];
+    createShoppingCartSteps,
+    updateShoppingCartSteps];

@@ -1,6 +1,7 @@
 import { Identificators } from "../Identificators";
 //import {ShoppingCartApi} from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.api";
 import {data} from "../../../test-data/test.data";
+import {ShoppingCartApi} from "../../../bdd-src/ngc/shoppingCart/shopping-cart.api";
 
 export default class ShoppingCartContext {
   public identificator = Identificators.shoppingCartContext;
@@ -28,7 +29,8 @@ export default class ShoppingCartContext {
   private _distributionChannel: string = data.distributionChannel.CSR;
   private _distributionChannelExternalId: string = "";
   private _customerCategory: string = data.customerCategory.CONSUMER;
- // private _scInstance: ShoppingCartApi = <ShoppingCartApi>(<unknown>null);
+  private _shoppingCartApiInstance: ShoppingCartApi = <ShoppingCartApi>(<unknown>null);
+
 
 
   public set soStatus(status: string) {
@@ -270,5 +272,13 @@ export default class ShoppingCartContext {
   // public get scInstance(): ShoppingCartApi {
   //   return this._scInstance;
   // }
+
+  public set shoppingCartApiInstance(scInstance: ShoppingCartApi) {
+    this._shoppingCartApiInstance = scInstance;
+  }
+
+  public get shoppingCartApiInstance(): ShoppingCartApi {
+    return this._shoppingCartApiInstance;
+  }
 
 }

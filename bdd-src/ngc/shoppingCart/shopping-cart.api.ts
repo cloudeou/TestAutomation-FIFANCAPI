@@ -25,9 +25,9 @@ export type SCParams = {
   distributionChannel: string;
   prevResponse?: any;
   offersToAdd?: Map<string, string> | null;
-  childOfferMap?: Map<Map<string, string[]>, string>;
+  childOfferMap?: Map<Map<string, string[]>, string> | null;
   charMap?: Map<string, Array<{}>> | null;
-  promotionMap?: Map<Map<string, any[]>, string>;
+  promotionMap?: Map<Map<string, any[]>, string> | null;
 };
 
 export class ShoppingCartApi {
@@ -103,8 +103,11 @@ export class ShoppingCartApi {
   }
 
   public async updateShoppingCart(scParams: SCParams): Promise<AxiosResponse> {
+    console.log("inside updateShoppingCart")
     const body = this.generateBody(ShoppingCartActions.update, scParams);
+    console.log("Ready body");
     console.dir(scParams.charMap);
+
     console.log(`${ShoppingCartActions.update} shopping cart`);
     console.log(JSON.stringify(body));
     try {
@@ -114,7 +117,10 @@ export class ShoppingCartApi {
         url: `${envConfig.shoppingCart.baseUrl}/${this._SCid}`,
         data: body,
         headers,
-      });
+      }).then((res: any)=> {
+        console.log(res);
+        return res;
+      })
       return response;
     } catch (error: any) {
       console.log(`Error while ${ShoppingCartActions.create} of SC: ${error}`);

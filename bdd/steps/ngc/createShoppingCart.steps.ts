@@ -231,6 +231,7 @@ export const createShoppingCartSteps = ({
     //Common.validateTheCharMapInResponse(response, charMap);
 
     if (Common.checkIfHasShippmentOrder(response)) {
+      console.log('inside if (Common.checkIfHasShippmentOrder(response))')
       let table = [
         {
           Name: '9147912230013832655',
@@ -259,21 +260,34 @@ export const createShoppingCartSteps = ({
         },
       ];
       let charMap = await Common.createCharMapFromTable(table);
+      console.log("charMap",charMap)
       shoppingCartContext().setCharMap(charMap);
+      console.log("set");
 
       let externalLocationId = preconditionContext().getAddressId();
+        console.log("externalLocationId",externalLocationId)
       let distributionChannel = preconditionContext().getDistributionChannel();
+      console.log("distributionChannel",distributionChannel)
       let customerCategory = preconditionContext().getCustomerCategory();
+      console.log("customerCategory",customerCategory)
       let selectedOffers = shoppingCartContext().getOffersToAdd();
+      console.log("selectedOffers",selectedOffers)
       charMap = shoppingCartContext().getCharMap()!;
+      console.log("charMap",charMap)
       let customerAccountECID = preconditionContext().getExternalCustomerId();
+      console.log("customerAccountECID",customerAccountECID)
       let childOfferMap = shoppingCartContext().getChildOfferMap();
-      let response = responseContext().SCresponse().data;
+      console.log("childOfferMap",childOfferMap)
+      let response = responseContext().getSCresponse();
+      console.log("response",response)
       let shoppingCartId = shoppingCartContext().getShoppingCartId();
+      console.log("shoppingCartId",shoppingCartId)
       let responseText = JSON.stringify(response);
+      console.log("responseText",responseText)
       if (responseText.includes(customerAccountECID)) {
         customerAccountECID = null;
       }
+      console.log('after get');
 
       const requestBody = {
         prevResponse: null,
@@ -292,9 +306,7 @@ export const createShoppingCartSteps = ({
         const response = await shoppingCartApi.updateShoppingCart(requestBody);
 
         Common.checkValidResponse(response, 200);
-        const body = response.data;
-        const responseText = JSON.stringify(response, null, '\t');
-
+        const responseText = JSON.stringify(response.data, null, '\t');
         responseContext().SCresponse = response.data;
         responseContext().SCresponseBody = responseText;
 
