@@ -12,4 +12,5 @@ export default [
     serviceQualificationSteps,
     productQualificationSteps,
     createCustomerSteps,
-    createShoppingCartSteps];
+    createShoppingCartSteps,
+    productCatalogSteps];

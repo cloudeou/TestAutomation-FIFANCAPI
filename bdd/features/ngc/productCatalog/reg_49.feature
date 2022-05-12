@@ -52,13 +52,13 @@ Feature: Try to add a MR STB to an active PikTV
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
 
-  Scenario: Update shopping cart and add child offers
-    Given preconditions by user are selected
-    And user select child offer:
-      | OfferId             | Parent              |
-      | 9151963809313418384 | 9162234603588639317 |
-		# add Doorbell Camera - Slimline
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+#  Scenario: Update shopping cart and add child offers
+#    Given preconditions by user are selected
+#    And user select child offer:
+#      | OfferId             | Parent              |
+#      | 9151963809313418384 | 9162234603588639317 |
+#		# add Doorbell Camera - Slimline
+#    When user try to update Shopping Cart
+#    Then validate shopping cart is updated successfully
 
   
