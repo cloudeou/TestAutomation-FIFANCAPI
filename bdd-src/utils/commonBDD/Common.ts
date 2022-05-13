@@ -388,7 +388,7 @@ export class Common {
             // });
         }
         test('validate Offer Map In Response test', flag, AssertionModes.strict)
-          .isnot(false, errorMessage+'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+          .isnot(false, errorMessage)
     }
 
     static validateOfferMapNotInResponse(childOfferMap: any, response: any) {

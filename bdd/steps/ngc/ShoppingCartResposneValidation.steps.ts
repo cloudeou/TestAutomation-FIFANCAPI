@@ -48,7 +48,7 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
 
-    and(/user validate shopping cart (should|should not) contain (child|top) offers:/, (present,typeOffer, table) => {
+    /*and(/user validate shopping cart (should|should not) contain (child|top) offers:/, (present,typeOffer, table) => {
         console.log(present,'present',typeOffer, 'typeOffer',table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
@@ -82,7 +82,109 @@ export const shoppingCartResponseValidationSteps = (
             }
 
         })
+    })*/
+
+    //after bug with regexps will be fixed, remove it and uncomment step above
+    and('user validate shopping cart should contain child offers:', (table) => {
+        console.log(table, 'table1','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        let SCResponseBody: JSON;
+        let cartItems: Array<any>;
+        let offeringIds: Array<any>;
+        SCResponseBody = responseContext().getShoppingCartResponse()!
+        cartItems = bodyParser.getCartItemObjects(SCResponseBody)
+        offeringIds = Common.getOffersFromTable(table, null)
+
+        test('expected cart item to contain products',cartItems.length,AssertionModes.strict)
+          .isnot(0,'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.')
+
+        offeringIds.forEach((id) => {
+            let isOfferingReferenced = false
+            cartItems.forEach((item) => {
+                item.cartItem.forEach((cartItem:any) => {
+                    if (cartItem.productOffering.id == id) isOfferingReferenced = true
+                })
+
+            })
+            test(`due to offering ${id}, expected it to be referenced in cartItem`,isOfferingReferenced, AssertionModes.strict)
+              .is(true,`Error response is received due to offering ${id}, expected it to be referenced in cartItem, but it is not referenced.`)
+
+        })
     })
+
+    //after bug with regexps will be fixed, remove it and uncomment step above
+    and('user validate shopping cart should not contain child offers:', (table) => {
+        console.log(table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        let SCResponseBody: JSON;
+        let cartItems: Array<any>;
+        let offeringIds: Array<any>;
+        SCResponseBody = responseContext().getShoppingCartResponse()!
+        cartItems = bodyParser.getCartItemObjects(SCResponseBody)
+        offeringIds = Common.getOffersFromTable(table, null)
+
+        test('expected cart item to contain products',cartItems.length,AssertionModes.strict)
+          .isnot(0,'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.')
+
+        offeringIds.forEach((id) => {
+            let isOfferingReferenced = false
+            cartItems.forEach((item) => {
+                item.cartItem.forEach((cartItem:any) => {
+                    if (cartItem.productOffering.id == id) isOfferingReferenced = true
+                })
+            })
+            test('due to offering ${id}, expected it to be not referenced in cartItem', isOfferingReferenced,AssertionModes.strict)
+              .isnot(true,`Error response is received due to offering ${id}, expected it to be not referenced in cartItem, but it is referenced.`)
+
+        })
+    })
+
+    //after bug with regexps will be fixed, remove it and uncomment step above
+    and('user validate shopping cart should contain top offers:', (table) => {
+        console.log(table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        let SCResponseBody: JSON;
+        let cartItems: Array<any>;
+        let offeringIds: Array<any>;
+        SCResponseBody = responseContext().getShoppingCartResponse()!
+        cartItems = bodyParser.getCartItemObjects(SCResponseBody)
+        offeringIds = Common.getOffersFromTable(table, null)
+
+        test('expected cart item to contain products',cartItems.length,AssertionModes.strict)
+          .isnot(0,'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.')
+
+        offeringIds.forEach((id) => {
+            let isOfferingReferenced = false
+            cartItems.forEach((item) => {
+                if (item.productOffering.id == id) isOfferingReferenced = true
+            })
+            test(`due to offering ${id}, expected it to be referenced in cartItem`,isOfferingReferenced, AssertionModes.strict)
+              .is(true,`Error response is received due to offering ${id}, expected it to be referenced in cartItem, but it is not referenced.`)
+
+        })
+    })
+
+    and('user validate shopping cart should not contain top offers:', (table) => {
+        console.log(table, 'table3','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        let SCResponseBody: JSON;
+        let cartItems: Array<any>;
+        let offeringIds: Array<any>;
+        SCResponseBody = responseContext().getShoppingCartResponse()!
+        cartItems = bodyParser.getCartItemObjects(SCResponseBody)
+        offeringIds = Common.getOffersFromTable(table, null)
+
+        test('expected cart item to contain products',cartItems.length,AssertionModes.strict)
+          .isnot(0,'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.')
+
+        offeringIds.forEach((id) => {
+            let isOfferingReferenced = false
+            cartItems.forEach((item) => {
+                if (item.productOffering.id == id) isOfferingReferenced = true
+            })
+
+            test('due to offering ${id}, expected it to be not referenced in cartItem', isOfferingReferenced,AssertionModes.strict)
+              .isnot(true,`Error response is received due to offering ${id}, expected it to be not referenced in cartItem, but it is referenced.`)
+
+        })
+    })
+
 
     // and(/^user validate shopping cart should contain child offers:$/, (table) => {
     //     //let SCResponseBody

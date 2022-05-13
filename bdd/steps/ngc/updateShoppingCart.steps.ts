@@ -101,7 +101,7 @@ export const updateShoppingCartSteps = ({
     }
 
     const requestBody = {
-      prevResponse: null,
+      response: response,
       lpdsid: externalLocationId,
       customerCategory: customerCategory,
       distributionChannel: distChannelOption,
