@@ -12,7 +12,7 @@ export class BodyGenerator {
   addPromotionMap: Map<string, any[]> | null;
   deletePromotionMap: Map<string, any[]> | null;
   charMap: Map<string, { [key: string]: any }[]>;
-  customerAccountECID: number;
+  customerAccountECID: number | null;
   customerCategory: any;
   externalLocationId: any;
   distributionChannel: any;
@@ -28,7 +28,7 @@ export class BodyGenerator {
   shoppingCartId: any;
 
   constructor(
-    customerAccountECID: number,
+    customerAccountECID: number | null,
     customerCategory?: string,
     distributionChannel?: string,
     externalLocationId?: string,

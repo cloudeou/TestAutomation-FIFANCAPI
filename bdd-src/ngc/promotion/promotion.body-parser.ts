@@ -2,9 +2,9 @@ import {AssertionModes, test} from "@cloudeou/telus-bdd";
 
 export class bodyParser {
     static getDiscountIdForProductOffer(
-        response,
-        productOfferingId,
-        promotionCode,
+        response: any,
+        productOfferingId: any,
+        promotionCode: any,
     ) {
         if (response == null) {
             return '';
@@ -25,22 +25,22 @@ export class bodyParser {
         }
         test(
             'Item should contain price',
-            id, AssertionModes.strict).not(null,'No price for this item or item not found');
+            id, AssertionModes.strict).isnot(null,'No price for this item or item not found');
         return id;
     }
-    static getItemByProductOffering(response, productOfferingId) {
+    static getItemByProductOffering(response: any, productOfferingId: any) {
         if (response == null) {
             return '';
         }
         let itemResult = '';
-        response.cartItem.forEach((item) => {
+        response.cartItem.forEach((item: any) => {
             if (item.productOffering.id == productOfferingId) {
                 itemResult = item;
             }
         });
         return itemResult;
     }
-    static validatePromotionsInResponse(promotions, response) {
+    static validatePromotionsInResponse(promotions: any, response: any) {
         let flag = false;
         let errorMessage = '';
         if (promotions !== null && promotions !== undefined) {
@@ -94,7 +94,7 @@ export class bodyParser {
             AssertionModes.strict).is(true, "Catch error message");
     }
 
-    static validatePromotionsNotInResponse(promotions, response) {
+    static validatePromotionsNotInResponse(promotions: any, response: any) {
         console.log("RESPONSE");
         console.log(JSON.stringify(response));
         var flag = true;
@@ -132,5 +132,48 @@ export class bodyParser {
             'No error message',
             errorMessage === '',
             AssertionModes.strict).is(true, "Catch error message");
+    }
+
+    static getDiscountValueForProductOffer(
+        response: any,
+        productOfferingId: any,
+        promotionCode: any,
+    ) {
+        if (response == null) {
+            return '';
+        }
+        let price = null,
+            temp;
+        for (let i = 0; i < response.cartItem.length; i++) {
+            if (response.cartItem[i].productOffering.id == productOfferingId) {
+                for (let x = 0; x < response.cartItem[i].itemPrice.length; x++) {
+                    temp = response.cartItem[i].itemPrice[x].priceAlteration;
+                    for (let j = 0; j < temp.length; j++) {
+                        if (temp[j].catalogId === promotionCode) {
+                            price = temp[j].price.dutyFreeAmount.value;
+                            break;
+                        }
+                    }
+                }
+                if (price !== null) break;
+            }
+        }
+        test('Item should contain price',
+            price,
+            AssertionModes.strict).isnot(null,'No price for this item or item not found');
+        return price;
+    }
+
+    static getItemIdByProductOffering(response: any, productOfferingId: any) {
+        if (response == null || response == undefined) {
+            return '';
+        }
+        let itemId: any = '';
+        response.cartItem.forEach((item: any) => {
+            if (item.productOffering.id == productOfferingId) {
+                itemId = item.id;
+            }
+        });
+        return itemId;
     }
 }

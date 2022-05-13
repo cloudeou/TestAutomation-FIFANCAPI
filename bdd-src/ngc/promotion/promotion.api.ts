@@ -1,20 +1,19 @@
 import {OauthToken} from "../oauth-token";
 import {envConfig} from "../../env-config";
-import {PayloadGenerator} from "../productQualification/pq.payload-generator";
 import {AxiosResponse} from "axios";
 import {axiosInstance} from "../../axios-instance";
 import {KongHeaders} from "../IkongApi";
 import {payloadGenerator} from "../promotion/promotion.payload-generator";
-
+import { BodyGenerator } from "../shoppingCart/shopping-cart.payload-generator";
 
 
 type PromotionParams = {
-    customerCategory: any | null,
-    distributionChannel: any | null,
-    externalLocationId: any | null,
-    response: any | null,
-    promotionMap: any | null,
-    shoppingCartId: any
+    customerCategory?: any | null,
+    distributionChannel?: any | null,
+    externalLocationId?: any | null,
+    response?: any | null,
+    promotionMap?: any | null,
+    shoppingCartId?: any
 };
 
 export class PromotionApi {
@@ -32,27 +31,33 @@ export class PromotionApi {
     }
 
     private generateParams(shoppingCartId: string): string {
-        const params = new payloadGenerator(shoppingCartId);
+        const params = new payloadGenerator(
+            null,
+            null,
+            null,
+            null,
+            null,
+            shoppingCartId);
         return params.applyPromotion();
     }
 
     private generateBody (
         pparams: PromotionParams
-    ): { [key: string]: any } {
-        const body = new PayloadGenerator(
+    ): any  {
+        const body = new payloadGenerator(
             pparams.customerCategory,
             pparams.distributionChannel,
             pparams.externalLocationId,
             pparams.response,
             pparams.promotionMap,
+            pparams.shoppingCartId
         );
-        return body.generateBody();
+        return body.genetateBody();
     }
 
     public async requestPromotion(pparams: PromotionParams): Promise<AxiosResponse> {
         const body = this.generateBody(pparams);
         const params = this.generateParams(pparams.shoppingCartId)
-        console.log(JSON.stringify(body));
         try {
             const headers = await this.generateKongHeaders();
             const response: any = await axiosInstance({
@@ -87,7 +92,6 @@ export class PromotionApi {
 
     private async generateKongHeaders(): Promise<KongHeaders> {
         const token = await this._oauthToken.getToken(envConfig.promotion.scope);
-        console.log("return token")
         return {
             Authorization: `Bearer ${token}`,
             env: envConfig.envName

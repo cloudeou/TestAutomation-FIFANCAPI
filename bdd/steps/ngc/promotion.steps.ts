@@ -1,5 +1,5 @@
 import ResponseContext from "../../contexts/ngc/ResponseConntext"
-import {featureContext} from "@cloudeou/telus-bdd";
+import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
 import {Identificators} from "../../contexts/Identificators";
 import ShoppingCartContext from "../../contexts/ngc/ShoppingCartContext";
 import {PromotionApi} from "../../../bdd-src/ngc/promotion/promotion.api"
@@ -16,7 +16,7 @@ type step = (
 
 let price = new Map();
 
-export const productCatalogSteps = ({ when, and, then}: { [key: string]: step }) => {
+export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
     const ResponseContext = (): ResponseContext =>
         featureContext().getContextById(Identificators.ResponseContext);
     const shoppingCartContext = (): ShoppingCartContext =>
@@ -25,25 +25,23 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
     const PreconditionContext = (): PreconditionContext =>
         featureContext().getContextById(Identificators.preConditionContext);
 
-    and(
-        /^user (.*) the following manual (discount|discounts):$/,
-        async (action, dummy, table) => {
-            let promotionMap = await fifaNcApi.getMapFromPromotionTable(table);
-            if (
-                String(action).toLowerCase() === 'apply' ||
-                String(action).toLowerCase() === 'add'
-            ) {
-                shoppingCartContext().setPromotions(promotionMap, 'Add');
-            } else if (
-                String(action).toLowerCase() === 'remove' ||
-                String(action).toLowerCase() === 'delete'
-            ) {
-                shoppingCartContext().setPromotions(promotionMap, 'Remove');
-            }
-            shoppingCartContext().setAddingPromotion();
-        },
-    );
+    and('user apply the following manual discounts:', async (table) => {
+        const action = 'apply';
+        let promotionMap = await fifaNcApi.getMapFromPromotionTable(table);
+        if (
 
+            String(action).toLowerCase() === 'apply' ||
+            String(action).toLowerCase() === 'add'
+        ) {
+            shoppingCartContext().setPromotions(promotionMap, 'Add');
+        } else if (
+            String(action).toLowerCase() === 'remove' ||
+            String(action).toLowerCase() === 'delete'
+        ) {
+            shoppingCartContext().setPromotions(promotionMap, 'Remove');
+        }
+        shoppingCartContext().setAddingPromotion();
+    })
 
     when(/^user try to (apply|remove) promotions$/, async () => {
         price.clear();
@@ -56,15 +54,13 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
         } else {
             shoppingCartContext().resetPromotions();
         }
+
         let response = ResponseContext().getSCresponse();
         let shoppingCartId = shoppingCartContext().getShoppingCartId();
         let responseText = JSON.stringify(response);
 
-
-
-
-        try{
-            const pcResponse = await fifaNcApi.requestPromotion({
+        try {
+            const prResponse = await fifaNcApi.requestPromotion({
                 customerCategory,
                 distributionChannel,
                 externalLocationId,
@@ -72,16 +68,16 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
                 promotionMap,
                 shoppingCartId
             });
-            console.log(JSON.stringify(pcResponse));
-            Common.checkValidResponse(pcResponse, 200);
-            const response = JSON.parse(pcResponse.data);
-            const responseText = JSON.stringify(response, replacerFunc(), '\t');
-            ResponseContext().SCresponse = response;
+            JSON.stringify(prResponse, replacerFunc(), '\t'),
+            Common.checkValidResponse(prResponse, 200);
+            const promoResponse = prResponse.data;
+            const responseText = JSON.stringify(promoResponse, replacerFunc(), '\t');
+            ResponseContext().SCresponse = promoResponse;
             ResponseContext().SCresponseBody = responseText;
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error)
         }
+    })
 
 
     then(/^promotions are (applied|removed)$/, () => {
@@ -107,8 +103,39 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
         }
     });
 
-
-
-
-
+    and(
+        /^discount savings are correct after (apply|remove) promotions$/,
+        async (action) => {
+            let response = ResponseContext().getSCresponse();
+            let promotionsMap = shoppingCartContext().getPromotions();
+            var promotions = [];
+            for (let [key, value] of promotionsMap) {
+                if (String(value) === 'Add' || String(value) === 'Delete') {
+                    promotions.push(key);
+                }
+            }
+            let priceAfterPromotion, discountAppiedForOffer;
+            for (const offers of promotions) {
+                for (let [offer, value] of offers) {
+                    for (let i = 0; i < value.length; i++) {
+                        // let discountType = await DbUtils.getPromotionType(value[i].discountId,dbConfig);
+                        discountAppiedForOffer = Number(
+                            bodyParser.getDiscountValueForProductOffer(
+                                response,
+                                offer,
+                                value[i].discountId,
+                                // discountType
+                            ),
+                        );
+                        test('Check discount price',
+                            (discountAppiedForOffer !== null &&
+                            discountAppiedForOffer !== undefined),
+                            AssertionModes.strict,
+                        ).is(true,`No discount price found for the discount ${value[0].discountId}`);
+                    }
+                }
+            }
+            shoppingCartContext().resetPromotions();
+        },
+    );
 }
