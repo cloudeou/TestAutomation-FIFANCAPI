@@ -99,20 +99,20 @@ Feature: Existing customer with active HS+Optik TV change TLO
     # Essentials
     When user try to update Shopping Cart
     Then validate shopping cart is updated successfully
-
- Scenario: Submit SC 2
-   Given preconditions by user are selected
-   When user try to submit shopping cart
-   Then sales order id should be returned
-
- Scenario: Validate shopping cart 2
-   Given preconditions by user are selected
-   When user try to validate shopping cart
-   Then no error messages should be in shopping cart
-
- Scenario: Check backend orders validation 2
-   Given preconditions by user are selected
-   When try to complete sales order on BE
-   Then validate that no errors created on BE
-   And validate that all orders are completed successfully
-   And validate that all billing actions completed successfully
+#
+# Scenario: Submit SC 2
+#   Given preconditions by user are selected
+#   When user try to submit shopping cart
+#   Then sales order id should be returned
+#
+# Scenario: Validate shopping cart 2
+#   Given preconditions by user are selected
+#   When user try to validate shopping cart
+#   Then no error messages should be in shopping cart
+#
+# Scenario: Check backend orders validation 2
+#   Given preconditions by user are selected
+#   When try to complete sales order on BE
+#   Then validate that no errors created on BE
+#   And validate that all orders are completed successfully
+#   And validate that all billing actions completed successfully
