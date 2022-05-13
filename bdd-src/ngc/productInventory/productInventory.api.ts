@@ -39,7 +39,7 @@ export class ProductInventoryApi {
             console.log(JSON.stringify(response));
             return response;
         } catch (error) {
-            console.log(`Error while send requestProductInventory: ${error}`);
+            console.log(`Error while send  Product Inventory request: ${error}`);
             throw error;
         }
     }
