@@ -46,8 +46,10 @@ export class PayloadGenerator {
 
 
     generateBody(): { [key: string]: any } {
+        console.log('generateBody');
         let body;
         let charItems = this.generateCharsItem(this.charList);
+        console.log('charItems',charItems);
         body = bodySample.getProductQualification(
             this.customerCategory,
             this.distributionChannel,
@@ -63,12 +65,17 @@ export class PayloadGenerator {
     }
 
     generateCharsItem(charList: any): any {
+        console.log('generateCharsItem');
+        console.log('charList',charList)
         let charItems: any = [];
         if (charList == null || charList == undefined) {
             return null;
         }
         charList.forEach((charContainer: any) => {
+            console.log("charContainer",charContainer)
+            console.log('before charItem');
             let charItem: any = bodySamples.charItem(charContainer);
+
             charItems.push(charItem);
         });
         return charItems;

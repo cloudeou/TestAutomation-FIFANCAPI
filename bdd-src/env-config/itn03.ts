@@ -33,4 +33,10 @@ export const envConfig = {
         clientSecret: '412cc102-ee52-4aa4-8c23-271b40838e90cac74781-751f-4e0e-87ed-befa7f4c35bb',
         scope: 241,
     },
+    promotion:{
+        baseUrl:"https://apigw-st.tsl.telus.com",
+        clientId: "816a3968-064a-4901-80b9-adf56e73d632",
+        clientSecret: '412cc102-ee52-4aa4-8c23-271b40838e90cac74781-751f-4e0e-87ed-befa7f4c35bb',
+        scope: 241,
+    }
 }

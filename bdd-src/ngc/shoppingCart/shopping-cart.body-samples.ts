@@ -3,14 +3,14 @@ import { bodyParser } from "./shopping-cart.body-parser";
 import {data} from "../../../test-data/test.data";
 // module.exports = {
 export class BodySamples {
-  mainBody(
-    ecid: number,
-    customerCategory: string,
-    distributionChannel: string,
-    lpdsid: number,
-    cartItems?: Array<any>,
-    charItems?: Array<any>
-  ) {
+    mainBody(
+        ecid: number | null,
+        customerCategory: string,
+        distributionChannel: string,
+        lpdsid: number,
+        cartItems?: Array<any>,
+        charItems?: Array<any>
+    ) {
     const isDistChanExtId = !Object.values(
         data.distributionChannel
     ).includes(distributionChannel);
