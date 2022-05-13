@@ -4,9 +4,9 @@ import { IkongApi, KongHeaders } from "../IkongApi";
 import { axiosInstance } from "../../axios-instance";
 import { AxiosResponse } from "axios";
 import ncConstants from "../../utils/nc-constants";
-import { bodyParser } from "./shopping-cart-tmf.body-parser";
-import { BodySamples } from "./shopping-cart-tmf.body-samples";
-import { BodyGenerator } from "./shopping-cart-tmf.body-generator";
+import { bodyParser } from "./shopping-cart.body-parser";
+import { BodySamples } from "./shopping-cart.body-samples";
+import { BodyGenerator } from "./shopping-cart.body-generator";
 
 export enum ShoppingCartActions {
   create = "Create",

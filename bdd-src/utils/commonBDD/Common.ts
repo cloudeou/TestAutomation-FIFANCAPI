@@ -1,6 +1,6 @@
 import {skipScenario, featureContext, test, AssertionModes} from '@cloudeou/telus-bdd';
 import {RandomValueGenerator} from '../common/RandomValueGenerator';
-import {bodyParser} from "../../ngc/shopping-cart-tmf/shopping-cart-tmf.body-parser";
+import {bodyParser} from "../../ngc/shopping-cart/shopping-cart.body-parser";
 import PreconditionContext from "../../../bdd/contexts/ngc/PreconditionContext";
 import { Identificators } from "../../../bdd/contexts/Identificators";
 import {AxiosResponse} from "axios";
@@ -372,9 +372,7 @@ export class Common {
                 );
 
                 for (let childOffer of childOfferMap.get(offer)) {
-                    if (
-                      bodyParser.getItemIdByProductOffering(response, childOffer) === null
-                    ) {
+                    if (bodyParser.getItemIdByProductOffering(response, childOffer) === null) {
                         flag = false;
                         errorMessage = errorMessage + childOffer + ' not present\n';
                     }
@@ -390,7 +388,7 @@ export class Common {
             // });
         }
         test('validate Offer Map In Response test', flag, AssertionModes.strict)
-          .isnot(false, errorMessage)
+          .isnot(false, errorMessage+'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     }
 
     static validateOfferMapNotInResponse(childOfferMap: any, response: any) {

@@ -6,7 +6,7 @@ import ShoppingCartContext from '../../contexts/ngc/ShoppingCartContext';
 import ErrorContext from "../../contexts/ngc/ErrorContext";
 import { ErrorStatus } from "../../../bdd-src/utils/error-status";
 import { Common } from "../../../bdd-src/utils/commonBDD/Common";
-import { ShoppingCartApi } from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.api";
+import { ShoppingCartApi } from "../../../bdd-src/ngc/shopping-cart/shopping-cart.api";
 import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 type step = (
@@ -134,7 +134,6 @@ export const createShoppingCartSteps = ({
 
 
     //console.log('BODY IN CREATE:\n' + JSON.stringify(body));
-
 
     try {
       const response = await shoppingCartApi.createShoppingCart({

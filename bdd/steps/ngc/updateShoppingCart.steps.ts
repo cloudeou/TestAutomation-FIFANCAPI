@@ -180,11 +180,11 @@ export const updateShoppingCartSteps = ({
     response = responseContext().getShoppingCartResponse();
     console.log("RESD",JSON.stringify(response));
     responseText = responseContext().getshoppingCartResponseText();
-    test('SC should have OPEN status',response.status,AssertionModes.strict)
+    test('update SC - SC should have OPEN status',response.status,AssertionModes.strict)
       .is('OPEN', 'SC should have OPEN status\n' + responseText)
-    test('Response should contain cartItem',response.cartItem,AssertionModes.strict)
+    test('update SC - Response should contain cartItem',response.cartItem,AssertionModes.strict)
       .isnot(undefined,'Response should contain cartItem\n' + responseText)
-    test('Expecting some offers to be returned',true,AssertionModes.strict)
+    test('update SC - Expecting some offers to be returned',true,AssertionModes.strict)
       .is(response.cartItem.length > 0,'Expecting some offers to be returned \n',)
 
     let shoppingCartId = response.id;
@@ -242,11 +242,11 @@ export const updateShoppingCartSteps = ({
     let responseText: any;
     response = responseContext().getShoppingCartResponse();
     responseText = responseContext().getshoppingCartResponseText();
-    test('SC should have OPEN status', response.status, AssertionModes.strict)
+    test('update SC - SC should have OPEN status', response.status, AssertionModes.strict)
       .is('OPEN', 'SC should have OPEN status\n' + responseText)
-    test('Response should contain cartItem', response.cartItem, AssertionModes.strict)
+    test('update SC - Response should contain cartItem', response.cartItem, AssertionModes.strict)
       .isnot(undefined,'Response should contain cartItem\n' + responseText)
-    test('Expecting some offers to be returned', true, AssertionModes.strict)
+    test('update SC - Expecting some offers to be returned', true, AssertionModes.strict)
       .is(response.cartItem.length > 0, 'Expecting some offers to be returned \n')
 
     let shoppingCartId = response.id;
@@ -277,7 +277,7 @@ export const updateShoppingCartSteps = ({
         originalPrice = shoppingCartContext().getOriginalSalesOrderRecurrentPrice();
         updatedPrice =
           SCResponseBody.cartTotalPrice[0].price.dutyFreeAmount.value;
-        test('expected price to be updated', updatedPrice, AssertionModes.strict)
+        test('update SC - expected price to be updated', updatedPrice, AssertionModes.strict)
           .isnot(originalPrice,`Error response is received due to price, expected price to be updated, but it is the same.`)
 
         shoppingCartContext().setOriginalSalesOrderRecurrentPrice(updatedPrice);
@@ -285,7 +285,7 @@ export const updateShoppingCartSteps = ({
         originalPrice = shoppingCartContext().getOriginalSalesOrderOneTimePrice();
         updatedPrice =
           SCResponseBody.cartTotalPrice[1].price.dutyFreeAmount.value;
-        test('expected price to be updated',updatedPrice, AssertionModes.strict)
+        test('update SC - expected price to be updated',updatedPrice, AssertionModes.strict)
           .isnot(originalPrice, `Error response is received due to price, expected price to be updated, but it is the same.`)
         shoppingCartContext().setOriginalSalesOrderOneTimePrice(updatedPrice);
       }
@@ -303,7 +303,7 @@ export const updateShoppingCartSteps = ({
         originalPriceAlteration = shoppingCartContext().getSORecurrentPriceAlterationList();
         updatedPriceAlteration =
           SCResponseBody.cartTotalPrice[0].priceAlteration;
-        test('expected price alteration to be updated', updatedPriceAlteration,AssertionModes.strict)
+        test('update SC - expected price alteration to be updated', updatedPriceAlteration,AssertionModes.strict)
           .isnot(originalPriceAlteration, `Error response is received due to price alteration, expected price alteration to be updated, but it is the same.`)
         shoppingCartContext().setSORecurrentPriceAlterationList(
           updatedPriceAlteration,
@@ -312,7 +312,7 @@ export const updateShoppingCartSteps = ({
         originalPriceAlteration = shoppingCartContext().getSOOneTimePriceAlterationList();
         updatedPriceAlteration =
           SCResponseBody.cartTotalPrice[1].priceAlteration;
-        test('expected price alteration to be updated', updatedPriceAlteration, AssertionModes.strict)
+        test('update SC - expected price alteration to be updated', updatedPriceAlteration, AssertionModes.strict)
           .isnot(originalPriceAlteration, `Error response is received due to price alteration, expected price alteration to be updated, but it is the same.`)
         shoppingCartContext().setSOOneTimePriceAlterationList(
           updatedPriceAlteration,

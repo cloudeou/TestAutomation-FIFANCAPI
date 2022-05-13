@@ -20,7 +20,7 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
     const fifaNcApi = new ServiceQualificationApi();
 
     given('preconditions by user are selected', () => {
-        test('Address id is not null',
+        test('preconditions - Address id is not null',
             preconditionContext().getAddressId(),
             AssertionModes.strict
         ).isnot(null,'Address id is null');

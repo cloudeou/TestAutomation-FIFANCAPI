@@ -1,6 +1,6 @@
 import { Identificators } from "../Identificators";
 import ncConstants from "../../../bdd-src/utils/nc-constants";
-import {ShoppingCartApi} from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.api";
+import {ShoppingCartApi} from "../../../bdd-src/ngc/shopping-cart/shopping-cart.api";
 
 export default class ShoppingCartContext {
   public identificator = Identificators.shoppingCartContext;

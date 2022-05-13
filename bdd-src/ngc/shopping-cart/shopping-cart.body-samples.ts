@@ -1,4 +1,4 @@
-import { bodyParser } from "./shopping-cart-tmf.body-parser";
+import { bodyParser } from "./shopping-cart.body-parser";
 import ncConstants from "../../utils/nc-constants";
 
 // module.exports = {
@@ -30,7 +30,7 @@ export class BodySamples {
       ],
       channel: {
         id: distributionChannel,
-        "@referenceType": isDistChanExtId ? "External_ID" : undefined,
+        /*"@referenceType": isDistChanExtId ? "External_ID" : undefined,*/
       },
       place: [
         {
@@ -181,7 +181,7 @@ export class BodySamples {
       ],
       channel: {
         id: distributionChannel,
-        "@referenceType": isDistChanExtId ? "External_ID" : undefined,
+        /*"@referenceType": isDistChanExtId ? "External_ID" : undefined,*/
       },
     };
   }

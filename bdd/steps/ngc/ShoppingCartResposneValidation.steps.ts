@@ -4,7 +4,7 @@ import PreconditionContext  from '../../contexts/ngc/PreconditionContext';
 import ResponseContext from '../../contexts/ngc/ResponseConntext';
 import ShoppingCartContext from '../../contexts/ngc/ShoppingCartContext';
 import { Common } from "../../../bdd-src/utils/commonBDD/Common";
-import {bodyParser} from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.body-parser";
+import {bodyParser} from "../../../bdd-src/ngc/shopping-cart/shopping-cart.body-parser";
 
 
 type step = (
@@ -48,7 +48,8 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
 
-    and(/^user validate shopping cart (should|should not) contain (child|top) offers:$/, (present,typeOffer, table) => {
+    and(/user validate shopping cart (should|should not) contain (child|top) offers:/, (present,typeOffer, table) => {
+        console.log(present,'present',typeOffer, 'typeOffer',table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
@@ -186,7 +187,7 @@ export const shoppingCartResponseValidationSteps = (
             if (priceIsValid) priceIsPresent = true
         })
         test('expected at least one item to contain price',priceIsPresent,AssertionModes.strict)
-          .isnot(undefined,`Error response is received due to price, expected at least one item to contain price, but none contain it.`)
+          .isnot(false,`Error response is received due to price, expected at least one item to contain price, but none contain it.`)
     })
 
     and(/^user validate cart item should contain price$/, () => {
@@ -227,34 +228,40 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
 
-    and(/^user validate cart item parameters should contain:$/, (table) => {
-        let SCResponseBody: JSON;
-        let cartItems: Array<any>;
-        let products: Array<any>;
-        let paramsToCheck: Array<any>;
-        let descriptionIsPresent: boolean;
+    and('user validate cart item parameters should contain:', (table) => {
+        try {
+            let SCResponseBody: JSON;
+            let cartItems: Array<any>;
+            let products: Array<any>;
+            let paramsToCheck: Array<any>;
+            let descriptionIsPresent: boolean;
+            SCResponseBody = responseContext().getShoppingCartResponse()!
+            cartItems = bodyParser.getCartItemObjects(SCResponseBody)
+            products = bodyParser.getProductsFromCartItems(cartItems)
+            paramsToCheck = Common.getParamsListFromTable(table)
+            descriptionIsPresent = false
+            products.forEach((product) => {
+                paramsToCheck.forEach((param) => {
+                    if (param === 'description') {
+                        if (product.description) descriptionIsPresent = true
+                    } else {
+                        test(`expects ${param} to be defined`, product[param], AssertionModes.strict)
+                          .isnot(undefined,`Error response is received due to product parameter ${product[param]}, but expected ${param} to be defined`)
 
-        SCResponseBody = responseContext().getShoppingCartResponse()!
-        cartItems = bodyParser.getCartItemObjects(SCResponseBody)
-        products = bodyParser.getProductsFromCartItems(cartItems)
-        paramsToCheck = Common.getParamsListFromTable(table)
-        descriptionIsPresent = false
-        products.forEach((product) => {
-            paramsToCheck.forEach((param) => {
-                if (param === 'description') {
-                    if (product.description) descriptionIsPresent = true
-                } else {
-                    test(`expects ${param} to be defined`, product[param], AssertionModes.strict)
-                      .isnot(undefined,`Error response is received due to product parameter ${product[param]}, but expected ${param} to be defined`)
-
-                    test(`expected ${param} not to be null`, product[param], AssertionModes.strict)
-                      .isnot(null,`Error response is received due to productOffring parameter ${product[param]}, but expected ${param} not to be null`)
-                }
+                        test(`expected ${param} not to be null`, product[param], AssertionModes.strict)
+                          .isnot(null,`Error response is received due to productOffring parameter ${product[param]}, but expected ${param} not to be null`)
+                    }
+                })
             })
-        })
-        if (paramsToCheck.includes('description')) {
-            test('product description has to be defined at least one product', descriptionIsPresent, AssertionModes.strict)
-              .isnot(undefined,`Error response is received due to product description to be defined at least one product`)
+            if (paramsToCheck.includes('description')) {
+                test('product description has to be defined at least one product', descriptionIsPresent, AssertionModes.strict)
+                  .isnot(undefined,`Error response is received due to product description to be defined at least one product`)
+            }
+        }
+
+        catch (e) {
+            console.log('error happened in /user validate cart item parameters should contain:/ feature')
+            console.log(e)
         }
     })
 
