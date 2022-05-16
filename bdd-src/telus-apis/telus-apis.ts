@@ -5,7 +5,7 @@ import {axiosInstance} from "../axios-instance";
 export class TelusApiUtils {
 
 
-    async processHoldOrderTask(taskObjectId) {
+    async processHoldOrderTask(taskObjectId: any) {
         console.log( `Using netcracker api to complete holorder task ${taskObjectId}`);
 
         let api =
@@ -31,7 +31,33 @@ export class TelusApiUtils {
 
     }
 
-    private async generateTAP360Headers(): any {
+    async processManualTask(taskObjectId: string) {
+        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+        let api = envConfig.processManualTaskCompletion.base + envConfig.processManualTaskCompletion.endpoint;
+        const keywordToReplace = '#TASK_OBJECT_ID#';
+        api = StringUtils.replaceString(api, keywordToReplace, taskObjectId);
+
+        const headers = await this.generateTAP360Headers();
+
+        console.log(`manual-task-api-url: ${api}`);
+
+        try {
+            const response: any = await axiosInstance({
+                method: "post",
+                url: api,
+                headers,
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+
+    }
+
+    private async generateTAP360Headers() {
         return {
             accept: "application/json",
             env: envConfig.envName
