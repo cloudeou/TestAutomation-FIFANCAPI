@@ -55,7 +55,7 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
             shoppingCartContext().resetPromotions();
         }
 
-        let response = ResponseContext().getSCresponse();
+        let response = ResponseContext().getShoppingCartResponse();
         let shoppingCartId = shoppingCartContext().getShoppingCartId();
         let responseText = JSON.stringify(response);
 
@@ -72,8 +72,8 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
             Common.checkValidResponse(prResponse, 200);
             const promoResponse = prResponse.data;
             const responseText = JSON.stringify(promoResponse, replacerFunc(), '\t');
-            ResponseContext().SCresponse = promoResponse;
-            ResponseContext().SCresponseBody = responseText;
+            ResponseContext().setShoppingCartResponse(promoResponse);
+            ResponseContext().setshopppingCartResonseText(responseText);
         } catch (error) {
             console.log(error)
         }
@@ -83,8 +83,8 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
     then(/^promotions are (applied|removed)$/, () => {
         let response: any;
         let responseText: any;
-        response = ResponseContext().getSCresponse();
-        responseText = ResponseContext().getSCresponseBody();
+        response = ResponseContext().getShoppingCartResponse();
+        responseText = ResponseContext().getshoppingCartResponseText();
         let promotions = shoppingCartContext().getPromotions();
         var addPromotion = null;
         var removePromotion = null;
@@ -106,7 +106,7 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
     and(
         /^discount savings are correct after (apply|remove) promotions$/,
         async (action) => {
-            let response = ResponseContext().getSCresponse();
+            let response = ResponseContext().getShoppingCartResponse();
             let promotionsMap = shoppingCartContext().getPromotions();
             var promotions = [];
             for (let [key, value] of promotionsMap) {

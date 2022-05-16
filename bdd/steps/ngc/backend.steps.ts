@@ -52,22 +52,23 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
         console.debug('Storing Manual Task Id');
         let incompleteorders,manualCreditTaskId: any;
         try {
-            incompleteorders = await postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
-            console.log('get correct incompleteorders');
+            incompleteorders = await postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
+            console.log('get correct incompleteorders',incompleteorders);
         }
         catch (error){
-
+            console.log(error);
+            throw error
     }
         if (!!incompleteorders && incompleteorders.length > 0) {
             try {
                 manualCreditTaskId = await postgresQueryExecutor(getManualCreditTaskId(customerId))
-                console.log('get correct manualCreditTaskId');
-            }
-            catch (error){
+                console.log('get correct manualCreditTaskId',manualCreditTaskId);
+            } catch (error) {
                 console.log(error);
                 throw error
             }
-            if (manualCreditTaskId !== null) {
+        }
+            // if (manualCreditTaskId !== null) {
         //         await tapis.processManualTask(apicfg, manualCreditTaskId);
         //         await Common.delay(5000);
         //     }
@@ -372,4 +373,5 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
     //         logger.debug('all orders are processed');
     //     }
     // });
+  })
 }

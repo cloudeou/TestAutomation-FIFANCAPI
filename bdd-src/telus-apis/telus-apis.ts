@@ -1,11 +1,12 @@
 import {envConfig} from "../env-config";
 import {StringUtils} from "../utils/common/StringUtils";
 import {axiosInstance} from "../axios-instance";
+import {KongHeaders} from "../ngc/IkongApi";
 
 export class TelusApiUtils {
 
 
-    async processHoldOrderTask(taskObjectId) {
+    async processHoldOrderTask(taskObjectId: string) {
         console.log( `Using netcracker api to complete holorder task ${taskObjectId}`);
 
         let api =
@@ -31,7 +32,7 @@ export class TelusApiUtils {
 
     }
 
-    private async generateTAP360Headers(): any {
+    private async generateTAP360Headers():  Promise<any> {
         return {
             accept: "application/json",
             env: envConfig.envName
