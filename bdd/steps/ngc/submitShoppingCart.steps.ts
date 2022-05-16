@@ -80,7 +80,7 @@ export const submitShoppingCartSteps = ({
     shoppingCartContext().setSalesOrderId(body.id);
 
     await retry(
-      async function (options) {
+      async function (options: any) {
         // options.current, times callback has been called including this call
         try {
           const response = await postgresQueryExecutor(getSalesOrderStatusQuery(body.id));

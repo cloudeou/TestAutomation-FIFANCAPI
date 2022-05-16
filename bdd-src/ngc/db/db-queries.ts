@@ -130,7 +130,7 @@ export const removePapListFlagsQuery = (ecid: number): string =>
 
 
 export const queryNcCustomerOrdersStatus = (customerId: string | null): string => {
-    let query = `
+    let query: string = `
                   SELECT
                       orders.name   orders,
                       to_char(orders.object_id),
@@ -221,15 +221,17 @@ export const queryNcCustomerOrdersStatusNeitherCompletedNorProcessed = (
     customerId: string | null,
 ):string => {
     let query = queryNcCustomerOrdersStatus(customerId);
-    query = `
+
+        query = `
+
             select * from (${query}) order_status_table
             WHERE
               upper(status) NOT LIKE '%COMPLETED%'
               AND upper(status) NOT LIKE '%PROCESSED%'
               AND upper(status) NOT LIKE '%SUPERSEDED%'`;
-    console.debug(
-        `queryNcCustomerOrdersStatusNeitherCompletedNorProcessed: ${query}`,
-    );
+        console.debug(
+            `queryNcCustomerOrdersStatusNeitherCompletedNorProcessed: ${query}`,
+        );
     return query;
 }
 
