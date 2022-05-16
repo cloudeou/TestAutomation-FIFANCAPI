@@ -19,7 +19,7 @@ export class TelusApiUtils {
         try {
             const headers = await this.generateTAP360Headers();
             const response: any = await axiosInstance({
-                method: "PUT",
+                method: "GET",
                 url: api,
                 headers,
             });

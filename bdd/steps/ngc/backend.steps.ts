@@ -3,7 +3,10 @@ import {Identificators} from "../../contexts/Identificators";
 import {AssertionModes, featureContext, postgresQueryExecutor, test} from "@cloudeou/telus-bdd";
 import ResponseContext from "../../contexts/ngc/ResponseConntext";
 import ShoppingCartContext from "../../contexts/ngc/ShoppingCartContext";
-import {queryNcCustomerOrdersStatusNeitherCompletedNorProcessed} from "../../../bdd-src/ngc/db/db-queries";
+import {
+    getManualCreditTaskId,
+    queryNcCustomerOrdersStatusNeitherCompletedNorProcessed
+} from "../../../bdd-src/ngc/db/db-queries";
 
 
 type step = (
@@ -47,25 +50,24 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
         order.customerId = customerId;
         console.debug(`Customer's internal id: ${order.customerId}`);
         console.debug('Storing Manual Task Id');
-
+        let incompleteorders,manualCreditTaskId: any;
         try {
-            const incompleteorders = await postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
+            incompleteorders = await postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
             console.log('get correct incompleteorders');
         }
         catch (error){
-        console.log(error);
-        throw error
+
     }
-
-
-
-        //
-        // if (!!incompleteorders && incompleteorders.length > 0) {
-        //     const manualCreditTaskId = await du.getManualCreditTaskId(
-        //         dbcfg,
-        //         customerId,
-        //     );
-        //     if (manualCreditTaskId !== null) {
+        if (!!incompleteorders && incompleteorders.length > 0) {
+            try {
+                manualCreditTaskId = await postgresQueryExecutor(getManualCreditTaskId(customerId))
+                console.log('get correct manualCreditTaskId');
+            }
+            catch (error){
+                console.log(error);
+                throw error
+            }
+            if (manualCreditTaskId !== null) {
         //         await tapis.processManualTask(apicfg, manualCreditTaskId);
         //         await Common.delay(5000);
         //     }

@@ -129,7 +129,7 @@ export const removePapListFlagsQuery = (ecid: number): string =>
   `update adt_migration_customers set pap_skipped=false where ecid='${ecid}'`;
 
 
-export const queryNcCustomerOrdersStatus = (customerId: string): string => {
+export const queryNcCustomerOrdersStatus = (customerId: string | null): string => {
     let query = `
                   SELECT
                       orders.name   orders,
@@ -230,5 +230,38 @@ export const queryNcCustomerOrdersStatusNeitherCompletedNorProcessed = (
     console.debug(
         `queryNcCustomerOrdersStatusNeitherCompletedNorProcessed: ${query}`,
     );
+    return query;
+}
+
+/**
+ * @param {String} customerId E.g. 9140698645013660301
+ */
+export const getManualCreditTaskId = (customerId: string | null): string => {
+    let query = `
+                  select
+                  to_char(object_id) task_id
+                  from
+                      nc_params
+                  where
+                      object_id = (
+                          select
+                              object_id
+                          from
+                              nc_objects
+                          where
+                              object_id in (
+                                  select
+                                      p.object_id
+                                  from
+                                      nc_params_ix p
+                                  where
+                                      p.attr_id = 90100082 /* Target Object */
+                                      and p.ix_key = ${customerId}
+                              )
+                              and (name like '%Credit%' or name like '%Home security%')
+                      )
+                      and attr_id = 9137996003413538340 /* Task ID */
+                `;
+    console.log(`queryManualCreditTaskId: ${query}`);
     return query;
 }
