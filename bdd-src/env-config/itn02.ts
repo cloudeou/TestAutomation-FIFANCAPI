@@ -31,5 +31,11 @@ export const envConfig = {
     },
     createCustomer: {
         baseUrl: "https://flcncapp-itn02.tsl.telus.com",
+    },
+    "releaseActivation": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/releaseActivation",
+        "contentType": "application/json",
+        "keywordsToReplace": ["#workOrderId#"]
     }
 }

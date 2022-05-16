@@ -44,5 +44,11 @@ export const envConfig = {
         "endpoint": "migration/v1/telus/gem/rest/api/fifaomsupportapi/v1/taskMarkComplete{taskId}?taskId=#TASK_OBJECT_ID#",
         "contentType": "application/json",
         "keywordsToReplace": ["#TASK_OBJECT_ID#"]
+    },
+    "releaseActivation": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/releaseActivation",
+        "contentType": "application/json",
+        "keywordsToReplace": ["#workOrderId#"]
     }
 }

@@ -37,4 +37,44 @@ export class TelusApiUtils {
             env: envConfig.envName
         };
     }
+
+    async processReleaseActivation(workOrderId: string) {
+        console.log(
+            `Using netcracker api to send release activation event for work order ${workOrderId}`,
+        );
+        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        const api = envConfig.releaseActivation.base + envConfig.releaseActivation.endpoint;
+        const contentType = {
+            "Content-Type": envConfig.releaseActivation.contentType,
+        };
+        console.log(`api-url: ${api}
+        headers: ${JSON.stringify(contentType)}`);
+
+        const keywordToReplace = envConfig.releaseActivation.keywordsToReplace[0];
+        console.log(
+            `keywords to replace in body: ${JSON.stringify(keywordToReplace)}`,
+        );
+       
+      
+        console.debug(`Hitting as below details:
+        api: ${api}
+        contentType: ${JSON.stringify(contentType)}
+        `);
+
+        try {
+            const headers = await this.generateTAP360Headers();
+            const response: any = await axiosInstance({
+                method: "POST",
+                url: api,
+                headers,
+                data: {workOrderId}
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+
+    }
 }
