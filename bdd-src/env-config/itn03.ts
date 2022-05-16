@@ -38,5 +38,11 @@ export const envConfig = {
         clientId: "816a3968-064a-4901-80b9-adf56e73d632",
         clientSecret: '412cc102-ee52-4aa4-8c23-271b40838e90cac74781-751f-4e0e-87ed-befa7f4c35bb',
         scope: 241,
+    },
+    "holdOrderTaskCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/telus/gem/rest/api/fifaomsupportapi/v1/taskMarkComplete{taskId}?taskId=#TASK_OBJECT_ID#",
+        "contentType": "application/json",
+        "keywordsToReplace": ["#TASK_OBJECT_ID#"]
     }
 }

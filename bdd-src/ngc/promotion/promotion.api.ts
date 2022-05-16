@@ -4,7 +4,6 @@ import {AxiosResponse} from "axios";
 import {axiosInstance} from "../../axios-instance";
 import {KongHeaders} from "../IkongApi";
 import {payloadGenerator} from "../promotion/promotion.payload-generator";
-import { BodyGenerator } from "../shoppingCart/shopping-cart.payload-generator";
 
 
 type PromotionParams = {

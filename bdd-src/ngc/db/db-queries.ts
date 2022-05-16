@@ -127,3 +127,108 @@ export const getPapListQuery = (): string =>
 
 export const removePapListFlagsQuery = (ecid: number): string =>
   `update adt_migration_customers set pap_skipped=false where ecid='${ecid}'`;
+
+
+export const queryNcCustomerOrdersStatus = (customerId: string): string => {
+    let query = `
+                  SELECT
+                      orders.name   orders,
+                      to_char(orders.object_id),
+                      status_id.list_value_id,
+                      lv.value      status
+                  FROM
+                      nc_objects    orders,
+                      nc_params     status_id,
+                      nc_list_values   lv
+                  WHERE
+                      orders.object_id = status_id.object_id
+                      AND status_id.attr_id = 4063055154013004350 /* Status */
+                      AND orders.object_type_id NOT IN (
+                          9134179704813622905 /* BOE Composite Order */
+                      )
+                      AND status_id.object_id IN (
+                          SELECT DISTINCT
+                              to_char(object_id)
+                          FROM
+                              nc_references
+                          WHERE
+                              attr_id = 4122753063013175631 /* Customer Account */
+                              AND reference = ${customerId}
+                      )
+                      AND lv.list_value_id = status_id.list_value_id
+                  UNION
+                  SELECT
+                      orders.name   orders,
+                      to_char(orders.object_id),
+                      status_id.list_value_id,
+                      lv.value      status
+                  FROM
+                      nc_objects    orders,
+                      nc_params     status_id,
+                      nc_list_values lv
+                  WHERE
+                      orders.object_id = status_id.object_id
+                      AND status_id.attr_id = 9124623752913888363 /* Status */
+                      AND orders.object_type_id IN (
+                          9134179704813622905 /* BOE Composite Order */
+                      )
+                      AND status_id.object_id IN (
+                          SELECT DISTINCT
+                              to_char(object_id)
+                          FROM
+                              nc_references
+                          WHERE
+                              attr_id = 4122753063013175631 /* Customer Account */
+                              AND reference = ${customerId}
+                      )
+                      AND lv.list_value_id = status_id.list_value_id
+                  UNION
+                  SELECT
+                      orders.name   orders,
+                      to_char(orders.object_id),
+                      status_id.list_value_id,
+                      lv.value      status
+                  FROM
+                      nc_objects       orders,
+                      nc_params        status_id,
+                      nc_list_values   lv
+                  WHERE
+                      orders.object_id = status_id.object_id
+                      AND status_id.attr_id = 9126090157513456523 /* Sales Order Status */
+                      AND status_id.object_id IN (
+                          SELECT
+                              to_char(object_id)
+                          FROM
+                              nc_objects
+                          WHERE
+                              parent_id IN (
+                                  SELECT
+                                      to_char(object_id)
+                                  FROM
+                                      nc_objects
+                                  WHERE
+                                      parent_id = ${customerId}
+                                      AND object_type_id = 4070674633013011019 /* Order Management Project */
+                              )
+                      )
+                      AND lv.list_value_id = status_id.list_value_id
+    `;
+    console.debug(`queryNcCustomerOrdersStatus: ${query}`);
+    return query;
+}
+
+export const queryNcCustomerOrdersStatusNeitherCompletedNorProcessed = (
+    customerId: string | null,
+):string => {
+    let query = this.queryNcCustomerOrdersStatus(customerId);
+    query = `
+            select * from (${query}) order_status_table
+            WHERE
+              upper(status) NOT LIKE '%COMPLETED%'
+              AND upper(status) NOT LIKE '%PROCESSED%'
+              AND upper(status) NOT LIKE '%SUPERSEDED%'`;
+    console.debug(
+        `queryNcCustomerOrdersStatusNeitherCompletedNorProcessed: ${query}`,
+    );
+    return query;
+}
