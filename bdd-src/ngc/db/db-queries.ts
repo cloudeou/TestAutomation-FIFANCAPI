@@ -129,8 +129,8 @@ export const removePapListFlagsQuery = (ecid: number): string =>
   `update adt_migration_customers set pap_skipped=false where ecid='${ecid}'`;
 
 
-export const queryNcCustomerOrdersStatus = (customerId: string): string => {
-    let query = `
+export const queryNcCustomerOrdersStatus = (customerId: string | null): string => {
+    let query: string = `
                   SELECT
                       orders.name   orders,
                       to_char(orders.object_id),
@@ -220,15 +220,48 @@ export const queryNcCustomerOrdersStatus = (customerId: string): string => {
 export const queryNcCustomerOrdersStatusNeitherCompletedNorProcessed = (
     customerId: string | null,
 ):string => {
-    let query = this.queryNcCustomerOrdersStatus(customerId);
-    query = `
+    let query = queryNcCustomerOrdersStatus(customerId);
+        query = `
             select * from (${query}) order_status_table
             WHERE
               upper(status) NOT LIKE '%COMPLETED%'
               AND upper(status) NOT LIKE '%PROCESSED%'
               AND upper(status) NOT LIKE '%SUPERSEDED%'`;
-    console.debug(
-        `queryNcCustomerOrdersStatusNeitherCompletedNorProcessed: ${query}`,
-    );
+        console.debug(
+            `queryNcCustomerOrdersStatusNeitherCompletedNorProcessed: ${query}`,
+        );
+    return query;
+}
+
+/**
+ * @param {String} customerId E.g. 9140698645013660301
+ */
+export const getManualCreditTaskId = (customerId: string | null): string => {
+    let query = `
+                  select
+                  to_char(object_id) task_id
+                  from
+                      nc_params
+                  where
+                      object_id = (
+                          select
+                              object_id
+                          from
+                              nc_objects
+                          where
+                              object_id in (
+                                  select
+                                      p.object_id
+                                  from
+                                      nc_params_ix p
+                                  where
+                                      p.attr_id = 90100082 /* Target Object */
+                                      and p.ix_key = ${customerId}
+                              )
+                              and (name like '%Credit%' or name like '%Home security%')
+                      )
+                      and attr_id = 9137996003413538340 /* Task ID */
+                `;
+    console.log(`queryManualCreditTaskId: ${query}`);
     return query;
 }

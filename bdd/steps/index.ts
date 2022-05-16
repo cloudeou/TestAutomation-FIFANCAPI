@@ -4,12 +4,11 @@ import {preconditionSteps} from "./ngc/precondition.steps";
 import {serviceQualificationSteps} from "./ngc/serviceQualification.steps";
 import {createShoppingCartSteps} from "./ngc/createShoppingCart.steps";
 import {shoppingCartResponseValidationSteps} from './ngc/ShoppingCartResposneValidation.steps';
-import  {updateShoppingCartSteps} from  './ngc/updateShoppingCart.steps';
+import {updateShoppingCartSteps} from  './ngc/updateShoppingCart.steps';
 import {validateShoppingCartSteps} from "./ngc/validateShoppingCart.steps";
 import {submitShoppingCartSteps} from "./ngc/submitShoppingCart.steps";
 import {productQualificationSteps} from "./ngc/productQualification.steps";
 import {createCustomerSteps} from "./ngc/createCustomer.steps";
-import {createShoppingCartSteps} from "./ngc/createShoppingCart.steps";
 import {promotionSteps} from "./ngc/promotion.steps";
 
 export default [
@@ -23,5 +22,5 @@ export default [
     submitShoppingCartSteps,
     productQualificationSteps,
     createCustomerSteps,
-    createShoppingCartSteps,
-    promotionSteps];
+    promotionSteps,
+    createCustomerSteps];
