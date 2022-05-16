@@ -1,6 +1,6 @@
 import { Identificators } from "../Identificators";
-//import {ShoppingCartApi} from "../../../bdd-src/ngc/shopping-cart-tmf/shopping-cart-tmf.api";
-import {data} from "../../../test-data/test.data";
+import ncConstants from "../../../bdd-src/utils/nc-constants";
+import {ShoppingCartApi} from "../../../bdd-src/ngc/shopping-cart/shopping-cart.api";
 
 export default class ShoppingCartContext {
   public identificator = Identificators.shoppingCartContext;
@@ -25,10 +25,10 @@ export default class ShoppingCartContext {
   private _SORecurrentPriceAlterationList: Array<string> = [];
   private _SOOneTimePriceAlterationList: Array<string> = [];
   private _existingChildOffers: Map<string, Map<string, any>> | null = new Map();
-  private _distributionChannel: string = data.distributionChannel.CSR;
+  private _distributionChannel: string = ncConstants.distributionChannel.CSR;
   private _distributionChannelExternalId: string = "";
-  private _customerCategory: string = data.customerCategory.CONSUMER;
- // private _scInstance: ShoppingCartApi = <ShoppingCartApi>(<unknown>null);
+  private _customerCategory: string = ncConstants.customerCategory.RESIDENTIAL;
+  private _shoppingCartApiInstance: ShoppingCartApi = <ShoppingCartApi>(<unknown>null);
 
 
   public set soStatus(status: string) {
@@ -109,6 +109,7 @@ export default class ShoppingCartContext {
   }
 
   public setOffersToAdd(offerList: Array<[]>, action: string) {
+    // this._offersToAdd = _offerList;
     offerList.forEach((offer) => {
       this._offersToAdd.set(String(offer), action);
     });
@@ -239,7 +240,7 @@ export default class ShoppingCartContext {
 
   public set distributionChannel(distributionChannel: string) {
     this._distributionChannel = (<{ [key: string]: any }>(
-        data.distributionChannel
+      ncConstants.distributionChannel
     ))[distributionChannel];
   }
 
@@ -263,12 +264,13 @@ export default class ShoppingCartContext {
     return this._customerCategory;
   }
 
-  // public set scInstance(scInstance: ShoppingCartApi) {
-  //   this._scInstance = scInstance;
-  // }
-  //
-  // public get scInstance(): ShoppingCartApi {
-  //   return this._scInstance;
-  // }
+  public set shoppingCartApiInstance(scInstance: ShoppingCartApi) {
+    this._shoppingCartApiInstance = scInstance;
+  }
+
+  public get shoppingCartApiInstance(): ShoppingCartApi {
+    return this._shoppingCartApiInstance;
+  }
+
 
 }

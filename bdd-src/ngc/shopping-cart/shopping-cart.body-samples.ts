@@ -1,6 +1,6 @@
 import { bodyParser } from "./shopping-cart.body-parser";
+import ncConstants from "../../utils/nc-constants";
 
-import {data} from "../../../test-data/test.data";
 // module.exports = {
 export class BodySamples {
     mainBody(
@@ -12,7 +12,7 @@ export class BodySamples {
         charItems?: Array<any>
     ) {
     const isDistChanExtId = !Object.values(
-        data.distributionChannel
+      ncConstants.distributionChannel
     ).includes(distributionChannel);
 
     return {
@@ -30,7 +30,7 @@ export class BodySamples {
       ],
       channel: {
         id: distributionChannel,
-        "@referenceType": isDistChanExtId ? "External_ID" : undefined,
+        /*"@referenceType": isDistChanExtId ? "External_ID" : undefined,*/
       },
       place: [
         {
@@ -164,7 +164,7 @@ export class BodySamples {
     distributionChannel: string
   ) {
     const isDistChanExtId = !Object.values(
-        data.distributionChannel
+      ncConstants.distributionChannel
     ).includes(distributionChannel);
 
     return {
@@ -181,7 +181,7 @@ export class BodySamples {
       ],
       channel: {
         id: distributionChannel,
-        "@referenceType": isDistChanExtId ? "External_ID" : undefined,
+        /*"@referenceType": isDistChanExtId ? "External_ID" : undefined,*/
       },
     };
   }
@@ -264,7 +264,7 @@ export class BodySamples {
     shoppingCartId?: string
   ) {
     const isDistChanExtId = !Object.values(
-        data.distributionChannel
+      ncConstants.distributionChannel
     ).includes(distributionChannel);
     const id = shoppingCartId ? { id: shoppingCartId } : undefined;
     return {

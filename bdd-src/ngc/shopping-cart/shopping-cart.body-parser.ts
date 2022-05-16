@@ -1,5 +1,3 @@
-import {AssertionModes, test} from "@cloudeou/telus-bdd";
-
 export class bodyParser {
   static getItemIdByProductOffering(response: any, productOfferingId: string) {
     if (response == null || response == undefined) {
@@ -282,40 +280,5 @@ export class bodyParser {
       //console.log(res);
       return res;
     }
-  }
-  static validateAllOffersPresentInResponse(response: any, offers: any) {
-    var flag = true;
-    let errorMessage = '';
-    if (offers !== null && offers !== undefined && offers.length > 0) {
-      offers.forEach((offer: any) => {
-        if (bodyParser.getItemIdByProductOffering(response, offer) === null) {
-          flag = false;
-          errorMessage = errorMessage + offer + ' not present\n';
-        }
-      });
-    }
-    test('All offers in response',
-        flag,
-        AssertionModes.strict).is(true, 'Response contains no offers');
-  }
-  static validateAllOffersNotPresentInResponse(response: any, offers: any) {
-    var flag = true;
-    let n: any;
-    let errorMessage = '';
-    if (offers !== null && offers !== undefined && offers.length > 0) {
-      offers.forEach((offer: any) => {
-        if (bodyParser.getItemIdByProductOffering(response, offer) !== null) {
-          n = bodyParser.getItemByProductOffering(response, offer);
-          if (
-              String(n.action).toLowerCase() !== 'cancel' &&
-              String(n.action).toLowerCase() !== 'delete'
-          ) {
-            flag = false;
-            errorMessage = errorMessage + offer + ' present\n';
-          }
-        }
-      });
-    }
-    test('All offers not in response', flag, AssertionModes.strict).is(true, 'Response contains offers')
   }
 }

@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+        "experimentalDecorators": true,
 		"target": "es2018",
 		"module": "commonjs",
 		"outDir": "./dist",
@@ -12,7 +13,7 @@
 	"exclude": [
 		".eslintrc",
 		".gitignore",
-		".npmrc",
+      ".npmrc",
 		"package-lock.json",
 		"tsconfig.json"
 	]

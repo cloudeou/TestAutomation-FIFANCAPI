@@ -3,9 +3,11 @@
 export const Identificators = {
   ProductCatalogContext: "ProductCatalogContext",
   ResponseContext: "ResponseContext",
+  ErrorContext: "ErrorContext",
+  AddressContext: "AddressContext",
+  shoppingCartContext: "shoppingCartContext",
   preConditionContext: "preConditionContext",
   reportContext: "reportContext",
-  ProductQualificationContext: "ProductQualificationContext",
-  shoppingCartContext: "shoppingCartContext",
-  ErrorContext: "ErrorContext"
+  CustomerContext: "CustomerContext",
+  ProductQualificationContext: "ProductQualificationContext"
 }

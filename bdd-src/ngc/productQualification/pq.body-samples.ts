@@ -1,4 +1,4 @@
-import { data } from "../../../test-data/test.data";
+import { data } from "../../../test-data/data";
 export class bodySamples {
      static charItem(
          charContainter: any

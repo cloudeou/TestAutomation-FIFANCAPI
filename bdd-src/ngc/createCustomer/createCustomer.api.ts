@@ -1,4 +1,4 @@
-import { data } from "../../../test-data/test.data";
+import { data } from "../../../test-data/data";
 import {envConfig} from '../../env-config';
 import { axiosInstance } from "../../axios-instance";
 import { AssertionModes, test } from "@cloudeou/telus-bdd";

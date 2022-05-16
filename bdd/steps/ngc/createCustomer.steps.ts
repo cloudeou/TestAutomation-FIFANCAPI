@@ -33,7 +33,7 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
           '@email.com';
           preconditionContext().setCustomerEmail(customerEmail);
         }
-        console.log(`Cutomer email address: ${customerEmail}`);
+        console.log(`Customer email address: ${customerEmail}`);
         const addressId = preconditionContext().getAddressId();
         
         const body = CreateCustomerSample.createCustomerBody(customerEmail, addressId);

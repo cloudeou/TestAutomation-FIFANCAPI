@@ -5,9 +5,9 @@ import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
 import {Identificators} from "../../contexts/Identificators";
 import {Common} from "../../../bdd-src/utils/commonBDD/Common";
 import PreconditionContext from "../../contexts/ngc/PreconditionContext";
-import {ProductCatalogApi} from "../../../bdd-src/ngc/productCatalog/pc.api";
 import {ProductQualificationApi} from "../../../bdd-src/ngc/productQualification/pq.api";
 import {bodyParser} from "../../../bdd-src/ngc/productQualification/pq.body-parser";
+import {AxiosResponse} from "axios";
 
 
 type step = (
@@ -60,7 +60,7 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
         ProductQualificationContext().reset();
         // externalLocationId, null, selectedOffers, null, null);
         try {
-            const pqResponse: { [key: string]: any } = await fifaNcApi.productQualification({
+            const pqResponse: AxiosResponse = await fifaNcApi.productQualification({
                 categoryList,
                 charList,
                 commitmentId,

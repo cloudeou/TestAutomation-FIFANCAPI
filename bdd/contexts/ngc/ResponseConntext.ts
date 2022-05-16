@@ -6,11 +6,12 @@ export default class ResponseContext {
     private _PCresponse: any;
     private _PCresponseBody: any;
     private _PCstatusCode: number = NaN;
-    private createCustomerResponse: { [key: string]: any } = {};
 
-    private _SCresponse: any;
-    private _SCresponseBody: any;
+    private _shoppingCartResponseBody: JSON | null = null;
+    private _shoppingCartResponseText: string | null = null;
     private _SCstatusCode: number = NaN;
+
+    private createCustomerResponse: { [key: string]: any } = {};
 
     private _PQresponse: any;
     private _PQresponseBody: any;
@@ -56,40 +57,14 @@ export default class ResponseContext {
         return this._PCstatusCode;
     }
 
-    public get SCresponse() {
-        return this._SCresponse;
-    }
-
-    public getSCresponse() {
-        return this._SCresponse;
-    }
-
-    public set SCresponse(response: any) {
-        this._SCresponse = response;
-    }
-
-    public get SCresponseBody(): any {
-        return this._SCresponseBody;
-    }
-
-    public getSCresponseBody(): any {
-        return this._SCresponseBody;
-    }
-
-    public set SCresponseBody(response: any) {
-        this._SCresponseBody = response;
-    }
-
     public get SCstatusCode(): number {
         return this._SCstatusCode;
     }
-    public set SCstatusCode(code: any) {
+    public set SCstatusCode(code: number) {
         this._SCstatusCode = code;
     }
 
-
-
-    public setResponse(apiName: string, response: any) {
+    /*public setResponse(apiName: string, response: any) {
         switch (apiName) {
             case APIs.pc: {
                 this._PCresponse = response;
@@ -109,7 +84,7 @@ export default class ResponseContext {
                 this._PQstatusCode = response.status;
             }
         }
-    }
+    }*/
 
     public getResponse(apiName: APIs) {
         switch (apiName) {
@@ -121,10 +96,28 @@ export default class ResponseContext {
                 };
         }
     }
+
+    public getShoppingCartResponse() {
+        return this._shoppingCartResponseBody;
+    }
+
+    public setShoppingCartResponse(value: JSON | null) {
+        this._shoppingCartResponseBody = value;
+    }
+
+    public getshoppingCartResponseText() {
+        return this._shoppingCartResponseText;
+    }
+
+    public setshopppingCartResonseText(value: string | null) {
+        this._shoppingCartResponseText = value;
+    }
+
     public getCreateCustomerResponse() {
         return this.createCustomerResponse;
-      }
+    }
+
     public setCreateCustomerResponse(value: object) {
         this.createCustomerResponse = value;
-      }
+    }
 }

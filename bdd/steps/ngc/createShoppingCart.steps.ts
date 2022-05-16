@@ -4,11 +4,10 @@ import PreconditionContext  from '../../contexts/ngc/PreconditionContext';
 import ResponseContext from '../../contexts/ngc/ResponseConntext';
 import ShoppingCartContext from '../../contexts/ngc/ShoppingCartContext';
 import ErrorContext from "../../contexts/ngc/ErrorContext";
-import { ErrorStatus } from "../../../test-data/error-status";
+import { ErrorStatus } from "../../../bdd-src/utils/error-status";
 import { Common } from "../../../bdd-src/utils/commonBDD/Common";
+import { ShoppingCartApi } from "../../../bdd-src/ngc/shopping-cart/shopping-cart.api";
 import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
-import {ShoppingCartApi} from "../../../bdd-src/ngc/shoppingCart/shopping-cart.api";
-import {bodyParser} from "../../../bdd-src/ngc/shoppingCart/shopping-cart.body-parser";
 
 type step = (
   stepMatcher: string | RegExp,
@@ -41,7 +40,6 @@ export const createShoppingCartSteps = ({
     );
     shoppingCartContext().setOffersToAdd(productOfferingList, 'Add');
     shoppingCartContext().setAddingOffer();
-
   });
 
   and(/^user select commitments in (.*) period:$/, (type, table) => {
@@ -89,8 +87,21 @@ export const createShoppingCartSteps = ({
     shoppingCartContext().setAddingCharMap();
   });
 
+  then('user try to delete Shopping Cart context', async () => {
+    shoppingCartContext().setShoppingCartId(null);
+    responseContext().setShoppingCartResponse(null);
+    responseContext().setshopppingCartResonseText(null);
+    shoppingCartContext().setExistingChildOffers(null);
+    shoppingCartContext().resetOffersToAdd();
+    shoppingCartContext().setCharMap(null);
+    shoppingCartContext().resetChildOffers();
+    shoppingCartContext().clearAddingOffer();
+    shoppingCartContext().clearAddingChild();
+    shoppingCartContext().clearAddingCharMap();
+  });
 
   when('user try to create Shopping Cart', async () => {
+    shoppingCartContext().shoppingCartApiInstance = shoppingCartApi;
     let externalLocationId = preconditionContext().getAddressId();
     let distributionChannel = preconditionContext().getDistributionChannel();
     let distributionChannelExternalId = preconditionContext().getDistributionChannelExternalId();
@@ -123,7 +134,6 @@ export const createShoppingCartSteps = ({
 
 
     //console.log('BODY IN CREATE:\n' + JSON.stringify(body));
-
 
     try {
       const response = await shoppingCartApi.createShoppingCart({
@@ -159,41 +169,38 @@ export const createShoppingCartSteps = ({
 
       let shoppingCartId = body.id;
       console.log(shoppingCartId);
+      shoppingCartApi.shoppingCartId = shoppingCartId;
       shoppingCartContext().setShoppingCartId(shoppingCartId);
-      responseContext().SCresponse = response.data;
-      responseContext().SCresponseBody = responseText;
+      responseContext().setShoppingCartResponse(response.data);
+      responseContext().setshopppingCartResonseText(responseText);
       let existingChildOfferMap = Common.createExistingChildOffersMap(
         response.data,
       );
       shoppingCartContext().setExistingChildOffers(existingChildOfferMap);
+
+
     }
     catch (error: any) {
-      console.log('inside catch')
       console.log(error)
       errorContext().error = error;
       errorContext().status = ErrorStatus.failed;
       responseContext().SCstatusCode = error.response.status;
-      responseContext().SCresponse = error.response.data;
-      responseContext().SCresponseBody = error.response.data;
+      responseContext().setShoppingCartResponse(error.response.data);
     }
   })
-  //
-  //
-  //
+
+
+
   then('validate shopping cart is created successfully', async () => {
-    console.log('validate shopping cart is created successfully');
-    let response: any = responseContext().getSCresponse();
-    console.log(JSON.stringify(response));
+    let response: any;
+    response = responseContext().getShoppingCartResponse();
+    //console.log(JSON.stringify(response));
     let salesOrderRecurrentPrice =
       response.cartTotalPrice[0].price.dutyFreeAmount.value;
-    console.log("salesOrderRecurrentPrice",salesOrderRecurrentPrice);
     let salesOrderOneTimePrice =
       response.cartTotalPrice[1].price.dutyFreeAmount.value;
-    console.log("salesOrderOneTimePrice",salesOrderOneTimePrice);
     let SORecurrentPriceAlteration = response.cartTotalPrice[0].priceAlteration;
-    console.log("SORecurrentPriceAlteration",SORecurrentPriceAlteration);
     let SOOneTimePriceAlteration = response.cartTotalPrice[1].priceAlteration;
-    console.log("SOOneTimePriceAlteration",SOOneTimePriceAlteration);
     shoppingCartContext().setOriginalSalesOrderRecurrentPrice(
       salesOrderRecurrentPrice,
     );
@@ -206,12 +213,9 @@ export const createShoppingCartSteps = ({
     shoppingCartContext().setSOOneTimePriceAlterationList(
       SOOneTimePriceAlteration,
     );
-    console.log("after");
 
-    let responseText = responseContext().getSCresponseBody();
-    console.log("get body");
+    let responseText = responseContext().getshoppingCartResponseText();
     const offers = shoppingCartContext().getOffersToAdd();
-    console.log("getOffersToAdd")
     const offerList = [];
     const offersDeleted = [];
     for (let [key, value] of offers) {
@@ -226,8 +230,8 @@ export const createShoppingCartSteps = ({
     test('SC should have OPEN status',response.status, AssertionModes.strict)
       .is('OPEN','SC should have OPEN status\n' + responseText)
 
-    bodyParser.validateAllOffersPresentInResponse(response, offerList);
-    bodyParser.validateAllOffersNotPresentInResponse(response, offersDeleted);
+    Common.validateAllOffersPresentInResponse(response, offerList);
+    Common.validateAllOffersNotPresentInResponse(response, offersDeleted);
     //Common.validateTheCharMapInResponse(response, charMap);
 
     if (Common.checkIfHasShippmentOrder(response)) {
@@ -268,7 +272,7 @@ export const createShoppingCartSteps = ({
       charMap = shoppingCartContext().getCharMap()!;
       let customerAccountECID = preconditionContext().getExternalCustomerId();
       let childOfferMap = shoppingCartContext().getChildOfferMap();
-      let response = responseContext().SCresponse().data;
+      let response = responseContext().getShoppingCartResponse();
       let shoppingCartId = shoppingCartContext().getShoppingCartId();
       let responseText = JSON.stringify(response);
       if (responseText.includes(customerAccountECID)) {
@@ -295,8 +299,8 @@ export const createShoppingCartSteps = ({
         const body = response.data;
         const responseText = JSON.stringify(response, null, '\t');
 
-        responseContext().SCresponse = response.data;
-        responseContext().SCresponseBody = responseText;
+        responseContext().setShoppingCartResponse(response.data);
+        responseContext().setshopppingCartResonseText(responseText);
 
       }
       catch (error) {

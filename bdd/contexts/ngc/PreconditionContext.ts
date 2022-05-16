@@ -1,5 +1,5 @@
 import { Identificators } from "../Identificators";
-import { data } from "../../../test-data/test.data";
+import { data } from "../../../test-data/data";
 
 
 export default class PreconditionContext {
@@ -22,6 +22,9 @@ export default class PreconditionContext {
     private externalCustomerId: any;
     private customerObjectId: string | null = null;
     private customerEmail: string = '';
+    private _errors: string[] = [];
+    private _bootstrapData: Object = {};
+    private _emailId: string = '';
 
 
     public setStreetNumberId(value: bigint) {
@@ -169,12 +172,47 @@ export default class PreconditionContext {
     public getCustomerObjectId() {
         return this.customerObjectId;
       }
-    public setCustomerEmail(value: string) {
-        this.customerEmail = value;
-      }
-    public getCustomerEmail() {
-        return this.customerEmail;
-      }
-    
-   
+
+  public getCustomerEmail() {
+    return this.customerEmail;
+  }
+
+  public setCustomerEmail(value: string) {
+    this.customerEmail = value;
+  }
+
+  public getEmailId() {
+    return this._emailId;
+  }
+
+  public setEmailId(value: string) {
+    this._emailId = value;
+  }
+
+  public getErrors() {
+    return this._errors;
+  }
+  public setErrors(error: string) {
+    this._errors.push(error);
+  }
+
+  public setBootstrapData() {
+    try {
+      const tempData: Object[] = JSON.parse(process.env.bootstrapParams!);
+      this._bootstrapData = tempData.pop()!;
+      process.env.bootstrapParams = JSON.stringify(tempData);
+    } catch (error) {
+      throw Error('No Bootstrap Data found in env!');
+    }
+  }
+  public getBootstrapData(key: string) {
+    const value = (this._bootstrapData as any)[key];
+
+    if (value !== undefined) {
+      return value;
+    } else {
+      throw Error(`No value found in getBootstrapData method by key ${key}`);
+    }
+  }
+
 }
