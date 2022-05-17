@@ -10,6 +10,7 @@ import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJson
 import { getSalesOrderStatusQuery } from "../../../bdd-src/ngc/db/db-queries";
 import {AxiosResponse} from "axios";
 import retry from 'retry-as-promised';
+import {DbProxyApi} from "../../../bdd-src/ngc/db/db-proxy-api/db-proxy.api";
 
 type step = (
   stepMatcher: string | RegExp,
@@ -31,6 +32,7 @@ export const submitShoppingCartSteps = ({
     featureContext().getContextById(Identificators.shoppingCartContext);
   const errorContext = (): ErrorContext =>
     featureContext().getContextById(Identificators.ErrorContext);
+  const dbProxy = new DbProxyApi();
 
   when('user try to submit shopping cart', async () => {
     const shoppingCartId = shoppingCartContext().getShoppingCartId();
@@ -83,7 +85,7 @@ export const submitShoppingCartSteps = ({
       async function (options: any) {
         // options.current, times callback has been called including this call
         try {
-          const response = await postgresQueryExecutor(getSalesOrderStatusQuery(body.id));
+          const response = await dbProxy.executeQuery(getSalesOrderStatusQuery(body.id));
           let filteredResponse = String(response).replace('6#009B00$', '');
           if (
             !(

@@ -52,7 +52,7 @@ export class TelusApiUtils {
             const response: any = await axiosInstance({
                 method: "post",
                 url: api,
-                headers,
+                headers: {...headers, 'Content-Type': 'text/plain'},
             });
             return response;
         } catch (error) {
@@ -160,6 +160,8 @@ export class TelusApiUtils {
               backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
           }
         );
+
+        console.log(`processworkorder is ${response.data}`)
 
         return response;
 

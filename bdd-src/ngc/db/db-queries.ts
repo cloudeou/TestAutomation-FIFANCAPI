@@ -272,23 +272,24 @@ export const getManualCreditTaskId = (customerId: string | null): string => {
 export const getWorkOrderNumbersNotCompleted = (customerInternalId: string) => {
     let query = `
                   SELECT
-                      p.value       AS work_order_number,
-                      to_char(o.object_id)   AS object_id,
-                      o.name as orderName
-                  FROM
-                      nc_objects   o,
-                      nc_params    p,
-                      nc_params    pp
-                  WHERE
-                      o.parent_id = ${customerInternalId}
-                      and o.object_type_id = 9138418725413841757 /* New/Modify Work Order */
-                      and p.attr_id = 9138427811113852870 /* Work Order ID */
-                      and o.object_id = p.object_id
-                      and o.object_id = pp.object_id
-                      and pp.attr_id = 4063055154013004350 /* Status */
-                      AND pp.list_value_id NOT IN (
-                          4121046730013113091 /* Completed */
-                      )
+                          p.value       AS work_order_number,
+                          to_char(o.object_id)   AS object_id,
+                          o.name as orderName
+                      FROM
+                          nc_objects   o,
+                          nc_params    p,
+                          nc_params    pp
+                      WHERE
+                          o.parent_id = ${customerInternalId}
+                          and o.object_type_id = 9138418725413841757 /* New/Modify Work Order */
+                          and p.attr_id = 9138427811113852870 /* Work Order ID */
+                          and o.object_id = p.object_id
+                          and o.object_id = pp.object_id
+                          and pp.attr_id = 4063055154013004350 /* Status */
+                          AND pp.list_value_id NOT IN (
+                              4121046730013113091 /* Completed */
+                          )
+
                 `;
     console.log(`queryWorkOrderNumberFromCustomerInternalId: ${query}`);
     return query;

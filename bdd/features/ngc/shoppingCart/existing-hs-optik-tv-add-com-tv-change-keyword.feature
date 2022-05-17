@@ -9,7 +9,7 @@ Feature: Existing customer with active HS+Optik TV change TLO
 #    And distribution channel is CSR
     And distribution channel is PILOT3RT
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5481938'
+    When get address based on entered data: '5481293'
     Then address id should be returned
 
   Scenario: Check service qualification for an address

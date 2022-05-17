@@ -55,4 +55,10 @@ export const envConfig = {
         "endpoint": "migration/v1/workOrderCompletion",
         "contentType": "application/json",
     },
+    dbApi: {
+        baseUrl: "https://apigw-st.tsl.telus.com/service/adtMigration/v1",
+        clientId: "5fba5d2a-9c9a-4829-aa16-96e9c34fb14d",
+        clientSecret: '10a7c574-2393-4974-a539-38fd1219c41fa9a2f716-a38c-4192-8b71-37d75f53f1b2',
+        scope: 2189,
+    },
 }

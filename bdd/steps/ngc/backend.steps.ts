@@ -59,6 +59,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     let incompleteorders, manualCreditTaskId: any;
     try {
       const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
+      await Common.delay(5000)
       incompleteorders = response.data.rows[0];
       console.log('get correct incompleteorders', incompleteorders);
     } catch (error) {
@@ -68,6 +69,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     }
     if (!!incompleteorders && incompleteorders.length > 0) {
       try {
+        await Common.delay(15000)
         const response = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
         manualCreditTaskId = response.data.rows[0];
         console.log('get correct manualCreditTaskId', manualCreditTaskId);
@@ -76,9 +78,10 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
         throw error
       }
 
-      if (manualCreditTaskId !== null) {
+      if (manualCreditTaskId !== null && manualCreditTaskId !== undefined) {
+        await Common.delay(10000)
         await tapis.processManualTask(manualCreditTaskId);
-        await Common.delay(5000);
+        await Common.delay(15000);
       }
       let pendingWorkOrders: any;
 
@@ -88,14 +91,15 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
 
           try {
             const response = await dbProxy.executeQuery(getWorkOrderNumbersNotCompleted(customerId));
-
-            if (response.data.rows[0].length === undefined) {
+            const workOrderNumbersNotCompleted = response.data.rows[0];
+            console.log('getWorkOrderNumbersNotCompleted',response.data)
+            if (workOrderNumbersNotCompleted.length === undefined) {
               throw 'Got pending work orders as undefined' + response;
             }
-            pendingWorkOrders = response;
+            pendingWorkOrders = workOrderNumbersNotCompleted;
 
 
-            return response
+            return workOrderNumbersNotCompleted
 
           } catch (error: any) {
             console.log(error)
@@ -116,41 +120,50 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
               pendingWorkOrders.length > 0
           ) {
               for (let orIndex = 0; orIndex < pendingWorkOrders.length; orIndex++) {
-                  let workOrderNumber = pendingWorkOrders[orIndex][0];
-                  const workOrderName = pendingWorkOrders[orIndex][2];
-                  if (workOrderName.toLowerCase().includes('work order')) {
+
+                const pendingWorkOrder = pendingWorkOrders[orIndex]
+
+                  if (pendingWorkOrder.toLowerCase().includes('work order')) {
+
+                    let workOrderNumber = pendingWorkOrder.split(',')[0];
+                    const workOrderName = pendingWorkOrder.split(',')[2];
 
                       await retry(
                           async function (options) {
                               // options.current, times callback has been called including this call
 
                             try {
-                              const ordersnotprocessed: any = postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId))
+                              const response: AxiosResponse = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId))
 
-                              for (
-                                let orIndex = 0;
-                                orIndex < ordersnotprocessed.length;
-                                orIndex++
-                              ) {
-                                const orderInternalId = ordersnotprocessed[orIndex][1];
-                                const orderName = ordersnotprocessed[orIndex][0];
-                                if (orderName.toLowerCase().includes('work order')) {
+                              console.log('queryNcCustomerOrdersStatusNeitherCompletedNorProcessed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', response.data)
 
-                                  let query = `select to_char(status) from nc_po_Tasks where order_id = ${orderInternalId} and name = 'Wait for Release Activation notification'`;
-                                  const response = await postgresQueryExecutor(query)
-                                  if (response.length === undefined) {
-                                    throw (
-                                      'Got task release activation as undefined' + response
-                                    );
-                                  }
-                                  const status = response;
-                                  if (status != '9130031781613016721') {
-                                    throw new Error(
-                                      'Wait for release activation is not in waiting state',
-                                    );
+                              const arrayOfArraysWithOrdersnotprocessed = response.data.rows[0]
+
+                              for(const arrayWithOrdersnotprocessed of arrayOfArraysWithOrdersnotprocessed) {
+                                for (let orIndex = 0; orIndex < arrayWithOrdersnotprocessed.length; orIndex++) {
+                                  const orderNotProcessed = arrayWithOrdersnotprocessed[orIndex]
+
+                                  const orderInternalId = orderNotProcessed.split(',')[1];
+                                  const orderName = orderNotProcessed.split(',')[0];
+                                  if (orderName.toLowerCase().includes('work order')) {
+
+                                    let query = `select to_char(status) from nc_po_Tasks where order_id = ${orderInternalId} and name = 'Wait for Release Activation notification'`;
+                                    const response = await dbProxy.executeQuery(query)
+                                    const status = response.data.rows[0].length;
+                                    if (status === undefined) {
+                                      throw (
+                                        'Got task release activation as undefined' + response
+                                      );
+                                    }
+                                    if (status != '9130031781613016721') {
+                                      throw new Error(
+                                        'Wait for release activation is not in waiting state',
+                                      );
+                                    }
                                   }
                                 }
                               }
+
                             }
                             catch (e) {
                               console.log(e)
