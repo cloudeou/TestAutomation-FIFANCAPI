@@ -67,111 +67,111 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       console.log(error);
       throw error
     }
-    if (!!incompleteorders && incompleteorders.length > 0) {
-      try {
-        const response = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
-        manualCreditTaskId = response.data.rows[0];
-        console.log('get correct manualCreditTaskId', manualCreditTaskId);
-      } catch (error) {
-        console.log(error);
-        throw error
-      }
+    // if (!!incompleteorders && incompleteorders.length > 0) {
+    //   try {
+    //     const response = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
+    //     manualCreditTaskId = response.data.rows[0];
+    //     console.log('get correct manualCreditTaskId', manualCreditTaskId);
+    //   } catch (error) {
+    //     console.log(error);
+    //     throw error
+    //   }
 
-      if (manualCreditTaskId !== null) {
-        await tapis.processManualTask(manualCreditTaskId);
-        await Common.delay(5000);
-      }
-      let pendingWorkOrders: any;
+    //   if (manualCreditTaskId !== null) {
+    //     await tapis.processManualTask(manualCreditTaskId);
+    //     await Common.delay(5000);
+    //   }
+    //   let pendingWorkOrders: any;
 
-      await retry(
-        async function (options) {
-          // options.current, times callback has been called including this call
+    //   await retry(
+    //     async function (options) {
+    //       // options.current, times callback has been called including this call
 
-          try {
-            const response = await dbProxy.executeQuery(getWorkOrderNumbersNotCompleted(customerId));
+    //       try {
+    //         const response = await dbProxy.executeQuery(getWorkOrderNumbersNotCompleted(customerId));
 
-            if (response.data.rows[0].length === undefined) {
-              throw 'Got pending work orders as undefined' + response;
-            }
-            pendingWorkOrders = response;
+    //         if (response.data.rows[0].length === undefined) {
+    //           throw 'Got pending work orders as undefined' + response;
+    //         }
+    //         pendingWorkOrders = response;
 
 
-            return response
+    //         return response
 
-          } catch (error: any) {
-            console.log(error)
-            // errorContext().status = ErrorStatus.skipped;
-            // errorContext().error = `Error while getting sales order status from DB: ${JSON.stringify(error)}`;
-          }
-        },
-        {
-          max: 5, // maximum amount of tries
-          timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
-          backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
-        },
-      );
+    //       } catch (error: any) {
+    //         console.log(error)
+    //         // errorContext().status = ErrorStatus.skipped;
+    //         // errorContext().error = `Error while getting sales order status from DB: ${JSON.stringify(error)}`;
+    //       }
+    //     },
+    //     {
+    //       max: 5, // maximum amount of tries
+    //       timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
+    //       backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
+    //     },
+    //   );
 
-          if (
-              pendingWorkOrders !== null &&
-              pendingWorkOrders !== undefined &&
-              pendingWorkOrders.length > 0
-          ) {
-              for (let orIndex = 0; orIndex < pendingWorkOrders.length; orIndex++) {
-                  let workOrderNumber = pendingWorkOrders[orIndex][0];
-                  const workOrderName = pendingWorkOrders[orIndex][2];
-                  if (workOrderName.toLowerCase().includes('work order')) {
+        //   if (
+        //       pendingWorkOrders !== null &&
+        //       pendingWorkOrders !== undefined &&
+        //       pendingWorkOrders.length > 0
+        //   ) {
+        //       for (let orIndex = 0; orIndex < pendingWorkOrders.length; orIndex++) {
+        //           let workOrderNumber = pendingWorkOrders[orIndex][0];
+        //           const workOrderName = pendingWorkOrders[orIndex][2];
+        //           if (workOrderName.toLowerCase().includes('work order')) {
 
-                      await retry(
-                          async function (options) {
-                              // options.current, times callback has been called including this call
+        //               await retry(
+        //                   async function (options) {
+        //                       // options.current, times callback has been called including this call
 
-                            try {
-                              const ordersnotprocessed: any = postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId))
+        //                     try {
+        //                       const ordersnotprocessed: any = postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId))
 
-                              for (
-                                let orIndex = 0;
-                                orIndex < ordersnotprocessed.length;
-                                orIndex++
-                              ) {
-                                const orderInternalId = ordersnotprocessed[orIndex][1];
-                                const orderName = ordersnotprocessed[orIndex][0];
-                                if (orderName.toLowerCase().includes('work order')) {
+        //                       for (
+        //                         let orIndex = 0;
+        //                         orIndex < ordersnotprocessed.length;
+        //                         orIndex++
+        //                       ) {
+        //                         const orderInternalId = ordersnotprocessed[orIndex][1];
+        //                         const orderName = ordersnotprocessed[orIndex][0];
+        //                         if (orderName.toLowerCase().includes('work order')) {
 
-                                  let query = `select to_char(status) from nc_po_Tasks where order_id = ${orderInternalId} and name = 'Wait for Release Activation notification'`;
-                                  const response = await postgresQueryExecutor(query)
-                                  if (response.length === undefined) {
-                                    throw (
-                                      'Got task release activation as undefined' + response
-                                    );
-                                  }
-                                  const status = response;
-                                  if (status != '9130031781613016721') {
-                                    throw new Error(
-                                      'Wait for release activation is not in waiting state',
-                                    );
-                                  }
-                                }
-                              }
-                            }
-                            catch (e) {
-                              console.log(e)
-                              throw e
-                            }
-                          },
-                          {
-                              max: 5, // maximum amount of tries
-                              timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
-                              backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
-                          },
-                      );
+        //                           let query = `select to_char(status) from nc_po_Tasks where order_id = ${orderInternalId} and name = 'Wait for Release Activation notification'`;
+        //                           const response = await postgresQueryExecutor(query)
+        //                           if (response.length === undefined) {
+        //                             throw (
+        //                               'Got task release activation as undefined' + response
+        //                             );
+        //                           }
+        //                           const status = response;
+        //                           if (status != '9130031781613016721') {
+        //                             throw new Error(
+        //                               'Wait for release activation is not in waiting state',
+        //                             );
+        //                           }
+        //                         }
+        //                       }
+        //                     }
+        //                     catch (e) {
+        //                       console.log(e)
+        //                       throw e
+        //                     }
+        //                   },
+        //                   {
+        //                       max: 5, // maximum amount of tries
+        //                       timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
+        //                       backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
+        //                   },
+        //               );
 
-                      await Common.delay(10000);
-                      await tapis.processReleaseActivation(workOrderNumber);
-                      await Common.delay(10000);
-                      await tapis.processWorkOrder(workOrderNumber);
-                  }
-              }
-          }
+        //               await Common.delay(10000);
+        //               await tapis.processReleaseActivation(workOrderNumber);
+        //               await Common.delay(10000);
+        //               await tapis.processWorkOrder(workOrderNumber);
+        //           }
+        //       }
+        //   }
       
               let allPendingOrders;
               console.debug('Getting pending orders');
@@ -204,32 +204,39 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                           );
                           await tapis.processReleaseActivation(orderInternalId);
                           // logger.debug('Getting shipment order and purchase no.');
-                          const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId)) 
-                          const res = { shipmentOrderNumber: result.data[0][0], purchaseeOrderNumber: result.data[0][1] }
-                          await Common.delay(10000);
-                          await tapis.processShipmentOrder(
-                              res.shipmentOrderNumber,
-                              res.purchaseeOrderNumber,
-                          );
+                          try {
+                            const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId)) 
                             console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
+                            const res = { shipmentOrderNumber: result.data[0][0], purchaseeOrderNumber: result.data[0][1] }
                             console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(res))
+                            await Common.delay(10000);
+                            await tapis.processShipmentOrder(
+                                res.shipmentOrderNumber,
+                                res.purchaseeOrderNumber,
+                            );
+                          } catch (error) {
+          
+                            console.log(error);
+                            throw error
+                          }
+                    
 
                           // Hit shipment order completion
-                          console.debug('Getting HoldOrderTaskNumber');
-                          await Common.delay(10000);
-                          const holdordertask = await postgresQueryExecutor(getHoldOrderTaskNumber(res.purchaseeOrderNumber)) 
-                          console.log("holdordertask " + holdordertask);
-                          try {
-                              console.debug('Processing Hold order task: ' + holdordertask);
-                              await tapis.processHoldOrderTask(holdordertask);
-                          } catch (err) {
-                              //logger.debug(JSON.stringify(err));
-                              console.log(err)
-                              throw err
-                          }
-                          console.debug(
-                              'Processing shipment order no. ' + res.shipmentOrderNumber,
-                          );
+                        //   console.debug('Getting HoldOrderTaskNumber');
+                        //   await Common.delay(10000);
+                        //   const holdordertask = await postgresQueryExecutor(getHoldOrderTaskNumber(res.purchaseeOrderNumber)) 
+                        //   console.log("holdordertask " + holdordertask);
+                        //   try {
+                        //       console.debug('Processing Hold order task: ' + holdordertask);
+                        //       await tapis.processHoldOrderTask(holdordertask);
+                        //   } catch (err) {
+                        //       //logger.debug(JSON.stringify(err));
+                        //       console.log(err)
+                        //       throw err
+                        //   }
+                        //   console.debug(
+                        //       'Processing shipment order no. ' + res.shipmentOrderNumber,
+                        //   );
       
                           // Wait for 10 seconds to get completedawait
                           await tapis.wait(10000);
@@ -373,7 +380,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       //         shoppingCartContext().setAllPendingOrders([]);
       //         logger.debug('all orders are processed');
       //     }
-    }
+    // }
 
   })
 }

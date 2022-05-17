@@ -80,9 +80,9 @@ Feature: Existing customer with active HS+Optik TV change TLO
   Scenario: Check backend orders validation 1
     Given preconditions by user are selected
     When try to complete sales order on BE
-    Then validate that no errors created on BE
-    And validate that all orders are completed successfully
-    And validate that all billing actions completed successfully
+    # Then validate that no errors created on BE
+    # And validate that all orders are completed successfully
+    # And validate that all billing actions completed successfully
 
 #  Scenario: Create same SC
 #    Given preconditions by user are selected
