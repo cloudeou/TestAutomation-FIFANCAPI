@@ -294,3 +294,34 @@ export const getWorkOrderNumbersNotCompleted = (customerInternalId: string) => {
     console.log(`queryWorkOrderNumberFromCustomerInternalId: ${query}`);
     return query;
 }
+
+export const getShipmentOrderNumberAndPurchaseOrderNumber = (shipmentObjectId: string) => {
+  let query = `
+                SELECT
+                    to_char(value) AS shipmentordernumber,
+                    to_char(${shipmentObjectId}) as purchaseOrderNumber
+                FROM
+                    nc_params
+                WHERE
+                    object_id = ${shipmentObjectId}
+                AND attr_id = (
+                SELECT
+                    attr_id
+                FROM
+                    nc_attributes
+                WHERE
+                    name = 'Shipment Order Number'
+                )
+              `;
+    console.log(`getShipmentOrderNumberAndPurchaseOrderNumber: ${query}`);
+    return query;
+
+}
+
+export const getHoldOrderTaskNumber = (purchaseeOrderNumber: any) => {
+  let query = `     
+  select to_char(task_id) from nc_po_Tasks where order_id = ${purchaseeOrderNumber} and name = 'Hold Order Completion'    
+          `;
+    console.log(`getHoldOrderTaskNumber: ${query}`);
+    return query;
+}
