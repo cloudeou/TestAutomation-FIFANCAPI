@@ -177,11 +177,12 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
               console.debug('Getting pending orders');
               await Common.delay(10000);
               try {
-                let response = await postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
-                if (response.length === undefined) {
+                const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
+                if (response.data.rows.length === undefined) {
                     throw 'Got pending orders as undefined' + response;
                 }
-                allPendingOrders = response;
+                allPendingOrders = response.data.rows;
+                console.log('allPendingOrders '+ allPendingOrders)
               } catch (error) {
           
                 console.log(error);
@@ -203,19 +204,21 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                           );
                           await tapis.processReleaseActivation(orderInternalId);
                           // logger.debug('Getting shipment order and purchase no.');
-                          const result = await postgresQueryExecutor(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId)) 
-                          const res = { shipmentOrderNumber: result[0][0], purchaseeOrderNumber: result[0][1] }
+                          const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId)) 
+                          const res = { shipmentOrderNumber: result.data[0][0], purchaseeOrderNumber: result.data[0][1] }
                           await Common.delay(10000);
                           await tapis.processShipmentOrder(
                               res.shipmentOrderNumber,
                               res.purchaseeOrderNumber,
                           );
-      
+                            console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
+                            console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(res))
+
                           // Hit shipment order completion
                           console.debug('Getting HoldOrderTaskNumber');
                           await Common.delay(10000);
                           const holdordertask = await postgresQueryExecutor(getHoldOrderTaskNumber(res.purchaseeOrderNumber)) 
-                          console.log(holdordertask);
+                          console.log("holdordertask " + holdordertask);
                           try {
                               console.debug('Processing Hold order task: ' + holdordertask);
                               await tapis.processHoldOrderTask(holdordertask);
@@ -234,6 +237,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                   }
               }
       //
+
+
       //         await retry(
       //             async function (options) {
       //                 // options.current, times callback has been called including this call
