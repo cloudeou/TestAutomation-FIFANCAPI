@@ -111,36 +111,20 @@ export class TelusApiUtils {
 
     }
 
-    async processWorkOrder(workOrderNumber) {
+    async processWorkOrder(workOrderId: string) {
         // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-        const api = cfg.workOrderCompletion.base + cfg.workOrderCompletion.endpoint;
+        const api = envConfig.workOrderCompletion.base + envConfig.workOrderCompletion.endpoint;
         const contentType = {
-            "Content-Type": cfg.workOrderCompletion.contentType,
+            "Content-Type": envConfig.workOrderCompletion.contentType,
         };
 
-        const keywordToReplace = cfg.workOrderCompletion.keywordsToReplace[0];
 
-        let rawBody = FileSystem.readFileSync(
-          cfg.workOrderCompletion.fileForBody
-        ).toString();
-        rawBody = StringUtils.replaceString(
-          rawBody,
-          keywordToReplace,
-          workOrderNumber
-        );
-        rawBody = rawBody.replace(/\r?\n|\r/g, ' ');
-
-        // const response = await request("post", api).set(contentType).send(rawBody);
-        const response = await this.postNgetResponse(api, contentType, rawBody);
-
-        return response;
-    }
-
-    async postNgetResponse(api: string, contentType: object, rawBody: any) {
         const headers = await this.generateTAP360Headers();
+        const body = JSON.stringify({workOrderId})
 
         let response: any;
+
         await retry(
           async function (options) {
 
@@ -149,7 +133,7 @@ export class TelusApiUtils {
                       method: "POST",
                       url: api,
                       headers: {...headers, ...contentType},
-                      data: {rawBody}
+                      data: body
                   });
 
                   if (resp.status === 200) {
@@ -165,7 +149,7 @@ export class TelusApiUtils {
                     "\nContentType: " +
                     contentType +
                     "\nrawBody: " +
-                    rawBody +
+                    body +
                     "\nERROR: " +
                     error
                   );
@@ -177,7 +161,10 @@ export class TelusApiUtils {
               backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
           }
         );
+
         return response;
+
+
     }
 
     async processShipmentOrder(orderNumber: string, purchaseOrderNumber: string) {

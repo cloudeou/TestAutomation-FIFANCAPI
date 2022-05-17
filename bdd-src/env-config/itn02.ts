@@ -32,6 +32,18 @@ export const envConfig = {
     createCustomer: {
         baseUrl: "https://flcncapp-itn02.tsl.telus.com",
     },
+    "holdOrderTaskCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/telus/gem/rest/api/fifaomsupportapi/v1/taskMarkComplete{taskId}?taskId=#TASK_OBJECT_ID#",
+        "contentType": "application/json",
+        "keywordsToReplace": ["#TASK_OBJECT_ID#"]
+    },
+    "processManualTaskCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/manualTask/performTaskAction/#TASK_OBJECT_ID#/complete",
+        "contentType": "application/json",
+        "keywordsToReplace": ["#TASK_OBJECT_ID#"]
+    },
     "releaseActivation": {
         "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
         "endpoint": "migration/v1/releaseActivation",
@@ -50,4 +62,9 @@ export const envConfig = {
           "#shipper#"
         ]
       },
+    "workOrderCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/workOrderCompletion",
+        "contentType": "application/json",
+    },
 }
