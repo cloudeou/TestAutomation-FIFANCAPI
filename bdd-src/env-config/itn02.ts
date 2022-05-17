@@ -1,5 +1,5 @@
 export const envConfig = {
-    envName: "itn02",
+    envName: "it02",
     productCatalog: {
         baseUrl: "https://apigw-st.tsl.telus.com/marketsales/fifaproductcatalogmanagement/v1/productOffering?",
         clientId: "c19b9aa0-82b4-4aaf-92c0-e62e3ad5880c",
@@ -37,5 +37,17 @@ export const envConfig = {
         "endpoint": "migration/v1/releaseActivation",
         "contentType": "application/json",
         "keywordsToReplace": ["#workOrderId#"]
-    }
+    },
+    "shipmentOrderCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/shipmentOrderCompletion",
+        "contentType": "application/json",
+        "keywordsToReplace": [
+          "#orderNumber#",
+          "#trackingNumber#",
+          "#expectedDeliveryDate#",
+          "#purchaseOrderNumber#",
+          "#shipper#"
+        ]
+      },
 }

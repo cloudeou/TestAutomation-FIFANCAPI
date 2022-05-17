@@ -3,6 +3,7 @@ import {StringUtils} from "../utils/common/StringUtils";
 import {axiosInstance} from "../axios-instance";
 import {FileSystem} from "../utils/common/FileSystem";
 import retry from "retry-as-promised";
+import { DateUtils } from "../utils/common/DateUtils"
 
 export class TelusApiUtils {
 
@@ -75,7 +76,7 @@ export class TelusApiUtils {
             `Using netcracker api to send release activation event for work order ${workOrderId}`,
         );
         // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
         const api = envConfig.releaseActivation.base + envConfig.releaseActivation.endpoint;
         const contentType = {
             "Content-Type": envConfig.releaseActivation.contentType,
@@ -83,10 +84,10 @@ export class TelusApiUtils {
         console.log(`api-url: ${api}
         headers: ${JSON.stringify(contentType)}`);
 
-        const keywordToReplace = envConfig.releaseActivation.keywordsToReplace[0];
-        console.log(
-            `keywords to replace in body: ${JSON.stringify(keywordToReplace)}`,
-        );
+        // const keywordToReplace = envConfig.releaseActivation.keywordsToReplace[0];
+        // console.log(
+        //     `keywords to replace in body: ${JSON.stringify(keywordToReplace)}`,
+        // );
        
       
         console.debug(`Hitting as below details:
@@ -178,4 +179,63 @@ export class TelusApiUtils {
         );
         return response;
     }
+
+    async processShipmentOrder(orderNumber: string, purchaseOrderNumber: string) {
+        console.log(
+            `Using netcracker api to complete shipment order for order ${orderNumber},  purchase-order-number ${purchaseOrderNumber}`,
+        );
+        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
+        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+        const trackingNumber = "539459352A";
+        const shipper = "CANADA POST";
+        const expectedDeliveryDate = DateUtils.dateMMDDYYYY(
+            DateUtils.tomorrowDate(),
+            "/"
+        );
+
+        const api =
+            envConfig.shipmentOrderCompletion.base + envConfig.shipmentOrderCompletion.endpoint;
+        
+        const contentType = {
+            "Content-Type": envConfig.shipmentOrderCompletion.contentType,
+        };
+        console.debug(`api-url: ${api}
+          headers: ${JSON.stringify(contentType)}`);
+
+        let body = {
+            orderNumber,
+            trackingNumber,
+            expectedDeliveryDate,
+            purchaseOrderNumber,
+            shipper
+        }
+        console.log('body: ' + body);
+        
+        console.debug(`Hitting as below details:
+            api: ${api}
+            contentType: ${JSON.stringify(contentType)}`);
+    try {
+        const headers = await this.generateTAP360Headers();
+        const response: any = await axiosInstance({
+            method: "POST",
+            url: api,
+            headers,
+            data: body
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+        }   
+    }
+
+    public wait(ms: any) {
+        let startPoint: any;
+        let endPoint: any;
+        startPoint = new Date();
+        do {
+          endPoint = new Date();
+        } while (endPoint - startPoint < ms);
+      }
 }

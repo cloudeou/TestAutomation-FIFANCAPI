@@ -56,5 +56,17 @@ export const envConfig = {
         "endpoint": "migration/v1/releaseActivation",
         "contentType": "application/json",
         "keywordsToReplace": ["#workOrderId#"]
-    }
+    },
+    "shipmentOrderCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/shipmentOrderCompletion",
+        "contentType": "application/json",
+        "keywordsToReplace": [
+          "#orderNumber#",
+          "#trackingNumber#",
+          "#expectedDeliveryDate#",
+          "#purchaseOrderNumber#",
+          "#shipper#"
+        ]
+      },
 }
