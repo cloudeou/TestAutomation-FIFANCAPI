@@ -11,6 +11,7 @@ import {TelusApiUtils} from "../../../bdd-src/telus-apis/telus-apis";
 import {Common} from "../../../bdd-src/utils/commonBDD/Common";
 import retry from "retry-as-promised";
 import {AxiosResponse} from "axios";
+import {DbProxyApi} from "../../../bdd-src/ngc/db/db-proxy-api/db-proxy.api";
 
 type step = (
     stepMatcher: string | RegExp,
@@ -25,9 +26,10 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   let shoppingCartContext = (): ShoppingCartContext =>
     featureContext().getContextById(Identificators.shoppingCartContext);
   const tapis = new TelusApiUtils();
+  const dbProxy = new DbProxyApi();
 
   when('try to complete sales order on BE', async () => {
-    let customExternalId = preconditionContext().getExternalCustomerId;
+    let customExternalId = preconditionContext().getExternalCustomerId();
     let addressId = preconditionContext().getAddressId();
     let salesOrderId = shoppingCartContext().getSalesOrderId();
     console.debug('Sales Order ID' + salesOrderId);
@@ -56,7 +58,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     console.debug('Storing Manual Task Id');
     let incompleteorders, manualCreditTaskId: any;
     try {
-      incompleteorders = await postgresQueryExecutor(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
+      const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
+      incompleteorders = response.data.rows[0];
       console.log('get correct incompleteorders', incompleteorders);
     } catch (error) {
 
@@ -65,7 +68,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     }
     if (!!incompleteorders && incompleteorders.length > 0) {
       try {
-        manualCreditTaskId = await postgresQueryExecutor(getManualCreditTaskId(customerId))
+        const response = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
+        manualCreditTaskId = response.data.rows[0];
         console.log('get correct manualCreditTaskId', manualCreditTaskId);
       } catch (error) {
         console.log(error);
@@ -83,9 +87,9 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
           // options.current, times callback has been called including this call
 
           try {
-            const response = await postgresQueryExecutor(getWorkOrderNumbersNotCompleted(customerId));
+            const response = await dbProxy.executeQuery(getWorkOrderNumbersNotCompleted(customerId));
 
-            if (response.length === undefined) {
+            if (response.data.rows[0].length === undefined) {
               throw 'Got pending work orders as undefined' + response;
             }
             pendingWorkOrders = response;
