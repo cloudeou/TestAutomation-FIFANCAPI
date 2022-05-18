@@ -61,7 +61,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     try {
       const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
       await Common.delay(5000)
-      incompleteorders = response.data.rows[0];
+      incompleteorders = response.data.rows;
       console.log('get correct incompleteorders', incompleteorders);
     } catch (error) {
 
@@ -89,25 +89,18 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       await retry(
         async function (options) {
           // options.current, times callback has been called including this call
-
-          try {
-            const response = await dbProxy.executeQuery(getWorkOrderNumbersNotCompleted(customerId));
-            await Common.delay(5000);
-            const workOrderNumbersNotCompleted = response.data.rows[0];
-            console.log('getWorkOrderNumbersNotCompleted',response.data)
-            if (workOrderNumbersNotCompleted.length === undefined) {
-              throw 'Got pending work orders as undefined' + response;
-            }
-            pendingWorkOrders = workOrderNumbersNotCompleted;
-
-
-            return workOrderNumbersNotCompleted
-
-          } catch (error: any) {
-            console.log(error)
-            // errorContext().status = ErrorStatus.skipped;
-            // errorContext().error = `Error while getting sales order status from DB: ${JSON.stringify(error)}`;
+          await Common.delay(5000);
+          const response = await dbProxy.executeQuery(getWorkOrderNumbersNotCompleted(customerId));
+          await Common.delay(10000);
+          const workOrderNumbersNotCompleted = response.data.rows;
+          console.log('getWorkOrderNumbersNotCompleted',response.data)
+          if (workOrderNumbersNotCompleted.length === undefined) {
+            throw 'Got pending work orders as undefined' + response;
           }
+          pendingWorkOrders = workOrderNumbersNotCompleted;
+
+
+          return workOrderNumbersNotCompleted
         },
         {
           max: 5, // maximum amount of tries
@@ -121,142 +114,126 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
               pendingWorkOrders !== undefined &&
               pendingWorkOrders.length > 0
           ) {
-              for (let orIndex = 0; orIndex < pendingWorkOrders.length; orIndex++) {
+            for (let orIndex = 0; orIndex < pendingWorkOrders.length; orIndex++) {
+              let workOrderNumber = pendingWorkOrders[orIndex][0];
+              const workOrderName = pendingWorkOrders[orIndex][2];
+              if (workOrderName.toLowerCase().includes('work order')) {
 
-                const pendingWorkOrder = pendingWorkOrders[orIndex]
+                await retry(
+                  async function (options) {
+                    // options.current, times callback has been called including this call
 
-                  if (pendingWorkOrder.toLowerCase().includes('work order')) {
+                    const response: AxiosResponse = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
 
-                    let workOrderNumber = pendingWorkOrder.split(',')[0];
-                    const workOrderName = pendingWorkOrder.split(',')[2];
+                    const ordersnotprocessed = response.data.rows;
 
-                      await retry(
-                          async function (options) {
-                              // options.current, times callback has been called including this call
 
-                            try {
-                              const response: AxiosResponse = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId))
+                    for (
+                      let orIndex = 0;
+                      orIndex < ordersnotprocessed.length;
+                      orIndex++
+                    ) {
+                      const orderInternalId = ordersnotprocessed[orIndex][1];
+                      const orderName = ordersnotprocessed[orIndex][0];
+                      if (orderName.toLowerCase().includes('work order')) {
+                        let query = `select to_char(status) from nc_po_Tasks where order_id = ${orderInternalId} and name = 'Wait for Release Activation notification'`;
 
-                              console.log('queryNcCustomerOrdersStatusNeitherCompletedNorProcessed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', response.data)
+                        const response = await dbProxy.executeQuery(query)
 
-                              const arrayOfArraysWithOrdersnotprocessed = response.data.rows[0]
+                        console.log(`!!!!!!!!!!!!!!!response.data.rows -`, response.data.rows)
 
-                              for(const arrayWithOrdersnotprocessed of arrayOfArraysWithOrdersnotprocessed) {
-                                for (let orIndex = 0; orIndex < arrayWithOrdersnotprocessed.length; orIndex++) {
-                                  const orderNotProcessed = arrayWithOrdersnotprocessed[orIndex]
-
-                                  const orderInternalId = orderNotProcessed.split(',')[1];
-                                  const orderName = orderNotProcessed.split(',')[0];
-                                  if (orderName.toLowerCase().includes('work order')) {
-
-                                    let query = `select to_char(status) from nc_po_Tasks where order_id = ${orderInternalId} and name = 'Wait for Release Activation notification'`;
-                                    const response = await dbProxy.executeQuery(query)
-                                    const status = response.data.rows[0].length;
-                                    if (status === undefined) {
-                                      throw (
-                                        'Got task release activation as undefined' + response
-                                      );
-                                    }
-                                    if (status != '9130031781613016721') {
-                                      throw new Error(
-                                        'Wait for release activation is not in waiting state',
-                                      );
-                                    }
-                                  }
-                                }
-                              }
-
-                            }
-                            catch (e) {
-                              console.log(e)
-                              throw e
-                            }
-                          },
-                          {
-                              max: 5, // maximum amount of tries
-                              timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
-                              backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
-                          },
-                      );
-
-                      await Common.delay(10000);
-                      await tapis.processReleaseActivation(workOrderNumber);
-                      await Common.delay(10000);
-                      await tapis.processWorkOrder(workOrderNumber);
-                  }
-              }
-          }
-      
-              let allPendingOrders;
-              console.debug('Getting pending orders');
-              await Common.delay(10000);
-              try {
-                const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
-                if (response.data.rows[0].length === undefined) {
-                    throw 'Got pending orders as undefined' + response;
-                }
-                allPendingOrders = response.data.rows[0];
-                console.log('allPendingOrders '+ allPendingOrders)
-              } catch (error) {
-          
-                console.log(error);
-                throw error
-              }
-      
-              if (
-                  allPendingOrders !== null &&
-                  allPendingOrders !== undefined &&
-                  allPendingOrders.length > 0
-              ) {
-                  try {
-                    for (let orIndex = 0; orIndex < allPendingOrders.length; orIndex++) {
-                      const orderInternalId = allPendingOrders[orIndex][1];
-                      const orderName = allPendingOrders[orIndex][0];
-                      if (orderName.toLowerCase().includes('shipment')) {
-                        console.debug(
-                          'Processing release activation for orderInternalId: ' +
-                          orderInternalId,
-                        );
-                        await tapis.processReleaseActivation(orderInternalId);
-                        // logger.debug('Getting shipment order and purchase no.');
-                        const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId))
-                        const res = { shipmentOrderNumber: result.data[0][0], purchaseeOrderNumber: result.data[0][1] }
-                        await Common.delay(10000);
-                        await tapis.processShipmentOrder(
-                          res.shipmentOrderNumber,
-                          res.purchaseeOrderNumber,
-                        );
-                        console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
-                        console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(res))
-
-                        // Hit shipment order completion
-                        console.debug('Getting HoldOrderTaskNumber');
-                        await Common.delay(10000);
-                        const response = await dbProxy.executeQuery(getHoldOrderTaskNumber(res.purchaseeOrderNumber))
-                        const holdordertask = response.data.rows[0]
-                        console.log("holdordertask " + holdordertask);
-                        try {
-                          console.debug('Processing Hold order task: ' + holdordertask);
-                          await tapis.processHoldOrderTask(holdordertask);
-                        } catch (err) {
-                          //logger.debug(JSON.stringify(err));
-                          console.log(err)
-                          throw err
+                        if (response.data.rows[0][0].length === undefined) {
+                          throw (
+                            'Got task release activation as undefined' + response
+                          );
                         }
-                        console.debug(
-                          'Processing shipment order no. ' + res.shipmentOrderNumber,
-                        );
-
-                        // Wait for 10 seconds to get completedawait
-                        await tapis.wait(10000);
+                        const status = response.data.rows[0][0];
+                        if (status != '9130031781613016721') {
+                          throw new Error(
+                            'Wait for release activation is not in waiting state',
+                          );
+                        }
                       }
                     }
-                  }
+                  },
+                  {
+                    max: 5, // maximum amount of tries
+                    timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
+                    backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
+                  },
+                );
 
-                  catch (e) {
-                    console.log('error in allPendingOrders loop execution',e)
-                  }
+                await Common.delay(10000);
+                await tapis.processReleaseActivation(workOrderNumber);
+                await Common.delay(10000);
+                await tapis.processWorkOrder(workOrderNumber);
               }
+            }
+          }
+
+          let allPendingOrders;
+          console.debug('Getting pending orders');
+          await Common.delay(10000);
+          try {
+            const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
+            if (response.data.rows.length === undefined) {
+              throw 'Got pending orders as undefined' + response;
+            }
+            allPendingOrders = response.data.rows;
+            console.log('allPendingOrders ' + allPendingOrders)
+          } catch (error) {
+
+            console.log(error);
+            throw error
+          }
+
+          if (
+            allPendingOrders != null &&
+            allPendingOrders !== undefined &&
+            allPendingOrders.length > 0
+          ) {
+            for (let orIndex = 0; orIndex < allPendingOrders.length; orIndex++) {
+              const orderInternalId = allPendingOrders[orIndex][1];
+              const orderName = allPendingOrders[orIndex][0];
+              if (orderName.toLowerCase().includes('shipment')) {
+                console.debug(
+                  'Processing release activation for orderInternalId: ' +
+                  orderInternalId,
+                );
+                await tapis.processReleaseActivation(orderInternalId);
+                // logger.debug('Getting shipment order and purchase no.');
+                const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId))
+                const res = {shipmentOrderNumber: result.data[0][0], purchaseeOrderNumber: result.data[0][1]}
+                await Common.delay(10000);
+                await tapis.processShipmentOrder(
+                  res.shipmentOrderNumber,
+                  res.purchaseeOrderNumber,
+                );
+                console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
+                console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(res))
+
+                // Hit shipment order completion
+                console.debug('Getting HoldOrderTaskNumber');
+                await Common.delay(10000);
+                const holdordertask = await postgresQueryExecutor(getHoldOrderTaskNumber(res.purchaseeOrderNumber))
+                console.log("holdordertask " + holdordertask);
+                try {
+                  console.debug('Processing Hold order task: ' + holdordertask);
+                  await tapis.processHoldOrderTask(holdordertask);
+                } catch (err) {
+                  //logger.debug(JSON.stringify(err));
+                  console.log(err)
+                  throw err
+                }
+                console.debug(
+                  'Processing shipment order no. ' + res.shipmentOrderNumber,
+                );
+
+                // Wait for 10 seconds to get completedawait
+                await tapis.wait(10000);
+              }
+            }
+          }
       //
 
 
