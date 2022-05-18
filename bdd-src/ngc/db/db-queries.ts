@@ -325,3 +325,28 @@ export const getHoldOrderTaskNumber = (purchaseeOrderNumber: any) => {
     console.log(`getHoldOrderTaskNumber: ${query}`);
     return query;
 }
+
+export const getTaskNumber = ( orderId: any, taskName: string) => {
+  const query = `     
+          select to_char(task_id) from nc_po_Tasks where order_id = ${orderId} and name = '${taskName}'    
+                  `;
+  return query
+}
+
+export const getManualTasksFromOrder = (
+  orderId: any,
+  taskName: string,
+) => {
+  const query = `     
+      SELECT to_char(object_id) task_id
+      FROM nc_objects
+      WHERE parent_id = (SELECT reference
+      FROM nc_references r,
+      nc_objects o
+      WHERE r.attr_id = 8090342058013828310
+      AND r.object_id = o.object_id
+      AND o.object_id = ${orderId})
+      AND NAME = '${taskName}'  
+                  `;
+  return query;
+}
