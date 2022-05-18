@@ -188,39 +188,14 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                 throw error
               }
       
-              if (
-                  allPendingOrders !== null &&
-                  allPendingOrders !== undefined &&
-                  allPendingOrders.length > 0
-              ) {
-                  try {
-                    for (let orIndex = 0; orIndex < allPendingOrders.length; orIndex++) {
-                      const orderInternalId = allPendingOrders[orIndex][1];
-                      const orderName = allPendingOrders[orIndex][0];
-                      if (orderName.toLowerCase().includes('shipment')) {
-                        console.debug(
-                          'Processing release activation for orderInternalId: ' +
-                          orderInternalId,
-                        );
-                        await tapis.processReleaseActivation(orderInternalId);
-                        // logger.debug('Getting shipment order and purchase no.');
-                        const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId))
-                        console.log("resultgetShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
-
-                        const res = { shipmentOrderNumber: result.data.rows[0][0], purchaseeOrderNumber: result.data.rows[0][1] }
-                        console.log("ResgetShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(res))
-
-                        await Common.delay(10000);
-                        await tapis.processShipmentOrder(
-                          res.shipmentOrderNumber,
-                          res.purchaseeOrderNumber,
-                        );
 
           if (
             allPendingOrders != null &&
             allPendingOrders !== undefined &&
             allPendingOrders.length > 0
           ) {
+              try {
+                  
             for (let orIndex = 0; orIndex < allPendingOrders.length; orIndex++) {
               const orderInternalId = allPendingOrders[orIndex][1];
               const orderName = allPendingOrders[orIndex][0];
@@ -232,14 +207,14 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                 await tapis.processReleaseActivation(orderInternalId);
                 // logger.debug('Getting shipment order and purchase no.');
                 const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId))
-                const res = {shipmentOrderNumber: result.data[0][0], purchaseeOrderNumber: result.data[0][1]}
+                console.log("resultgetShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
+                const res = {shipmentOrderNumber: result.data.rows[0][0], purchaseeOrderNumber: result.data.rows[0][1]}
+                console.log("ResgetShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(res))
                 await Common.delay(10000);
                 await tapis.processShipmentOrder(
                   res.shipmentOrderNumber,
                   res.purchaseeOrderNumber,
                 );
-                console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
-                console.log("getShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(res))
 
                 // Hit shipment order completion
                 console.debug('Getting HoldOrderTaskNumber');
@@ -262,6 +237,10 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                 await tapis.wait(10000);
               }
             }
+           } catch(err) {
+               console.log(err)
+               throw err
+           }
           }
       //
 
