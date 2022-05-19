@@ -84,21 +84,21 @@ Feature: Existing customer with active HS+Optik TV change TLO
     And validate that all orders are completed successfully
     And validate that all billing actions completed successfully
 
-  Scenario: Create same SC
-    Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
-
-  Scenario: Add commitment offer to SC, change TV offer
-    Given preconditions by user are selected
-    And user select offers:
-      | OfferId             |
-      | 9152915333713768704 |
-      #TELUS Internet & Optik TV Commitment
-      | 9142278346813160836 |
-    # Essentials
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+#  Scenario: Create same SC
+#    Given preconditions by user are selected
+#    When user try to create Shopping Cart
+#    Then validate shopping cart is created successfully
+#
+#  Scenario: Add commitment offer to SC, change TV offer
+#    Given preconditions by user are selected
+#    And user select offers:
+#      | OfferId             |
+#      | 9152915333713768704 |
+#      #TELUS Internet & Optik TV Commitment
+#      | 9142278346813160836 |
+#    # Essentials
+#    When user try to update Shopping Cart
+#    Then validate shopping cart is updated successfully
 #
 # Scenario: Submit SC 2
 #   Given preconditions by user are selected

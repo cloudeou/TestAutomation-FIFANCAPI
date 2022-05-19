@@ -127,3 +127,264 @@ export const getPapListQuery = (): string =>
 
 export const removePapListFlagsQuery = (ecid: number): string =>
   `update adt_migration_customers set pap_skipped=false where ecid='${ecid}'`;
+
+
+export const queryNcCustomerOrdersStatus = (customerId: string | null): string => {
+    let query: string = `
+                  SELECT
+                      orders.name   orders,
+                      to_char(orders.object_id),
+                      status_id.list_value_id,
+                      lv.value      status
+                  FROM
+                      nc_objects    orders,
+                      nc_params     status_id,
+                      nc_list_values   lv
+                  WHERE
+                      orders.object_id = status_id.object_id
+                      AND status_id.attr_id = 4063055154013004350 /* Status */
+                      AND orders.object_type_id NOT IN (
+                          9134179704813622905 /* BOE Composite Order */
+                      )
+                      AND status_id.object_id IN (
+                          SELECT DISTINCT
+                              to_char(object_id)
+                          FROM
+                              nc_references
+                          WHERE
+                              attr_id = 4122753063013175631 /* Customer Account */
+                              AND reference = ${customerId}
+                      )
+                      AND lv.list_value_id = status_id.list_value_id
+                  UNION
+                  SELECT
+                      orders.name   orders,
+                      to_char(orders.object_id),
+                      status_id.list_value_id,
+                      lv.value      status
+                  FROM
+                      nc_objects    orders,
+                      nc_params     status_id,
+                      nc_list_values lv
+                  WHERE
+                      orders.object_id = status_id.object_id
+                      AND status_id.attr_id = 9124623752913888363 /* Status */
+                      AND orders.object_type_id IN (
+                          9134179704813622905 /* BOE Composite Order */
+                      )
+                      AND status_id.object_id IN (
+                          SELECT DISTINCT
+                              to_char(object_id)
+                          FROM
+                              nc_references
+                          WHERE
+                              attr_id = 4122753063013175631 /* Customer Account */
+                              AND reference = ${customerId}
+                      )
+                      AND lv.list_value_id = status_id.list_value_id
+                  UNION
+                  SELECT
+                      orders.name   orders,
+                      to_char(orders.object_id),
+                      status_id.list_value_id,
+                      lv.value      status
+                  FROM
+                      nc_objects       orders,
+                      nc_params        status_id,
+                      nc_list_values   lv
+                  WHERE
+                      orders.object_id = status_id.object_id
+                      AND status_id.attr_id = 9126090157513456523 /* Sales Order Status */
+                      AND status_id.object_id IN (
+                          SELECT
+                              to_char(object_id)
+                          FROM
+                              nc_objects
+                          WHERE
+                              parent_id IN (
+                                  SELECT
+                                      to_char(object_id)
+                                  FROM
+                                      nc_objects
+                                  WHERE
+                                      parent_id = ${customerId}
+                                      AND object_type_id = 4070674633013011019 /* Order Management Project */
+                              )
+                      )
+                      AND lv.list_value_id = status_id.list_value_id
+    `;
+    console.debug(`queryNcCustomerOrdersStatus: ${query}`);
+    return query;
+}
+
+export const queryNcCustomerOrdersStatusNeitherCompletedNorProcessed = (
+    customerId: string | null,
+):string => {
+    let query = queryNcCustomerOrdersStatus(customerId);
+
+        query = `
+
+            select * from (${query}) order_status_table
+            WHERE
+              upper(status) NOT LIKE '%COMPLETED%'
+              AND upper(status) NOT LIKE '%PROCESSED%'
+              AND upper(status) NOT LIKE '%SUPERSEDED%'`;
+        console.debug(
+            `queryNcCustomerOrdersStatusNeitherCompletedNorProcessed: ${query}`,
+        );
+    return query;
+}
+
+/**
+ * @param {String} customerId E.g. 9140698645013660301
+ */
+export const getManualCreditTaskId = (customerId: string | null): string => {
+    let query = `
+                  select
+                  to_char(object_id) task_id
+                  from
+                      nc_params
+                  where
+                      object_id = (
+                          select
+                              object_id
+                          from
+                              nc_objects
+                          where
+                              object_id in (
+                                  select
+                                      p.object_id
+                                  from
+                                      nc_params_ix p
+                                  where
+                                      p.attr_id = 90100082 /* Target Object */
+                                      and p.ix_key = ${customerId}
+                              )
+                              and (name like '%Credit%' or name like '%Home security%')
+                      )
+                      and attr_id = 9137996003413538340 /* Task ID */
+                `;
+    console.log(`queryManualCreditTaskId: ${query}`);
+    return query;
+}
+
+
+export const getWorkOrderNumbersNotCompleted = (customerInternalId: string) => {
+    let query = `
+                  SELECT
+                          p.value       AS work_order_number,
+                          to_char(o.object_id)   AS object_id,
+                          o.name as orderName
+                      FROM
+                          nc_objects   o,
+                          nc_params    p,
+                          nc_params    pp
+                      WHERE
+                          o.parent_id = ${customerInternalId}
+                          and o.object_type_id = 9138418725413841757 /* New/Modify Work Order */
+                          and p.attr_id = 9138427811113852870 /* Work Order ID */
+                          and o.object_id = p.object_id
+                          and o.object_id = pp.object_id
+                          and pp.attr_id = 4063055154013004350 /* Status */
+                          AND pp.list_value_id NOT IN (
+                              4121046730013113091 /* Completed */
+                          )
+
+                `;
+    console.log(`queryWorkOrderNumberFromCustomerInternalId: ${query}`);
+    return query;
+}
+
+export const getShipmentOrderNumberAndPurchaseOrderNumber = (shipmentObjectId: string) => {
+  let query = `
+                SELECT
+                    to_char(value) AS shipmentordernumber,
+                    to_char(${shipmentObjectId}) as purchaseOrderNumber
+                FROM
+                    nc_params
+                WHERE
+                    object_id = ${shipmentObjectId}
+                AND attr_id = (
+                SELECT
+                    attr_id
+                FROM
+                    nc_attributes
+                WHERE
+                    name = 'Shipment Order Number'
+                )
+              `;
+    console.log(`getShipmentOrderNumberAndPurchaseOrderNumber: ${query}`);
+    return query;
+
+}
+
+export const getHoldOrderTaskNumber = (purchaseeOrderNumber: any) => {
+  let query = `     
+  select to_char(task_id) from nc_po_Tasks where order_id = ${purchaseeOrderNumber} and name = 'Hold Order Completion'    
+          `;
+    console.log(`getHoldOrderTaskNumber: ${query}`);
+    return query;
+}
+
+export const getTaskNumber = ( orderId: any, taskName: string) => {
+  const query = `     
+          select to_char(task_id) from nc_po_Tasks where order_id = ${orderId} and name = '${taskName}'    
+                  `;
+  return query
+}
+
+export const getManualTasksFromOrder = (
+  orderId: any,
+  taskName: string,
+) => {
+  const query = `     
+      SELECT to_char(object_id) task_id
+      FROM nc_objects
+      WHERE parent_id = (SELECT reference
+      FROM nc_references r,
+      nc_objects o
+      WHERE r.attr_id = 8090342058013828310
+      AND r.object_id = o.object_id
+      AND o.object_id = ${orderId})
+      AND NAME = '${taskName}'  
+                  `;
+  return query;
+}
+
+
+
+
+export const  getErrorsOccuredForCustomer = (
+  customerId: string,
+) => {
+  let query = `
+                  SELECT
+                      object_id,
+                      name
+                  FROM
+                      nc_objects
+                  WHERE
+                      parent_id IN (
+                          SELECT
+                              container_id AS object_id
+                          FROM
+                              nc_po_tasks,
+                              nc_objects o
+                          WHERE
+                              order_id = object_id
+                              AND o.parent_id = ${customerId} /* Customer ID */
+                      )
+                      AND object_type_id IN (
+                          SELECT
+                              object_type_id
+                          FROM
+                              nc_object_types
+                          START WITH
+                              object_type_id = 9081958832013375989 /* Base Error Record */
+                          CONNECT BY
+                              PRIOR object_type_id = parent_id
+                      )
+    `;
+  console.log(query)
+  return query
+}

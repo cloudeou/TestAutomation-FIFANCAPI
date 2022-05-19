@@ -1,5 +1,5 @@
 export const envConfig = {
-    envName: "itn02",
+    envName: "it02",
     productCatalog: {
         baseUrl: "https://apigw-st.tsl.telus.com/marketsales/fifaproductcatalogmanagement/v1/productOffering?",
         clientId: "c19b9aa0-82b4-4aaf-92c0-e62e3ad5880c",
@@ -31,5 +31,46 @@ export const envConfig = {
     },
     createCustomer: {
         baseUrl: "https://flcncapp-itn02.tsl.telus.com",
-    }
+    },
+    "holdOrderTaskCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/telus/gem/rest/api/fifaomsupportapi/v1/taskMarkComplete{taskId}?taskId=#TASK_OBJECT_ID#",
+        "contentType": "application/json",
+        "keywordsToReplace": ["#TASK_OBJECT_ID#"]
+    },
+    "processManualTaskCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/manualTask/performTaskAction/#TASK_OBJECT_ID#/complete",
+        "contentType": "application/json",
+        "keywordsToReplace": ["#TASK_OBJECT_ID#"]
+    },
+    "releaseActivation": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/releaseActivation",
+        "contentType": "application/json",
+        "keywordsToReplace": ["#workOrderId#"]
+    },
+    "shipmentOrderCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/shipmentOrderCompletion",
+        "contentType": "application/json",
+        "keywordsToReplace": [
+          "#orderNumber#",
+          "#trackingNumber#",
+          "#expectedDeliveryDate#",
+          "#purchaseOrderNumber#",
+          "#shipper#"
+        ]
+      },
+    "workOrderCompletion": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/workOrderCompletion",
+        "contentType": "application/json",
+    },
+    dbApi: {
+        baseUrl: "https://apigw-st.tsl.telus.com/service/adtMigration/v1",
+        clientId: "5fba5d2a-9c9a-4829-aa16-96e9c34fb14d",
+        clientSecret: '10a7c574-2393-4974-a539-38fd1219c41fa9a2f716-a38c-4192-8b71-37d75f53f1b2',
+        scope: 2189,
+    },
 }

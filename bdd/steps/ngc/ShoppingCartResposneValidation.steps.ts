@@ -49,7 +49,8 @@ export const shoppingCartResponseValidationSteps = (
     })
 
     /*and(/user validate shopping cart (should|should not) contain (child|top) offers:/, (present,typeOffer, table) => {
-        console.log(present,'present',typeOffer, 'typeOffer',table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        console.log(present,'present',typeOffer, 'typeOffer',table, 'table','table!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        console.log(table)
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;

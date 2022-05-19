@@ -32,3 +32,8 @@ Feature: Add New Add On Equipment on existing SHS
     # Self-Install = No
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
+
+  Scenario: Validate shopping cart 1
+    Given preconditions by user are selected
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart

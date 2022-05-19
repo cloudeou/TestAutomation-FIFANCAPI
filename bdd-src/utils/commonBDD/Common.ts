@@ -622,4 +622,8 @@ export class Common {
             error: null,
         };
     }
+
+    static async delay(ms: number) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 }
