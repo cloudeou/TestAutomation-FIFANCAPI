@@ -13,6 +13,8 @@ import {Common} from "../../../bdd-src/utils/commonBDD/Common";
 import retry from "retry-as-promised";
 import {AxiosResponse} from "axios";
 import {DbProxyApi} from "../../../bdd-src/ngc/db/db-proxy-api/db-proxy.api";
+import {OrdersProcessor, TasksProcessor} from "../../../bdd-src/ngc/backendSteps/backendStepsCommon";
+import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 type step = (
     stepMatcher: string | RegExp,
@@ -28,6 +30,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     featureContext().getContextById(Identificators.shoppingCartContext);
   const tapis = new TelusApiUtils();
   const dbProxy = new DbProxyApi();
+  const tasksProcessor = new TasksProcessor();
+  const ordersProcessor = new OrdersProcessor()
 
   when('try to complete sales order on BE', async () => {
     let customExternalId = preconditionContext().getExternalCustomerId();
@@ -57,7 +61,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     order.customerId = customerId;
     console.debug(`Customer's internal id: ${order.customerId}`);
     console.debug('Storing Manual Task Id');
-    let incompleteorders, manualCreditTaskId: any;
+    let incompleteorders: any;
+
     try {
       const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
       await Common.delay(5000)
@@ -69,22 +74,14 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       throw error
     }
     if (!!incompleteorders && incompleteorders.length > 0) {
-      try {
-        await Common.delay(15000)
-        const response = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
-        manualCreditTaskId = response.data.rows[0];
-        console.log('get correct manualCreditTaskId', manualCreditTaskId);
-      } catch (error) {
-        console.log(error);
-        throw error
-      }
 
-      if (manualCreditTaskId !== null && manualCreditTaskId !== undefined) {
-        await Common.delay(10000)
-        await tapis.processManualTask(manualCreditTaskId);
-        await Common.delay(15000);
-      }
-      let pendingWorkOrders: any;
+      await tasksProcessor.processManualTask(customerId)
+
+      await ordersProcessor.processPendingWorkOrders(customerId)
+
+      await ordersProcessor.processAllPendingOrders(customerId)
+
+      /*let pendingWorkOrders: any;
 
       await retry(
         async function (options) {
@@ -169,10 +166,9 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                 await tapis.processWorkOrder(workOrderNumber);
               }
             }
-          }
-
-
-      let allPendingOrders;
+          }*/
+/////////////////////////////
+      /*let allPendingOrders;
       console.debug('Getting pending orders');
       await Common.delay(10000);
       try {
@@ -317,12 +313,11 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                 }
               }
           }
-      }
-
+      }*/
       console.log('!!!!!!!!! last block')
 
-      /*await retry(
-          async function (options) {
+      await retry(
+          async (options) => {
               // options.current, times callback has been called including this call
             const response: AxiosResponse = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId))
 
@@ -330,22 +325,23 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
               throw 'Got pending orders as undefined' + response;
             }
             if (response.data.rows.length > 0) {
+              console.log('error inside if')
               throw new Error(
                 `Retrying now as we are getting still pending orders: ${JSON.stringify(
                   response,
+                  replacerFunc()
                 )}`,
               );
             }
             console.log(`response.data.rows !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${response.data.rows}`)
             shoppingCartContext().setAllPendingOrders(response.data.rows);
-
           },
           {
               max: 5, // maximum amount of tries
               timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
               backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
           },
-      );*/
+      );
     }
 
       else {
@@ -355,7 +351,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
 
   })
 
-  /*when('try to cancel sales order on BE', async () => {
+  when('try to cancel sales order on BE', async () => {
     let customExternalId = preconditionContext().getExternalCustomerId;
     let addressId = preconditionContext().getAddressId();
     let salesOrderId = shoppingCartContext().getSalesOrderId();
@@ -380,14 +376,16 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     const incompleteorders = incompleteordersResponse.data.rows;
 
     if (!!incompleteorders && incompleteorders.length > 0) {
-      const responseGetManualCreditTaskId = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
+      await tasksProcessor.processManualTask(customerId)
+
+      /*const responseGetManualCreditTaskId = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
 
 
       const manualCreditTaskId = responseGetManualCreditTaskId.data.rows[0]
       if (manualCreditTaskId !== null) {
         await tapis.processManualTask(manualCreditTaskId);
         await Common.delay(5000);
-      }
+      }*/
       let pendingWorkOrders: any;
       console.info('Getting pending work orders');
       await retry(
@@ -667,11 +665,10 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       shoppingCartContext().setAllPendingOrders([]);
       console.info('all orders are processed');
     }
-  });*/
+  });
 
   then('validate that no errors created on BE', async () => {
     const customerId = preconditionContext().getCustomerObjectId()!;
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!test')
     const response = await dbProxy.executeQuery(getErrorsOccuredForCustomer(customerId))
 
     const customerErrors = response.data.rows
