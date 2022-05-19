@@ -7,12 +7,12 @@ import {payloadGenerator} from "../promotion/promotion.payload-generator";
 
 
 type PromotionParams = {
-    customerCategory?: any | null,
-    distributionChannel?: any | null,
-    externalLocationId?: any | null,
+    customerCategory?: string | null,
+    distributionChannel?: string | null,
+    externalLocationId?: string | null,
     response?: any | null,
     promotionMap?: any | null,
-    shoppingCartId?: any
+    shoppingCartId?: string
 };
 
 export class PromotionApi {
@@ -56,7 +56,7 @@ export class PromotionApi {
 
     public async requestPromotion(pparams: PromotionParams): Promise<AxiosResponse> {
         const body = this.generateBody(pparams);
-        const params = this.generateParams(pparams.shoppingCartId)
+        const params = this.generateParams(pparams.shoppingCartId!)
         try {
             const headers = await this.generateKongHeaders();
             const response: any = await axiosInstance({

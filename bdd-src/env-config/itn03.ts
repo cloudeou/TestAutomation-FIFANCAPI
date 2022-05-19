@@ -1,5 +1,6 @@
 export const envConfig = {
     envName: "it03",
+    kongApi: "asdasddsa",
     productCatalog: {
         baseUrl: "https://apigw-st.tsl.telus.com/marketsales/fifaproductcatalogmanagement/v1/productOffering?",
         clientId: "c19b9aa0-82b4-4aaf-92c0-e62e3ad5880c",
