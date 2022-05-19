@@ -1,14 +1,15 @@
 import { envConfig } from "../../../env-config";
-import { IkongApi, KongHeaders } from "../../../ngc/IkongApi";
 import { OauthToken } from "../../../ngc/oauth-token";
 import { axiosInstance } from "../../../axios-instance";
 import { AxiosResponse } from "axios";
+import {generateKongHeaders} from "../../IkongApi"
+
 
 export enum dbActions {
   rawQuery = "rawQuery",
 }
 
-export class DbProxyApi implements IkongApi {
+export class DbProxyApi  {
   private _oauthToken: OauthToken;
 
   constructor() {
@@ -33,11 +34,13 @@ export class DbProxyApi implements IkongApi {
 
   public async executeQuery(query: string): Promise<AxiosResponse> {
     const body = this.generatePayload(dbActions.rawQuery, query);
+    const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+    console.log("token", token);
     try {
-      const headers = await this.generateKongHeaders();
+      const headers = await generateKongHeaders(token);
       const response = await axiosInstance({
         method: "POST",
-        url: `${envConfig.dbApi.baseUrl}/api/performeSQLRequest`,
+        url: `${envConfig.ikongUrl}${envConfig.dbApi.baseUrl}/api/performeSQLRequest`,
         data: body,
         headers
       });
@@ -48,12 +51,4 @@ export class DbProxyApi implements IkongApi {
     }
   }
 
-  public async generateKongHeaders(): Promise<KongHeaders> {
-    const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-    console.log("token", token);
-    return {
-      Authorization: `Bearer ${token}`,
-      env: envConfig.envName,
-    };
-  }
 }

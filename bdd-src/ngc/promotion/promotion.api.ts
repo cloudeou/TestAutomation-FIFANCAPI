@@ -2,8 +2,8 @@ import {OauthToken} from "../oauth-token";
 import {envConfig} from "../../env-config";
 import {AxiosResponse} from "axios";
 import {axiosInstance} from "../../axios-instance";
-import {KongHeaders} from "../IkongApi";
 import {payloadGenerator} from "../promotion/promotion.payload-generator";
+import {generateKongHeaders} from "../IkongApi"
 
 
 type PromotionParams = {
@@ -57,11 +57,12 @@ export class PromotionApi {
     public async requestPromotion(pparams: PromotionParams): Promise<AxiosResponse> {
         const body = this.generateBody(pparams);
         const params = this.generateParams(pparams.shoppingCartId)
+        const token = await this._oauthToken.getToken(envConfig.promotion.scope);
         try {
-            const headers = await this.generateKongHeaders();
+            const headers = await generateKongHeaders(token);
             const response: any = await axiosInstance({
                 method: "PUT",
-                url: envConfig.promotion.baseUrl + params,
+                url: envConfig.ikongUrl + params,
                 data: body,
                 headers,
             });
@@ -89,11 +90,4 @@ export class PromotionApi {
         return promotionMap;
     }
 
-    private async generateKongHeaders(): Promise<KongHeaders> {
-        const token = await this._oauthToken.getToken(envConfig.promotion.scope);
-        return {
-            Authorization: `Bearer ${token}`,
-            env: envConfig.envName
-        };
-    }
 }
