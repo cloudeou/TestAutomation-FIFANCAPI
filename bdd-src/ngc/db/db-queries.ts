@@ -350,3 +350,41 @@ export const getManualTasksFromOrder = (
                   `;
   return query;
 }
+
+
+
+
+export const  getErrorsOccuredForCustomer = (
+  customerId: string,
+) => {
+  let query = `
+                  SELECT
+                      object_id,
+                      name
+                  FROM
+                      nc_objects
+                  WHERE
+                      parent_id IN (
+                          SELECT
+                              container_id AS object_id
+                          FROM
+                              nc_po_tasks,
+                              nc_objects o
+                          WHERE
+                              order_id = object_id
+                              AND o.parent_id = ${customerId} /* Customer ID */
+                      )
+                      AND object_type_id IN (
+                          SELECT
+                              object_type_id
+                          FROM
+                              nc_object_types
+                          START WITH
+                              object_type_id = 9081958832013375989 /* Base Error Record */
+                          CONNECT BY
+                              PRIOR object_type_id = parent_id
+                      )
+    `;
+  console.log(query)
+  return query
+}
