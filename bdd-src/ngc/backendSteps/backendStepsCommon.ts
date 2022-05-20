@@ -315,20 +315,24 @@ export class OrdersProcessor {
   }
 
   private async requestPendingOrders (customerId: string) {
-    try {
-      const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
-      if (response.data.rows.length === undefined) {
-        throw 'Got pending orders as undefined' + response;
-      }
-      console.log('allPendingOrders ' + response.data.rows)
 
-      return  response.data.rows;
+    return await retry(
+      async function (options) {
+        // options.current, times callback has been called including this call
+        const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
+        if (response.data.rows.length === undefined) {
+          throw 'Got pending orders as undefined' + response;
+        }
+        console.log('allPendingOrders ' + response.data.rows)
 
-    } catch (error) {
-
-      console.log(error);
-      throw error
-    }
+        return  response.data.rows;
+      },
+      {
+        max: 5, // maximum amount of tries
+        timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
+        backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
+      },
+    );
   }
 
 }

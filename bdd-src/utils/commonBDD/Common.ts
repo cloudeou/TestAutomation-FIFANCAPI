@@ -626,4 +626,26 @@ export class Common {
     static async delay(ms: number) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
+
+    static getStatusesMapFromTable(table: any): Map<string, string> {
+        let statusMap = new Map<string, string>();
+        table.forEach(({objectTypeId, Status}: any) => {
+            statusMap.set(objectTypeId, Status);
+        });
+        return statusMap;
+    }
+
+    static createValuesMapFromTable(table: any) {
+        // let statusMap = new Map<string, any>();
+        // table.forEach(({Name, Value}) => {
+        //     statusMap.set(Name, Value);
+        // });
+        // return statusMap;
+        let valuesMap: any = {};
+        table.forEach(({Name, Value}: any) => {
+            return Object.assign(valuesMap, { [Name]: Value })
+            // return  { ...valuesMap, [Name]: Value }
+        });
+        return valuesMap;
+    }
 }

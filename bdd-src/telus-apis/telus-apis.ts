@@ -1,9 +1,10 @@
 import {envConfig} from "../env-config";
 import {StringUtils} from "../utils/common/StringUtils";
 import {axiosInstance} from "../axios-instance";
-import {FileSystem} from "../utils/common/FileSystem";
 import retry from "retry-as-promised";
 import { DateUtils } from "../utils/common/DateUtils"
+import {AxiosResponse} from "axios";
+import {test, AssertionModes} from '@cloudeou/telus-bdd'
 
 export class TelusApiUtils {
 
@@ -227,4 +228,171 @@ export class TelusApiUtils {
           endPoint = new Date();
         } while (endPoint - startPoint < ms);
       }
+
+
+    async processSearchAvailableAppointment(locationId: string, monthToCheck: any) {
+        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
+        process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+        let now = new Date();
+        let startDate = DateUtils.formatDate(new Date(now.getFullYear(), now.getMonth(), 1), '-');
+        let endDate = DateUtils.formatDate(new Date(now.getFullYear(), now.getMonth() + 1, 0), '-');
+        for (let i = 1; i <= monthToCheck; i++) {
+            console.log('start', startDate);
+            console.log('end', endDate);
+
+            let api =
+              envConfig.searchAvailableAppointments.base +
+              envConfig.searchAvailableAppointments.endpoint;
+            let contentType = {
+                "Content-Type": envConfig.searchAvailableAppointments.contentType,
+            };
+            console.debug(`api-url: ${api}
+       headers: ${JSON.stringify(contentType)}`);
+
+            const body = JSON.stringify({
+                "startDate": startDate,
+                "locationId": locationId,
+                "endDate": endDate
+            })
+
+            try {
+                const headers = await this.generateTAP360Headers();
+                const response: AxiosResponse = await axiosInstance({
+                    method: "POST",
+                    url: api,
+                    headers: {...headers, ...contentType},
+                    data: body
+                });
+
+                console.debug(`response received: ${JSON.stringify(response)}`);
+
+                test('processSearchAvailableAppointment response.status is 200', response.status, AssertionModes.strict).isnot(200,'processSearchAvailableAppointment response.status should be 200')
+                startDate = DateUtils.formatDate(new Date(new Date(startDate).getFullYear(), new Date(startDate).getDate() + i + 1), '-');
+                endDate = DateUtils.formatDate(new Date(new Date(startDate).getFullYear(), new Date(startDate).getMonth() + 1, 0), '-')
+
+            }
+            catch (error) {
+                console.log(error);
+                throw error;
+            }
+        }
+    }
+
+    /*async sendingCallToLink(enterpriseCustomerID, actionValue) {
+
+        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+        const api =
+          cfg.sendAsyncCall.base + cfg.sendAsyncCall.endpoint;
+        const contentType = {
+            "Content-Type": cfg.sendAsyncCall.contentType,
+        };
+        logger.debug(`api-url: ${api}
+           headers: ${JSON.stringify(contentType)}`);
+
+        let rawBody = FileSystem.readFileSync(
+          cfg.sendAsyncCall.fileForBody
+        ).toString();
+
+        let keywordToReplace = '#enterpriseCustomerID#';
+        logger.debug(`Replacing ${keywordToReplace} in body with ${enterpriseCustomerID}`);
+        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, enterpriseCustomerID);
+
+        keywordToReplace = '#actionValue#';
+        logger.debug(`Replacing ${keywordToReplace} in body with ${actionValue}`);
+        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, actionValue);
+
+        rawBody = rawBody.replace(/\r?\n|\r/g, ' ');
+        logger.debug(`Hitting as below details:
+        api: ${api}
+        contentType: ${JSON.stringify(contentType)}
+        rawBody: ${rawBody}`);
+        console.log(`Hitting as below details:
+        api: ${api}
+        contentType: ${JSON.stringify(contentType)}
+        rawBody: ${rawBody}`)
+
+        // const response = await request("post", api).set(contentType).send(rawBody);
+        const response = await this.postNgetResponse(api, contentType, rawBody);
+        logger.debug(`response received: ${JSON.stringify(response)}`);
+        logger.exitMethod(`response status: ${response.status}`);
+        return response;
+    }*/
+
+    /*async stepForAddingSTB(cfg, iptvServiceKey) {
+        logger.enterMethod(
+          `Using netcracker api to complete customer ID iptvServiceKey ${iptvServiceKey}`,
+        );
+        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+        let GUID = btapi.getRandomInt(10000000, 99999999) + '-' + btapi.getRandomInt(1000, 9999) + '-' + btapi.getRandomInt(1000, 9999)
+          + '-' + btapi.getRandomInt(1000, 9999) + '-' + btapi.getRandomInt(100000000000, 999999999999)
+        console.log('GUID ' + GUID)
+
+        let MACAddress = btapi.getRandomInt(10, 99) + ':' + btapi.getRandomInt(10, 99) + ':' + btapi.getRandomInt(10, 99) + ':'
+          + btapi.getRandomInt(10, 99) + ':' + btapi.getRandomInt(10, 99) + ':' + btapi.getRandomInt(10, 99)
+        console.log('MACAddress ' + MACAddress)
+
+        const api =
+          cfg.stepForAddingSTB.base + cfg.stepForAddingSTB.endpoint;
+        const contentType = {
+            "Content-Type": cfg.stepForAddingSTB.contentType,
+        };
+        logger.debug(`api-url: ${api}
+         headers: ${JSON.stringify(contentType)}`);
+
+        let rawBody = FileSystem.readFileSync(
+          cfg.stepForAddingSTB.fileForBody
+        ).toString();
+
+        let keywordToReplace = '#iptvServiceKey#';
+        logger.debug(`Replacing ${keywordToReplace} in body with ${iptvServiceKey}`);
+        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, iptvServiceKey);
+
+        keywordToReplace = '#GUID#';
+        logger.debug(`Replacing ${keywordToReplace} in body with ${GUID}`);
+        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, GUID);
+
+        keywordToReplace = '#MACAddress#';
+        logger.debug(`Replacing ${keywordToReplace} in body with ${MACAddress}`);
+        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, MACAddress);
+
+        rawBody = rawBody.replace(/\r?\n|\r/g, ' ');
+        logger.debug(
+                    `Hitting as below details:
+                    api: ${api}
+                    contentType: ${JSON.stringify(contentType)}
+                    rawBody: ${rawBody}`);
+                            console.log(`Hitting as below details:
+                    api: ${api}
+                    contentType: ${JSON.stringify(contentType)}
+                    rawBody: ${rawBody}`)
+
+        // let response = await request
+        // .post(api)
+        // .auth("Administrator", "netcracker", {type: "basic"})
+        // .set(contentType)
+        // .send(rawBody)
+        // .on("response", (res)=>{
+        //     console.log(res.text);
+        //     console.log(res.status);
+        // })
+        // logger.debug(`response received: ${JSON.stringify(response)}`);
+        // logger.exitMethod(`response status: ${response.status}`);
+        // console.log(`response status: ${response.status}`)
+        // console.log('response: ' + JSON.stringify(response))
+        // console.log('response: ' + response)
+
+        try {
+            return await request
+              .post(api)
+              .auth("Administrator", "netcracker", {type: "basic"}).set(contentType)
+              .send(rawBody);
+        }
+        catch (error) {
+            return error.response.text;
+        }
+    }*/
 }

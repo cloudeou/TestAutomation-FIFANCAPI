@@ -4,9 +4,20 @@ import {AssertionModes, featureContext, postgresQueryExecutor, test} from "@clou
 import ResponseContext from "../../contexts/ngc/ResponseConntext";
 import ShoppingCartContext from "../../contexts/ngc/ShoppingCartContext";
 import {
-  getManualCreditTaskId, getSalesOrderStatusQuery, getWorkOrderNumbersNotCompleted,
-  queryNcCustomerOrdersStatusNeitherCompletedNorProcessed, getShipmentOrderNumberAndPurchaseOrderNumber,
-  getHoldOrderTaskNumber, getTaskNumber, getManualTasksFromOrder, getErrorsOccuredForCustomer
+  getManualCreditTaskId,
+  getSalesOrderStatusQuery,
+  getWorkOrderNumbersNotCompleted,
+  queryNcCustomerOrdersStatusNeitherCompletedNorProcessed,
+  getShipmentOrderNumberAndPurchaseOrderNumber,
+  getHoldOrderTaskNumber,
+  getTaskNumber,
+  getManualTasksFromOrder,
+  getErrorsOccuredForCustomer,
+  getBillingFailedActionStatus,
+  queryCheckOrdersStatuses,
+  queryCheckTheRDB_SALES_ORDERSTable,
+  queryATTR_TYPE_ID,
+  iptvServiceKey, queryOption82
 } from "../../../bdd-src/ngc/db/db-queries";
 import {TelusApiUtils} from "../../../bdd-src/telus-apis/telus-apis";
 import {Common} from "../../../bdd-src/utils/commonBDD/Common";
@@ -15,10 +26,12 @@ import {AxiosResponse} from "axios";
 import {DbProxyApi} from "../../../bdd-src/ngc/db/db-proxy-api/db-proxy.api";
 import {OrdersProcessor, TasksProcessor} from "../../../bdd-src/ngc/backendSteps/backendStepsCommon";
 import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import {checkEmail, getLastEmail} from "../../../bdd-src/utils/mailer/mailSlurpApi";
+import { data } from '../../../test-data/data';
 
 type step = (
     stepMatcher: string | RegExp,
-    callback: (args: any) => void
+    callback: (...args: any) => void
 ) => void;
 
 export const backendSteps = ({ given, and, when, then } : { [key: string]: step }) => {
@@ -65,7 +78,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
 
     try {
       const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
-      await Common.delay(5000)
+      await Common.delay(10000)
       incompleteorders = response.data.rows;
       console.log('get correct incompleteorders', incompleteorders);
     } catch (error) {
@@ -346,7 +359,6 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
 
       else {
         shoppingCartContext().setAllPendingOrders([]);
-        console.log('finish')
       }
 
   })
@@ -376,6 +388,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     const incompleteorders = incompleteordersResponse.data.rows;
 
     if (!!incompleteorders && incompleteorders.length > 0) {
+
       await tasksProcessor.processManualTask(customerId)
 
       /*const responseGetManualCreditTaskId = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
@@ -386,7 +399,10 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
         await tapis.processManualTask(manualCreditTaskId);
         await Common.delay(5000);
       }*/
-      let pendingWorkOrders: any;
+
+      await ordersProcessor.processPendingWorkOrders(customerId)
+
+      /*let pendingWorkOrders: any;
       console.info('Getting pending work orders');
       await retry(
         async function (options) {
@@ -469,7 +485,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
             await tapis.processWorkOrder(workOrderNumber);
           }
         }
-      }
+      }*/
 
       // await retry(
       //   async function (options) {
@@ -491,7 +507,9 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       //   },
       // );
 
-      let allPendingOrders: any ;
+      await ordersProcessor.processAllPendingOrders(customerId)
+
+      /*let allPendingOrders: any ;
       console.info('Getting pending orders');
       await Common.delay(10000);
       await retry(
@@ -630,7 +648,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
             }
           }
         }
-      }
+      }*/
 
       await retry(
         async function (options) {
@@ -676,6 +694,221 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     test('customerErrors is not null', customerErrors,AssertionModes.strict).isnot(null,'customerErrors has not to be null')
     test('customerErrors is not undefined', customerErrors,AssertionModes.strict).isnot(undefined,'customerErrors has not to be undefined')
     test('customerErrors.length less than 1', customerErrors.length < 1,AssertionModes.strict).is(true,'customerErrors.length less than 1')
+  });
+
+  and('validate that all orders are completed successfully', () => {
+    let allPendingOrders = shoppingCartContext().getAllPendingOrders();
+    test('allPendingOrders length toBe (0)', allPendingOrders.length, AssertionModes.strict).is(0,'allPendingOrders length should Be (0)')
+  });
+
+  and('validate that all orders are canceled successfully', () => {
+    let allPendingOrders = shoppingCartContext().getAllPendingOrders();
+    test('allPendingOrders length toBe (0)', allPendingOrders.length, AssertionModes.strict).is(0,'allPendingOrders length should Be (0)')
+  });
+
+  /*and('check that the letters was received:', async (letterInfoTable) => {
+    await Common.delay(15000);
+    const emailId = preconditionContext().getEmailId();
+    const userEmail = await getLastEmail(emailId);
+    for (let letter in userEmail)
+      letterInfoTable.forEach(({ subject, body }: any) => {
+        const splittedBody = body.split('=>');
+        let checkResult =  checkEmail(userEmail[0],splittedBody,subject);
+        if (checkResult.includesSubject === false || checkResult.includesSubject === false)
+          checkResult =  checkEmail(userEmail[1],splittedBody,subject);
+        test(`Email contains ${splittedBody}`,checkResult.includesKeyWords, AssertionModes.strict).is(true,`Email doest not contains ${splittedBody}`)
+        test(`Email contains letter with subject ${subject}`,checkResult.includesSubject, AssertionModes.strict).is(true,`Email doest not contains letter with subject ${subject}, but ${userEmail[0].headerSubject}`)
+
+      });
+
+    // const customerEmail = preconditionContext().getCustomerEmail();
+    // const userLetters = await getUserAllLetters(
+    //   customerEmail,
+    //   letterInfoTable.length,
+    // );
+    // expect(userLetters, "Letters wasn't received").not.toBeNull();
+    // expect(
+    //   userLetters.length,
+    //   `Recieved letters is't equal to table length`,
+    // ).toEqual(letterInfoTable.length);
+    //
+    // logger.info(
+    //   `Started comparing subject and body in inbox ${userLetters[0].inboxId}`,
+    // );
+    // letterInfoTable.forEach(({ subject, body }) => {
+    //   const foundLetter = userLetters.find((letter: any) => {
+    //     const splittedBody = body.split('=>');
+    //
+    //     if (splittedBody.length === 1) {
+    //       if (
+    //         !!letter.subject.match(new RegExp(subject, 'ig')) ||
+    //         !!letter.body.match(new RegExp(splittedBody[0], 'ig'))
+    //       ) {
+    //         logger.info(
+    //           `Letter: ${letter.id} in inbox: ${letter.inboxId}@mailslurp.com recieved`,
+    //         );
+    //         return true;
+    //       }
+    //     }
+    //     const includesKeyWords = splittedBody.every(
+    //       (keyword: any) =>
+    //         !!letter.subject.match(new RegExp(subject, 'ig')) ||
+    //         !!letter.body.match(new RegExp(keyword, 'ig')),
+    //     );
+    //     if (includesKeyWords) {
+    //       logger.info(
+    //         `Letter: ${letter.id} in inbox: ${letter.inboxId}@mailslurp.com recieved`,
+    //       );
+    //       return true;
+    //     }
+    //   });
+    //   expect(
+    //     foundLetter,
+    //     `Letter with subject ${subject} did't come`,
+    //   ).not.toBeUndefined();
+    // });
+  });*/
+
+  and('validate that all billing actions completed successfully', async () => {
+    const customerId = preconditionContext().getCustomerObjectId()!;
+    const response = await dbProxy.executeQuery(getBillingFailedActionStatus(customerId))
+    const billingActionStatus = response.data.rows
+
+    test(`Billing action status for ${customerId} is not NULL`, billingActionStatus, AssertionModes.strict).isnot(null,`Billing action status for ${customerId} should not be NULL`)
+    test(`Billing action status for ${customerId} is defined`, billingActionStatus, AssertionModes.strict).isnot(undefined,`Billing action status for ${customerId} is not defined`)
+    test(`Status for customer: ${customerId} should be less then 1}`,billingActionStatus.length < 1 , AssertionModes.strict).is(true,`Status for customer: ${customerId} is ${billingActionStatus}`)
+  });
+
+  and(/check (present|absent) order statuses/, async (status,table) => {
+    let customerObjectId = preconditionContext().getCustomerObjectId()!;
+    let statusMap = Common.getStatusesMapFromTable(table);
+
+    await Common.delay(15000);
+    for (const [key, value] of statusMap) {
+      const response = await dbProxy.executeQuery(queryCheckOrdersStatuses(key, customerObjectId))
+      let orderStatus = response.data.rows
+       console.log(orderStatus)
+       console.log(key)
+      status === 'present'
+        ?
+        test(`Status for ${key} = ${orderStatus[0][1]} but not ${value} is equal to ${data.statuses[value]}`, orderStatus[0][0], AssertionModes.strict)
+          .is(data.statuses[value],`Status for ${key} = ${orderStatus[0][1]} but not ${value}`)
+        //expect(orderStatus[0][0], `Status for ${key} = ${orderStatus[0][1]} but not ${value}`,).toEqual(data.statuses[value])
+        :
+        test('orderStatus equal []', orderStatus.length === 0, AssertionModes.strict).is(true,`Order ${key} present in shoping cart`)
+        //expect(orderStatus, `Order ${key} present in shoping cart`).toEqual([]);
+    }
+  });
+
+  and('check the RDB_SALES_ORDERS table', async () => {
+    const response = await dbProxy.executeQuery(queryCheckTheRDB_SALES_ORDERSTable())
+    const ifTableExist = response.data.rows[0][0]
+    test('єRDB_SALES_ORDERS ifTableExist not toBeNull', ifTableExist, AssertionModes.strict).isnot(null, 'єRDB_SALES_ORDERS ifTableExist should not toBeNull');
+    test('єRDB_SALES_ORDERS ifTableExist not toBeUndefined', ifTableExist, AssertionModes.strict).isnot(undefined, 'єRDB_SALES_ORDERS ifTableExist should not toBeUndefined');
+  });
+
+  and('check that ATTR_TYPE_ID is text', async () => {
+    const response = await dbProxy.executeQuery(queryATTR_TYPE_ID())
+    const isTest = response.data.rows[0][0];
+    test('check that ATTR_TYPE_ID is text',isTest, AssertionModes.strict ).is(0,'check that ATTR_TYPE_ID is text');
+  });
+
+  and(/check appointment for (.*) month/, async (monthToCheck) => {
+    let addressId = preconditionContext().getAddressId();
+    await tapis.processSearchAvailableAppointment(addressId,monthToCheck)
+  });
+
+  /*and(/send async call to (link|unlink) a Smart Speaker/, async (value) => {
+    const enterpriseCustomerID =preconditionContext().getExternalCustomerId();
+    value === 'link'
+      ? console.log( await tapis.sendingCallToLink(apicfg,enterpriseCustomerID, 'new'))
+      : console.log( await tapis.sendingCallToLink(apicfg,enterpriseCustomerID, 'delete'))
+  });*/
+
+  /*and('add STB with SOAP', async () => {
+    const customerId =preconditionContext().getExternalCustomerId();
+
+    const response = await dbProxy.executeQuery(iptvServiceKey(customerId))
+
+    /!*let iptvServiceKey = await du.select(
+      dbcfg,
+      dq.iptvServiceKey(
+        customerId,
+      ),
+    );*!/
+    console.log('customerId: ' + customerId)
+
+    console.log('iptvServiceKey: ' + response.data.rows)
+
+    console.log( await tapis.stepForAddingSTB(response.data.rows))
+  });*/
+
+  and('get option 82', async () => {
+    const customerId =preconditionContext().getExternalCustomerId();
+
+    const response = await dbProxy.executeQuery(queryOption82(customerId,))
+
+    let option82 = response.data.rows
+    console.log('customerId: ' + customerId)
+
+    console.log('option82: ' + option82)
+
+  });
+
+  and('filter customers by values', async (table) => {
+    let valuesMap = Common.createValuesMapFromTable(table);
+    console.log(valuesMap);
+
+    let Option82 = valuesMap['Option82'] ? valuesMap['Option82'] : ''
+    console.log('Option82: ' + Option82)
+
+    let connectivityStatus = valuesMap['connectivityStatus'] ? valuesMap['connectivityStatus'] : ''
+    console.log('connectivityStatus: ' + connectivityStatus)
+
+    let activeServiceIndicator = valuesMap['activeServiceIndicator'] ? valuesMap['activeServiceIndicator'] : ''
+    console.log('activeServiceIndicator: ' + activeServiceIndicator)
+
+    let hsiaServiceIndicator = valuesMap['hsiaServiceIndicator'] ? valuesMap['hsiaServiceIndicator'] : ''
+    console.log('hsiaServiceIndicator: ' + hsiaServiceIndicator)
+
+    let tvServiceIndicator = valuesMap['tvServiceIndicator'] ? valuesMap['tvServiceIndicator'] : ''
+    console.log('tvServiceIndicator: ' + tvServiceIndicator)
+
+    let voiceServiceIndicator = valuesMap['voiceServiceIndicator'] ? valuesMap['voiceServiceIndicator'] : ''
+    console.log('voiceServiceIndicator: ' + voiceServiceIndicator)
+
+
+    // let newArr = [...valuesMap.entries()]
+    // console.log('newArr: ' + newArr)
+    // console.log('newArr: ' + newArr.length)
+
+    // let Option82 = newArr.find(([key, value]) => key === 'Option82')
+    // ? newArr.find(([key, value]) => key === 'Option82')[1] : ''
+    // console.log('Option82: ' + Option82)
+
+    // let connectivityStatus = newArr.find(([key, value]) => key === 'connectivityStatus')
+    // ? newArr.find(([key, value]) => key === 'connectivityStatus')[1] : ''
+    // console.log('connectivityStatus: ' + connectivityStatus)
+
+    // let activeServiceIndicator = newArr.find(([key, value]) => key === 'activeServiceIndicator')
+    // ? newArr.find(([key, value]) => key === 'activeServiceIndicator')[1] : ''
+    // console.log('activeServiceIndicator: ' + activeServiceIndicator)
+
+    // let hsiaServiceIndicator = newArr.find(([key, value]) => key === 'hsiaServiceIndicator')
+    // ? newArr.find(([key, value]) => key === 'hsiaServiceIndicator')[1] : ''
+    // console.log('hsiaServiceIndicator: ' + hsiaServiceIndicator)
+
+    // let tvServiceIndicator = newArr.find(([key, value]) => key === 'tvServiceIndicator')
+    // ? newArr.find(([key, value]) => key === 'tvServiceIndicator')[1] : ''
+    // console.log('tvServiceIndicator: ' + tvServiceIndicator)
+
+    // let voiceServiceIndicator = newArr.find(([key, value]) => key === 'voiceServiceIndicator')
+    // ? newArr.find(([key, value]) => key === 'voiceServiceIndicator')[1] : ''
+    // console.log('voiceServiceIndicator: ' + voiceServiceIndicator)
+
+
+    // console.log( await tapis.filterCustomersByValues(apicfg, Option82, connectivityStatus, activeServiceIndicator, hsiaServiceIndicator, tvServiceIndicator, voiceServiceIndicator))
+
   });
 
 }

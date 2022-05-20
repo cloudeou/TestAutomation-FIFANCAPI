@@ -388,3 +388,121 @@ export const  getErrorsOccuredForCustomer = (
   console.log(query)
   return query
 }
+
+
+const queryGetAllBillingActionStatus = (
+  customerId: string,
+) => {
+  let query = `
+                  SELECT
+                  to_char(ba.object_id) AS ba_id,
+                      substr(stv.value, 10) AS status
+                  FROM
+                      nc_params_ix     ba
+                      LEFT JOIN nc_params        s ON s.object_id = ba.object_id
+                                              AND s.attr_id = 9141614096913188381
+                      LEFT JOIN nc_list_values   stv ON stv.list_value_id = s.list_value_id
+                  WHERE
+                      ba.value = to_char(${customerId}) /* Customer Id*/
+                      AND ba.ix_key = pkgutils.params_ix(to_char(${customerId})) /* Customer Id*/
+                      AND ba.attr_id = 9141251166913825730`;
+  console.debug(`queryGetAllBillingActionStatus: ${query}`);
+  return query;
+}
+
+const  queryGetAllBillingFailedActionStatus = (
+  customerId: string,
+) => {
+  let query = `select * from (${queryGetAllBillingActionStatus(
+    customerId,
+  )}) where lower(status) = 'failed'`;
+  console.debug(`queryGetAllBillingFailedActionStatus: ${query}`);
+  return query;
+}
+
+export const getBillingFailedActionStatus = (
+  customerInternalNcObjectId: string,
+) => {
+  let query = queryGetAllBillingFailedActionStatus(
+    customerInternalNcObjectId,
+  );
+  return query;
+}
+
+export const queryCheckOrdersStatuses = (objectTypeId:string,customerObjectId:string) => {
+  let query=` select to_char(LIST_VALUE_ID),VALUE from (select no.OBJECT_ID, np.LIST_VALUE_ID, nclv.value from NCMBE.NC_OBJECTS no, NC_PARAMS np, NC_LIST_VALUES nclv
+        where PARENT_ID = ${customerObjectId}
+        and np.object_id = no.OBJECT_ID
+        and np.attr_id = 4063055154013004350
+        and nclv.LIST_VALUE_ID = np.LIST_VALUE_ID
+        and no.OBJECT_TYPE_ID = ${objectTypeId}
+        order by no.name) order_status
+        where ROWNUM = 1`
+  console.debug(`queryCheckOrdersStatus: ${query}`);
+  return query;
+}
+
+export const queryCheckTheRDB_SALES_ORDERSTable = () => {
+  const query=`select COUNT(USER_OUTLET_ID) from RDB_SALES_ORDERS`
+  console.debug(`queryCheckATTR_TYPE_ID: ${query}`);
+  return query;
+}
+
+export const queryATTR_TYPE_ID = () => {
+  const query=`select ATTR_TYPE_ID from nc_attributes where ATTR_ID = 9153903967913504806`
+  console.debug(`queryCheckATTR_TYPE_ID: ${query}`);
+  return query;
+}
+
+export const iptvServiceKey = (
+  customerId: string,
+) => {
+
+  let query = `
+   select SUBSTR(object_id, 1) from NC_OBJECTS no
+   where no.parent_id =
+        (select object_id from NC_PARAMS_IX npx
+         where npx.attr_id = 9138719996013282785
+         and npx.ix_key = '${customerId}')
+   and no.name like 'IPTV CFS #%v.01'`;
+
+  console.debug(
+    `iptvServiceKey: ${query}`,
+  );
+  return query;
+}
+
+export const queryOption82 =(
+  customerId: string,
+) => {
+
+//    let query = `
+//    select VALUE from NCMBE.NC_PARAMS_IX
+// where ATTR_ID = 9135689397313386074 and OBJECT_ID=(
+//     select REFERENCE from NCMBE.NC_REFERENCES where ATTR_ID = 4070569491013010665 and OBJECT_ID = (
+//         select OBJECT_ID from NCMBE.NC_OBJECTS where OBJECT_TYPE_ID = 9134835045013241003 and PARENT_ID = (
+//             select nco.OBJECT_ID from NCMBE.NC_OBJECTS nco, NC_PARAMS_IX ncp
+//             where nco.OBJECT_TYPE_ID = 2091641841013994133
+//             and nco.OBJECT_ID = ncp.OBJECT_ID
+//             and ncp.VALUE = '${customerId}'
+//         )
+//     )
+// )`;
+
+  let query = `
+with conorder as (
+  select OBJECT_ID from NCMBE.NC_OBJECTS where OBJECT_TYPE_ID = 9134835045013241003 and PARENT_ID = (
+      select nco.OBJECT_ID from NCMBE.NC_OBJECTS nco, NC_PARAMS_IX ncp
+      where nco.OBJECT_TYPE_ID = 2091641841013994133
+      and nco.OBJECT_ID = ncp.OBJECT_ID
+      and ncp.VALUE = '${customerId}'
+  ) and rownum=1 order by name desc)
+select VALUE from NCMBE.NC_PARAMS_IX
+where ATTR_ID = 9135689397313386074 and OBJECT_ID=(
+  select REFERENCE from NCMBE.NC_REFERENCES where ATTR_ID = 4070569491013010665 and OBJECT_ID = (select * from conorder)
+)`;
+  console.debug(
+    `queryOption82: ${query}`,
+  );
+  return query;
+}

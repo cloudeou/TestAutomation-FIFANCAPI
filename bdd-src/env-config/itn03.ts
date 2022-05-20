@@ -74,6 +74,11 @@ export const envConfig = {
         "endpoint": "migration/v1/workOrderCompletion",
         "contentType": "application/json",
     },
+    "searchAvailableAppointments": {
+        "base": "http://tap360-data-service-np.paas-app-west2-np.tsl.telus.com/",
+        "endpoint": "migration/v1/searchAvailableAppointments",
+        "contentType": "application/json",
+    },
     dbApi: {
         baseUrl: "https://apigw-st.tsl.telus.com/service/adtMigration/v1",
         clientId: "5fba5d2a-9c9a-4829-aa16-96e9c34fb14d",
