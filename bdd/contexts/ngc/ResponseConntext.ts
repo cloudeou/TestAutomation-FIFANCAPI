@@ -10,6 +10,8 @@ export default class ResponseContext {
     private _shoppingCartResponseBody: JSON | null = null;
     private _shoppingCartResponseText: string | null = null;
     private _SCstatusCode: number = NaN;
+    private _SCresponseBody: string | null = null;
+    private _SCresponse:  JSON | null = null;
 
     private createCustomerResponse: { [key: string]: any } = {};
 
@@ -64,7 +66,7 @@ export default class ResponseContext {
         this._SCstatusCode = code;
     }
 
-    /*public setResponse(apiName: string, response: any) {
+    public setResponse(apiName: string, response: any) {
         switch (apiName) {
             case APIs.pc: {
                 this._PCresponse = response;
@@ -84,15 +86,22 @@ export default class ResponseContext {
                 this._PQstatusCode = response.status;
             }
         }
-    }*/
+    }
 
     public getResponse(apiName: APIs) {
         switch (apiName) {
+
             case APIs.pc:
                 return {
                     response: this._PCresponse,
                     responseBody: this._PCresponseBody,
                     status: this._PCstatusCode,
+                };
+            case APIs.sc:
+                return {
+                    response: this._SCresponse,
+                    responseBody: this._SCresponseBody,
+                    status: this._SCstatusCode,
                 };
         }
     }

@@ -107,7 +107,7 @@ export class ShoppingCartApi {
 
   public async updateShoppingCart(scParams: SCParams): Promise<AxiosResponse> {
     const body = this.generateBody(ShoppingCartActions.update, scParams);
-    console.dir(scParams.charMap);
+    console.log(scParams.charMap);
     console.log(`${ShoppingCartActions.update} shopping cart`);
     console.log(JSON.stringify(body));
     try {
