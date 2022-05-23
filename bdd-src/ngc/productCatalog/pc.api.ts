@@ -10,8 +10,8 @@ export class ProductCatalogApi {
 
     constructor() {
         this._oauthToken = new OauthToken(
-            envConfig.serviceQualification.clientId,
-            envConfig.serviceQualification.clientSecret
+            envConfig.productCatalog.clientId,
+            envConfig.productCatalog.clientSecret
         );
     }
    
