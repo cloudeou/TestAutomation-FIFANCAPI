@@ -9,8 +9,8 @@ export const envConfig = {
     },
     productCatalog: {
         baseUrl: "/marketsales/fifaproductcatalogmanagement/v1/productOffering?",
-        clientId: "cbe8dda8-1c6e-49fc-a969-7aa815cb3f66",
-        clientSecret: '81266322-32ff-4ecb-bf01-2fdb86b08cb12d89e278-eb1f-487c-864f-d16b81a8f955',
+        clientId: "e12ff6dc-6a62-4df7-bc30-33dfdcfca6d7",
+        clientSecret: 'a4f00982-6863-4708-ab2a-8a3f3364972e5ad74b7b-87c0-4b0a-9d54-36b901ba7ce0',
         scope: 363,
     },
     serviceQualification: {
