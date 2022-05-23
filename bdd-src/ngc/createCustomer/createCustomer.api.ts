@@ -3,65 +3,34 @@ import {envConfig} from '../../env-config';
 import { axiosInstance } from "../../axios-instance";
 import { AssertionModes, test } from "@cloudeou/telus-bdd";
 import { AxiosResponse } from "axios";
+import { OauthToken } from "../oauth-token";
+import {generateKongHeaders} from "../IkongApi"
 
 
 export class CreateCustomerApi {
+    private _oauthToken: any;
 
-    private REQUEST_TYPES = new (class {
-        createCustomer() {
-            return {
-              uri:
-                '/telus/gem/rest/api/fifacustomeraccountapi/v1/createCustomerAccount',
-              method: 'POST',
-            };
-          }
-    })
-      
-    private buildCreateCustomerOptions(
-        type: any,
-        queryParameters: any,
-        distributionChannelID: any,
-        customerCategoryID: any,
-        body: any,
-      ) {
-        let options = {
-          method: type.method,
-          url: envConfig.createCustomer.baseUrl + type.uri, 
-          qs: queryParameters,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: body == null ? {} : body,
-        //   timeout: configurationLoader.timeout + 50000,
-          json: true,
-          strictSSL: false,
-          gzip: true,
-        };
-        return options;
-      }
+    constructor() {
+        this._oauthToken = new OauthToken(
+            envConfig.dbApi.clientId,
+            envConfig.dbApi.clientSecret
+        );
+    }
 
     public async requestCreateCustomer(
-        type: any,
-        queryParameters: any,
         body: any,
-        distributionChannelID: any,
-        customerCategoryID: any,
       ): Promise<AxiosResponse> {
         try {
-            process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-            let reqOption = this.buildCreateCustomerOptions(
-                    type,
-                    queryParameters,
-                    distributionChannelID,
-                    customerCategoryID,
-                    body,
-                  );
-          
+            const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+            console.log("token", token);
+            const headers = await generateKongHeaders(token);
+            console.log("headers", headers);
+
             const response = await axiosInstance({
-                method: reqOption.method,
-                url: reqOption.url,
-                headers: reqOption.headers,
-                data: reqOption.body
+                method: 'POST',
+                url: envConfig.ikongUrl + envConfig.createCustomer.endpoint,
+                headers,
+                data: body == null ? {} : body
             })
           
             return response;
@@ -77,30 +46,13 @@ export class CreateCustomerApi {
     
       public async verifyCreateCustomerAccountTBAPI(
         queryBody: any,
-        distributionChannel?: any,
-        customerCategory?: string,
       ) {
-        
-        distributionChannel =
-          distributionChannel === undefined || distributionChannel === null
-            ? data.distributionChannel.SSP
-            : distributionChannel;
-
-        customerCategory =
-          customerCategory === undefined || customerCategory === null
-            ? data.customerCategory.CONSUMER
-            : customerCategory;
-
         let isBCA = queryBody.isBusiness ? true : false;
           
           try {
             const responseCustomer = await 
             this.requestCreateCustomer(
-              this.REQUEST_TYPES.createCustomer(),
-              {},
               queryBody,
-              distributionChannel,
-              customerCategory,
             )
             const response = responseCustomer.data;
            
