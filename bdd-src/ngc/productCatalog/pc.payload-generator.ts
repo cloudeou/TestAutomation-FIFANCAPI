@@ -3,7 +3,7 @@ export class payloadGenerator {
     constructor(
         offers: Array<String>
     ) {
-        this.offers = [];
+        this.offers = offers;
     }
     public generateQueryParams(): any {
                 return `id=${this.offers.join(',')}`

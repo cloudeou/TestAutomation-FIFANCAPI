@@ -1,20 +1,21 @@
 import { envConfig } from "../../env-config";
 import { OauthToken } from "../oauth-token";
-import { IkongApi, KongHeaders } from "../IkongApi"
 import { axiosInstance } from "../../axios-instance";
 import { AxiosResponse } from "axios";
 import {payloadGenerator} from "./pc.payload-generator";
+import {generateKongHeaders} from "../IkongApi"
 
 export class ProductCatalogApi {
     private _oauthToken: any;
 
     constructor() {
         this._oauthToken = new OauthToken(
-            envConfig.serviceQualification.clientId,
-            envConfig.serviceQualification.clientSecret
+            envConfig.productCatalog.clientId,
+            envConfig.productCatalog.clientSecret
         );
     }
-
+   
+    
     private generateParams(offers: Array<String>): string {
             const params = new payloadGenerator(offers);
             return params.generateQueryParams();
@@ -23,11 +24,13 @@ export class ProductCatalogApi {
     public async requestProductCatalog(offers: Array<String>): Promise<AxiosResponse> {
         const params = this.generateParams(offers);
         console.log(JSON.stringify(`Params: ${params}`));
+        const token = await this._oauthToken.getToken(envConfig.productCatalog.scope);
+        console.log("token", token);
         try {
-            const headers = await this.generateKongHeaders();
+            const headers = await generateKongHeaders(token);
             const response = await axiosInstance({
                 method: "GET",
-                url: envConfig.productCatalog.baseUrl+params,
+                url: envConfig.ikongUrl + envConfig.productCatalog.baseUrl + params,
                 headers,
             });
             console.log(JSON.stringify(response));
@@ -37,12 +40,6 @@ export class ProductCatalogApi {
             throw error;
         }
     }
-    private async generateKongHeaders(): Promise<KongHeaders> {
-        const token = await this._oauthToken.getToken(envConfig.productCatalog.scope);
-        console.log("token", token);
-        return {
-            Authorization: `Bearer ${token}`,
-            env: envConfig.envName,
-        };
-    }
+    
+
 }

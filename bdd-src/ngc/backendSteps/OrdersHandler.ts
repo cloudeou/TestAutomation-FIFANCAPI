@@ -1,85 +1,19 @@
-import {Common} from "../../utils/commonBDD/Common";
-import {DbProxyApi} from "../db/db-proxy-api/db-proxy.api";
-import {envConfig} from "../../env-config";
-import {StringUtils} from "../../utils/common/StringUtils";
-import {axiosInstance} from "../../axios-instance";
 import retry from "retry-as-promised";
 import {AxiosResponse} from "axios";
-import {TelusApiUtils} from "../../telus-apis/telus-apis";
 import {
-  getHoldOrderTaskNumber,
-  getManualCreditTaskId, getManualTasksFromOrder, getShipmentOrderNumberAndPurchaseOrderNumber, getTaskNumber,
+  getHoldOrderTaskNumber, getManualTasksFromOrder,
+  getShipmentOrderNumberAndPurchaseOrderNumber, getTaskNumber,
   getWorkOrderNumbersNotCompleted,
   queryNcCustomerOrdersStatusNeitherCompletedNorProcessed
 } from "../db/db-queries";
+import {Common} from "../../utils/commonBDD/Common";
 import {postgresQueryExecutor} from "@cloudeou/telus-bdd";
+import {DbProxyApi} from "../db/db-proxy-api/db-proxy.api";
+import {TelusApiUtils} from "../../telus-apis/telus-apis";
 const dbProxy = new DbProxyApi();
 const tapis = new TelusApiUtils()
 
-export class TasksProcessor {
-
-  constructor() {}
-
-  async processManualTask (customerId: string) {
-    const manualCreditTaskId = await this.requestManualCreditTaskId(customerId);
-    console.log('get correct manualCreditTaskId', manualCreditTaskId);
-    if (manualCreditTaskId !== null && manualCreditTaskId !== undefined) {
-      await Common.delay(10000)
-      await this._processManualTask(manualCreditTaskId);
-      await Common.delay(15000);
-    }
-  }
-
-  private async requestManualCreditTaskId (customerId: string) {
-    try {
-      await Common.delay(15000)
-      const response = await dbProxy.executeQuery(getManualCreditTaskId(customerId));
-      return response.data.rows[0];
-    }
-    catch (error) {
-      console.log(error);
-      throw error
-    }
-  }
-
-
-  private async _processManualTask(taskObjectId: string) {
-    // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-    let api = envConfig.processManualTaskCompletion.base + envConfig.processManualTaskCompletion.endpoint;
-    const keywordToReplace = '#TASK_OBJECT_ID#';
-    api = StringUtils.replaceString(api, keywordToReplace, taskObjectId);
-
-    const headers = await this.generateTAP360Headers();
-
-    console.log(`manual-task-api-url: ${api}`);
-
-    try {
-      const response: any = await axiosInstance({
-        method: "post",
-        url: api,
-        headers: {...headers, 'Content-Type': 'text/plain'},
-      });
-      return response;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-
-  }
-
-  private async generateTAP360Headers():  Promise<any> {
-
-    return {
-      accept: "application/json",
-      env: envConfig.envName
-    };
-  }
-
-}
-
-export class OrdersProcessor {
+export class OrdersHandler {
 
   private _allPendingOrders: any;
 
@@ -178,7 +112,7 @@ export class OrdersProcessor {
   }
 
   async processAllPendingOrders (customerId: string) {
-   this._allPendingOrders = await this.requestPendingOrders(customerId)
+    this._allPendingOrders = await this.requestPendingOrders(customerId)
 
 
     if (

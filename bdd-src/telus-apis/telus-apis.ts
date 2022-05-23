@@ -5,25 +5,37 @@ import retry from "retry-as-promised";
 import { DateUtils } from "../utils/common/DateUtils"
 import {AxiosResponse} from "axios";
 import {test, AssertionModes} from '@cloudeou/telus-bdd'
+import { OauthToken } from "../ngc/oauth-token";
+import {generateKongHeaders} from "../ngc/IkongApi";
 
 export class TelusApiUtils {
 
+    private _oauthToken: any;
 
+    constructor() {
+        this._oauthToken = new OauthToken(
+            envConfig.dbApi.clientId,
+            envConfig.dbApi.clientSecret
+        );
+    }
+    
 
     async processHoldOrderTask(taskObjectId: string) {
 
         console.log( `Using netcracker api to complete holorder task ${taskObjectId}`);
 
         let api =
-            envConfig.holdOrderTaskCompletion.base + envConfig.holdOrderTaskCompletion.endpoint;
+        envConfig.ikongUrl + envConfig.holdOrderTaskCompletion.endpoint;
         const keywordToReplace = envConfig.holdOrderTaskCompletion.keywordsToReplace;
         console.log(`Replacing ${keywordToReplace} in api with ${taskObjectId}`);
         api = StringUtils.replaceString(api, keywordToReplace, taskObjectId);
         console.debug(`api after replacing keywords: ${api}`);
         console.debug(`Hitting as below details: api: ${api}`);
 
+        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+        console.log("token", token);
         try {
-            const headers = await this.generateTAP360Headers();
+            const headers = await generateKongHeaders(token);
             const response: any = await axiosInstance({
                 method: "GET",
                 url: api,
@@ -40,13 +52,15 @@ export class TelusApiUtils {
 
     async processManualTask(taskObjectId: string) {
         // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-        let api = envConfig.processManualTaskCompletion.base + envConfig.processManualTaskCompletion.endpoint;
+        let api = envConfig.ikongUrl + envConfig.processManualTaskCompletion.endpoint;
         const keywordToReplace = '#TASK_OBJECT_ID#';
         api = StringUtils.replaceString(api, keywordToReplace, taskObjectId);
 
-        const headers = await this.generateTAP360Headers();
+        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+        console.log("token", token);
+        const headers = await generateKongHeaders(token);
 
         console.log(`manual-task-api-url: ${api}`);
 
@@ -64,13 +78,6 @@ export class TelusApiUtils {
 
     }
 
-    private async generateTAP360Headers():  Promise<any> {
-
-        return {
-            accept: "application/json",
-            env: envConfig.envName
-        };
-    }
 
     async processReleaseActivation(workOrderId: string) {
         console.log(
@@ -78,17 +85,15 @@ export class TelusApiUtils {
         );
         // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
         // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-        const api = envConfig.releaseActivation.base + envConfig.releaseActivation.endpoint;
+        const api = envConfig.ikongUrl + envConfig.releaseActivation.endpoint;
         const contentType = {
             "Content-Type": envConfig.releaseActivation.contentType,
         };
         console.log(`api-url: ${api}
         headers: ${JSON.stringify(contentType)}`);
 
-        // const keywordToReplace = envConfig.releaseActivation.keywordsToReplace[0];
-        // console.log(
-        //     `keywords to replace in body: ${JSON.stringify(keywordToReplace)}`,
-        // );
+        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+        console.log("token", token);
        
       
         console.debug(`Hitting as below details:
@@ -97,7 +102,7 @@ export class TelusApiUtils {
         `);
 
         try {
-            const headers = await this.generateTAP360Headers();
+            const headers = await generateKongHeaders(token);
             const response: any = await axiosInstance({
                 method: "POST",
                 url: api,
@@ -114,14 +119,15 @@ export class TelusApiUtils {
 
     async processWorkOrder(workOrderId: string) {
         // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-        const api = envConfig.workOrderCompletion.base + envConfig.workOrderCompletion.endpoint;
+        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        const api = envConfig.ikongUrl + envConfig.workOrderCompletion.endpoint;
         const contentType = {
             "Content-Type": envConfig.workOrderCompletion.contentType,
         };
 
-
-        const headers = await this.generateTAP360Headers();
+        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+        console.log("token", token);
+        const headers = await generateKongHeaders(token);
         const body = JSON.stringify({workOrderId})
 
         let response: any;
@@ -185,7 +191,7 @@ export class TelusApiUtils {
         );
 
         const api =
-            envConfig.shipmentOrderCompletion.base + envConfig.shipmentOrderCompletion.endpoint;
+        envConfig.ikongUrl + envConfig.shipmentOrderCompletion.endpoint;
         
         const contentType = {
             "Content-Type": envConfig.shipmentOrderCompletion.contentType,
@@ -201,12 +207,15 @@ export class TelusApiUtils {
             shipper
         }
         console.log('body: ' + body);
+
+        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+        console.log("token", token);
         
         console.debug(`Hitting as below details:
             api: ${api}
             contentType: ${JSON.stringify(contentType)}`);
     try {
-        const headers = await this.generateTAP360Headers();
+        const headers = await generateKongHeaders(token);
         const response: any = await axiosInstance({
             method: "POST",
             url: api,
@@ -241,8 +250,13 @@ export class TelusApiUtils {
             console.log('end', endDate);
 
             let api =
-              envConfig.searchAvailableAppointments.base +
+              envConfig.ikongUrl +
               envConfig.searchAvailableAppointments.endpoint;
+
+            const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+            console.log("token", token);
+            const headers = await generateKongHeaders(token);
+
             let contentType = {
                 "Content-Type": envConfig.searchAvailableAppointments.contentType,
             };
@@ -256,7 +270,6 @@ export class TelusApiUtils {
             })
 
             try {
-                const headers = await this.generateTAP360Headers();
                 const response: AxiosResponse = await axiosInstance({
                     method: "POST",
                     url: api,

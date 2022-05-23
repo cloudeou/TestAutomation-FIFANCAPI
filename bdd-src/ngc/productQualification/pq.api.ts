@@ -1,10 +1,11 @@
 import {PayloadGenerator} from "./pq.payload-generator";
-import {KongHeaders} from "../IkongApi";
 import {envConfig} from "../../env-config";
 import {OauthToken} from "../oauth-token";
 import {axiosInstance} from "../../axios-instance";
 import {AxiosResponse} from "axios";
 import {bodySamples} from "../serviceQualification/sq.body-samples";
+import {generateKongHeaders} from "../IkongApi"
+
 
 type PQparams = {
     customerCategory: any | null,
@@ -52,11 +53,13 @@ export class ProductQualificationApi {
     public async productQualification(scParams: PQparams): Promise<AxiosResponse> {
         const body = this.generateBody(scParams);
         console.log(JSON.stringify(body));
+        const token = await this._oauthToken.getToken(envConfig.productQualification.scope);
+        console.log("return token")
         try {
-            const headers = await this.generateKongHeaders();
+            const headers = await generateKongHeaders(token);
             const response: any = await axiosInstance({
                 method: "POST",
-                url: envConfig.productQualification.baseUrl,
+                url: envConfig.ikongUrl + envConfig.productQualification.baseUrl,
                 data: body,
                 headers,
             });
@@ -65,15 +68,6 @@ export class ProductQualificationApi {
             console.log(error);
             throw error;
         }
-    }
-
-    private async generateKongHeaders(): Promise<KongHeaders> {
-        const token = await this._oauthToken.getToken(envConfig.productQualification.scope);
-        console.log("return token")
-        return {
-            Authorization: `Bearer ${token}`,
-            env: envConfig.envName
-        };
     }
 
 }
