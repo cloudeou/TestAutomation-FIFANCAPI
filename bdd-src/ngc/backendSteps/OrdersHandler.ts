@@ -16,23 +16,24 @@ const tapis = new TelusApiUtils()
 export class OrdersHandler {
 
   private _allPendingOrders: any;
+  private _pendingWorkOrders: any;
 
 
   constructor() {}
 
   async processPendingWorkOrders(customerId: string) {
-    const pendingWorkOrders: any = await this.requestWorkOrderNumbersNotCompleted(customerId);
+    await this.requestWorkOrderNumbersNotCompleted(customerId);
 
-    console.log('pendingWorkOrders class, ',pendingWorkOrders)
+    console.log('pendingWorkOrders class, ',this._pendingWorkOrders)
 
     if (
-      pendingWorkOrders !== null &&
-      pendingWorkOrders !== undefined &&
-      pendingWorkOrders.length > 0
+      this._pendingWorkOrders !== null &&
+      this._pendingWorkOrders !== undefined &&
+      this._pendingWorkOrders.length > 0
     ) {
-      for (let orIndex = 0; orIndex < pendingWorkOrders.length; orIndex++) {
-        let workOrderNumber = pendingWorkOrders[orIndex][0];
-        const workOrderName = pendingWorkOrders[orIndex][2];
+      for (let orIndex = 0; orIndex < this._pendingWorkOrders.length; orIndex++) {
+        let workOrderNumber = this._pendingWorkOrders[orIndex][0];
+        const workOrderName = this._pendingWorkOrders[orIndex][2];
         if (workOrderName.toLowerCase().includes('work order')) {
 
           await retry(
@@ -101,7 +102,7 @@ export class OrdersHandler {
           throw 'Got pending work orders as undefined' + response;
         }
 
-        return workOrderNumbersNotCompleted
+        this._pendingWorkOrders = workOrderNumbersNotCompleted
       },
       {
         max: 5, // maximum amount of tries
@@ -112,7 +113,7 @@ export class OrdersHandler {
   }
 
   async processAllPendingOrders (customerId: string) {
-    this._allPendingOrders = await this.requestPendingOrders(customerId)
+    await this.requestPendingOrders(customerId)
 
 
     if (
@@ -251,7 +252,7 @@ export class OrdersHandler {
   private async requestPendingOrders (customerId: string) {
 
     return await retry(
-      async function (options) {
+      async  (options) => {
         // options.current, times callback has been called including this call
         const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
         if (response.data.rows.length === undefined) {
@@ -259,7 +260,7 @@ export class OrdersHandler {
         }
         console.log('allPendingOrders ' + response.data.rows)
 
-        return  response.data.rows;
+        this._allPendingOrders =  response.data.rows;
       },
       {
         max: 5, // maximum amount of tries

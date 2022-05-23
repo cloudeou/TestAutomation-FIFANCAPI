@@ -56,7 +56,7 @@ export class PromotionApi {
 
     public async requestPromotion(pparams: PromotionParams): Promise<AxiosResponse> {
         const body = this.generateBody(pparams);
-        const params = this.generateParams(pparams.shoppingCartId)
+        const params = this.generateParams(pparams.shoppingCartId!)
         const token = await this._oauthToken.getToken(envConfig.promotion.scope);
         try {
             const headers = await generateKongHeaders(token);
