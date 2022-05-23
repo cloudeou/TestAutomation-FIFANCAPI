@@ -9,7 +9,7 @@ export class bodySamples {
         };
     }
 
-    static getOffering(productOfferingId: any, categoryList?: any, prodSpecCharValueUse?: any) {
+    static getOffering(productOfferingId: string| null, categoryList?: string | null, prodSpecCharValueUse?: string | null) {
         let offering;
         if (productOfferingId) {
             offering = {
@@ -27,10 +27,10 @@ export class bodySamples {
     }
 
     getProductQual(
-        productOfferingId: any,
-        commitmentId: any,
+        productOfferingId?: string | null,
+        commitmentId?: string | null,
         categoryList?: any,
-        prodSpecCharValueUse?: any,
+        prodSpecCharValueUse?: string,
     ) {
         let qual = [];
         if (
@@ -82,7 +82,7 @@ export class bodySamples {
     }
 
 
-    getCategoryItem(categoryId: any) {
+    getCategoryItem(categoryId: string) {
         return {
             id: categoryId,
         };
@@ -90,18 +90,21 @@ export class bodySamples {
 
 
     getProductQualification(
-        customerCategory: any,
-        distributionChannel: any,
-        externalLocationId: any,
-        productOfferingId?: any,
+        customerCategory: string | null,
+        distributionChannel: string | null,
+        externalLocationId: string | null,
+        productOfferingId?: string | null | undefined,
         categoryList?: any,
         charItems?: any,
-        commitmentId?: any,
-        shoppingCartId?: any,
+        commitmentId?: string | null | undefined,
+        shoppingCartId?: string | null | undefined,
     ) {
-        const isDistChanExtId = !Object.values(
-            data.distributionChannel,
-        ).includes(distributionChannel);
+        let isDistChanExtId: any;
+        if (distributionChannel != null) {
+            isDistChanExtId = !Object.values(
+                data.distributionChannel,
+            ).includes(distributionChannel);
+        }
         const id = shoppingCartId ? {id: shoppingCartId} : undefined;
         return {
             relatedParty: [

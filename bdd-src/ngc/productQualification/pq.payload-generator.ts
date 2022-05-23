@@ -3,24 +3,24 @@ import {bodySamples} from "./pq.body-samples";
 const bodySample = new bodySamples();
 
 export class PayloadGenerator {
-    customerCategory: any;
-    distributionChannel: any;
-    externalLocationId: any;
-    categoryList: any;
-    productOfferingId?: any;
+    customerCategory: string | null;
+    distributionChannel: string | null;
+    externalLocationId: string | null;
+    categoryList: Array<string> | null;
+    productOfferingId?: string | null;
     charList?: any;
-    commitmentId?: any;
-    shoppingCartId?: any;
+    commitmentId?: string | null;
+    shoppingCartId?: string | null;
 
     constructor(
-        customerCategory: any,
-        distributionChannel: any,
-        externalLocationId: any,
-        categoryList: any,
-        productOfferingId?: any,
-        charList?: any,
-        commitmentId?: any,
-        shoppingCartId?: any,
+        customerCategory: string | null,
+        distributionChannel: string | null,
+        externalLocationId: string | null,
+        categoryList: Array<string> | null,
+        productOfferingId?: string | null | undefined,
+        charList?: string | null,
+        commitmentId?: string | null | undefined,
+        shoppingCartId?: string | null | undefined,
     ) {
         this.productOfferingId = productOfferingId;
         this.charList = charList;
@@ -32,15 +32,14 @@ export class PayloadGenerator {
         this.shoppingCartId = shoppingCartId;
     }
 
-    generateCategoryItemList(categoryList: any): any {
-        let categoryItemList: any = [];
-        if (categoryList == null || categoryList == undefined) {
-            return null;
+    generateCategoryItemList(categoryList: Array<string> | null): Array<string> {
+        let categoryItemList: Array<string> = [];
+        if (categoryList) {
+            categoryList.forEach((categoryId: string) => {
+                let categoryItem: any = bodySample.getCategoryItem(categoryId);
+                categoryItemList.push(categoryItem);
+            });
         }
-        categoryList.forEach((categoryId: any) => {
-            let categoryItem: any = bodySample.getCategoryItem(categoryId);
-            categoryItemList.push(categoryItem);
-        });
         return categoryItemList;
     }
 

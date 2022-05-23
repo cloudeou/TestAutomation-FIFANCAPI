@@ -1,7 +1,7 @@
 import ncConstants from '../../utils/nc-constants'
 
 export class bodySamples {
-   static getServiceQualification(externalLocationId: any) {
+   static getServiceQualification(externalLocationId: string) {
         return {
             serviceQualificationItem: [
                 {

@@ -7,14 +7,14 @@ import {AxiosResponse} from "axios";
 import {bodySamples} from "../serviceQualification/sq.body-samples";
 
 type PQparams = {
-    customerCategory: any | null,
-    distributionChannel: any | null,
-    externalLocationId: any | null,
-    categoryList: any | null,
-    productOfferingId?: any | null,
+    customerCategory: string | null,
+    distributionChannel: string | null,
+    externalLocationId: string | null,
+    categoryList: Array<string> | null,
+    productOfferingId?: string | null,
     charList?: any | null,
-    commitmentId?: any | null,
-    shoppingCartId?: any | null,
+    commitmentId?: string | null,
+    shoppingCartId?: string | null,
 };
 
 export class ProductQualificationApi {

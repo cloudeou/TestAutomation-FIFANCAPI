@@ -21,10 +21,10 @@ export class bodyParser {
         });
         return offers;
     }
-    static getChildsByProductOffering(response: any, productOfferingId: any):any {
-        var childs:any = [];
+    static getChildsByProductOffering(response: any, productOfferingId: string):Array<any> | null {
+        var childs:Array<any> = [];
         if (response == null) {
-            return '';
+            return null;
         }
         response.productOfferingQualificationItem.forEach((item: any) => {
             if (item.productOffering.id == productOfferingId) {
