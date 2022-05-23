@@ -1,12 +1,12 @@
 import { envConfig } from "../../env-config";
 import { OauthToken } from "../oauth-token";
-import { IkongApi, KongHeaders } from "../IkongApi";
 import { axiosInstance } from "../../axios-instance";
 import { AxiosResponse } from "axios";
 import ncConstants from "../../utils/nc-constants";
 import { bodyParser } from "./shopping-cart.body-parser";
 import { BodySamples } from "./shopping-cart.body-samples";
 import { BodyGenerator } from "./shopping-cart.body-generator";
+import {generateKongHeaders} from "../IkongApi"
 
 export enum ShoppingCartActions {
   create = "Create",
@@ -90,10 +90,11 @@ export class ShoppingCartApi {
     console.log(`${ShoppingCartActions.create} shopping cart`);
     console.log(JSON.stringify(body));
     try {
-      const headers = await this.generateKongHeaders();
+      const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
+      const headers = await generateKongHeaders(token);
       const response = await axiosInstance({
         method: "POST",
-        url: envConfig.shoppingCart.baseUrl,
+        url: envConfig.ikongUrl + envConfig.shoppingCart.baseUrl,
         data: body,
         headers,
       });
@@ -111,10 +112,11 @@ export class ShoppingCartApi {
     console.log(`${ShoppingCartActions.update} shopping cart`);
     console.log(JSON.stringify(body));
     try {
-      const headers = await this.generateKongHeaders();
+      const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
+      const headers = await generateKongHeaders(token);
       const response = await axiosInstance({
         method: "PUT",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
+        url: `${envConfig.ikongUrl}${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
         data: body,
         headers,
       });
@@ -128,10 +130,11 @@ export class ShoppingCartApi {
   public async getShoppingCart(): Promise<AxiosResponse> {
     console.log(`${ShoppingCartActions.get} shopping cart`);
     try {
-      const headers = await this.generateKongHeaders();
+      const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
+      const headers = await generateKongHeaders(token);
       const response = await axiosInstance({
         method: "GET",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
+        url: `${envConfig.ikongUrl}${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
         headers,
       });
       return response;
@@ -144,10 +147,11 @@ export class ShoppingCartApi {
   public async deleteShoppingCart(): Promise<AxiosResponse> {
     console.log(`${ShoppingCartActions.delete} shopping cart`);
     try {
-      const headers = await this.generateKongHeaders();
+      const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
+      const headers = await generateKongHeaders(token);
       const response = await axiosInstance({
         method: "DELETE",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
+        url: `${envConfig.ikongUrl}${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}`,
         headers,
       });
       return response;
@@ -164,10 +168,11 @@ export class ShoppingCartApi {
     console.log(`${ShoppingCartActions.validate} shopping cart`);
     console.log(body);
     try {
-      const headers = await this.generateKongHeaders();
+      const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
+      const headers = await generateKongHeaders(token);
       const response = await axiosInstance({
         method: "POST",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}/validate`,
+        url: `${envConfig.ikongUrl}${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}/validate`,
         data: body,
         headers,
       });
@@ -183,10 +188,11 @@ export class ShoppingCartApi {
     console.log(`${ShoppingCartActions.submit} shopping cart`);
     console.log(body);
     try {
-      const headers = await this.generateKongHeaders();
+      const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
+      const headers = await generateKongHeaders(token);
       const response = await axiosInstance({
         method: "POST",
-        url: `${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}/checkout`,
+        url: `${envConfig.ikongUrl}${envConfig.shoppingCart.baseUrl}/${this._shoppingCartId}/checkout`,
         data: body,
         headers,
       });
@@ -375,12 +381,4 @@ export class ShoppingCartApi {
     return flag;
   }
 
-  private async generateKongHeaders(): Promise<KongHeaders> {
-    const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
-    console.log("token", token);
-    return {
-      Authorization: `Bearer ${token}`,
-      env: envConfig.envName,
-    };
-  }
 }

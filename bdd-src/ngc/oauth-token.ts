@@ -64,7 +64,7 @@ export class OauthToken {
                 secret: this._clientSecret,
             },
             auth: {
-                tokenHost: envConfig.token.tokenHost,
+                tokenHost: envConfig.ikongUrl,
                 tokenPath: envConfig.token.tokenPath,
             },
             http: {
