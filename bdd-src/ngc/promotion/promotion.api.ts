@@ -7,12 +7,12 @@ import {generateKongHeaders} from "../IkongApi"
 
 
 type PromotionParams = {
-    customerCategory?: any | null,
-    distributionChannel?: any | null,
-    externalLocationId?: any | null,
+    customerCategory?: string | null,
+    distributionChannel?: string | null,
+    externalLocationId?: string | null,
     response?: any | null,
     promotionMap?: any | null,
-    shoppingCartId?: any
+    shoppingCartId?: string
 };
 
 export class PromotionApi {

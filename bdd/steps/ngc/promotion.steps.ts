@@ -58,7 +58,7 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
         let response = ResponseContext().getShoppingCartResponse();
         let shoppingCartId = shoppingCartContext().getShoppingCartId();
         let responseText = JSON.stringify(response);
-
+        if(shoppingCartId)
         try {
             const prResponse = await fifaNcApi.requestPromotion({
                 customerCategory,

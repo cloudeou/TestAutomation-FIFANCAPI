@@ -37,12 +37,10 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
                 }
                 else throw new Error(`Address qualification is failed`);
         }
-        catch (e){
-            console.log("ERROR", e);
-            // test('Catch error',
-            //     true,
-            //     AssertionModes.strict
-            // ).is(false,'Error response is received\n' + JSON.stringify(e, null, '\t'))
+        catch (error){
+            console.log("ERROR", error);
+            test('Error response should not be received', true,AssertionModes.strict)
+                .is(false,'Error response is received\n' + JSON.stringify(error, null, '\t'))
         }
     })
     then(/^address should be qualified for (.*)$/, (value) => {
