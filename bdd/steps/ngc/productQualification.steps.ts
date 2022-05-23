@@ -121,6 +121,12 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
     //         );
     //     },
     // );
+    and('user filter by the following categories:', (table) => {
+        ProductQualificationContext().setCategoryList(
+          Common.getCategoriesFromTable(table),
+        );
+      });
+
     and(/^validate product offering parameters should contain:$/, (table) => {
         let response: any;
         let productOfferings: any; //Array<any> | string; return type of getProductOfferings???
