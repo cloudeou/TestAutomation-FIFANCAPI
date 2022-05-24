@@ -32,14 +32,14 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
 
     and(/^user filter by the following product offering id: (.*)$/, (offerId) => {
         console.log('hihihi');
-        ProductQualificationContext().setproductOfferingId(offerId);
+        ProductQualificationContext().productOfferingId = offerId;
     });
 
     and(
         /^user try to get list of the qualified offers by the following commitment id: (.*)$/,
         (commitmentId: string) => {
             console.log('hihihi');
-            ProductQualificationContext().setCommitmentId(commitmentId);
+            ProductQualificationContext().commitmentId = commitmentId;
         },
     );
 
@@ -48,10 +48,10 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
         let distributionChannel = PreconditionContext().distributionChannel;
         let distributionChannelExternalId = PreconditionContext().distributionChannelExternalId;
         let customerCategory = PreconditionContext().customerCategory;
-        let productOfferingId = ProductQualificationContext().getproductOfferingId();
-        let categoryList = ProductQualificationContext().getCategoryList();
-        let charList = ProductQualificationContext().getCharList();
-        let commitmentId = ProductQualificationContext().getCommitmentId();
+        let productOfferingId = ProductQualificationContext().productOfferingId;
+        let categoryList = ProductQualificationContext().categoryList;
+        let charList = ProductQualificationContext().charList;
+        let commitmentId = ProductQualificationContext().commitmentId;
 
         let distChannelOption = Common.resolveAddressId(
             distributionChannelExternalId,
@@ -122,9 +122,7 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
     //     },
     // );
     and('user filter by the following categories:', (table) => {
-        ProductQualificationContext().setCategoryList(
-          Common.getCategoriesFromTable(table),
-        );
+        ProductQualificationContext().categoryList = Common.getCategoriesFromTable(table);
       });
 
     and(/^validate product offering parameters should contain:$/, (table) => {
