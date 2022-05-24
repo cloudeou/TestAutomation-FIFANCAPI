@@ -5,7 +5,8 @@ export const envConfig = {
         tokenPath: "/st/token",
     },
     createCustomer: {
-        baseUrl: "https://flcncapp-itn01.tsl.telus.com",
+        endpoint: "/service/adtMigration/v1/telus/gem/rest/api/fifacustomeraccountapi/v1/createCustomerAccount",
+
     },
     productCatalog: {
         baseUrl: "/marketsales/fifaproductcatalogmanagement/v1/productOffering?",
