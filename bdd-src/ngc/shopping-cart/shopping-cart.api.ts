@@ -18,7 +18,7 @@ export enum ShoppingCartActions {
 }
 
 export type SCParams = {
-  ecid?: number;
+  ecid?: number | null;
   lpdsid?: string;
   customerCategory: string;
   distributionChannel: string;

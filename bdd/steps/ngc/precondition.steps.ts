@@ -1,7 +1,6 @@
 import PreconditionContext from "../../contexts/ngc/PreconditionContext";
 import ReportContext from "../../contexts/ngc/ReportContext";
 import { Identificators } from "../../contexts/Identificators";
-import { Common } from "../../../bdd-src/utils/commonBDD/Common";
 import { TestResultStatus } from '../apis.enum';
 import { AssertionModes, featureContext, test } from "@cloudeou/telus-bdd";
 
@@ -20,12 +19,12 @@ export const preconditionSteps = async ({ given, and, when, then } : { [key: str
     given(
       /^address shall be created under the following unit (.*)$/,
       (streetNumberid) => {
-        preconditionContext().setStreetNumberId(streetNumberid);
+        preconditionContext().streetNumberId = streetNumberid;
       },
     );
   
     given(/^user has address with type (.*)$/, (addressType) => {
-      preconditionContext().setAddressType(addressType);
+      preconditionContext().addressType = addressType;
     });
   
     // given('addresses are in process env', () => {
@@ -36,60 +35,60 @@ export const preconditionSteps = async ({ given, and, when, then } : { [key: str
     // });
   
     given(/^user has address with address id (.*)$/, (addressId) => {
-      preconditionContext().setAddressId(addressId);
+      preconditionContext().addressId = addressId;
     });
   
     and(/^technology type is (.*)$/, (techType) => {
-      preconditionContext().setTechnologyType(techType);
+      preconditionContext().technologyType = techType;
     });
   
     and(/^device type is (.*)$/, (devType) => {
-      preconditionContext().setDeviceType(devType);
+      preconditionContext().deviceType = devType;
     });
   
     and(/^scenario type is (.*)$/, (scenarioType) => {
-      preconditionContext().setScenarioType(scenarioType);
+      preconditionContext().scenarioType = scenarioType;
     });
   
     and(/^street number id is (.*)$/, (streetNumberId) => {
-      preconditionContext().setStreetNumberId(streetNumberId);
+      preconditionContext().streetNumberId = streetNumberId;
     });
   
     and(/^olt name is (.*)$/, (oltName) => {
-      preconditionContext().setOltName(oltName);
+      preconditionContext().oltName = oltName;
     });
   
     and(/^distribution channel is (.*)$/, (distChannel) => {
-      preconditionContext().setDistributionChannel(distChannel);
+      preconditionContext().distributionChannel = distChannel;
     });
   
     and(/^EXTERNAL_ID of distribution channel is (.*)$/, (distChannelExtId) => {
-      preconditionContext().setDistributionChannelExternalId(distChannelExtId);
+      preconditionContext().distributionChannelExternalId = distChannelExtId;
     });
     //
     and(/^customer category is (.*)$/, (custCategory: string) => {
-        preconditionContext().setCustomerCategory(custCategory);
+        preconditionContext().customerCategory = custCategory;
     });
   
     and(/^market for an address is (.*)$/, (market) => {
-      preconditionContext().setMarket(market);
+      preconditionContext().market = market;
     });
   
     and(/^user select odb value for address is (.*)$/, (odb) => {
-      preconditionContext().setOdb(odb);
+      preconditionContext().odb = odb;
     });
   
     and(/^user select dpu value for address is (.*)$/, (dpu) => {
-      preconditionContext().setDpu(dpu);
+      preconditionContext().dpu = dpu;
     });
   
     when(/get address based on entered data: '(.*)'/, async (addressId: string) => {
       console.log(`addressId: ${addressId}`);
-      preconditionContext().setAddressId(addressId);
+      preconditionContext().addressId = addressId;
     });
   
     then('address id should be returned', () => {
-        test('address id should be returned',preconditionContext().getAddressId(),AssertionModes.strict,).isnot(null, 'address id was not returned');
+        test('address id should be returned',preconditionContext().addressId,AssertionModes.strict,).isnot(null, 'address id was not returned');
     });
   
     then('test case passed', () => {
@@ -98,8 +97,8 @@ export const preconditionSteps = async ({ given, and, when, then } : { [key: str
     });
   
     and('drop customer id', async () => {
-      preconditionContext().setExternalCustomerId(null);
-      preconditionContext().setCustomerObjectId(null);
+      preconditionContext().externalCustomerId = null;
+      preconditionContext().customerObjectId = null;
     });
   };
   

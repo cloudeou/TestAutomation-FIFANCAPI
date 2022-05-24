@@ -8,36 +8,32 @@ export default class ProductQualificationContext {
     private _commitmentId: any;
 
 
-    public getCategoryList(): any {
+    public get categoryList(): any {
         return this._categoryList;
     }
 
-    public setCategoryList(categoryList: Array<string>) {
+    public set categoryList(categoryList: any) {
         this._categoryList = categoryList;
     }
 
-    public setCommitmentId(commitmentId: any) {
+    public set commitmentId(commitmentId: any) {
         this._commitmentId = commitmentId;
     }
 
-    public getCommitmentId():any {
+    public get commitmentId():any {
         return this._commitmentId;
     }
 
-    public getproductOfferingId(): any {
+    public get productOfferingId(): any {
         return this._productOfferingId;
     }
 
-    public setproductOfferingId(productOfferingId: string) {
+    public set productOfferingId(productOfferingId: any) {
         this._productOfferingId = productOfferingId;
     }
 
-    public getCharList():any {
+    public get charList():any {
         return this._charList;
-    }
-
-    public setCharList(charList: Array<string>) {
-        this._charList = charList;
     }
 
     public reset() {

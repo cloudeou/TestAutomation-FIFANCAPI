@@ -2,24 +2,14 @@ import { Identificators } from "../Identificators";
 export default class ProductCatalogContext {
 
     public identificator = Identificators.ProductCatalogContext;
-    private requestedItems: Array<String> = [];
+    private _requestedItems: Array<String> = [];
 
-    private responsedItems: Map<string, JSON> = new Map();
-
-    public setRequestedItems(offerList: Array<String>) {
+    public set requestedItems(offerList: Array<String>) {
         console.log('inside set');
         console.log(offerList);
-        offerList.forEach(offer => this.requestedItems.push(offer))
+        offerList.forEach(offer => this._requestedItems.push(offer))
     }
-    public getRequestedItems() {
-        return this.requestedItems;
-    }
-
-    public setProductCatalogResponse(value: JSON) {
-        //this.productCatalogResponse = value;
-    }
-
-    public setResponsedItem(id: string, item: JSON) {
-        this.responsedItems.set(id, item);
+    public get requestedItems() {
+        return this._requestedItems;
     }
 }

@@ -102,10 +102,10 @@ export const createShoppingCartSteps = ({
 
   when('user try to create Shopping Cart', async () => {
     shoppingCartContext().shoppingCartApiInstance = shoppingCartApi;
-    let externalLocationId = preconditionContext().getAddressId();
-    let distributionChannel = preconditionContext().getDistributionChannel();
-    let distributionChannelExternalId = preconditionContext().getDistributionChannelExternalId();
-    let customerCategory = preconditionContext().getCustomerCategory();
+    let externalLocationId = preconditionContext().addressId;
+    let distributionChannel = preconditionContext().distributionChannel;
+    let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
+    let customerCategory = preconditionContext().customerCategory;
     let selectedOffers = null;
 
     let distChannelOption = Common.resolveAddressId(
@@ -125,8 +125,8 @@ export const createShoppingCartSteps = ({
       shoppingCartContext().setCharMap(null);
     }
     shoppingCartContext().resetChildOffers();
-    console.log('EID ' + preconditionContext().getExternalCustomerId());
-    let customerAccountECID = preconditionContext().getExternalCustomerId();
+    console.log('EID ' + preconditionContext().externalCustomerId);
+    let customerAccountECID = preconditionContext().externalCustomerId;
 
     shoppingCartContext().clearAddingOffer();
     shoppingCartContext().clearAddingChild();
@@ -265,17 +265,20 @@ export const createShoppingCartSteps = ({
       let charMap = await Common.createCharMapFromTable(table);
       shoppingCartContext().setCharMap(charMap);
 
-      let externalLocationId = preconditionContext().getAddressId();
-      let distributionChannel = preconditionContext().getDistributionChannel();
-      let customerCategory = preconditionContext().getCustomerCategory();
+      let externalLocationId = preconditionContext().addressId;
+      let distributionChannel = preconditionContext().distributionChannel;
+      let customerCategory = preconditionContext().customerCategory;
       let selectedOffers = shoppingCartContext().getOffersToAdd();
       charMap = shoppingCartContext().getCharMap()!;
-      let customerAccountECID = preconditionContext().getExternalCustomerId();
+      let customerAccountECID = preconditionContext().externalCustomerId;
       let childOfferMap = shoppingCartContext().getChildOfferMap();
       let response = responseContext().getShoppingCartResponse();
       let shoppingCartId = shoppingCartContext().getShoppingCartId();
       let responseText = JSON.stringify(response);
-      if (responseText.includes(customerAccountECID)) {
+      if(customerAccountECID === null) {
+        throw new Error('customerAccountECID is null while validate shopping cart is created successfully')
+      }
+      if (responseText.includes(customerAccountECID.toString())) {
         customerAccountECID = null;
       }
 

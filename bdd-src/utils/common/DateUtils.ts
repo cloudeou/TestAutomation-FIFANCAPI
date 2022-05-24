@@ -36,4 +36,23 @@ export class DateUtils {
 
     return tmr;
   }
+
+  static formatDate(date: any, separator?: any) {
+    let d;
+    if (date === undefined || date === "") d = new Date();
+    else d = new Date(date);
+
+    let sep;
+    if (separator === undefined || separator === "") sep = "";
+    else sep = separator.substring(0, 1);
+
+    let month: any = d.getMonth() + 1;
+    let day: any = d.getDate();
+    const year = d.getFullYear();
+
+    month = (month < 10 ? "0" : "") + month;
+    day = (day < 10 ? "0" : "") + day;
+
+    return [year, month, day].join(sep);
+  }
 }

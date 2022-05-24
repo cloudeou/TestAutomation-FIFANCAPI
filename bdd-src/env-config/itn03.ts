@@ -67,6 +67,10 @@ export const envConfig = {
         "endpoint": "/service/adtMigration/v1/workOrderCompletion",
         "contentType": "application/json",
     },
+    "searchAvailableAppointments": {
+        "endpoint": "/migration/v1/searchAvailableAppointments",
+        "contentType": "application/json",
+    },
     dbApi: {
         baseUrl: "/service/adtMigration/v1",
         clientId: "5fba5d2a-9c9a-4829-aa16-96e9c34fb14d",

@@ -423,7 +423,7 @@ export class data {
       TELUSHomePhoneProduct: '9134835128913241500',
       TelusInstallationRepair: '9138460718113886999',
     };
-    static statuses ={
+    static statuses: {[key: string]: string} = {
      
       Suspended:'8100253973013849020',
       Suspending:'9130567416813151201',

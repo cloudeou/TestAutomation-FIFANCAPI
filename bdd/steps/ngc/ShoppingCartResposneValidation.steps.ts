@@ -370,12 +370,12 @@ export const shoppingCartResponseValidationSteps = (
 
     and('user validate shopping cart related party customer id', () => {
         let actualECID: String;
-        let originalECID: String;
+        let originalECID: number;
         let response: any;
 
         response = responseContext().getShoppingCartResponse()
         actualECID = response.relatedParty[1].id
-        originalECID = preconditionContext().getExternalCustomerId();
+        originalECID = preconditionContext().externalCustomerId!;
 
         test(`expected SC creator to be ${originalECID}`, actualECID, AssertionModes.strict)
           .is(originalECID,`Error response is received due to SC related party, expected SC creator to be ${originalECID}, but got ${actualECID} instead.`)

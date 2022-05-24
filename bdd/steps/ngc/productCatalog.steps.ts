@@ -26,12 +26,12 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
         );
         console.log(productOfferingList);
         console.log('set context');
-        productCatalogContext().setRequestedItems(productOfferingList);
-        console.log(productCatalogContext().getRequestedItems())
+        productCatalogContext().requestedItems = productOfferingList;
+        console.log(productCatalogContext().requestedItems)
     })
 
     when('user try to retrieve offer details', async ()=>{
-        let offerList: Array<String> = productCatalogContext().getRequestedItems();
+        let offerList: Array<String> = productCatalogContext().requestedItems;
         console.log(`inside first validate`);
         console.log('context');
         console.log(offerList);
@@ -59,7 +59,7 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
         const PCreponse: Array<any> = Array.from(
             <any>ResponseContext().PCresponseBody(),
         );
-        const requestedItems: Array<String> = productCatalogContext().getRequestedItems();
+        const requestedItems: Array<String> = productCatalogContext().requestedItems;
         console.log(requestedItems);
         const responseItemIds: Array<String> = [];
         PCreponse.forEach((detItem) => {
@@ -68,7 +68,6 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
                 AssertionModes.strict,
             ).is(true, `PC Item ${detItem.id} had not been requested but was received in response.`);
             responseItemIds.push(detItem.id);
-            productCatalogContext().setResponsedItem(detItem.id, detItem);
         });
         requestedItems.forEach((id) => {
             test(
