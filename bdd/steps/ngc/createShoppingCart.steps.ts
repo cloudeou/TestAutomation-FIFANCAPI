@@ -190,8 +190,6 @@ export const createShoppingCartSteps = ({
     }
   })
 
-
-
   then('validate shopping cart is created successfully', async () => {
     let response = responseContext().getResponse(<APIs>"SC");
     let salesOrderRecurrentPrice =
@@ -263,8 +261,6 @@ export const createShoppingCartSteps = ({
       if(customerAccountECID === null) {
         throw new Error('customerAccountECID is null while validate shopping cart is created successfully')
       }
-        customerAccountECID = null;
-      }
 
       const requestBody = {
         prevResponse: null,
@@ -284,11 +280,11 @@ export const createShoppingCartSteps = ({
 
         Common.checkValidResponse(response, 200);
         console.log(response);
-         const responseText = JSON.stringify(response.data, replacerFunc(), '\t');
+        const responseText = JSON.stringify(response.data, replacerFunc(), '\t');
 
         // responseContext().setResponse("SC",response);
         responseContext().setShoppingCartResponse(response.data);
-         responseContext().setshopppingCartResonseText(responseText);
+        responseContext().setshopppingCartResonseText(responseText);
 
       }
       catch (error) {
@@ -297,5 +293,5 @@ export const createShoppingCartSteps = ({
       }
 
     }
-  });
-};
+  })
+}

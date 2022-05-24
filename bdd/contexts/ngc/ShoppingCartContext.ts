@@ -106,7 +106,11 @@ export default class ShoppingCartContext {
         this._allPendingOrders = value;
     }
 
-    public get childOfferMap(): Map<any, any> {
+    public get allPendingOrders() {
+        return this._allPendingOrders;
+    }
+
+    public get childOfferMap(): any {
         return this._childOfferMap;
     }
 
@@ -207,6 +211,5 @@ export default class ShoppingCartContext {
     public get shoppingCartApiInstance(): ShoppingCartApi {
         return this._shoppingCartApiInstance;
     }
-
 
 }

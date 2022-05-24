@@ -80,7 +80,7 @@ export const updateShoppingCartSteps = ({
         } else {
             shoppingCartContext().charMap = null;
         }
-        let customerAccountECID = preconditionContext().getExternalCustomerId();
+        let customerAccountECID: null | number = preconditionContext().externalCustomerId!;
         let childOfferMap = null;
         if (shoppingCartContext().addingChild) {
             childOfferMap = shoppingCartContext().childOfferMap;
@@ -95,7 +95,7 @@ export const updateShoppingCartSteps = ({
         }
         let response = responseContext().getShoppingCartResponse();
         let responseText = JSON.stringify(response);
-        if (responseText.includes(customerAccountECID)) {
+        if (responseText.includes(customerAccountECID.toString())) {
             customerAccountECID = null;
         }
 
@@ -152,7 +152,7 @@ export const updateShoppingCartSteps = ({
             }
             let offerMap = shoppingCartContext().childOfferMap;
             if (offerMap !== null) {
-                let childOfferMap = new Map(offerMap);
+                let childOfferMap: any = new Map(offerMap);
                 shoppingCartContext().childOfferMap = null;
                 for (let [childMap, action] of childOfferMap) {
                     let newChildMap = new Map<string, Array<string>>();

@@ -42,7 +42,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   when('try to complete sales order on BE', async () => {
     let customExternalId = preconditionContext().externalCustomerId;
     let addressId = preconditionContext().addressId;
-    let salesOrderId = shoppingCartContext().getSalesOrderId();
+    let salesOrderId = shoppingCartContext().salesOrderId;
     console.debug('Sales Order ID' + salesOrderId);
     test('customExternalId is defined',
       customExternalId,
@@ -105,7 +105,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
               );
             }
             console.log(`response.data.rows !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${response.data.rows}`)
-            shoppingCartContext().setAllPendingOrders(response.data.rows);
+            shoppingCartContext().allPendingOrders = response.data.rows;
           },
           {
               max: 5, // maximum amount of tries
@@ -116,7 +116,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     }
 
       else {
-        shoppingCartContext().setAllPendingOrders([]);
+        shoppingCartContext().allPendingOrders = [];
       }
 
   })
@@ -124,7 +124,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   when('try to cancel sales order on BE', async () => {
     let customExternalId = preconditionContext().externalCustomerId;
     let addressId = preconditionContext().addressId;
-    let salesOrderId = shoppingCartContext().getSalesOrderId();
+    let salesOrderId = shoppingCartContext().salesOrderId;
     console.info('Sales Order ID' + salesOrderId);
     test('customExternalId is defined',customExternalId, AssertionModes.strict).isnot(undefined,'customExternalId should not be undefined');
     test('Customer external Id is not null', customExternalId, AssertionModes.strict).isnot(null, 'Customer external Id is null')
@@ -173,7 +173,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
           //     response,
           //   )}`,
           // );
-          shoppingCartContext().setAllPendingOrders(response.data.rows);
+          shoppingCartContext().allPendingOrders = response.data.rows;
         },
         {
           max: 5, // maximum amount of tries
@@ -183,7 +183,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       );
     }
     else {
-      shoppingCartContext().setAllPendingOrders([]);
+      shoppingCartContext().allPendingOrders = [];
       console.info('all orders are processed');
     }
   });
@@ -200,12 +200,12 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   });
 
   and('validate that all orders are completed successfully', () => {
-    let allPendingOrders = shoppingCartContext().getAllPendingOrders();
+    let allPendingOrders = shoppingCartContext().allPendingOrders;
     test('allPendingOrders length toBe (0)', allPendingOrders.length, AssertionModes.strict).is(0,'allPendingOrders length should Be (0)')
   });
 
   and('validate that all orders are canceled successfully', () => {
-    let allPendingOrders = shoppingCartContext().getAllPendingOrders();
+    let allPendingOrders = shoppingCartContext().allPendingOrders;
     test('allPendingOrders length toBe (0)', allPendingOrders.length, AssertionModes.strict).is(0,'allPendingOrders length should Be (0)')
   });
 
