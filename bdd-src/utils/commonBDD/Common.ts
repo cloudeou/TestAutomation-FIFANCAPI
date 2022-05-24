@@ -22,7 +22,7 @@ export class Common {
         table.forEach(function (row: any) {
             let offerId = row.OfferId;
             if (offerId === "any") {
-                productOfferingList.push(shoppingCartContext().getAvailableOffers()[0]);
+                productOfferingList.push(shoppingCartContext().availableOffers[0]);
             } else {
                 productOfferingList.push(offerId);
             }

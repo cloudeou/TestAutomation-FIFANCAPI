@@ -35,7 +35,7 @@ export const submitShoppingCartSteps = ({
   const dbProxy = new DbProxyApi();
 
   when('user try to submit shopping cart', async () => {
-    const shoppingCartId = shoppingCartContext().getShoppingCartId();
+    const shoppingCartId = shoppingCartContext().shoppingCartId;
     const distributionChannel = preconditionContext().distributionChannel;
     const customerCategory = preconditionContext().customerCategory;
     let distributionChannelExternalId =
@@ -79,7 +79,7 @@ export const submitShoppingCartSteps = ({
     test('SalesOrderId should not be null\n', body.id, AssertionModes.strict)
       .isnot(null,'SalesOrderId should not be null\n' + responseText)
 
-    shoppingCartContext().setSalesOrderId(body.id);
+    shoppingCartContext().salesOrderId = body.id;
 
     await retry(
       async function (options: any) {

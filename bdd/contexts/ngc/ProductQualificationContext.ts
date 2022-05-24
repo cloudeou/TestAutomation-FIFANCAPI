@@ -36,6 +36,10 @@ export default class ProductQualificationContext {
         return this._charList;
     }
 
+    public set charList(charList: Array<string> | null) {
+        this._charList = charList;
+    }
+
     public reset() {
         this._categoryList = null;
         this._productOfferingId = null;
