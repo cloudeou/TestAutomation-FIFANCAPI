@@ -1,17 +1,10 @@
 import PreconditionContext from "../../contexts/ngc/PreconditionContext";
 import {Identificators} from "../../contexts/Identificators";
-import {AssertionModes, featureContext, postgresQueryExecutor, test} from "@cloudeou/telus-bdd";
+import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
 import ResponseContext from "../../contexts/ngc/ResponseConntext";
 import ShoppingCartContext from "../../contexts/ngc/ShoppingCartContext";
 import {
-  getManualCreditTaskId,
-  getSalesOrderStatusQuery,
-  getWorkOrderNumbersNotCompleted,
   queryNcCustomerOrdersStatusNeitherCompletedNorProcessed,
-  getShipmentOrderNumberAndPurchaseOrderNumber,
-  getHoldOrderTaskNumber,
-  getTaskNumber,
-  getManualTasksFromOrder,
   getErrorsOccuredForCustomer,
   getBillingFailedActionStatus,
   queryCheckOrdersStatuses,
