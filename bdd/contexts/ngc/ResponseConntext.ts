@@ -1,5 +1,6 @@
 import { Identificators } from "../Identificators";
 import { APIs } from "../../steps/apis.enum";
+import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 export default class ResponseContext {
     public identificator = Identificators.ResponseContext;
@@ -12,6 +13,7 @@ export default class ResponseContext {
     private _SCstatusCode: number = NaN;
     private _SCresponseBody: string | null = null;
     private _SCresponse:  JSON | null = null;
+    private _SCresponseText:  string | null = null;
 
     private createCustomerResponse: { [key: string]: any } = {};
 
@@ -78,6 +80,7 @@ export default class ResponseContext {
                 this._SCresponse = response;
                 this._SCresponseBody = response.data;
                 this._SCstatusCode = response.status;
+                this._SCresponseText = JSON.stringify(response, replacerFunc(), '\t');
             }
                 break;
             case APIs.pq: {
@@ -102,6 +105,7 @@ export default class ResponseContext {
                     response: this._SCresponse,
                     responseBody: this._SCresponseBody,
                     status: this._SCstatusCode,
+                    responseText: this._SCresponseText
                 };
         }
     }

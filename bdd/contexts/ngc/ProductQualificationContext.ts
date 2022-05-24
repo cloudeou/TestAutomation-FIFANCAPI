@@ -36,7 +36,7 @@ export default class ProductQualificationContext {
         return this._charList;
     }
 
-    public setCharList(charList: Array<string>) {
+    public set charList(charList: Array<string> | null) {
         this._charList = charList;
     }
 

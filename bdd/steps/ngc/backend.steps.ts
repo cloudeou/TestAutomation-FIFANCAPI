@@ -32,7 +32,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   when('try to complete sales order on BE', async () => {
     let customExternalId = preconditionContext().getExternalCustomerId();
     let addressId = preconditionContext().getAddressId();
-    let salesOrderId = shoppingCartContext().getSalesOrderId();
+    let salesOrderId = shoppingCartContext().salesOrderId;
     console.debug('Sales Order ID' + salesOrderId);
     test('customExternalId is defined',
       customExternalId,
@@ -349,7 +349,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     }
 
       else {
-        shoppingCartContext().setAllPendingOrders([]);
+        shoppingCartContext().allPendingOrders = [];
         console.log('finish')
       }
 

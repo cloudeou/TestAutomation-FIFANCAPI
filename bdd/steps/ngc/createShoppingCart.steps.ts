@@ -15,7 +15,6 @@ type step = (
 ) => void;
 
 export const createShoppingCartSteps = ({
-   given,
    and,
    when,
    then
@@ -38,8 +37,8 @@ export const createShoppingCartSteps = ({
       table,
       shoppingCartContext,
     );
-    shoppingCartContext().setOffersToAdd(productOfferingList, 'Add');
-    shoppingCartContext().setAddingOffer();
+    shoppingCartContext().offersToAdd = {offerList: productOfferingList, action:'Add'};
+    shoppingCartContext().addingOffer = true;
   });
 
   and(/^user select commitments in (.*) period:$/, (type, table) => {
@@ -47,8 +46,8 @@ export const createShoppingCartSteps = ({
       table,
       shoppingCartContext,
     );
-    shoppingCartContext().setOffersToAdd(commitmentsList, 'Add');
-    shoppingCartContext().setAddingOffer();
+    shoppingCartContext().offersToAdd = { offerList: commitmentsList, action: 'Add'};
+    shoppingCartContext().addingOffer = true;
     let commitmentCharsTable:
       Array<{
         Name: string,
@@ -67,9 +66,9 @@ export const createShoppingCartSteps = ({
       commitmentCharsTable = [...commitmentCharsTable, ...periodCharsTable];
     });
     const comCharMap = Common.createCharMapFromTable(commitmentCharsTable);
-    const oldCharMap = shoppingCartContext().getCharMap();
+    const oldCharMap = shoppingCartContext().charMap;
     const newCharMap = Common.mergeMaps(oldCharMap!, comCharMap);
-    shoppingCartContext().setCharMap(newCharMap);
+    shoppingCartContext().charMap = newCharMap;
   });
 
   and('user delete offers:', function (table) {
@@ -77,27 +76,27 @@ export const createShoppingCartSteps = ({
       table,
       shoppingCartContext,
     );
-    shoppingCartContext().setOffersToAdd(productOfferingList, 'Delete');
-    shoppingCartContext().setAddingOffer();
+    shoppingCartContext().offersToAdd = { offerList: productOfferingList, action: 'Delete'};
+    shoppingCartContext().addingOffer = true;
   });
 
   and('user set the chars for item:', async (table) => {
     let charMap = await Common.createCharMapFromTable(table);
-    shoppingCartContext().setCharMap(charMap);
-    shoppingCartContext().setAddingCharMap();
+    shoppingCartContext().charMap = charMap;
+    shoppingCartContext().addingCharMap = true;
   });
 
   then('user try to delete Shopping Cart context', async () => {
-    shoppingCartContext().setShoppingCartId(null);
+    shoppingCartContext().shoppingCartId = null;
     responseContext().setShoppingCartResponse(null);
     responseContext().setshopppingCartResonseText(null);
-    shoppingCartContext().setExistingChildOffers(null);
-    shoppingCartContext().resetOffersToAdd();
-    shoppingCartContext().setCharMap(null);
-    shoppingCartContext().resetChildOffers();
-    shoppingCartContext().clearAddingOffer();
-    shoppingCartContext().clearAddingChild();
-    shoppingCartContext().clearAddingCharMap();
+    shoppingCartContext().existingChildOffers = null;
+    shoppingCartContext().offersToAdd = null;
+    shoppingCartContext().charMap = null;
+    shoppingCartContext().childOfferMap = null;
+    shoppingCartContext().addingOffer = false;
+    shoppingCartContext().addingChild = false;
+    shoppingCartContext().addingCharMap = false;
   });
 
   when('user try to create Shopping Cart', async () => {
@@ -113,27 +112,25 @@ export const createShoppingCartSteps = ({
       distributionChannel,
     );
 
-    if (shoppingCartContext().checkIfAddingOffer()) {
-      selectedOffers = shoppingCartContext().getOffersToAdd();
+    if (shoppingCartContext().addingOffer) {
+      selectedOffers = shoppingCartContext().offersToAdd;
     } else {
-      shoppingCartContext().resetOffersToAdd();
+      shoppingCartContext().offersToAdd = null;
     }
     let charMap = null;
-    if (shoppingCartContext().checkIfAddingCharMap()) {
-      charMap = shoppingCartContext().getCharMap();
+    if (shoppingCartContext().addingCharMap) {
+      charMap = shoppingCartContext().charMap;
     } else {
-      shoppingCartContext().setCharMap(null);
+      shoppingCartContext().charMap = null;
     }
-    shoppingCartContext().resetChildOffers();
+    shoppingCartContext().childOfferMap = null;
     console.log('EID ' + preconditionContext().getExternalCustomerId());
     let customerAccountECID = preconditionContext().getExternalCustomerId();
 
-    shoppingCartContext().clearAddingOffer();
-    shoppingCartContext().clearAddingChild();
-    shoppingCartContext().clearAddingCharMap();
+    shoppingCartContext().addingOffer = false;
+    shoppingCartContext().addingChild = false;
+    shoppingCartContext().addingCharMap = false;
 
-
-    //console.log('BODY IN CREATE:\n' + JSON.stringify(body));
 
     try {
       const response = await shoppingCartApi.createShoppingCart({
@@ -169,9 +166,8 @@ export const createShoppingCartSteps = ({
 
       let shoppingCartId = body.id;
       shoppingCartApi.shoppingCartId = shoppingCartId;
-      shoppingCartContext().setShoppingCartId(shoppingCartId);
+      shoppingCartContext().shoppingCartId = shoppingCartId;
       responseContext().setResponse("SC",response);
-      // console.log('RR1',(responseContext().getResponse(<APIs>"SC")));
       responseContext().setShoppingCartResponse(response.data);
       console.log('  responseContext().setShoppingCartResponse(response.data);');
       responseContext().setshopppingCartResonseText(responseText);
@@ -180,7 +176,7 @@ export const createShoppingCartSteps = ({
         response.data,
       );
       console.log(' let existingChildOfferMap = Common.createExistingChildOffersMap(');
-      shoppingCartContext().setExistingChildOffers(existingChildOfferMap);
+      shoppingCartContext().existingChildOffers = existingChildOfferMap;
       console.log('  shoppingCartContext().setExistingChildOffers(existingChildOfferMap);');
 
 
@@ -204,21 +200,12 @@ export const createShoppingCartSteps = ({
       response?.responseBody.cartTotalPrice[1].price.dutyFreeAmount.value;
     let SORecurrentPriceAlteration = response?.responseBody.cartTotalPrice[0].priceAlteration;
     let SOOneTimePriceAlteration = response?.responseBody.cartTotalPrice[1].priceAlteration;
-    shoppingCartContext().setOriginalSalesOrderRecurrentPrice(
-      salesOrderRecurrentPrice,
-    );
-    shoppingCartContext().setOriginalSalesOrderOneTimePrice(
-      salesOrderOneTimePrice,
-    );
-    shoppingCartContext().setSORecurrentPriceAlterationList(
-      SORecurrentPriceAlteration,
-    );
-    shoppingCartContext().setSOOneTimePriceAlterationList(
-      SOOneTimePriceAlteration,
-    );
+    shoppingCartContext().originalSalesOrderRecurrentPrice = salesOrderRecurrentPrice;
+    shoppingCartContext().originalSalesOrderOneTimePrice = salesOrderOneTimePrice;
+    shoppingCartContext().SORecurrentPriceAlterationList = SORecurrentPriceAlteration;
+    shoppingCartContext().SOOneTimePriceAlterationList = SOOneTimePriceAlteration;
 
-    let responseText = JSON.stringify(response?.responseBody, replacerFunc(), '\t');
-    const offers = shoppingCartContext().getOffersToAdd();
+    const offers = shoppingCartContext().offersToAdd;
     const offerList = [];
     const offersDeleted = [];
     for (let [key, value] of offers) {
@@ -229,7 +216,7 @@ export const createShoppingCartSteps = ({
       }
     }
     test('SC should have OPEN status',response?.responseBody?.status, AssertionModes.strict)
-      .is('OPEN','SC should have OPEN status\n' + responseText)
+      .is('OPEN','SC should have OPEN status\n' + response?.responseText)
 
     Common.validateAllOffersPresentInResponse(response?.responseBody, offerList);
     Common.validateAllOffersNotPresentInResponse(response?.responseBody, offersDeleted);
@@ -263,16 +250,16 @@ export const createShoppingCartSteps = ({
         },
       ];
       let charMap = await Common.createCharMapFromTable(table);
-      shoppingCartContext().setCharMap(charMap);
+      shoppingCartContext().charMap = charMap;
 
       let externalLocationId = preconditionContext().getAddressId();
       let distributionChannel = preconditionContext().getDistributionChannel();
       let customerCategory = preconditionContext().getCustomerCategory();
-      let selectedOffers = shoppingCartContext().getOffersToAdd();
-      charMap = shoppingCartContext().getCharMap()!;
+      let selectedOffers = shoppingCartContext().offersToAdd;
+      charMap = shoppingCartContext().charMap!;
       let customerAccountECID = preconditionContext().getExternalCustomerId();
       let response = responseContext().getResponse(<APIs>"SC");
-      let responseText = JSON.stringify(response?.responseBody);
+      let responseText = JSON.stringify(response?.responseText);
       if (responseText.includes(customerAccountECID)) {
         customerAccountECID = null;
       }

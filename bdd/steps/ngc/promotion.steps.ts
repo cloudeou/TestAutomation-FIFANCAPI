@@ -33,14 +33,14 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
             String(action).toLowerCase() === 'apply' ||
             String(action).toLowerCase() === 'add'
         ) {
-            shoppingCartContext().setPromotions(promotionMap, 'Add');
+            shoppingCartContext().promotions = {value: promotionMap, action: 'Add'};
         } else if (
             String(action).toLowerCase() === 'remove' ||
             String(action).toLowerCase() === 'delete'
         ) {
-            shoppingCartContext().setPromotions(promotionMap, 'Remove');
+            shoppingCartContext().promotions = {value: promotionMap, action: 'Remove'};
         }
-        shoppingCartContext().setAddingPromotion();
+        shoppingCartContext().addingPromotion = true;
     })
 
     when(/^user try to (apply|remove) promotions$/, async () => {
@@ -49,14 +49,14 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
         let distributionChannel = PreconditionContext().getDistributionChannel();
         let customerCategory = PreconditionContext().getCustomerCategory();
         let promotionMap;
-        if (shoppingCartContext().checkIfAddingPromotion()) {
-            promotionMap = shoppingCartContext().getPromotions();
+        if (shoppingCartContext().addingPromotion) {
+            promotionMap = shoppingCartContext().promotions;
         } else {
-            shoppingCartContext().resetPromotions();
+            shoppingCartContext().promotions = null;
         }
 
         let response = ResponseContext().getShoppingCartResponse();
-        let shoppingCartId = shoppingCartContext().getShoppingCartId();
+        let shoppingCartId = shoppingCartContext().shoppingCartId;
         let responseText = JSON.stringify(response);
 
         try {
@@ -85,7 +85,7 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
         let responseText: any;
         response = ResponseContext().getShoppingCartResponse();
         responseText = ResponseContext().getshoppingCartResponseText();
-        let promotions = shoppingCartContext().getPromotions();
+        let promotions = shoppingCartContext().promotions;
         var addPromotion = null;
         var removePromotion = null;
         for (let [key, value] of promotions) {
@@ -107,7 +107,7 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
         /^discount savings are correct after (apply|remove) promotions$/,
         async (action) => {
             let response = ResponseContext().getShoppingCartResponse();
-            let promotionsMap = shoppingCartContext().getPromotions();
+            let promotionsMap = shoppingCartContext().promotions;
             var promotions = [];
             for (let [key, value] of promotionsMap) {
                 if (String(value) === 'Add' || String(value) === 'Delete') {
@@ -135,7 +135,7 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
                     }
                 }
             }
-            shoppingCartContext().resetPromotions();
+            shoppingCartContext().promotions = null;
         },
     );
 }

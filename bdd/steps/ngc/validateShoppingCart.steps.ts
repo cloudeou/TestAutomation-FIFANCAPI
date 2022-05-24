@@ -35,7 +35,7 @@ export const validateShoppingCartSteps = ({
 
   when('user try to validate shopping cart', async () => {
     const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
-    const shoppingCartId = shoppingCartContext().getShoppingCartId();
+    const shoppingCartId = shoppingCartContext().shoppingCartId;
     let distributionChannel = preconditionContext().getDistributionChannel();
     let distributionChannelExternalId = preconditionContext().getDistributionChannelExternalId();
     let customerCategory = preconditionContext().getCustomerCategory();
@@ -83,7 +83,7 @@ export const validateShoppingCartSteps = ({
                 characteristics[j].name == '9146584385713682940'
               ) {
                 if (!characteristics[j].value) {
-                  shoppingCartContext().setCharMap(charMap);
+                  shoppingCartContext().charMap = charMap;
                 } else return;
               }
             }
@@ -98,12 +98,12 @@ export const validateShoppingCartSteps = ({
       let distributionChannel = preconditionContext().getDistributionChannel();
       let distributionChannelExternalId = preconditionContext().getDistributionChannelExternalId();
       let customerCategory = preconditionContext().getCustomerCategory();
-      let selectedOffers = shoppingCartContext().getOffersToAdd();
-      const newCharMap = shoppingCartContext().getCharMap();
+      let selectedOffers = shoppingCartContext().offersToAdd;
+      const newCharMap = shoppingCartContext().charMap;
       let customerAccountECID = preconditionContext().getExternalCustomerId();
-      let childOfferMap = shoppingCartContext().getChildOfferMap();
+      let childOfferMap = shoppingCartContext().childOfferMap;
       let previousResponse = responseContext().getShoppingCartResponse();
-      let shoppingCartId = shoppingCartContext().getShoppingCartId();
+      let shoppingCartId = shoppingCartContext().shoppingCartId;
       let responseText = JSON.stringify(previousResponse);
       if (responseText.includes(customerAccountECID)) {
         customerAccountECID = null;
