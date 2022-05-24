@@ -53,15 +53,15 @@ export const updateShoppingCartSteps = ({
   });
 
   and('user set related party customer id', (customerId) => {
-    preconditionContext().setExternalCustomerId(customerId);
+    preconditionContext().externalCustomerId = customerId;
   });
 
   when('user try to update Shopping Cart', async () => {
     const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
-    let externalLocationId = preconditionContext().getAddressId();
-    let distributionChannel = preconditionContext().getDistributionChannel();
-    let distributionChannelExternalId = preconditionContext().getDistributionChannelExternalId();
-    let customerCategory = preconditionContext().getCustomerCategory();
+    let externalLocationId = preconditionContext().addressId;
+    let distributionChannel = preconditionContext().distributionChannel;
+    let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
+    let customerCategory = preconditionContext().customerCategory;
     let selectedOffers = null;
 
     let distChannelOption = Common.resolveAddressId(
@@ -80,7 +80,7 @@ export const updateShoppingCartSteps = ({
     } else {
       shoppingCartContext().setCharMap(null);
     }
-    let customerAccountECID = preconditionContext().getExternalCustomerId();
+    let customerAccountECID = preconditionContext().externalCustomerId;
     let childOfferMap = null;
     if (shoppingCartContext().checkIfAddingChild()) {
       childOfferMap = shoppingCartContext().getChildOfferMap();
@@ -96,7 +96,12 @@ export const updateShoppingCartSteps = ({
     let response = responseContext().getShoppingCartResponse();
     let shoppingCartId = shoppingCartContext().getShoppingCartId();
     let responseText = JSON.stringify(response);
-    if (responseText.includes(customerAccountECID)) {
+
+    if(customerAccountECID === null) {
+      throw  new Error('customerAccountECID is  null while user try to update Shopping Cart')
+    }
+
+    if (responseText.includes(customerAccountECID.toString())) {
       customerAccountECID = null;
     }
 

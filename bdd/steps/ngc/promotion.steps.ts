@@ -45,9 +45,9 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
 
     when(/^user try to (apply|remove) promotions$/, async () => {
         price.clear();
-        let externalLocationId = PreconditionContext().getAddressId();
-        let distributionChannel = PreconditionContext().getDistributionChannel();
-        let customerCategory = PreconditionContext().getCustomerCategory();
+        let externalLocationId = PreconditionContext().addressId;
+        let distributionChannel = PreconditionContext().distributionChannel;
+        let customerCategory = PreconditionContext().customerCategory;
         let promotionMap;
         if (shoppingCartContext().checkIfAddingPromotion()) {
             promotionMap = shoppingCartContext().getPromotions();

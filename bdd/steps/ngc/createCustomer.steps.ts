@@ -21,7 +21,7 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
       featureContext().getContextById(Identificators.ResponseContext);
 
       when('user try to create customer', async () => {
-        let customerEmail = preconditionContext().getCustomerEmail();
+        let customerEmail = preconditionContext().customerEmail;
 
         if (!customerEmail) {
           customerEmail =
@@ -31,10 +31,10 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
           RandomValueGenerator.getRandomInt(1, 999999) +
           RandomValueGenerator.generateRandomAlphaNumeric(5) +
           '@email.com';
-          preconditionContext().setCustomerEmail(customerEmail);
+          preconditionContext().customerEmail = customerEmail;
         }
         console.log(`Customer email address: ${customerEmail}`);
-        const addressId = preconditionContext().getAddressId();
+        const addressId = preconditionContext().addressId;
         
         const body = CreateCustomerSample.createCustomerBody(customerEmail, addressId);
 
@@ -67,8 +67,8 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
       let customerId = response.customerId; //9159028580013802859;
       test('ECID should create', ecid,AssertionModes.strict).isnot(undefined,'ECID is not created');
       test('ECID should create', ecid,AssertionModes.strict).isnot(null,'ECID is not created');
-      preconditionContext().setExternalCustomerId(ecid);
-      preconditionContext().setCustomerObjectId(customerId);
+      preconditionContext().externalCustomerId = ecid;
+      preconditionContext().customerObjectId = customerId;
     });
 
     and('billing account number is returned', () => {

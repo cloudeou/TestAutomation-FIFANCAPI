@@ -36,9 +36,9 @@ export const validateShoppingCartSteps = ({
   when('user try to validate shopping cart', async () => {
     const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
     const shoppingCartId = shoppingCartContext().getShoppingCartId();
-    let distributionChannel = preconditionContext().getDistributionChannel();
-    let distributionChannelExternalId = preconditionContext().getDistributionChannelExternalId();
-    let customerCategory = preconditionContext().getCustomerCategory();
+    let distributionChannel = preconditionContext().distributionChannel;
+    let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
+    let customerCategory = preconditionContext().customerCategory;
     let response = responseContext().getShoppingCartResponse();
 
     let distChannelOption = Common.resolveAddressId(
@@ -94,18 +94,21 @@ export const validateShoppingCartSteps = ({
         return;
       }
 
-      let externalLocationId = preconditionContext().getAddressId();
-      let distributionChannel = preconditionContext().getDistributionChannel();
-      let distributionChannelExternalId = preconditionContext().getDistributionChannelExternalId();
-      let customerCategory = preconditionContext().getCustomerCategory();
+      let externalLocationId = preconditionContext().addressId;
+      let distributionChannel = preconditionContext().distributionChannel;
+      let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
+      let customerCategory = preconditionContext().customerCategory;
       let selectedOffers = shoppingCartContext().getOffersToAdd();
       const newCharMap = shoppingCartContext().getCharMap();
-      let customerAccountECID = preconditionContext().getExternalCustomerId();
+      let customerAccountECID = preconditionContext().externalCustomerId;
       let childOfferMap = shoppingCartContext().getChildOfferMap();
       let previousResponse = responseContext().getShoppingCartResponse();
       let shoppingCartId = shoppingCartContext().getShoppingCartId();
       let responseText = JSON.stringify(previousResponse);
-      if (responseText.includes(customerAccountECID)) {
+      if(customerAccountECID === null) {
+        throw  new Error('customerAccountECID is  null while user try to validate shopping cart')
+      }
+      if (responseText.includes(customerAccountECID.toString())) {
         customerAccountECID = null;
       }
 
@@ -379,12 +382,7 @@ export const validateShoppingCartSteps = ({
           ' DESCRIPTION: ' +
           warningDetails.message +
           '\n';
-        preconditionContext().setErrors(
-          'WARNING: ' +
-          warningDetails.name +
-            ' DESCRIPTION: ' +
-            warningDetails.message,
-        );
+        preconditionContext().errors = 'WARNING: ' + warningDetails.name + ' DESCRIPTION: ' + warningDetails.message
       }
     });
 

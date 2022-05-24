@@ -40,8 +40,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   const ordersHandler = new OrdersHandler()
 
   when('try to complete sales order on BE', async () => {
-    let customExternalId = preconditionContext().getExternalCustomerId();
-    let addressId = preconditionContext().getAddressId();
+    let customExternalId = preconditionContext().externalCustomerId;
+    let addressId = preconditionContext().addressId;
     let salesOrderId = shoppingCartContext().getSalesOrderId();
     console.debug('Sales Order ID' + salesOrderId);
     test('customExternalId is defined',
@@ -60,7 +60,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     test('Response is not null',
       response,
       AssertionModes.strict).isnot(null, 'Response is null');
-    const customerId = preconditionContext().getCustomerObjectId()!;
+    const customerId = preconditionContext().customerObjectId!;
     console.debug('customer id' + customerId);
     let order: any;
     order = {customerId};
@@ -122,8 +122,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   })
 
   when('try to cancel sales order on BE', async () => {
-    let customExternalId = preconditionContext().getExternalCustomerId;
-    let addressId = preconditionContext().getAddressId();
+    let customExternalId = preconditionContext().externalCustomerId;
+    let addressId = preconditionContext().addressId;
     let salesOrderId = shoppingCartContext().getSalesOrderId();
     console.info('Sales Order ID' + salesOrderId);
     test('customExternalId is defined',customExternalId, AssertionModes.strict).isnot(undefined,'customExternalId should not be undefined');
@@ -133,7 +133,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
 
     let response = responseContext().getShoppingCartResponse();
     test('Response is not null', response, AssertionModes.strict).isnot(null,'Response is null')
-    const customerId = preconditionContext().getCustomerObjectId()!;
+    const customerId = preconditionContext().customerObjectId!;
     console.info('customer id' + customerId);
     let order: any;
     order = { customerId };
@@ -189,7 +189,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   });
 
   then('validate that no errors created on BE', async () => {
-    const customerId = preconditionContext().getCustomerObjectId()!;
+    const customerId = preconditionContext().customerObjectId!;
     const response = await dbProxy.executeQuery(getErrorsOccuredForCustomer(customerId))
 
     const customerErrors = response.data.rows
@@ -273,7 +273,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   });*/
 
   and('validate that all billing actions completed successfully', async () => {
-    const customerId = preconditionContext().getCustomerObjectId()!;
+    const customerId = preconditionContext().customerObjectId!;
     const response = await dbProxy.executeQuery(getBillingFailedActionStatus(customerId))
     const billingActionStatus = response.data.rows
 
@@ -283,7 +283,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   });
 
   and(/check (present|absent) order statuses/, async (status,table) => {
-    let customerObjectId = preconditionContext().getCustomerObjectId()!;
+    let customerObjectId = preconditionContext().customerObjectId!;
     let statusMap = Common.getStatusesMapFromTable(table);
 
     await Common.delay(15000);
@@ -317,19 +317,19 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   });
 
   and(/check appointment for (.*) month/, async (monthToCheck) => {
-    let addressId = preconditionContext().getAddressId();
+    let addressId = preconditionContext().addressId;
     await tapis.processSearchAvailableAppointment(addressId,monthToCheck)
   });
 
   /*and(/send async call to (link|unlink) a Smart Speaker/, async (value) => {
-    const enterpriseCustomerID =preconditionContext().getExternalCustomerId();
+    const enterpriseCustomerID =preconditionContext().externalCustomerId;
     value === 'link'
       ? console.log( await tapis.sendingCallToLink(apicfg,enterpriseCustomerID, 'new'))
       : console.log( await tapis.sendingCallToLink(apicfg,enterpriseCustomerID, 'delete'))
   });*/
 
   /*and('add STB with SOAP', async () => {
-    const customerId =preconditionContext().getExternalCustomerId();
+    const customerId =preconditionContext().externalCustomerId;
 
     const response = await dbProxy.executeQuery(iptvServiceKey(customerId))
 
@@ -347,14 +347,20 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   });*/
 
   and('get option 82', async () => {
-    const customerId =preconditionContext().getExternalCustomerId();
+    const customerId = preconditionContext().externalCustomerId;
 
-    const response = await dbProxy.executeQuery(queryOption82(customerId,))
+    if(customerId !== null) {
+      const response = await dbProxy.executeQuery(queryOption82((customerId.toString())))
 
-    let option82 = response.data.rows
-    console.log('customerId: ' + customerId)
+      let option82 = response.data.rows
+      console.log('customerId: ' + customerId)
 
-    console.log('option82: ' + option82)
+      console.log('option82: ' + option82)
+    }
+
+    else{
+      throw new Error('customer id is null while get option 82')
+    }
 
   });
 

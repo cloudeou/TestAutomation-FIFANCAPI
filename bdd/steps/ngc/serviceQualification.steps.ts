@@ -21,13 +21,13 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
 
     given('preconditions by user are selected', () => {
         test('preconditions - Address id is not null',
-            preconditionContext().getAddressId(),
+            preconditionContext().addressId,
             AssertionModes.strict
         ).isnot(null,'Address id is null');
     });
 
     when('user check availability', async () => {
-        let externalLocationId = preconditionContext().getAddressId();
+        let externalLocationId = preconditionContext().addressId;
         try {
                 const sqResponse = await fifaNcApi.requestServiceQualification(externalLocationId);
                 if (typeof sqResponse !== 'undefined')

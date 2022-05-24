@@ -44,10 +44,10 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
     );
 
     when('user try to get qualified product offering list', async () => {
-        let externalLocationId = PreconditionContext().getAddressId();
-        let distributionChannel = PreconditionContext().getDistributionChannel();
-        let distributionChannelExternalId = PreconditionContext().getDistributionChannelExternalId();
-        let customerCategory = PreconditionContext().getCustomerCategory();
+        let externalLocationId = PreconditionContext().addressId;
+        let distributionChannel = PreconditionContext().distributionChannel;
+        let distributionChannelExternalId = PreconditionContext().distributionChannelExternalId;
+        let customerCategory = PreconditionContext().customerCategory;
         let productOfferingId = ProductQualificationContext().getproductOfferingId();
         let categoryList = ProductQualificationContext().getCategoryList();
         let charList = ProductQualificationContext().getCharList();

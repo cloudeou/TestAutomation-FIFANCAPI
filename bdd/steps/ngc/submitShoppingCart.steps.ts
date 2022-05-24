@@ -36,8 +36,8 @@ export const submitShoppingCartSteps = ({
 
   when('user try to submit shopping cart', async () => {
     const shoppingCartId = shoppingCartContext().getShoppingCartId();
-    const distributionChannel = preconditionContext().getDistributionChannel();
-    const customerCategory = preconditionContext().getCustomerCategory();
+    const distributionChannel = preconditionContext().distributionChannel;
+    const customerCategory = preconditionContext().customerCategory;
     let distributionChannelExternalId =
       shoppingCartContext().distributionChannelExternalId;
     const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
