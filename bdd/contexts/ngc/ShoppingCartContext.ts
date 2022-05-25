@@ -90,6 +90,10 @@ export default class ShoppingCartContext {
         return this._offersToAdd;
     }
 
+    public set availableOffers(offers) {
+        this._offerList = offers
+    }
+
     public get availableOffers() {
         return this._offerList;
     }

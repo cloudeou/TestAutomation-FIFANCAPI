@@ -167,7 +167,6 @@ export const createShoppingCartSteps = ({
       let shoppingCartId = body.id;
       shoppingCartApi.shoppingCartId = shoppingCartId;
       shoppingCartContext().shoppingCartId = shoppingCartId;
-      responseContext().setResponse("SC",response);
       responseContext().setShoppingCartResponse(response.data);
       console.log('  responseContext().setShoppingCartResponse(response.data);');
       responseContext().setshopppingCartResonseText(responseText);
@@ -191,13 +190,11 @@ export const createShoppingCartSteps = ({
   })
 
   then('validate shopping cart is created successfully', async () => {
-    let response = responseContext().getResponse(<APIs>"SC");
-    let salesOrderRecurrentPrice =
-      response?.responseBody.cartTotalPrice[0].price.dutyFreeAmount.value;
-    let salesOrderOneTimePrice =
-      response?.responseBody.cartTotalPrice[1].price.dutyFreeAmount.value;
-    let SORecurrentPriceAlteration = response?.responseBody.cartTotalPrice[0].priceAlteration;
-    let SOOneTimePriceAlteration = response?.responseBody.cartTotalPrice[1].priceAlteration;
+    let responseBody = responseContext().getShoppingCartResponse();
+    let salesOrderRecurrentPrice = responseBody.cartTotalPrice[0].price.dutyFreeAmount.value;
+    let salesOrderOneTimePrice = responseBody.cartTotalPrice[1].price.dutyFreeAmount.value;
+    let SORecurrentPriceAlteration = responseBody.cartTotalPrice[0].priceAlteration;
+    let SOOneTimePriceAlteration = responseBody.cartTotalPrice[1].priceAlteration;
     shoppingCartContext().originalSalesOrderRecurrentPrice = salesOrderRecurrentPrice;
     shoppingCartContext().originalSalesOrderOneTimePrice = salesOrderOneTimePrice;
     shoppingCartContext().SORecurrentPriceAlterationList = SORecurrentPriceAlteration;
@@ -213,13 +210,13 @@ export const createShoppingCartSteps = ({
         offersDeleted.push(String(key));
       }
     }
-    test('SC should have OPEN status',response?.responseBody?.status, AssertionModes.strict)
-      .is('OPEN','SC should have OPEN status\n' + response?.responseText)
+    test('SC should have OPEN status',responseBody?.status, AssertionModes.strict)
+      .is('OPEN','SC should have OPEN status\n' + responseBody?.responseText)
 
-    Common.validateAllOffersPresentInResponse(response?.responseBody, offerList);
-    Common.validateAllOffersNotPresentInResponse(response?.responseBody, offersDeleted);
+    Common.validateAllOffersPresentInResponse(responseBody, offerList);
+    Common.validateAllOffersNotPresentInResponse(responseBody, offersDeleted);
 
-    if (Common.checkIfHasShippmentOrder(response?.responseBody)) {
+    if (Common.checkIfHasShippmentOrder(responseBody)) {
       let table = [
         {
           Name: '9147912230013832655',
@@ -256,7 +253,7 @@ export const createShoppingCartSteps = ({
       let selectedOffers = shoppingCartContext().offersToAdd;
       charMap = shoppingCartContext().charMap!;
       let customerAccountECID = preconditionContext().externalCustomerId;
-      let response = responseContext().getResponse(<APIs>"SC");
+      let response = responseContext().getShoppingCartResponse();
       let responseText = JSON.stringify(response?.responseText);
       if(customerAccountECID === null) {
         throw new Error('customerAccountECID is null while validate shopping cart is created successfully')
@@ -282,14 +279,14 @@ export const createShoppingCartSteps = ({
         console.log(response);
         const responseText = JSON.stringify(response.data, replacerFunc(), '\t');
 
-        // responseContext().setResponse("SC",response);
+        // responseContext().setResponse("SC",responseBody);
         responseContext().setShoppingCartResponse(response.data);
         responseContext().setshopppingCartResonseText(responseText);
 
       }
       catch (error) {
-        test('Error response should not be received', true,AssertionModes.strict)
-          .is(false,'Error response is received when try to update SC\n' + JSON.stringify(error, null, '\t'))
+        test('Error responseBody should not be received', true,AssertionModes.strict)
+          .is(false,'Error responseBody is received when try to update SC\n' + JSON.stringify(error, null, '\t'))
       }
 
     }

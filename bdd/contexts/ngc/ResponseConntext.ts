@@ -8,18 +8,15 @@ export default class ResponseContext {
     private _PCresponseBody: any;
     private _PCstatusCode: number = NaN;
 
-    private _shoppingCartResponseBody: JSON | null = null;
+    private _shoppingCartResponseBody: any | null = null;
     private _shoppingCartResponseText: string | null = null;
     private _SCstatusCode: number = NaN;
-    private _SCresponseBody: string | null = null;
-    private _SCresponse:  JSON | null = null;
-    private _SCresponseText:  string | null = null;
 
     private createCustomerResponse: { [key: string]: any } = {};
 
-    private _PQresponse: any;
     private _PQresponseBody: any;
     private _PQstatusCode: number = NaN;
+    private _PQresponseText: string| null = null;
 
     public get PCresponse(): any {
         return this._PCresponse;
@@ -41,12 +38,12 @@ export default class ResponseContext {
         return this._PCstatusCode;
     }
 
-    public get PQresponse(): any {
-        return this._PCresponse;
+    public get productQualifcationResponse(): any {
+        return this._PQresponseBody;
     }
 
-    public set PQresponse(response: any) {
-        this._PCresponse = response;
+    public set productQualifcationResponse(response: any) {
+        this._PQresponseBody = response;
     }
 
     public get PQresponseBody(): any {
@@ -66,48 +63,6 @@ export default class ResponseContext {
     }
     public set SCstatusCode(code: number) {
         this._SCstatusCode = code;
-    }
-
-    public setResponse(apiName: string, response: any) {
-        switch (apiName) {
-            case APIs.pc: {
-                this._PCresponse = response;
-                this._PCresponseBody = response.data;
-                this._PCstatusCode = response.status;
-            }
-            break;
-            case APIs.sc: {
-                this._SCresponse = response;
-                this._SCresponseBody = response.data;
-                this._SCstatusCode = response.status;
-                this._SCresponseText = JSON.stringify(response, replacerFunc(), '\t');
-            }
-                break;
-            case APIs.pq: {
-                this._PQresponse = response;
-                this._PQresponseBody = response.data;
-                this._PQstatusCode = response.status;
-            }
-        }
-    }
-
-    public getResponse(apiName: APIs) {
-        switch (apiName) {
-
-            case APIs.pc:
-                return {
-                    response: this._PCresponse,
-                    responseBody: this._PCresponseBody,
-                    status: this._PCstatusCode,
-                };
-            case APIs.sc:
-                return {
-                    response: this._SCresponse,
-                    responseBody: this._SCresponseBody,
-                    status: this._SCstatusCode,
-                    responseText: this._SCresponseText
-                };
-        }
     }
 
     public getShoppingCartResponse() {
@@ -133,4 +88,54 @@ export default class ResponseContext {
     public setCreateCustomerResponse(value: object) {
         this.createCustomerResponse = value;
     }
+
+    /*public setResponse(apiName: string, response: any) {
+       switch (apiName) {
+           case APIs.pc: {
+               this._PCresponse = response;
+               this._PCresponseBody = response.data;
+               this._PCstatusCode = response.status;
+           }
+           break;
+           case APIs.sc: {
+               this._SCresponse = response;
+               this._SCresponseBody = response.data;
+               this._SCstatusCode = response.status;
+               this._SCresponseText = JSON.stringify(response, replacerFunc(), '\t');
+           }
+               break;
+           case APIs.pq: {
+               this._PQresponse = response;
+               this._PQresponseBody = response.data;
+               this._PQstatusCode = response.status;
+               this._PQresponseText = JSON.stringify(response,replacerFunc, '\t')
+           }
+       }
+   }*/
+
+    /*public getResponse(apiName: APIs) {
+        switch (apiName) {
+
+            case APIs.pc:
+                return {
+                    response: this._PCresponse,
+                    responseBody: this._PCresponseBody,
+                    status: this._PCstatusCode,
+                };
+            case APIs.sc:
+                return {
+                    response: this._SCresponse,
+                    responseBody: this._SCresponseBody,
+                    status: this._SCstatusCode,
+                    responseText: this._SCresponseText
+                };
+            case APIs.pq:
+                return {
+                    response: this._PQresponse,
+                    responseBody: this._PQresponseBody,
+                    status: this._PQstatusCode,
+                    responseText: this._PQresponseText
+                };
+        }
+    }*/
 }
