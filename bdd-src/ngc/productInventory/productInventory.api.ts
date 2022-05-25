@@ -1,8 +1,8 @@
 import { OauthToken } from "../oauth-token";
 import { envConfig } from "../../env-config";
-import { IkongApi, KongHeaders } from "../IkongApi"
 import { AxiosResponse } from "axios";
 import { axiosInstance } from "../../axios-instance";
+import {generateKongHeaders} from "../IkongApi"
 
 
 
@@ -16,21 +16,14 @@ export class ProductInventoryApi {
         );
     }
 
-
-    private async generateKongHeaders(): Promise<KongHeaders> {
-        const token = await this._oauthToken.getToken(envConfig.productInventory.scope);
-        console.log("token", token);
-        return {
-            Authorization: `Bearer ${token}`,
-            env: envConfig.envName,
-        };
-    }
     public async requestProductInventory(uri?: any, body?: any, queryParams?: any): Promise<AxiosResponse> {
         
         try {
             body = body || null;
             queryParams = queryParams || null;
-            const headers = await this.generateKongHeaders();
+            const token = await this._oauthToken.getToken(envConfig.productInventory.scope);
+            console.log("token", token);
+            const headers =  await generateKongHeaders(token);
             const response = await axiosInstance({
                 method: "GET",
                 url: queryParams == null ? envConfig.productInventory.baseUrl + uri : envConfig.productInventory.baseUrl + uri + queryParams,
