@@ -1,6 +1,4 @@
 import { Identificators } from "../Identificators";
-import { APIs } from "../../steps/apis.enum";
-import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 export default class ResponseContext {
     public identificator = Identificators.ResponseContext;
@@ -14,7 +12,7 @@ export default class ResponseContext {
 
     private createCustomerResponse: { [key: string]: any } = {};
 
-    private _PQresponseBody: any;
+    private _PQresponse: any;
     private _PQstatusCode: number = NaN;
     private _PQresponseText: string| null = null;
 
@@ -38,12 +36,12 @@ export default class ResponseContext {
         return this._PCstatusCode;
     }
 
-    public get productQualifcationResponse(): any {
-        return this._PQresponseBody;
+    public get PQresponse(): any {
+        return this._PQresponse;
     }
 
-    public set productQualifcationResponse(response: any) {
-        this._PQresponseBody = response;
+    public set PQresponse(response: any) {
+        this._PQresponse = response;
     }
 
     public get PQresponseBody(): any {

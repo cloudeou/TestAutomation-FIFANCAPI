@@ -9,6 +9,7 @@ import PreconditionContext from "../../contexts/ngc/PreconditionContext";
 import {ProductQualificationApi} from "../../../bdd-src/ngc/productQualification/pq.api";
 import {bodyParser} from "../../../bdd-src/ngc/productQualification/pq.body-parser";
 import {AxiosResponse} from "axios";
+import { APIs } from "../apis.enum";
 
 
 type step = (
@@ -78,13 +79,15 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
                 response.productOfferingQualificationItem,
                 AssertionModes.strict
             ).isnot(undefined, 'Response should not contain productOfferingQualificationItem');
-            ResponseContext().productQualifcationResponse = response;
+
+            ResponseContext().PQresponse = response;
+
             if (productOfferingId !== null && productOfferingId !== undefined) {
                 console.debug('Prod Offer ID' + productOfferingId);
             }
             let topOffer = bodyParser.getProductOfferings(response)[0];
             // todo: re-comment after add shopping cart api
-            // shoppingCartContext().setTopOffer(topOffer);
+            shoppingCartContext().topOffer = topOffer;
         }
         catch (error){
             throw error;
@@ -93,9 +96,9 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
     });
 
     then(
-        /^list of the following product offerings should be available:$/,
+        'list of the following product offerings should be available:',
         (table) => {
-            let response = ResponseContext().productQualifcationResponse;
+            let response = ResponseContext().PQresponse;
             console.log(
                 'Returned offerings:' +
                 response.productOfferingQualificationItem.length,
@@ -123,7 +126,7 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
     and(
       /^validate product offering characteristics should contain:$/,
       (table) => {
-          let response= ResponseContext().productQualifcationResponse
+          let response= ResponseContext().PQresponse
           let productOfferings: any; //Array<any> | string; return type of getProductOfferings???
           let charsToCheck: Array<any>;
           productOfferings = bodyParser.getProductOfferingObjects(response);
@@ -144,7 +147,7 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
     );
 
     and(/^validate all product offerings have categories:$/, (table) => {
-      let response = ResponseContext().productQualifcationResponse;
+      let response = ResponseContext().PQresponse;
       let productOfferings: any;
       let categoryIds: Array<any>;
       productOfferings = bodyParser.getProductOfferingObjects(response);
@@ -162,8 +165,8 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
       });
     });
 
-  and(/^validate at least one product offering has categories:$/, (table) => {
-    let response = ResponseContext().productQualifcationResponse;
+  and('validate at least one product offering has categories:', (table) => {
+    let response = ResponseContext().PQresponse;
     let productOfferings: any;
     let categoryIds: Array<any>;
     productOfferings = bodyParser.getProductOfferingObjects(response);
@@ -183,8 +186,8 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
         ProductQualificationContext().categoryList = Common.getCategoriesFromTable(table);
       });
 
-    and(/^validate product offering parameters should contain:$/, (table) => {
-        let response = ResponseContext().productQualifcationResponse;
+    and('validate product offering parameters should contain:', (table) => {
+        let response = ResponseContext().PQresponse;
         let productOfferings: any; //Array<any> | string; return type of getProductOfferings???
         let paramsToCheck: Array<any>;
         let descriptionIsPresent: boolean = false;
@@ -212,20 +215,43 @@ export const productQualificationSteps = ({ when, and, then}: { [key: string]: s
                 AssertionModes.strict,
             ).is(true,`Error response is received due to productOffring description to be defined at least one productOffering`);
         }
-
-        // and('validate product offering price', () => {
-        //     let response: any;
-        //     let productOfferings: any;
-        //     response = ResponseContext()productQualifcationResponse;
-        //     productOfferings = bodyParser.getProductOfferingObjects(response);
-        //     productOfferings.forEach((productOffering) => {
-        //         let priceIsValid = Common.validateProductOfferingPrice(productOffering);
-        //         expect(
-        //             priceIsValid.valid,
-        //             `Error response is received due to productOffering: ${priceIsValid.error}`,
-        //         ).toBeTruthy();
-        //     });
-        // });
     });
+
+    and('validate product offering price', () => {
+            let response: any;
+            let productOfferings: any;
+            response = ResponseContext().PQresponse;
+            
+            productOfferings = bodyParser.getProductOfferingObjects(response);
+            productOfferings.forEach((productOffering: any) => {
+              let priceIsValid = Common.validateProductOfferingPrice(productOffering);
+              test('Response is received due to productOffering',
+               priceIsValid.valid, 
+               AssertionModes.strict).is(true, `Error response is received due to productOffering: ${priceIsValid.error}`)
+            });
+          });
+
+    and('validate product offering price alteration', () => {
+        let response: any;
+        let productOfferings: any;
+        response = ResponseContext().PQresponse;
+
+        productOfferings = bodyParser.getProductOfferingObjects(response);
+        productOfferings.forEach((productOffering: any) => {
+          let priceAlterationIsValid = Common.validateProductOfferingPriceAlteration(
+            productOffering,
+          );
+          test('Response is received due to productOffering alteration',
+               priceAlterationIsValid.valid, 
+               AssertionModes.strict).is(true, `Error response is received due to productOffering: ${priceAlterationIsValid.error}`)
+        });
+      });
+
+    and('user filter by the following product characteristics:', (table) => {
+        // console.log('Chars'+ JSON.stringify(Common.getCharListFromTable(table)))
+
+       ProductQualificationContext().charList = Common.getCharListFromTable(table)
+    
+      });
 
 }

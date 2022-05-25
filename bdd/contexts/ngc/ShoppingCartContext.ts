@@ -146,6 +146,10 @@ export default class ShoppingCartContext {
         return this._topOffer;
     }
 
+    public set topOffer(offer) {
+        this._topOffer = offer;
+    }
+
     public get originalSalesOrderRecurrentPrice() {
         return this._originalSalesOrderRecurrentPrice;
     }
