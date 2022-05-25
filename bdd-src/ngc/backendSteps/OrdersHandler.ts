@@ -1,10 +1,14 @@
 import retry from "retry-as-promised";
 import {AxiosResponse} from "axios";
+import { featureContext } from "@cloudeou/telus-bdd";
+import ResponseContext from "../../../bdd/contexts/ngc/ResponseConntext";
+import { Identificators } from "../../../bdd/contexts/Identificators";
 import {
   getHoldOrderTaskNumber, getManualTasksFromOrder,
   getShipmentOrderNumberAndPurchaseOrderNumber, getTaskNumber,
   getWorkOrderNumbersNotCompleted,
-  queryNcCustomerOrdersStatusNeitherCompletedNorProcessed
+  queryNcCustomerOrdersStatusNeitherCompletedNorProcessed,
+  getShipmentOrderObjectIdAndShipmentItemsQuery
 } from "../db/db-queries";
 import {Common} from "../../utils/commonBDD/Common";
 import {postgresQueryExecutor} from "@cloudeou/telus-bdd";
@@ -17,6 +21,7 @@ export class OrdersHandler {
 
   private _allPendingOrders: any;
   private _pendingWorkOrders: any;
+  
 
 
   constructor() {}
@@ -113,6 +118,9 @@ export class OrdersHandler {
   }
 
   async processAllPendingOrders (customerId: string) {
+    let responseContext = (): ResponseContext =>
+      featureContext().getContextById(Identificators.ResponseContext);
+
     await this.requestPendingOrders(customerId)
 
 
@@ -126,6 +134,10 @@ export class OrdersHandler {
         for (let orIndex = 0; orIndex < this._allPendingOrders.length; orIndex++) {
           const orderInternalId = this._allPendingOrders[orIndex][1];
           const orderName = this._allPendingOrders[orIndex][0];
+          let response: any;
+          response = responseContext().getCreateCustomerResponse();
+          let ecid = response.ecid;
+          console.log("ecid", ecid)
           if (orderName.toLowerCase().includes('shipment')) {
             console.debug(
               'Processing release activation for orderInternalId: ' +
@@ -133,6 +145,24 @@ export class OrdersHandler {
             );
             await tapis.processReleaseActivation(orderInternalId);
             // console.info('Getting shipment order and purchase no.');
+            const getShipmentOrder = await dbProxy.executeQuery(getShipmentOrderObjectIdAndShipmentItemsQuery(ecid))
+            console.log("getShipmentOrder",JSON.stringify(getShipmentOrder.data))
+
+            const getShipmentOrderResponse = getShipmentOrder.data.rows
+            console.log("getShipmentOrderResponse ",JSON.stringify(getShipmentOrderResponse))
+            for (let orShIndex = 0; orShIndex < getShipmentOrderResponse.length; orShIndex++) {
+              const shipmentOrderObjectId = getShipmentOrderResponse[orShIndex][0];
+              const orderNumber = getShipmentOrderResponse[orShIndex][1];
+              const sku = getShipmentOrderResponse[orShIndex][2];
+              console.log("shipmentOrderObjectId ",shipmentOrderObjectId)
+              console.log("orderNumber ",orderNumber)
+              console.log("sku ",sku)
+              const response = await tapis.completeShipmentOrder(
+                ecid,shipmentOrderObjectId,orderNumber,sku
+              );
+              console.log("responseStatus ",response.status)
+            }
+
             const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId))
             console.log("resultgetShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
             const res = {shipmentOrderNumber: result.data.rows[0][0], purchaseeOrderNumber: result.data.rows[0][1]}
