@@ -648,4 +648,48 @@ export class Common {
         });
         return valuesMap;
     }
+
+    static validateProductOfferingPrice(productOffering: any) {
+        const {error, value} = priceSchema.validate(
+            productOffering.productOfferingPrice,
+        );
+        if (error) {
+            return {
+                valid: false,
+                error,
+            };
+        }
+        return {
+            valid: true,
+            error: null,
+        };
+    }
+
+    static validateProductOfferingPriceAlteration(productOffering: any) {
+        const {error, value} = priceAlterationSchema.validate(
+            productOffering.productOfferingPrice.priceAlteration,
+        );
+        if (error) {
+            return {
+                valid: false,
+                error,
+            };
+        }
+        return {
+            valid: true,
+            error: null,
+        };
+    }
+
+    static getCharListFromTable(table: any) {
+        let charList: any = [];
+        table.forEach((row: any) => {
+            let char = {
+                name: row.Name,
+                value: row.Value,
+            };
+            charList.push(char);
+        });
+        return charList;
+    }
 }

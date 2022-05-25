@@ -42,11 +42,11 @@ export default class ResponseContext {
     }
 
     public get PQresponse(): any {
-        return this._PCresponse;
+        return this._PQresponse;
     }
 
     public set PQresponse(response: any) {
-        this._PCresponse = response;
+        this._PQresponse = response;
     }
 
     public get PQresponseBody(): any {
@@ -107,6 +107,12 @@ export default class ResponseContext {
                     status: this._SCstatusCode,
                     responseText: this._SCresponseText
                 };
+            case APIs.pq: 
+                return {
+                    response: this._PQresponse,
+                    responseBody: this._PQresponseBody,
+                    status: this._PQstatusCode
+                }
         }
     }
 
@@ -133,4 +139,5 @@ export default class ResponseContext {
     public setCreateCustomerResponse(value: object) {
         this.createCustomerResponse = value;
     }
+   
 }
