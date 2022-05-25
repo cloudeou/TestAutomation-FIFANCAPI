@@ -169,7 +169,7 @@ export class TelusApiUtils {
           }
         );
 
-        console.log(`processworkorder is ${response.data}`)
+        console.log(`processworkorder is ${JSON.stringify(response.data)}`)
 
         return response;
 

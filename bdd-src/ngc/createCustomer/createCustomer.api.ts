@@ -37,7 +37,7 @@ export class CreateCustomerApi {
             
         } catch (error: any) {
             console.log(`Error while send requestCreateCustomer: ${error}`);
-            console.log(`Error while send requestCreateCustomer: ${error.response.data}`);
+            console.log(`Error while send requestCreateCustomer: ${JSON.stringify(error.response.data)}`);
 
             throw error;
         }

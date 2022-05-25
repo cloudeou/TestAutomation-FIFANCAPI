@@ -87,6 +87,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
 
       await ordersHandler.processAllPendingOrders(customerId)
 
+      await Common.delay(60000)
+
       await retry(
           async (options) => {
               // options.current, times callback has been called including this call
@@ -95,8 +97,12 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
             if (!response || response.data.rows.length === undefined) {
               throw 'Got pending orders as undefined' + response;
             }
+
             if (response.data.rows.length > 0) {
-              console.log('error inside if')
+              console.log('error inside if ', JSON.stringify(
+                response,
+                replacerFunc()
+              ))
               throw new Error(
                 `Retrying now as we are getting still pending orders: ${JSON.stringify(
                   response,
@@ -152,6 +158,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       await ordersHandler.processPendingWorkOrders(customerId)
 
       await ordersHandler.processAllPendingOrders(customerId)
+
+      await Common.delay(60000)
 
       await retry(
         async function (options) {
