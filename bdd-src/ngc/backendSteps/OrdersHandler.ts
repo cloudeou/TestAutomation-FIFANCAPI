@@ -176,11 +176,13 @@ export class OrdersHandler {
             // Hit shipment order completion
             console.debug('Getting HoldOrderTaskNumber');
             await Common.delay(10000);
-            const holdordertask = await postgresQueryExecutor(getHoldOrderTaskNumber(res.purchaseeOrderNumber))
+            const holdordertask = await dbProxy.executeQuery(getHoldOrderTaskNumber(res.purchaseeOrderNumber))
             console.log("holdordertask " + holdordertask);
+            const holdordertaskResponce = holdordertask.data.rows
+            console.log("holdordertask " + holdordertaskResponce);
             try {
-              console.debug('Processing Hold order task: ' + holdordertask);
-              await tapis.processHoldOrderTask(holdordertask);
+              console.debug('Processing Hold order task: ' + holdordertaskResponce);
+              await tapis.processHoldOrderTask(holdordertaskResponce);
             } catch (err) {
               //console.info(JSON.stringify(err));
               console.log(err)
