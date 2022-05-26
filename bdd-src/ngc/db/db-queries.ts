@@ -295,6 +295,29 @@ export const getWorkOrderNumbersNotCompleted = (customerInternalId: string) => {
     return query;
 }
 
+export const getShipmentOrderObjectIdAndShipmentItemsQuery = (ecid: string) => {
+  let query = `
+                with shipment_order as (
+                  SELECT to_char(ship_order.OBJECT_ID) shipment_oreder_obj_id
+                  FROM NC_OBJECTS ship_order, NC_PARAMS ship_status
+                  WHERE ship_order.PARENT_ID=(SELECT OBJECT_ID FROM RDB_CUSTOMER_ACCOUNTS WHERE ENTERPRISE_CUSTOMER_ID = '${ecid}')
+                  AND ship_order.OBJECT_TYPE_ID=9147982277913906943
+                  AND ship_status.OBJECT_ID = ship_order.OBJECT_ID
+                  AND ship_status.ATTR_ID=4063055154013004350
+                  AND ship_status.LIST_VALUE_ID=4063055154013004347
+              )
+              select shipment_order.*, order_num.VALUE shipment_order_number, sku.VALUE sku
+              from shipment_order
+              join NC_OBJECTS ship_item on ship_item.PARENT_ID=shipment_order.shipment_oreder_obj_id and ship_item.OBJECT_TYPE_ID=9148162326313914698
+              join NC_REFERENCES item_instance on item_instance.REFERENCE=ship_item.OBJECT_ID
+              join NC_PARAMS_IX sku on sku.OBJECT_ID=item_instance.OBJECT_ID and sku.ATTR_ID=9147911862813832433
+              join NC_PARAMS_IX order_num on order_num.OBJECT_ID=ship_item.OBJECT_ID and order_num.ATTR_ID=9163167533813315909
+              `;
+    console.log(`getShipmentOrderObjectIdAndShipmentItemsQuery: ${query}`);
+    return query;
+
+}
+
 export const getShipmentOrderNumberAndPurchaseOrderNumber = (shipmentObjectId: string) => {
   let query = `
                 SELECT

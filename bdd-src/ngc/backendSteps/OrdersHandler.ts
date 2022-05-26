@@ -1,22 +1,29 @@
 import retry from "retry-as-promised";
 import {AxiosResponse} from "axios";
+import { featureContext } from "@cloudeou/telus-bdd";
+import ResponseContext from "../../../bdd/contexts/ngc/ResponseConntext";
+import { Identificators } from "../../../bdd/contexts/Identificators";
 import {
   getHoldOrderTaskNumber, getManualTasksFromOrder,
   getShipmentOrderNumberAndPurchaseOrderNumber, getTaskNumber,
   getWorkOrderNumbersNotCompleted,
-  queryNcCustomerOrdersStatusNeitherCompletedNorProcessed
+  queryNcCustomerOrdersStatusNeitherCompletedNorProcessed,
+  getShipmentOrderObjectIdAndShipmentItemsQuery
 } from "../db/db-queries";
 import {Common} from "../../utils/commonBDD/Common";
-import {postgresQueryExecutor} from "@cloudeou/telus-bdd";
 import {DbProxyApi} from "../db/db-proxy-api/db-proxy.api";
 import {TelusApiUtils} from "../../telus-apis/telus-apis";
+import { PayloadGenerator } from "./backend.payload-generator"
+
 const dbProxy = new DbProxyApi();
-const tapis = new TelusApiUtils()
+const tapis = new TelusApiUtils();
+
 
 export class OrdersHandler {
 
   private _allPendingOrders: any;
   private _pendingWorkOrders: any;
+  
 
 
   constructor() {}
@@ -113,6 +120,9 @@ export class OrdersHandler {
   }
 
   async processAllPendingOrders (customerId: string) {
+    let responseContext = (): ResponseContext =>
+      featureContext().getContextById(Identificators.ResponseContext);
+
     await this.requestPendingOrders(customerId)
 
 
@@ -126,6 +136,10 @@ export class OrdersHandler {
         for (let orIndex = 0; orIndex < this._allPendingOrders.length; orIndex++) {
           const orderInternalId = this._allPendingOrders[orIndex][1];
           const orderName = this._allPendingOrders[orIndex][0];
+          let response: any;
+          response = responseContext().getCreateCustomerResponse();
+          let ecid = response.ecid;
+          console.log("ecid", ecid)
           if (orderName.toLowerCase().includes('shipment')) {
             console.debug(
               'Processing release activation for orderInternalId: ' +
@@ -133,35 +147,39 @@ export class OrdersHandler {
             );
             await tapis.processReleaseActivation(orderInternalId);
             // console.info('Getting shipment order and purchase no.');
-            const result = await dbProxy.executeQuery(getShipmentOrderNumberAndPurchaseOrderNumber(orderInternalId))
-            console.log("resultgetShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(result.data))
-            const res = {shipmentOrderNumber: result.data.rows[0][0], purchaseeOrderNumber: result.data.rows[0][1]}
-            console.log("ResgetShipmentOrderNumberAndPurchaseOrderNumber " + JSON.stringify(res))
-            await Common.delay(10000);
-            await tapis.processShipmentOrder(
-              res.shipmentOrderNumber,
-              res.purchaseeOrderNumber,
-            );
+            const getShipmentOrder = await dbProxy.executeQuery(getShipmentOrderObjectIdAndShipmentItemsQuery(ecid))
 
-            // Hit shipment order completion
+            const getShipmentOrderResponse = getShipmentOrder.data.rows
+            console.log("getShipmentOrderResponse ",JSON.stringify(getShipmentOrderResponse))
+            
+            let items = []
+            for (let orShIndex = 0; orShIndex < getShipmentOrderResponse.length; orShIndex++) {
+              const shipmentOrderObjectId = getShipmentOrderResponse[orShIndex][0];
+              const orderNumber = getShipmentOrderResponse[orShIndex][1];
+              const sku = getShipmentOrderResponse[orShIndex][2];
+              const item = new PayloadGenerator(ecid, shipmentOrderObjectId, orderNumber, sku).generateItem(ecid, shipmentOrderObjectId, orderNumber, sku)
+              items.push(item)
+            }
+            console.log("items ", JSON.stringify(items))
+
+            const response = await tapis.completeShipmentOrder(items);
+            console.log("responseStatus ",response.status)
+
             console.debug('Getting HoldOrderTaskNumber');
             await Common.delay(10000);
-            const holdordertask = await postgresQueryExecutor(getHoldOrderTaskNumber(res.purchaseeOrderNumber))
-            console.log("holdordertask " + holdordertask);
+            const holdordertask = await dbProxy.executeQuery(getHoldOrderTaskNumber(getShipmentOrderResponse[0][0]))
+            console.log("holdordertask " + (holdordertask));
+            const holdordertaskResponce = holdordertask.data.rows
+            console.log("holdordertask " +(holdordertaskResponce));
             try {
-              console.debug('Processing Hold order task: ' + holdordertask);
-              await tapis.processHoldOrderTask(holdordertask);
+              console.debug('Processing Hold order task: ' + holdordertaskResponce);
+              await tapis.processHoldOrderTask(holdordertaskResponce);
             } catch (err) {
-              //console.info(JSON.stringify(err));
               console.log(err)
               throw err
             }
-            console.debug(
-              'Processing shipment order no. ' + res.shipmentOrderNumber,
-            );
-
             // Wait for 10 seconds to get completedawait
-            await tapis.wait(10000);
+            await tapis.wait(20000);
           }
         }
       } catch (err) {
@@ -169,7 +187,7 @@ export class OrdersHandler {
         throw err
       }
     }
-
+    
     await retry(
       async  (options) => {
         // options.current, times callback has been called including this call

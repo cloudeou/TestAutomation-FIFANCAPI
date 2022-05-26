@@ -90,8 +90,8 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
       await Common.delay(60000)
 
       await retry(
-          async (options) => {
-              // options.current, times callback has been called including this call
+          async (options) => { 
+            // options.current, times callback has been called including this call
             const response: AxiosResponse = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId))
 
             if (!response || response.data.rows.length === undefined) {
