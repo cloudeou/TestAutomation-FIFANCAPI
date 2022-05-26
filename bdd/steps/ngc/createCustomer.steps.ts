@@ -51,7 +51,7 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
           ).isnot(null, 'CreateCustomerResponse should not be empty');
 
           const body = CreateCustomerResponse;
-          responseContext().setCreateCustomerResponse(body);
+          responseContext().createCustomerResponse = body;
         } 
       }
        catch(error: any) {

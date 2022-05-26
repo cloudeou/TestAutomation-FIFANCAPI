@@ -34,7 +34,7 @@ export class ProductCatalogApi {
                 url: envConfig.ikongUrl + envConfig.productCatalog.baseUrl + params,
                 headers,
             });
-            console.log(JSON.stringify(response, replacerFunc()));
+
             return response;
         } catch (error) {
             console.log(`Error while send requestProductCatalog: ${error}`);

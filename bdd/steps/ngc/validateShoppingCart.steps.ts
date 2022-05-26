@@ -227,7 +227,7 @@ export const validateShoppingCartSteps = ({
       errorContext().status = ErrorStatus.skipped;
     }
 
-    test('Got errors in validating',errors.includes(errorMessage), AssertionModes.strict)
+    test('Got errors in validating e message should be in SC',errors.includes(errorMessage), AssertionModes.strict)
       .is(true, 'Got errors in validating: \n' + errors)
   }
 

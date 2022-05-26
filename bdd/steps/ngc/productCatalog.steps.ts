@@ -38,7 +38,7 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
         console.log(offerList);
         try{
             const pcResponse = await fifaNcApi.requestProductCatalog(offerList);
-            console.log(JSON.stringify(pcResponse, replacerFunc()));
+
             Common.checkValidResponse(pcResponse, 200);
             const response = pcResponse.data//JSON.parse(pcResponse.data);
             test('Validate response',response,AssertionModes.strict).isnot([], 'Error has occured due to PC API call received an empty array.');

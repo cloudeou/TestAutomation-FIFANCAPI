@@ -9,7 +9,7 @@ export default class ResponseContext {
     private _shoppingCartResponseText: string | null = null;
     private _SCstatusCode: number = NaN;
 
-    private createCustomerResponse: { [key: string]: any } = {};
+    private _createCustomerResponse: { [key: string]: any } = {};
 
     private _PQresponse: any;
 
@@ -50,11 +50,11 @@ export default class ResponseContext {
     }
 
     public get сreateCustomerResponse() {
-        return this.createCustomerResponse;
+        return this._createCustomerResponse;
     }
 
-    public setCreateCustomerResponse(value: object) {
-        this.createCustomerResponse = value;
+    public set createCustomerResponse(value: object) {
+        this._createCustomerResponse = value;
     }
 
     /*public setResponse(apiName: string, response: any) {
