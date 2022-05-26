@@ -33,7 +33,7 @@ export const envConfig = {
         scope: 241,
     },
     "holdOrderTaskCompletion": {
-        "endpoint": "/service/adtMigration/v1/telus/gem/rest/api/fifaomsupportapi/v1/taskMarkComplete{taskId}?taskId=#TASK_OBJECT_ID#",
+        "endpoint": "/service/adtMigration/v1/telus/gem/rest/api/fifaomsupportapi/v1/taskMarkComplete?taskId=#TASK_OBJECT_ID#",
         "contentType": "application/json",
         "keywordsToReplace": ["#TASK_OBJECT_ID#"]
     },
