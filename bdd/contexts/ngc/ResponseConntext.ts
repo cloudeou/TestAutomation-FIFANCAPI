@@ -13,6 +13,8 @@ export default class ResponseContext {
 
     private _PQresponse: any;
 
+    private _productInventoryResponse: any;
+
     public get PCresponse(): any {
         return this._PCresponse;
     }
@@ -55,6 +57,13 @@ export default class ResponseContext {
 
     public set createCustomerResponse(value: object) {
         this._createCustomerResponse = value;
+    }
+
+    public get productInventoryResponse() {
+        return this._productInventoryResponse;
+    }
+    public set productInventoryResponse(value: object) {
+        this._productInventoryResponse = value;
     }
 
     /*public setResponse(apiName: string, response: any) {

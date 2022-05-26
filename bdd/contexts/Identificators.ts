@@ -8,5 +8,6 @@ export const Identificators = {
   shoppingCartContext: "shoppingCartContext",
   preConditionContext: "preConditionContext",
   reportContext: "reportContext",
-  ProductQualificationContext: "ProductQualificationContext"
+  ProductQualificationContext: "ProductQualificationContext",
+  productInventoryContext: "productInventoryContext"
 }

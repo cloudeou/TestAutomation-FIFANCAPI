@@ -103,12 +103,12 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
                 response,
                 replacerFunc()
               ))
-              throw new Error(
+              /*throw new Error(
                 `Retrying now as we are getting still pending orders: ${JSON.stringify(
                   response,
                   replacerFunc()
                 )}`,
-              );
+              );*/
             }
             console.log(`response.data.rows !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${response.data.rows}`)
             shoppingCartContext().allPendingOrders = response.data.rows;
