@@ -33,7 +33,7 @@ export const shoppingCartResponseValidationSteps = (
         let cartItems: Array<any>;
         let offerings: Array<any>;
         let categoryIds: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         offerings = bodyParser.getOfferingsFromCartItems(cartItems)
         categoryIds = Common.getCategoriesFromTable(table)
@@ -54,7 +54,7 @@ export const shoppingCartResponseValidationSteps = (
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         offeringIds = Common.getOffersFromTable(table, null)
 
@@ -91,7 +91,7 @@ export const shoppingCartResponseValidationSteps = (
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         offeringIds = Common.getOffersFromTable(table, null)
 
@@ -118,7 +118,7 @@ export const shoppingCartResponseValidationSteps = (
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         offeringIds = Common.getOffersFromTable(table, null)
 
@@ -144,7 +144,7 @@ export const shoppingCartResponseValidationSteps = (
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         offeringIds = Common.getOffersFromTable(table, null)
 
@@ -167,7 +167,7 @@ export const shoppingCartResponseValidationSteps = (
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         offeringIds = Common.getOffersFromTable(table, null)
 
@@ -191,7 +191,7 @@ export const shoppingCartResponseValidationSteps = (
     //     //let SCResponseBody
     //     let cartItems: Array<any>;
     //     let offeringIds: Array<any>;
-    //     let SCResponseBody: JSON = responseContext().getShoppingCartResponse()
+    //     let SCResponseBody: JSON = responseContext().shoppingCartResponse
     //     cartItems = bodyParser.getCartItemObjects(SCResponseBody)
     //     offeringIds = Common.getOffersFromTable(table, null)
     //     expect(cartItems, 'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.').not.toHaveLength(0)
@@ -210,7 +210,7 @@ export const shoppingCartResponseValidationSteps = (
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let promotionMap: any;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         promotionMap = Common.getPromotionMapFromTable(table)
 
@@ -234,7 +234,7 @@ export const shoppingCartResponseValidationSteps = (
         let SCResponseBody: JSON;
         let responseChars: Array<any>;
         let charValues: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         charValues = Common.getCharListFromValidationTable(table)
         responseChars = bodyParser.getSCChars(SCResponseBody)
 
@@ -256,7 +256,7 @@ export const shoppingCartResponseValidationSteps = (
     and(/^user validate shopping cart top level item should contain chars:$/, async (table) => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         let charMap = await Common.createCharMapFromTable(table);
         Common.validateCartItemChars(cartItems, charMap)
@@ -266,7 +266,7 @@ export const shoppingCartResponseValidationSteps = (
         let SCResponseBody: JSON;
         let charNames: Array<any>;
         let responseChars: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         responseChars = bodyParser.getSCChars(SCResponseBody)
         charNames = Common.getCharListFromValidationTable(table)
 
@@ -282,7 +282,7 @@ export const shoppingCartResponseValidationSteps = (
     and(/^user validate cart at least one item should contain price$/, () => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         let priceIsPresent = false;
         cartItems.forEach((cartItem) => {
@@ -296,7 +296,7 @@ export const shoppingCartResponseValidationSteps = (
     and(/^user validate cart item should contain price$/, () => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         cartItems.forEach((cartItem) => {
             let priceIsValid = Common.validateCartItemPrice(cartItem)
@@ -308,7 +308,7 @@ export const shoppingCartResponseValidationSteps = (
     and(/^user validate at least one cart item should contain price alteration$/, () => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         let priceAlterationIsPresent = false;
         cartItems.forEach((cartItem) => {
@@ -322,7 +322,7 @@ export const shoppingCartResponseValidationSteps = (
     and(/^user validate cart item should contain price alteration$/, () => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
-        SCResponseBody = responseContext().getShoppingCartResponse()!
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         cartItems.forEach((cartItem) => {
             let priceAlterationIsValid = Common.validateCartItemPriceAlteration(cartItem)
@@ -338,7 +338,7 @@ export const shoppingCartResponseValidationSteps = (
             let products: Array<any>;
             let paramsToCheck: Array<any>;
             let descriptionIsPresent: boolean;
-            SCResponseBody = responseContext().getShoppingCartResponse()!
+            SCResponseBody = responseContext().shoppingCartResponse!
             cartItems = bodyParser.getCartItemObjects(SCResponseBody)
             products = bodyParser.getProductsFromCartItems(cartItems)
             paramsToCheck = Common.getParamsListFromTable(table)
@@ -373,7 +373,7 @@ export const shoppingCartResponseValidationSteps = (
         let originalECID: number;
         let response: any;
 
-        response = responseContext().getShoppingCartResponse()
+        response = responseContext().shoppingCartResponse
         actualECID = response.relatedParty[1].id
         originalECID = preconditionContext().externalCustomerId!;
 

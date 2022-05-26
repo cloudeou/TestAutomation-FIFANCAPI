@@ -88,8 +88,8 @@ export const createShoppingCartSteps = ({
 
   then('user try to delete Shopping Cart context', async () => {
     shoppingCartContext().shoppingCartId = null;
-    responseContext().setShoppingCartResponse(null);
-    responseContext().setshopppingCartResonseText(null);
+    responseContext().shoppingCartResponse = null;
+    responseContext().shopppingCartResonseText = null;
     shoppingCartContext().existingChildOffers = null;
     shoppingCartContext().offersToAdd = null;
     shoppingCartContext().charMap = null;
@@ -167,10 +167,10 @@ export const createShoppingCartSteps = ({
       let shoppingCartId = body.id;
       shoppingCartApi.shoppingCartId = shoppingCartId;
       shoppingCartContext().shoppingCartId = shoppingCartId;
-      responseContext().setShoppingCartResponse(response.data);
-      console.log('  responseContext().setShoppingCartResponse(response.data);');
-      responseContext().setshopppingCartResonseText(responseText);
-      console.log(' responseContext().setshopppingCartResonseText(responseText);');
+      responseContext().shoppingCartResponse = response.data;
+      console.log('  responseContext().shoppingCartResponse = response.data);');
+      responseContext().shopppingCartResonseText = responseText;
+      console.log(' responseContext().shopppingCartResonseText = responseText);');
       let existingChildOfferMap = Common.createExistingChildOffersMap(
         response.data,
       );
@@ -185,12 +185,12 @@ export const createShoppingCartSteps = ({
       errorContext().error = error;
       errorContext().status = ErrorStatus.failed;
       responseContext().SCstatusCode = error.response.status;
-      responseContext().setShoppingCartResponse(error.response.data);
+      responseContext().shoppingCartResponse = error.response.data;
     }
   })
 
   then('validate shopping cart is created successfully', async () => {
-    let responseBody = responseContext().getShoppingCartResponse();
+    let responseBody = responseContext().shoppingCartResponse!;
     let salesOrderRecurrentPrice = responseBody.cartTotalPrice[0].price.dutyFreeAmount.value;
     let salesOrderOneTimePrice = responseBody.cartTotalPrice[1].price.dutyFreeAmount.value;
     let SORecurrentPriceAlteration = responseBody.cartTotalPrice[0].priceAlteration;
@@ -253,7 +253,7 @@ export const createShoppingCartSteps = ({
       let selectedOffers = shoppingCartContext().offersToAdd;
       charMap = shoppingCartContext().charMap!;
       let customerAccountECID = preconditionContext().externalCustomerId;
-      let response = responseContext().getShoppingCartResponse();
+      let response = responseContext().shoppingCartResponse;
       let responseText = JSON.stringify(response?.responseText);
       if(customerAccountECID === null) {
         throw new Error('customerAccountECID is null while validate shopping cart is created successfully')
@@ -280,8 +280,8 @@ export const createShoppingCartSteps = ({
         const responseText = JSON.stringify(response.data, replacerFunc(), '\t');
 
         // responseContext().setResponse("SC",responseBody);
-        responseContext().setShoppingCartResponse(response.data);
-        responseContext().setshopppingCartResonseText(responseText);
+        responseContext().shoppingCartResponse = response.data;
+        responseContext().shopppingCartResonseText = responseText;
 
       }
       catch (error) {

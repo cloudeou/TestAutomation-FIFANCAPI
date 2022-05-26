@@ -2,9 +2,8 @@ import { Identificators } from "../Identificators";
 
 export default class ResponseContext {
     public identificator = Identificators.ResponseContext;
+
     private _PCresponse: any;
-    private _PCresponseBody: any;
-    private _PCstatusCode: number = NaN;
 
     private _shoppingCartResponseBody: any | null = null;
     private _shoppingCartResponseText: string | null = null;
@@ -13,8 +12,6 @@ export default class ResponseContext {
     private createCustomerResponse: { [key: string]: any } = {};
 
     private _PQresponse: any;
-    private _PQstatusCode: number = NaN;
-    private _PQresponseText: string| null = null;
 
     public get PCresponse(): any {
         return this._PCresponse;
@@ -22,18 +19,6 @@ export default class ResponseContext {
 
     public set PCresponse(response: any) {
         this._PCresponse = response;
-    }
-
-    public get PCresponseBody(): any {
-        return this._PCresponseBody;
-    }
-
-    public set PCresponseBody(responseBody: any) {
-        this._PCresponseBody = responseBody;
-    }
-
-    public get PCstatusCode(): number {
-        return this._PCstatusCode;
     }
 
     public get PQresponse(): any {
@@ -44,42 +29,27 @@ export default class ResponseContext {
         this._PQresponse = response;
     }
 
-    public get PQresponseBody(): any {
-        return this._PCresponseBody;
-    }
-
-    public set PQresponseBody(responseBody: any) {
-        this._PCresponseBody = responseBody;
-    }
-
-    public get PQstatusCode(): number {
-        return this._PCstatusCode;
-    }
-
-    public get SCstatusCode(): number {
-        return this._SCstatusCode;
-    }
     public set SCstatusCode(code: number) {
         this._SCstatusCode = code;
     }
 
-    public getShoppingCartResponse() {
+    public get shoppingCartResponse() {
         return this._shoppingCartResponseBody;
     }
 
-    public setShoppingCartResponse(value: JSON | null) {
+    public set shoppingCartResponse(value: any | null) {
         this._shoppingCartResponseBody = value;
     }
 
-    public getshoppingCartResponseText() {
+    public get shoppingCartResponseText() {
         return this._shoppingCartResponseText;
     }
 
-    public setshopppingCartResonseText(value: string | null) {
+    public set shopppingCartResonseText(value: string | null) {
         this._shoppingCartResponseText = value;
     }
 
-    public getCreateCustomerResponse() {
+    public get сreateCustomerResponse() {
         return this.createCustomerResponse;
     }
 

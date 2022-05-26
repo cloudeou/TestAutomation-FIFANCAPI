@@ -53,25 +53,23 @@ export const submitShoppingCartSteps = ({
         customerCategory,
       });
       Common.checkValidResponse(response);
-      responseContext().setShoppingCartResponse(response.data);
-      responseContext().setshopppingCartResonseText(
-        JSON.stringify(response, replacerFunc(), '\t'),
-      );
+      responseContext().shoppingCartResponse = response.data;
+      responseContext().shopppingCartResonseText = JSON.stringify(response, replacerFunc(), '\t');
     }
     catch (error: any) {
       console.log(error);
       errorContext().error = error;
       errorContext().status = ErrorStatus.failed;
       responseContext().SCstatusCode = error.response.status;
-      responseContext().setShoppingCartResponse(error.response.data);
+      responseContext().shoppingCartResponse = error.response.data;
       test('is error response received', true, AssertionModes.strict)
         .is(false,'Error response is received\n' + JSON.stringify(error, null, '\t'))
     }
   });
 
   then('sales order id should be returned', async () => {
-    const body: any = responseContext().getShoppingCartResponse();
-    const responseText: any = responseContext().getshoppingCartResponseText();
+    const body: any = responseContext().shoppingCartResponse;
+    const responseText: any = responseContext().shoppingCartResponseText;
 
     test('SalesOrderId should be defined\n', body.id, AssertionModes.strict)
       .isnot(undefined, 'SalesOrderId should be defined\n' + responseText)

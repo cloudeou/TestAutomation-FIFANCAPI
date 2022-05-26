@@ -4,6 +4,7 @@ import { axiosInstance } from "../../axios-instance";
 import { AxiosResponse } from "axios";
 import {payloadGenerator} from "./pc.payload-generator";
 import {generateKongHeaders} from "../IkongApi"
+import {replacerFunc} from "../../utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 export class ProductCatalogApi {
     private _oauthToken: any;
@@ -33,7 +34,7 @@ export class ProductCatalogApi {
                 url: envConfig.ikongUrl + envConfig.productCatalog.baseUrl + params,
                 headers,
             });
-            console.log(JSON.stringify(response));
+            console.log(JSON.stringify(response, replacerFunc()));
             return response;
         } catch (error) {
             console.log(`Error while send requestProductCatalog: ${error}`);

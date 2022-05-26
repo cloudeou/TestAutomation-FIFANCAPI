@@ -56,7 +56,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     test('SO is not null',
       salesOrderId,
       AssertionModes.strict).isnot(null, 'SO is null');
-    let response = responseContext().getShoppingCartResponse();
+    let response = responseContext().shoppingCartResponse;
     test('Response is not null',
       response,
       AssertionModes.strict).isnot(null, 'Response is null');
@@ -137,7 +137,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     test('salesOrderId should be defined', salesOrderId, AssertionModes.strict).isnot(undefined,'salesOrderId should be defined')
     test('Sales order Id is not null', salesOrderId, AssertionModes.strict).isnot(null,'Sales order Id should not be null')
 
-    let response = responseContext().getShoppingCartResponse();
+    let response = responseContext().shoppingCartResponse;
     test('Response is not null', response, AssertionModes.strict).isnot(null,'Response is null')
     const customerId = preconditionContext().customerObjectId!;
     console.info('customer id' + customerId);

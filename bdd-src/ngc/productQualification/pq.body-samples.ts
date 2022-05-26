@@ -92,7 +92,7 @@ export class bodySamples {
     getProductQualification(
         customerCategory: string | null,
         distributionChannel: string | null,
-        externalLocationId: string | null,
+        externalLocationId: string | number | null,
         productOfferingId?: string | null | undefined,
         categoryList?: any,
         charItems?: any,

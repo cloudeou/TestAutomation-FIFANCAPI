@@ -32,7 +32,7 @@ export default class ProductQualificationContext {
         this._productOfferingId = productOfferingId;
     }
 
-    public get charList():any {
+    public get charList(): Array<string> | null {
         return this._charList;
     }
 

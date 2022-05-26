@@ -10,9 +10,11 @@ Feature: Try to add a MR STB to an active PikTV
   Scenario: Check address
     Given user has address with type FIBER
     And technology type is GPON
-    And distribution channel is CSR
+#    And distribution channel is CSR
+    And distribution channel is PILOT6RT
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5481938'
+#    When get address based on entered data: '5481938'
+    When get address based on entered data: '5652062'
     Then address id should be returned
 
 
@@ -21,12 +23,12 @@ Feature: Try to add a MR STB to an active PikTV
     When user check availability
     Then address should be qualified for GPON
 
-#  Scenario: Create a customer
-#    Given preconditions by user are selected
-#    When user try to create customer
-#    Then external customer id should be returned
-#    And billing account number is returned
-#    And credit check is performed
+  Scenario: Create a customer
+    Given preconditions by user are selected
+    When user try to create customer
+    Then external customer id should be returned
+    And billing account number is returned
+    And credit check is performed
 
   Scenario: Create shopping cart
     Given preconditions by user are selected
@@ -75,22 +77,23 @@ Feature: Try to add a MR STB to an active PikTV
       | OfferId             | Parent              |
       | 9151963809313418384 | 9162234603588639317 |
 		# add Doorbell Camera - Slimline
+#    Error here below
     When user try to update Shopping Cart
     Then validate shopping cart is updated successfully
 
-  # Scenario: Qualified product offering list with shopping cart
-  #   Given preconditions by user are selected
-  #   And user filter by the following product offering id: 9161482788965984291
-  #                                                         # LW
-  #   # When user try to get qualified product offering list with shopping cart
-  #   #todo: need to check
-  #   Then list of the following product offerings should be available:
-  #     | OfferId |
-  #     | any     |
-  #   And validate product offering parameters should contain:
-  #     | ParameterName |
-  #     | name          |
-  #    # | description   |
+   Scenario: Qualified product offering list with shopping cart
+     Given preconditions by user are selected
+     And user filter by the following product offering id: 9161482788965984291
+                                                           # LW
+      When user try to get qualified product offering list with shopping cart
+     #todo: need to check
+     Then list of the following product offerings should be available:
+       | OfferId |
+       | any     |
+     And validate product offering parameters should contain:
+       | ParameterName |
+       | name          |
+      # | description   |
 
 #  Scenario: Validate shopping cart
 #    Given preconditions by user are selected

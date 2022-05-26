@@ -33,7 +33,7 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
                 if (typeof sqResponse !== 'undefined')
                 {
                     Common.checkValidResponse(sqResponse, 200);
-                    ResponseContext().setShoppingCartResponse(sqResponse.data)
+                    ResponseContext().shoppingCartResponse = sqResponse.data
                 }
                 else throw new Error(`Address qualification is failed`);
         }
@@ -48,7 +48,7 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
             'Technology is present in response',
             Common.IsItemQualified(
                value,
-               ResponseContext().getShoppingCartResponse()
+               ResponseContext().shoppingCartResponse
             ),
             AssertionModes.strict,
         ).is(true, `Technology is not present in response ${value}`);

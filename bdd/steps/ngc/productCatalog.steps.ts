@@ -4,6 +4,7 @@ import ProductCatalogContext from "../../contexts/ngc/ProductCatalogContext";
 import ResponseContext from "../../contexts/ngc/ResponseConntext"
 import { Identificators } from "../../contexts/Identificators";
 import { AssertionModes, featureContext, test } from "@cloudeou/telus-bdd";
+import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 type step = (
     stepMatcher: string | RegExp,
@@ -37,9 +38,9 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
         console.log(offerList);
         try{
             const pcResponse = await fifaNcApi.requestProductCatalog(offerList);
-            console.log(JSON.stringify(pcResponse));
+            console.log(JSON.stringify(pcResponse, replacerFunc()));
             Common.checkValidResponse(pcResponse, 200);
-            const response = JSON.parse(pcResponse.data);
+            const response = pcResponse.data//JSON.parse(pcResponse.data);
             test('Validate response',response,AssertionModes.strict).isnot([], 'Error has occured due to PC API call received an empty array.');
             response.forEach((detItem: any) => {
                 test('Response must to be defined',
@@ -47,7 +48,7 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
                     AssertionModes.strict
                 ).isnot(undefined, 'Error has occured due to offer details item id is not defined.');
             });
-            ResponseContext().PCresponse(response);
+            ResponseContext().PCresponse = response;
         }
         catch(error: any) {
             test('Error Message', error, AssertionModes.strict).isnot(undefined, `Error response is received: \n ${JSON.stringify(error)}`);
@@ -57,7 +58,7 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
 
     then('list of offer details should be returned', () => {
         const PCreponse: Array<any> = Array.from(
-            <any>ResponseContext().PCresponseBody(),
+            <any>ResponseContext().PCresponse,
         );
         const requestedItems: Array<String> = productCatalogContext().requestedItems;
         console.log(requestedItems);
@@ -85,7 +86,7 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
     and('user validate attachment attributes:', (table) => {
         let response: any;
         let attrToCheck: Array<any>;
-        response = ResponseContext().PCresponse();
+        response = ResponseContext().PCresponse;
         attrToCheck = Common.getAttrsListFromTable(table);
         response.forEach((offer: any) => {
             attrToCheck.forEach((attr) => {
@@ -109,7 +110,7 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
     and('user validate at least one attachment has attributes:', (table) => {
         let response: any;
         let attrToCheck: Array<any>;
-        response = ResponseContext().PCresponse();
+        response = ResponseContext().PCresponse;
         attrToCheck = Common.getAttrsListFromTable(table);
         attrToCheck.forEach((attrName) => {
             let isAttrDefined = response.find((offer: any) =>
@@ -127,8 +128,9 @@ export const productCatalogSteps = ({ when, and, then}: { [key: string]: step })
         let attrToCheck: Array<any>;
         let propsInCat: boolean;
 
-        response = ResponseContext().PCresponse();
+        response = ResponseContext().PCresponse;
         attrToCheck = Common.getAttrsListFromTable(table);
+
         response.forEach((offer: any) => {
             attrToCheck.forEach((attr) => {
                 test('Attribute of offer is defined',

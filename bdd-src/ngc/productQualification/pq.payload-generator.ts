@@ -5,7 +5,7 @@ const bodySample = new bodySamples();
 export class PayloadGenerator {
     customerCategory: string | null;
     distributionChannel: string | null;
-    externalLocationId: string | null;
+    externalLocationId: string| number | null;
     categoryList: Array<string> | null;
     productOfferingId?: string | null;
     charList?: any;
@@ -15,7 +15,7 @@ export class PayloadGenerator {
     constructor(
         customerCategory: string | null,
         distributionChannel: string | null,
-        externalLocationId: string | null,
+        externalLocationId: string | number | null,
         categoryList: Array<string> | null,
         productOfferingId?: string | null | undefined,
         charList?: string | null,

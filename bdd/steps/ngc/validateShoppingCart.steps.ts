@@ -39,7 +39,7 @@ export const validateShoppingCartSteps = ({
     let distributionChannel = preconditionContext().distributionChannel;
     let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
     let customerCategory = preconditionContext().customerCategory;
-    let response = responseContext().getShoppingCartResponse();
+    let response = responseContext().shoppingCartResponse;
 
     let distChannelOption = Common.resolveAddressId(
       distributionChannelExternalId,
@@ -72,7 +72,7 @@ export const validateShoppingCartSteps = ({
       ];
       const charMap = Common.createCharMapFromTable(table);
       if (workOrderdetails.action == '-' || workOrderdetails.action == 'Add') {
-        let response: any = responseContext().getShoppingCartResponse();
+        let response: any = responseContext().shoppingCartResponse;
         for (let index = 0; index < response.cartItem.length; index++) {
           const element = response.cartItem[index];
           if (element.product.name == 'Work Offer') {
@@ -102,7 +102,7 @@ export const validateShoppingCartSteps = ({
       const newCharMap = shoppingCartContext().charMap;
       let customerAccountECID = preconditionContext().externalCustomerId;
       let childOfferMap = shoppingCartContext().childOfferMap;
-      let previousResponse = responseContext().getShoppingCartResponse();
+      let previousResponse = responseContext().shoppingCartResponse;
       let shoppingCartId = shoppingCartContext().shoppingCartId;
       let responseText = JSON.stringify(previousResponse);
       if(customerAccountECID === null) {
@@ -139,8 +139,8 @@ export const validateShoppingCartSteps = ({
         Common.checkValidResponse(response, 200);
         const responseText = JSON.stringify(response, replacerFunc(), '\t');
         //console.log('CART UPDATED: ' + JSON.stringify(body));
-        responseContext().setShoppingCartResponse(response.data);
-        responseContext().setshopppingCartResonseText(responseText);
+        responseContext().shoppingCartResponse = response.data;
+        responseContext().shopppingCartResonseText = responseText;
 
       }
       
@@ -149,7 +149,7 @@ export const validateShoppingCartSteps = ({
         errorContext().error = error;
         errorContext().status = ErrorStatus.failed;
         responseContext().SCstatusCode = error.response.status;
-        responseContext().setShoppingCartResponse(error.response.data);
+        responseContext().shoppingCartResponse = error.response.data;
         test('is previousResponse received', true, AssertionModes.strict)
           .is(false, 'Error previousResponse is received\n' + JSON.stringify(error, null, '\t'))
       }
@@ -170,7 +170,7 @@ export const validateShoppingCartSteps = ({
       Common.checkValidResponse(responseValidate);
       const body = responseValidate.data;
       //logger.debug(`validateshoppingcart response:${JSON.stringify(body)}`);
-      responseContext().setShoppingCartResponse(body);
+      responseContext().shoppingCartResponse = body;
       const responseText = JSON.stringify(responseValidate, replacerFunc(), '\t');
 
       test('Response should contain body', body, AssertionModes.strict)
@@ -183,7 +183,7 @@ export const validateShoppingCartSteps = ({
       errorContext().error = error;
       errorContext().status = ErrorStatus.failed;
       responseContext().SCstatusCode = error.response.status;
-      responseContext().setShoppingCartResponse(error.response.data);
+      responseContext().shoppingCartResponse = error.response.data;
       test('Error response is received', true, AssertionModes.strict)
         .is(false, 'Error response is received\n' + JSON.stringify(error, null, '\t'))
     }
@@ -191,12 +191,12 @@ export const validateShoppingCartSteps = ({
   });
 
   and('work order updated successfully', () => {
-    let response = responseContext().getShoppingCartResponse();
+    let response = responseContext().shoppingCartResponse;
     Common.validateWorkOrdersCorrectness(response);
   });
 
   then(/error messages should be in shopping cart: '(.*)'/, (errorMessage)=>{
-  const body: any = responseContext().getShoppingCartResponse();
+  const body: any = responseContext().shoppingCartResponse;
   // console.log("HIIII")
   // console.log(JSON.stringify(body))
   if (!body.version) {
@@ -268,7 +268,7 @@ export const validateShoppingCartSteps = ({
 
 
   then('no error messages should be in shopping cart', () => {
-    const body: any = responseContext().getShoppingCartResponse();
+    const body: any = responseContext().shoppingCartResponse;
     // console.log("HIIII")
     // console.log(JSON.stringify(body))
     if (!body.version) {
@@ -336,7 +336,7 @@ export const validateShoppingCartSteps = ({
   });
 
   then(/warning messages should be in shopping cart: '(.*)'/, (warningMessage)=>{
-    const body: any = responseContext().getShoppingCartResponse();
+    const body: any = responseContext().shoppingCartResponse;
     // console.log("HIIII")
     // console.log(JSON.stringify(body))
 
@@ -394,7 +394,7 @@ export const validateShoppingCartSteps = ({
   and(/^shopping cart validation should contain attributes:$/, (table) => {
     let SCResponseBody: any;
     let attrsToCheck: Array<any>;
-    SCResponseBody = responseContext().getShoppingCartResponse();
+    SCResponseBody = responseContext().shoppingCartResponse;
     // console.log("SCResponseBody:\n"+JSON.stringify(SCResponseBody))
     attrsToCheck = Common.getCharListFromValidationTable(table);
     console.log(attrsToCheck);
@@ -422,7 +422,7 @@ export const validateShoppingCartSteps = ({
     /^shopping cart validation should contain custom rule parameters$/,
     () => {
       let SCResponseBody: any;
-      SCResponseBody = responseContext().getShoppingCartResponse();
+      SCResponseBody = responseContext().shoppingCartResponse;
       SCResponseBody.validationErrors.forEach((error: any) => {
         let custRuleParamIsValid = Common.validateCustomRuleParameters(error);
 

@@ -44,7 +44,7 @@ export class Common {
     static getAttrsListFromTable(table: any): any {
         let attrssList: any = [];
         table.forEach((row: any) => {
-            let attr = row.AttributeName;
+            let attr = row.attributeName;
             attrssList.push(attr);
         });
         return attrssList;

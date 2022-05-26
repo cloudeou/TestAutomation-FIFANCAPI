@@ -34,8 +34,8 @@ export const updateShoppingCartSteps = ({
 
     and('user select child offer:', (table) => {
         let offerMap = Common.getChildOfferMapFromTable(
-            table,
-            shoppingCartContext().topOffer,
+          table,
+          shoppingCartContext().topOffer,
         );
         shoppingCartContext().childOfferMap = {value: offerMap, action: 'Add'};
         shoppingCartContext().addingChild = true;
@@ -57,88 +57,89 @@ export const updateShoppingCartSteps = ({
   });
 
   when('user try to update Shopping Cart', async () => {
-    const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
-    let externalLocationId = preconditionContext().addressId;
-    let distributionChannel = preconditionContext().distributionChannel;
-    let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
-    let customerCategory = preconditionContext().customerCategory;
-    let selectedOffers = null;
+      const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
+      let externalLocationId = preconditionContext().addressId;
+      let distributionChannel = preconditionContext().distributionChannel;
+      let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
+      let customerCategory = preconditionContext().customerCategory;
+      let selectedOffers = null;
 
-        let distChannelOption = Common.resolveAddressId(
-            distributionChannelExternalId,
-            distributionChannel,
-        );
+      let distChannelOption = Common.resolveAddressId(
+        distributionChannelExternalId,
+        distributionChannel,
+      );
+      if (shoppingCartContext().addingOffer) {
+          selectedOffers = shoppingCartContext().offersToAdd;
+      } else {
+          shoppingCartContext().offersToAdd = null;
+      }
+      let charMap = null;
+      if (shoppingCartContext().addingCharMap) {
+          charMap = shoppingCartContext().charMap;
+      } else {
+          shoppingCartContext().charMap = null;
+      }
+      let customerAccountECID: any = preconditionContext().externalCustomerId!;
+      let childOfferMap = null;
+      if (shoppingCartContext().addingChild) {
+          childOfferMap = shoppingCartContext().childOfferMap;
+      } else {
+          shoppingCartContext().childOfferMap = null;
+      }
 
-        if (shoppingCartContext().addingOffer) {
-            selectedOffers = shoppingCartContext().offersToAdd;
-        } else {
-            shoppingCartContext().offersToAdd = null;
-        }
-        let charMap = null;
-        if (shoppingCartContext().addingCharMap) {
-            charMap = shoppingCartContext().charMap;
-        } else {
-            shoppingCartContext().charMap = null;
-        }
-        let customerAccountECID: null | number = preconditionContext().externalCustomerId!;
-        let childOfferMap = null;
-        if (shoppingCartContext().addingChild) {
-            childOfferMap = shoppingCartContext().childOfferMap;
-        } else {
-            shoppingCartContext().childOfferMap = null;
-        }
-        let promotionMap = null;
-        if (shoppingCartContext().addingPromotion) {
-            promotionMap = shoppingCartContext().promotions;
-        } else {
-            shoppingCartContext().promotions = null;
-        }
-        let response = responseContext().getShoppingCartResponse();
-        let responseText = JSON.stringify(response);
-        if (responseText.includes(customerAccountECID.toString())) {
-            customerAccountECID = null;
-        }
+      let promotionMap = null;
+      if (shoppingCartContext().addingPromotion) {
+          promotionMap = shoppingCartContext().promotions;
+      } else {
+          shoppingCartContext().promotions = null;
+      }
+      let response = responseContext().shoppingCartResponse;
+      let responseText = JSON.stringify(response)
 
-        const requestBody = {
-            prevResponse: response,
-            lpdsid: externalLocationId,
-            customerCategory: customerCategory,
-            distributionChannel: distChannelOption,
-            charMap,
-            childOfferMap,
-            ecid: customerAccountECID,
-            offersToAdd: selectedOffers,
-            promotionMap
-        }
+      if (responseText.includes(customerAccountECID)) {
+          customerAccountECID = null;
+      }
 
-        console.log('BODY IN UPDATE: ' + JSON.stringify(requestBody));
+      const requestBody = {
+          prevResponse: response,
+          lpdsid: externalLocationId,
+          customerCategory: customerCategory,
+          distributionChannel: distChannelOption,
+          charMap,
+          childOfferMap,
+          ecid: customerAccountECID,
+          offersToAdd: selectedOffers,
+          promotionMap
+      }
 
-        shoppingCartContext().addingOffer = false;
-        shoppingCartContext().addingChild = false;
-        shoppingCartContext().addingCharMap = false;
-        shoppingCartContext().addingPromotion = false;
+      console.log('BODY IN UPDATE: ' + JSON.stringify(requestBody));
 
-        try {
-            const response: AxiosResponse = await shoppingCartApi.updateShoppingCart(requestBody);
+      shoppingCartContext().addingOffer = false;
+      shoppingCartContext().addingChild = false;
+      shoppingCartContext().addingCharMap = false;
+      shoppingCartContext().addingPromotion = false;
 
-            if (response.status != 201) {
-                errorContext().error = `Unexpected http status code in update ShoppingCart: ${response.status}`;
-                errorContext().status = ErrorStatus.skipped;
-            }
+      try {
+          const response: AxiosResponse = await shoppingCartApi.updateShoppingCart(requestBody);
 
-            Common.checkValidResponse(response, 200);
-            const responseText = JSON.stringify(response, replacerFunc(), '\t');
-            responseContext().setShoppingCartResponse(response.data);
-            responseContext().setshopppingCartResonseText(responseText);
-        } catch (error: any) {
-            console.log(error)
-            errorContext().error = error;
-            errorContext().status = ErrorStatus.failed;
-            responseContext().SCstatusCode = error.response.status;
-            responseContext().setShoppingCartResponse(error.response.data);
-            test('Error response should be received', true, AssertionModes.strict)
-                .is(false, 'Error response is received\n' + JSON.stringify(error, null, '\t'))
-        }
+          if (response.status != 201) {
+              errorContext().error = `Unexpected http status code in update ShoppingCart: ${response.status}`;
+              errorContext().status = ErrorStatus.skipped;
+          }
+
+          Common.checkValidResponse(response, 200);
+          const responseText = JSON.stringify(response, replacerFunc(), '\t');
+          responseContext().shoppingCartResponse = response.data;
+          responseContext().shopppingCartResonseText = responseText;
+      } catch (error: any) {
+          console.log(error)
+          errorContext().error = error;
+          errorContext().status = ErrorStatus.failed;
+          responseContext().SCstatusCode = error.response.status;
+          responseContext().shoppingCartResponse = error.response.data;
+          test('Error response should be received', true, AssertionModes.strict)
+            .is(false, 'Error response is received\n' + JSON.stringify(error, null, '\t'))
+      }
     });
 
     and('prepare context data for Upgrade', (table) => {
@@ -183,9 +184,9 @@ export const updateShoppingCartSteps = ({
     then(/^validate shopping cart is updated successfully$/, async () => {
         let response: any;
         let responseText: any;
-        response = responseContext().getShoppingCartResponse();
+        response = responseContext().shoppingCartResponse;
         console.log("RESD", JSON.stringify(response));
-        responseText = responseContext().getshoppingCartResponseText();
+        responseText = responseContext().shoppingCartResponseText;
         test('update SC - SC should have OPEN status', response.status, AssertionModes.strict)
             .is('OPEN', 'SC should have OPEN status\n' + responseText)
         test('update SC - Response should contain cartItem', response.cartItem, AssertionModes.strict)
@@ -235,7 +236,7 @@ export const updateShoppingCartSteps = ({
         }
 
         let existingChildOfferMap = Common.createExistingChildOffersMap(
-            responseContext().getShoppingCartResponse(),
+            responseContext().shoppingCartResponse,
         );
         // console.log(existingChildOfferMap);
         shoppingCartContext().existingChildOffers = existingChildOfferMap;
@@ -246,8 +247,8 @@ export const updateShoppingCartSteps = ({
     then(/^validate that offers can not be removed$/, async () => {
         let response: any;
         let responseText: any;
-        response = responseContext().getShoppingCartResponse();
-        responseText = responseContext().getshoppingCartResponseText();
+        response = responseContext().shoppingCartResponse;
+        responseText = responseContext().shoppingCartResponseText;
         test('update SC - SC should have OPEN status', response.status, AssertionModes.strict)
             .is('OPEN', 'SC should have OPEN status\n' + responseText)
         test('update SC - Response should contain cartItem', response.cartItem, AssertionModes.strict)
@@ -278,7 +279,7 @@ export const updateShoppingCartSteps = ({
             let SCResponseBody: any;
             let updatedPrice: number;
             let originalPrice: number;
-            SCResponseBody = responseContext().getShoppingCartResponse();
+            SCResponseBody = responseContext().shoppingCartResponse;
             if (priceType === 'Recurrent') {
                 originalPrice = shoppingCartContext().originalSalesOrderRecurrentPrice;
                 updatedPrice =
@@ -304,7 +305,7 @@ export const updateShoppingCartSteps = ({
             let SCResponseBody: any;
             let updatedPriceAlteration: Array<string>;
             let originalPriceAlteration: Array<string>;
-            SCResponseBody = responseContext().getShoppingCartResponse();
+            SCResponseBody = responseContext().shoppingCartResponse;
             if (priceType === 'Recurrent') {
                 originalPriceAlteration = shoppingCartContext().SORecurrentPriceAlterationList;
                 updatedPriceAlteration =

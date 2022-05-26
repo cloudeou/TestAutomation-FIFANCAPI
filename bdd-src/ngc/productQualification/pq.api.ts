@@ -10,7 +10,7 @@ import {generateKongHeaders} from "../IkongApi"
 type PQparams = {
     customerCategory: string | null,
     distributionChannel: string | null,
-    externalLocationId: string | null,
+    externalLocationId: string | number | null,
     categoryList: Array<string> | null,
     productOfferingId?: string | null,
     charList?: any | null,
@@ -52,7 +52,7 @@ export class ProductQualificationApi {
 
     public async productQualification(scParams: PQparams): Promise<AxiosResponse> {
         const body = this.generateBody(scParams);
-        console.log(JSON.stringify(body));
+        console.log('body for PQ',JSON.stringify(body));
         const token = await this._oauthToken.getToken(envConfig.productQualification.scope);
         console.log("return token")
         try {
