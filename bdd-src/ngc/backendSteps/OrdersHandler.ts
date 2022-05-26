@@ -137,7 +137,7 @@ export class OrdersHandler {
           const orderInternalId = this._allPendingOrders[orIndex][1];
           const orderName = this._allPendingOrders[orIndex][0];
           let response: any;
-          response = responseContext().getCreateCustomerResponse();
+          response = responseContext().createCustomerResponse;
           let ecid = response.ecid;
           console.log("ecid", ecid)
           if (orderName.toLowerCase().includes('shipment')) {

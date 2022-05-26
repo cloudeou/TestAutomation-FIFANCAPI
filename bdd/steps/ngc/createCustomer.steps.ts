@@ -62,7 +62,7 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
 
     then('external customer id should be returned', () => {
       let response: any;
-      response = responseContext().сreateCustomerResponse;
+      response = responseContext().createCustomerResponse;
       let ecid = response.ecid; //99178852;
       let customerId = response.customerId; //9159028580013802859;
       test('ECID should create', ecid,AssertionModes.strict).isnot(undefined,'ECID is not created');
@@ -73,7 +73,7 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
 
     and('billing account number is returned', () => {
       let response: any;
-      response = responseContext().сreateCustomerResponse;
+      response = responseContext().createCustomerResponse;
       let ban = response.ban;
       test('Ban should create', ban, AssertionModes.strict).isnot(undefined,'Ban is not created');
       test('Ban should create', ban, AssertionModes.strict).isnot(null,'Ban is not created');;
@@ -82,7 +82,7 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
 
     and('credit check is performed', () => {
       let response: any;
-      response = responseContext().сreateCustomerResponse;
+      response = responseContext().createCustomerResponse;
       let checkPerformed = response.creditCheckPerformed;
       test('Check is performed', checkPerformed, AssertionModes.strict).isnot(true,'credit check is not performed');;
     });

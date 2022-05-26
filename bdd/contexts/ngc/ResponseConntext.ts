@@ -51,7 +51,7 @@ export default class ResponseContext {
         this._shoppingCartResponseText = value;
     }
 
-    public get сreateCustomerResponse() {
+    public get createCustomerResponse() {
         return this._createCustomerResponse;
     }
 
