@@ -41,7 +41,8 @@ export const createShoppingCartSteps = ({
     shoppingCartContext().addingOffer = true;
   });
 
-  and(/^user select commitments in (.*) period:$/, (type, table) => {
+  //change it later after bug is fixed
+  and('user select commitments in trial period:', (table) => {
     const commitmentsList = Common.getOffersFromTable(
       table,
       shoppingCartContext,
@@ -61,7 +62,69 @@ export const createShoppingCartSteps = ({
         Item: string
       }> = Common.getCommitmentPeriodChars(
         commitmentId,
-        type,
+        'trial',
+      )!;
+      commitmentCharsTable = [...commitmentCharsTable, ...periodCharsTable];
+    });
+    const comCharMap = Common.createCharMapFromTable(commitmentCharsTable);
+    const oldCharMap = shoppingCartContext().charMap;
+    const newCharMap = Common.mergeMaps(oldCharMap!, comCharMap);
+    shoppingCartContext().charMap = newCharMap;
+  });
+
+  //change it later after bug is fixed
+  and('user select commitments in regular period:', (table) => {
+    const commitmentsList = Common.getOffersFromTable(
+      table,
+      shoppingCartContext,
+    );
+    shoppingCartContext().offersToAdd = { offerList: commitmentsList, action: 'Add'};
+    shoppingCartContext().addingOffer = true;
+    let commitmentCharsTable:
+      Array<{
+        Name: string,
+        Value: Date,
+        Item: string
+      }> = [];
+    commitmentsList.forEach((commitmentId) => {
+      const periodCharsTable:  Array<{
+        Name: string,
+        Value: Date,
+        Item: string
+      }> = Common.getCommitmentPeriodChars(
+        commitmentId,
+        'regular',
+      )!;
+      commitmentCharsTable = [...commitmentCharsTable, ...periodCharsTable];
+    });
+    const comCharMap = Common.createCharMapFromTable(commitmentCharsTable);
+    const oldCharMap = shoppingCartContext().charMap;
+    const newCharMap = Common.mergeMaps(oldCharMap!, comCharMap);
+    shoppingCartContext().charMap = newCharMap;
+  });
+
+  //change it later after bug is fixed
+  and('user select commitments in earlyRenewal period:', (table) => {
+    const commitmentsList = Common.getOffersFromTable(
+      table,
+      shoppingCartContext,
+    );
+    shoppingCartContext().offersToAdd = { offerList: commitmentsList, action: 'Add'};
+    shoppingCartContext().addingOffer = true;
+    let commitmentCharsTable:
+      Array<{
+        Name: string,
+        Value: Date,
+        Item: string
+      }> = [];
+    commitmentsList.forEach((commitmentId) => {
+      const periodCharsTable:  Array<{
+        Name: string,
+        Value: Date,
+        Item: string
+      }> = Common.getCommitmentPeriodChars(
+        commitmentId,
+        'earlyRenewal',
       )!;
       commitmentCharsTable = [...commitmentCharsTable, ...periodCharsTable];
     });

@@ -33,7 +33,7 @@ export const productQualificationSteps = ({when, and, then}: { [key: string]: st
     featureContext().getContextById(Identificators.shoppingCartContext);
 
   and(/^user filter by the following product offering id: (.*)$/, (offerId) => {
-    console.log('hihihi');
+    console.log('hihihi',offerId);
     ProductQualificationContext().productOfferingId = offerId;
   });
 
@@ -101,10 +101,6 @@ export const productQualificationSteps = ({when, and, then}: { [key: string]: st
     'list of the following product offerings should be available:',
     (table) => {
       let response = ResponseContext().PQresponse;
-      console.log(
-        'Returned offerings:' +
-        response.productOfferingQualificationItem.length,
-      );
 
       let topOffer = shoppingCartContext().topOffer;
       let actualOffers: any;
