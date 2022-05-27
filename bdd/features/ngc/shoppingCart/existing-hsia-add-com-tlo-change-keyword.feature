@@ -7,7 +7,7 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -24,16 +24,16 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
 
   Scenario: Create SC with HSIA offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9150893104313917439 |
     #TELUS Internet 15/15
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9150893104313917439 |
     # Delivery method - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -44,7 +44,7 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
 
   Scenario: Update SC, add Add Ons offer, add Boost WiFi offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9152405677313441444 |
       #Apple TV 4K 32GB
@@ -76,17 +76,17 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
 
   Scenario: Create same SC
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
 
   Scenario: Update SC, remove some Add Ons, remove Boost WiFi, add commitment offer, change top level offer in SC
     Given preconditions by user are selected
-    And user delete offers:
+    And test user delete offers:
       | OfferId             |
       | 9153586297713374444 |
     #$200 Netflix Gift Card
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9160783152413937446 |
       #Save on Internet & SHS For 24 months
@@ -94,7 +94,7 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
       #Apple TV 4K 32GB
       | 9150529131613486915 |
     # TELUS Internet 25/25
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9150529131613486915 |
     # Delivery method - Pro Install

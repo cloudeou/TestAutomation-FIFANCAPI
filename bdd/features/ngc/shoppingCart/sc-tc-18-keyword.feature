@@ -9,7 +9,7 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
     #And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
     And distribution channel is PILOT6RT
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
 
@@ -49,7 +49,7 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
 
   Scenario: Internet Rural 500 GB (2Yr) with Secure Plus Video (3 yr)
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159683640113535776 |
       #wHSIA Rural Internet - 500GB monthly data
@@ -59,7 +59,7 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
       # Secure Plus Video
       | 9150400880613177266 |
     # Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234603588639317 |
       # Delivery method = Tech install
@@ -67,8 +67,8 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
       # Acquired From = Fluent
       | 9152552492613455557 | 9152552492613455566 | 9162234603588639317 |
     # Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |

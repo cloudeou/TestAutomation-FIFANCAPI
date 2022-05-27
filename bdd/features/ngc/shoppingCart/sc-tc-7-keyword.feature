@@ -10,7 +10,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
     And technology type is GPON
     And distribution channel is PILOT3RT
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
 
@@ -30,7 +30,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Internet + TV + HomePhone
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9152406687013913547 |
       # TELUS Internet 750/750
@@ -38,8 +38,8 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
       # Essentials
       | 9136923654113578822 |
       # Home Phone
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -86,8 +86,8 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Create SC to change TLO for FIFA TC#7
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
 
   Scenario: Internet Addon - Unlimited HS , Norton VPN Basic
@@ -100,7 +100,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
       # Norton Secure VPN - Basic
       | 9136923654113578868 | 9136923654113578822 |
     # Directory Listing
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9144240341813171759 | 9144283379913208296 | 9136923654113578822 |
     # Directory listing selection = Yes             Home Phone

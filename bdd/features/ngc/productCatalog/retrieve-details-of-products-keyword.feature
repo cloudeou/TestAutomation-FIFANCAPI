@@ -1,5 +1,4 @@
 @ngc
-@api
 @PC
 @retrieve-details-of-products-keyword
 Feature: Retrieve product offering details of a list of Product offers
@@ -14,11 +13,11 @@ Feature: Retrieve product offering details of a list of Product offers
       | 9150918475013936444 |
     When user try to retrieve offer details
     Then list of offer details should be returned
-#    And user validate offers attributes:
-#      | attributeName |
-#      | name          |
-#      | category      |
-#    And user validate attachment attributes:
-#      | attributeName               |
-#      | offeringDetailedDescription |
-#      | offeringName                |
+   And user validate offers attributes:
+     | attributeName |
+     | name          |
+     | category      |
+   And user validate attachment attributes:
+     | attributeName               |
+     | offeringDetailedDescription |
+     | offeringName                |

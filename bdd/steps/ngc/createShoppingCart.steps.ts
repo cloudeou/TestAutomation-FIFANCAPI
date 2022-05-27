@@ -32,7 +32,7 @@ export const createShoppingCartSteps = ({
   const shoppingCartApi = new ShoppingCartApi();
 
 
-  and('user select offers:', function (table) {
+  and('test user select offers:', function (table) {
     let productOfferingList: any = Common.getOffersFromTable(
       table,
       shoppingCartContext,
@@ -41,7 +41,7 @@ export const createShoppingCartSteps = ({
     shoppingCartContext().addingOffer = true;
   });
 
-  and(/^user select commitments in (.*) period:$/, (type, table) => {
+  and(/^test user select commitments in (.*) period:$/, (type, table) => {
     const commitmentsList = Common.getOffersFromTable(
       table,
       shoppingCartContext,
@@ -71,7 +71,7 @@ export const createShoppingCartSteps = ({
     shoppingCartContext().charMap = newCharMap;
   });
 
-  and('user delete offers:', function (table) {
+  and('test user delete offers:', function (table) {
     let productOfferingList: any = Common.getOffersFromTable(
       table,
       shoppingCartContext,
@@ -80,13 +80,13 @@ export const createShoppingCartSteps = ({
     shoppingCartContext().addingOffer = true;
   });
 
-  and('user set the chars for item:', async (table) => {
+  and('test user set the chars for item:', async (table) => {
     let charMap = await Common.createCharMapFromTable(table);
     shoppingCartContext().charMap = charMap;
     shoppingCartContext().addingCharMap = true;
   });
 
-  then('user try to delete Shopping Cart context', async () => {
+  then('test user try to delete Shopping Cart context', async () => {
     shoppingCartContext().shoppingCartId = null;
     responseContext().shoppingCartResponse = null;
     responseContext().shopppingCartResonseText = null;
@@ -99,7 +99,7 @@ export const createShoppingCartSteps = ({
     shoppingCartContext().addingCharMap = false;
   });
 
-  when('user try to create Shopping Cart', async () => {
+  when('test user try to create Shopping Cart', async () => {
     shoppingCartContext().shoppingCartApiInstance = shoppingCartApi;
     let externalLocationId = preconditionContext().addressId;
     let distributionChannel = preconditionContext().distributionChannel;
@@ -189,7 +189,7 @@ export const createShoppingCartSteps = ({
     }
   })
 
-  then('validate shopping cart is created successfully', async () => {
+  then('test validate shopping cart is created successfully', async () => {
     let responseBody = responseContext().shoppingCartResponse!;
     let salesOrderRecurrentPrice = responseBody.cartTotalPrice[0].price.dutyFreeAmount.value;
     let salesOrderOneTimePrice = responseBody.cartTotalPrice[1].price.dutyFreeAmount.value;

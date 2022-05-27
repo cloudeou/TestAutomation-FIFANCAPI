@@ -7,7 +7,7 @@ Feature: Add New HP on existing active Optik TV & HSIA
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -24,14 +24,14 @@ Feature: Add New HP on existing active Optik TV & HSIA
 
   Scenario: Create SC with Optik TV offer and HSIA offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9142278346813160836 |
       # Essentials
       | 9150893104313917439 |
     #TELUS Internet 15/15
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -69,12 +69,12 @@ Feature: Add New HP on existing active Optik TV & HSIA
 
 #  Scenario: Create same SC
 #    Given preconditions by user are selected
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #
 #  Scenario: Update SC, add new HP offer
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9136923654113578822 |
 #    # Home Phone

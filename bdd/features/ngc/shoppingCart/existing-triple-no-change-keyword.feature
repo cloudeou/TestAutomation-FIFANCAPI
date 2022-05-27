@@ -9,7 +9,7 @@ Feature: Existing commitment in Regular Period Triple Play no change
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -26,7 +26,7 @@ Feature: Existing commitment in Regular Period Triple Play no change
 
   Scenario: Create SC with HSIA(Internet) offrer, TV offer, SHS offer and commitment offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9150893104313917439 |
       #TELUS Internet 15/15
@@ -38,7 +38,7 @@ Feature: Existing commitment in Regular Period Triple Play no change
       # Home Security Commitment on 36 month contract
       | 9160783963613938850 |
     #Save on Internet & SHS For 24 months
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9158306682113553797 | 9158306751513553873 | 9142278346813160836 |
       # Delivery Method TV - Self Install
@@ -48,8 +48,8 @@ Feature: Existing commitment in Regular Period Triple Play no change
       # Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162234688573639328 |
     # Self-Install = No
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -63,7 +63,7 @@ Feature: Existing commitment in Regular Period Triple Play no change
 
   Scenario: Update SC with SLO, add Add Ons offer, add Boost WiFi offer, add Equipment(TV, SHS) offers
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9152405677313441444 |
       #Apple TV 4K 32GB
@@ -99,12 +99,12 @@ Feature: Existing commitment in Regular Period Triple Play no change
 
   Scenario: Create same SC
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update SC, remove some Add Ons, remove Boost WiFi
     Given preconditions by user are selected
-    And user delete offers:
+    And test user delete offers:
       | OfferId             |
       | 9152405677313441444 |
     #Apple TV 4K 32GB

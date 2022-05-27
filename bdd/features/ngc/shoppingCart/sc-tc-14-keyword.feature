@@ -13,7 +13,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#14
@@ -61,7 +61,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: SHS Secure Plus Video + LivingWell Companion Go
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162234603588639317 |
       # Secure Plus Video
@@ -69,7 +69,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 		# Home Security Commitment on 36 month contract
       | 9161482788965984291 |
      # LivingWell Companion Go
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234603588639317 |
 			# Delivery method = Tech install
@@ -83,8 +83,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
             # End User First Name
       | 9157607665813042503 | Automation          | 9161482788965984291 |
         # End User Last Name
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -115,12 +115,12 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Create SC to change TLO for FIFA TC#14
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Select SHS commitment promotion
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162728983709155290 |
       #3 Months Free SHS 10 M&H
@@ -146,7 +146,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       # Doorbell Camera - Round Purchase
       | 9154703764413382202 | 9161482788965984291 |
       # Replacement Belt Clip for LWC Go 2.0
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9151550795513408112 | 9151619944313285435 | 9150454993513203663 |
     # | Purchase Type       | One Time            | Doorbell Camera - Round Purchase |

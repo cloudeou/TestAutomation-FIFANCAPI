@@ -6,7 +6,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
   Scenario: Get addess 9
     Given user has address with type FIBER
     And technology type is GPON
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification 9
@@ -25,7 +25,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Create SC HS25+ 7 Theme pack + 1 premium
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9150529131613486915 |
       # TELUS Internet 25/25
@@ -53,8 +53,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       # TELUS Boost Wi-Fi Starter Pack Easy Payment
       | 9148871359813039639 | 9150529131613486915 |
     # TELUS Boost Wi-Fi Expansion Pack Purchase
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |

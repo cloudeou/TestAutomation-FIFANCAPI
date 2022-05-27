@@ -10,7 +10,7 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
 #    And distribution channel is F2F
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification
@@ -57,7 +57,7 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
 
   Scenario: Create shopping cart
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9152406687013913547 |
       # TELUS Internet 750/750
@@ -69,12 +69,12 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
       # Home Security Commitment on 36 month
       | 9146775787813796264 |
 		# The Basics + Pik 5
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9152694600113929802 | 9154132902813883884 | 9155153987813123256 |
 			# Acquired From = Reliance
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -89,7 +89,7 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9148870992313039465 |
       # TELUS Boost Wi-Fi Starter Pack
