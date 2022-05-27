@@ -47,9 +47,6 @@ export class PayloadGenerator {
         orderNumber: string,
         sku: string,
         status?: string | null | undefined,
-        // trackingNumber?: string | null,
-        // expectedDeliveryDate?: string | null | undefined,
-        // shipper?: string | null | undefined,
         operationName?: string | null | undefined,
         notificationType?: string | null | undefined,
         ICCID?: string | null | undefined ) {
