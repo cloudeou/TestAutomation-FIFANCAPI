@@ -47,8 +47,8 @@ Feature: Retrieve Offers With Existing internet
       | OfferId             |
       | 9159683640113535776 |
       # wHSIA Rural Internet - 500GB monthly data
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -61,7 +61,7 @@ Feature: Retrieve Offers With Existing internet
   Scenario: Update SC, add child offer
     And distribution channel is PILOT6RT
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9160503693613228831 | 9159683640113535776 |
       | 9159698239513542765 | 9159683640113535776 |
@@ -69,8 +69,8 @@ Feature: Retrieve Offers With Existing internet
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9159683640113535776 |
 #      Delivery method - Pro Install
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Update SC, change period of commitment trial for Regular Internet offer
@@ -80,8 +80,8 @@ Feature: Retrieve Offers With Existing internet
       | OfferId             |
       | 9160749291613917553 |
      # Save on Internet only for 24 months
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Update SC, change period of commitment trial for whsia Internet offer
     And distribution channel is PILOT6RT
@@ -90,8 +90,8 @@ Feature: Retrieve Offers With Existing internet
       | OfferId             |
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Qualified product offering list with shopping cart
     Given preconditions by user are selected
@@ -119,8 +119,8 @@ Feature: Retrieve Offers With Existing internet
       | OfferId             |
       | 9160749291613917553 |
      # Save on Internet only for 24 months
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Update SC, change period of commitment regular for whsia Internet offer
     And distribution channel is PILOT6RT
@@ -129,8 +129,8 @@ Feature: Retrieve Offers With Existing internet
       | OfferId             |
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected
@@ -145,8 +145,8 @@ Feature: Retrieve Offers With Existing internet
       | OfferId             |
       | 9160749291613917553 |
      # Save on Internet only for 24 months
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Update SC, change period of commitment earlyRenewal for whsia Internet offer
     And distribution channel is PILOT6RT
@@ -155,8 +155,8 @@ Feature: Retrieve Offers With Existing internet
       | OfferId             |
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart (3)

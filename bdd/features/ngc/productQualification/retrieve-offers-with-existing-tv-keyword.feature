@@ -50,12 +50,12 @@ Feature: Retrieve Offers with exiting TV
 
   Scenario: Update SC add Add Ons for OptikTV offer
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9144579890813692894 | 9142278346813160836 |
       # 4K PVR
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Qualified product offering list with shopping cart

@@ -101,19 +101,19 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
   Scenario: Select  Movies : Super Channel, Chinese : Chinese Super Pack
 
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9156445165313205312 | 9153347723813004284 |
       # Super Channel          4 Theme Packs & 1 Premium
       | 9137765555013603594 | 9153347723813004284 |
       # Chinese Super Pack     4 Theme Packs & 1 Premium
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Select 2 equipment Equipment 1 : Optik 4k PVR Equipment 2 : Optik 4K Set Top Box
 
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9148267654013922016 | 9153347723813004284 |
       # Optik 4K Set Top Box
@@ -122,8 +122,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
     And user set the chars for item:
       | Name                | Value          | Item                |
       | 9146582494313682120 | Beware of dogs | 9146582143513681890 |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart in FIFA TC#4 (1)
@@ -208,8 +208,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      | OfferId             |
 #      | 9152210814813354552 |
 #    # High Speed Upgrade
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #
 #  Scenario: Add Coupon based offer
 #    Given preconditions by user are selected
@@ -218,15 +218,15 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      | OfferId             |
 #      | 9152202942013350155 |
 #    # 24 MO - $10 Internet Discount
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    #| description   |
 #    And user validate cart at least one item should contain price
 #    And user validate cart item should contain price alteration
-#    And validate total shopping cart price alteration is updated successfully:Recurrent
+#    And test validate total shopping cart price alteration is updated successfully:Recurrent
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      #| 9150400521113176960 | Commitment
@@ -242,7 +242,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  Scenario: Patch SC with Second Level Cart Items(Add Equipment and Emergency Contact for Living Well)
 #    Given preconditions by user are selected
-#    And user select child offer:
+#    And test user select child offer:
 #      | OfferId             | Parent              |
 #      | 9157582505713018514 | 9157037812113621624 |
 #      # Emergency Contact
@@ -264,16 +264,16 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      # Contact Phone Number
 #      | 9157669241313588257 | 2              | 9157582505713018514 | 2          |
 #    # Contact Order Preference
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    # | description   |
 #    And user validate cart at least one item should contain price
 #    And user validate cart item should contain price alteration
-#    And validate total shopping cart price is updated successfully:Recurrent
-#    And validate total shopping cart price is updated successfully:One Time
+#    And test validate total shopping cart price is updated successfully:Recurrent
+#    And test validate total shopping cart price is updated successfully:One Time
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      #| 9150400521113176960 |
@@ -298,8 +298,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      | 9157607665813042503 | Last Name           | 9157037812113621624 |
 #      | 9157581860013018130 | 1112223333          | 9157037812113621624 |
 #      | 9157581860013018102 | 9157590380013026012 | 9157037812113621624 |
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -330,8 +330,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      | Name                | Value               | Item                |
 #      | 9156198150013903799 | 9156198150013903802 | 9157037812113621624 |
 #    #| 9157950816213373074 | 9157950816213373076 | 9152406687013913547 |
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -372,8 +372,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  Scenario: Patch SC with Customer
 #    Given preconditions by user are selected
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate shopping cart related party customer id
 #
 #  # Scenario: Validate Cart associated with Customer ID
@@ -402,8 +402,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #  #     # City
 #  #     | 9148017499713860022 | AB            | 9147904372813829170 |
 #  #   # Province
-#  #   When user try to update Shopping Cart
-#  #   Then validate shopping cart is updated successfully
+#  #   When test user try to update Shopping Cart
+#  #   Then test validate shopping cart is updated successfully
 #
 #  # Scenario: Checkout SC
 #  #   Given preconditions by user are selected

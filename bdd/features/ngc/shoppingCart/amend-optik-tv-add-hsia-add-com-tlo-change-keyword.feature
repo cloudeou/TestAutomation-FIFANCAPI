@@ -45,7 +45,7 @@ Feature: Amend existing pending Optik TV and add HSIA Add Commitment
 
   Scenario: Update SC add Add Ons for OptikTV offer, add Equipment offers
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9144579890813692894 | 9142278346813160836 |
       # 4K PVR
@@ -53,8 +53,8 @@ Feature: Amend existing pending Optik TV and add HSIA Add Commitment
       # 4K Channel Pack
       | 9142278431713161025 | 9142278346813160836 |
     # ATN Food Food
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
@@ -81,14 +81,14 @@ Feature: Amend existing pending Optik TV and add HSIA Add Commitment
       # Save on Internet only for 24 months (Mass) (NC)
       | 9150893104313917439 |
     #TELUS Internet 15/15
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9144579890813692894 | 9154129004413082455 |
       # 4K PVR
       | 9152633535113644812 | 9154129004413082455 |
     # 4K Channel Pack
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 2
     Given preconditions by user are selected

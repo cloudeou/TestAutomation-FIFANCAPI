@@ -57,7 +57,7 @@ Feature: Existing customer with active HS+Optik TV
 
   Scenario: Update SC with SLO, add Add Ons for OptikTV offer, add Equipment offers.
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9152633535113644812 | 9142278346813160836 |
       #4K Channel Pack
@@ -65,8 +65,8 @@ Feature: Existing customer with active HS+Optik TV
     #4 CR2 Battery
       | 9144579890813692894 | 9142278346813160836 |
       # 4K PVR
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected

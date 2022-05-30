@@ -97,12 +97,12 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9151963809313418384 | 9162234603588639317 |
 		# add Doorbell Camera - Slimline
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart

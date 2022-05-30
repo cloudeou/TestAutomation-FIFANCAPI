@@ -55,23 +55,23 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Update SC with SLO, add Add Ons for OptikTV offer, add Equipment offers.
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9152633535113644812 | 9153347723813004284 |
       #4K Channel Pack
       | 9144579890813692894 | 9153347723813004284 |
       # 4K PVR
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Update SC with SLO, add Add Ons for HSIA offer, add Equipment offers.
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9151960774813952250 | 9150564125513493939 |
       #TELUS Boost Starter Pack PIF
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Update shopping cart and add child offers to apply promotion
     Given preconditions by user are selected

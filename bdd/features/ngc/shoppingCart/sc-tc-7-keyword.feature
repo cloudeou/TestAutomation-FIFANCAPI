@@ -52,7 +52,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Update SC with SLO, add Add Ons for OptikTV offer, add Equipment offers.
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9152633535113644812 | 9153347723813004284 |
       #4K Channel Pack
@@ -60,8 +60,8 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
     #4 CR2 Battery
       | 9144579890813692894 | 9153347723813004284 |
       # 4K PVR
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart in FIFA TC#7 (1)
@@ -92,7 +92,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Internet Addon - Unlimited HS , Norton VPN Basic
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9150918475013936444 | 9150893104313917439 |
       # Unlimited Data Usage

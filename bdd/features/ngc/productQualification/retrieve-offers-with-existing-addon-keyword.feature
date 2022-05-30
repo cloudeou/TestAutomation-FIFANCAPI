@@ -54,12 +54,12 @@ Feature: Retrieve Offers with exiting Home Phone
 
   Scenario: Add Add Ons offer
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9154703630213381920 | 9162234688573639328 |
     #4 CR2 Battery
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Qualified product offering list with shopping cart
     Given preconditions by user are selected

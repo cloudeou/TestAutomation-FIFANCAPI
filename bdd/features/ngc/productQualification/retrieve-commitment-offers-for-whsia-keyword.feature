@@ -52,14 +52,14 @@ Feature: Retrieve Commitment Offers for WHSIA
 
   Scenario: Select child offer
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
 #      | 9160571371613319983 | 9159683640113535776 |
 #    #5G Indoor Router
       | 9160503693613228831 | 9159683640113535776 |
       | 9159698239513542765 | 9159683640113535776 |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Qualified product offering list with shopping cart
     Given preconditions by user are selected
@@ -101,8 +101,8 @@ Feature: Retrieve Commitment Offers for WHSIA
       | OfferId             |
       | 9159621605313507298 |
       # $5 off plus free Rental for 2 years
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected

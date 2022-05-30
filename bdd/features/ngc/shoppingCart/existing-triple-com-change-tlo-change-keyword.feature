@@ -68,7 +68,7 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
       #Apple TV 4K 32GB
       | 9153586297713374444 |
     # $200 Netflix Gift Card
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9150280421713159508 | 9150893104313917439 |
       #TELUS Boost Wi-Fi Starter Pack Easy Payment
@@ -76,8 +76,8 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
       # 4K PVR
       | 9154703630213381920 | 9162234688573639328 |
     #4 CR2 Battery
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
@@ -115,8 +115,8 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
       #Optik TV Cross Sell Offer: Save on Internet & Optik TV for 24
       | 9150529041113486764 |
     # TELUS Internet 75/75
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Submit SC 2

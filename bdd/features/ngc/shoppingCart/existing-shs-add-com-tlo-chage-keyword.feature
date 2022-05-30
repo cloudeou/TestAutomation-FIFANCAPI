@@ -58,12 +58,12 @@ Feature: Create existing-triple-com-change-tlo-change
       | OfferId             |
       | 9153586297713374444 |
     #$200 Netflix Gift Card
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9154703630213381920 | 9162234688573639328 |
     #4 CR2 Battery
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
@@ -112,8 +112,8 @@ Feature: Create existing-triple-com-change-tlo-change
       # Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162184182465524071 |
     # Self-Install = No
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 2
     Given preconditions by user are selected

@@ -85,7 +85,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: +2 Accessories ( 1- Easy Pay,1- One Time)
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9151670335513311270 | 9162234603588639317 |
       #Doorbell Camera - Round TELUS Easy Pay B2C
@@ -97,8 +97,8 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
       # | Purchase Type       | Easy Pay           | Doorbell Camera - Round TELUS Easy Pay B2C |
       | 9151550795513408112 | 9151619944313285435 | 9150454993513203663 |
     # | Purchase Type       | One Time            | Doorbell Camera - Round Purchase
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart in FIFA TC#12

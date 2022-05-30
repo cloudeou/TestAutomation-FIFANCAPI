@@ -80,7 +80,7 @@ Feature: New Customer ordering Internet, and SHS on a QC address
 
   Scenario: Update SC with SLO, add Add Ons offer, add Equipment offer
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9154703630213381920 | 9162184618979604472 |
       #4 CR2 Battery
@@ -88,8 +88,8 @@ Feature: New Customer ordering Internet, and SHS on a QC address
       # HD PVR, rent
       | 9159831687313703227  | 9159778130613660699 |
       # Wi-Fi Booster, rent for Internet
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected

@@ -50,7 +50,7 @@ Feature: Existing WHSIA
 
   Scenario: Update SC, add child offer
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9159709923413548570 | 9159602850913498849 |
     # 50GB recurring top-up
@@ -60,8 +60,8 @@ Feature: Existing WHSIA
     # SIM
 #      | 9160503549513228792 | 9159602850913498849 |
 #      | 9160571371613319983 | 9159602850913498849 |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Validate shopping cart 1
@@ -92,8 +92,8 @@ Feature: Existing WHSIA
     | OfferId             |
     | 9159602850913498849 |
      # wHSIA Rural Internet - 100GB monthly data
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Add new TLO
     Given preconditions by user are selected
@@ -101,8 +101,8 @@ Feature: Existing WHSIA
     | OfferId             |
     | 9159683640113535776 |
     #wHSIA Rural Internet - 500GB monthly data
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 2
     Given preconditions by user are selected

@@ -51,12 +51,12 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 
   Scenario: Add PVR
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9148267172313921553 | 9142278346813160836 |
       # Optik 4K PVR
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart in FIFA TC#7 (1)
     Given preconditions by user are selected
@@ -82,7 +82,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 
   Scenario: Internet Addon - Unlimited HS , Norton VPN Basic
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9150918475013936444 | 9150893104313917439 |
       # Unlimited Data Usage
@@ -162,7 +162,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Update SC, add cjannels, add Installer Tech  comment-"Beware of dogs"
 #    Given preconditions by user are selected
-#    And user select child offer:
+#    And test user select child offer:
 #      | OfferId             | Parent              |
 #      | 9145909657213142317 | 9142046828213433809 |
 #      # Crave
@@ -179,8 +179,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    And user set the chars for item:
 #      | Name                | Value          | Item                |
 #      | 9146582494313682120 | Beware of dogs | 9146582143513681890 |
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #
 #  Scenario: Validate shopping cart in FIFA TC#7 (1)
 #    Given preconditions by user are selected
@@ -206,7 +206,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Internet Addon - Unlimited HS , Norton VPN Basic
 #    Given preconditions by user are selected
-#    And user select child offer:
+#    And test user select child offer:
 #      | OfferId             | Parent              |
 #      | 9150918475013936444 | 9150893104313917439 |
 #      # Unlimited Data Usage
@@ -296,8 +296,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      | OfferId             |
 #      | 9145572401713849539 |
 #    # TELUS Simple Switch
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -329,7 +329,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Patch SC with Second Level Cart Items (Add) and modify top level cart item and second level cart item characteristics
 #    Given preconditions by user are selected
-#    And user select child offer:
+#    And test user select child offer:
 #      | OfferId             | Parent              |
 #      | 9136923654113578868 | 9136923654113578822 |
 #    #| Directory Listing   | Home Phone          |
@@ -343,8 +343,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # First Name
 #      | 9144476108013500794 | Second              | 9136923654113578868 |
 #    # Last Name
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -374,7 +374,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Patch SC with Second Level Cart Items (Add Add-ons for Internet )
 #    Given preconditions by user are selected
-#    And user select child offer:
+#    And test user select child offer:
 #      | OfferId             | Parent              |
 #      | 9150280421713159508 | 9152406687013913547 |
 #      # TELUS Boost Wi-Fi Starter Pack Easy Payment
@@ -382,17 +382,17 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # TELUS Online Security - Ultimate
 #      | 9148871359813039639 | 9152406687013913547 |
 #    # TELUS Boost Wi-Fi Expansion Pack Purchase
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    # | description   |
 #    And user validate cart at least one item should contain price
 #    And user validate cart item should contain price alteration
-#    And validate total shopping cart price is updated successfully:Recurrent
-#    And validate total shopping cart price is updated successfully:One Time
-#    And validate total shopping cart price alteration is updated successfully:Recurrent
+#    And test validate total shopping cart price is updated successfully:Recurrent
+#    And test validate total shopping cart price is updated successfully:One Time
+#    And test validate total shopping cart price alteration is updated successfully:Recurrent
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      #| 9150400521113176960 |
@@ -412,7 +412,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Patch SC with Second Level Cart Item Characteristics(Home Phone - Name Display format)
 #    Given preconditions by user are selected
-#    And user select child offer:
+#    And test user select child offer:
 #      | OfferId             | Parent              |
 #      | 9136923654113578870 | 9136923654113578822 |
 #    #| Name Display        | Home Phone          |
@@ -420,8 +420,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      | Name                | Value               | Item                |
 #      | 9136984610013616821 | 9136984610013616835 | 9136923654113578870 |
 #    #| Name Display Format | Last Name + Initials| Name Display        |
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -455,8 +455,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # Marketing Campaign Type Characteristic
 #      | 9149612429313119794 | 9149612429313119801 | SalesOrder |
 #    # CSA Delivery Mode Characteristic
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #
 #
 #  Scenario: Create a customer
@@ -468,8 +468,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Patch SC with Customer
 #    Given preconditions by user are selected
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #    And user validate shopping cart related party customer id
 #
 #  Scenario: Patch Shipment characteristics
@@ -487,8 +487,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # City
 #      | 9148017499713860022 | AB            | 9147904372813829170 |
 #    # Province
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #
 #  # Scenario: Checkout SC
 #  #   Given preconditions by user are selected

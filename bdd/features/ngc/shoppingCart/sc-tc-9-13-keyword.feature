@@ -31,7 +31,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       # TELUS Internet 25/25
       | 9153357971813013786 |
     # 7 Theme Packs & 1 Premium
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9155519369313230144 | 9153357971813013786 |
       # Cinema One
@@ -68,16 +68,16 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Update SC with SLO, add Add Ons for OptikTV offer, add Equipment offers.
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9144579890813692894 | 9153357971813013786 |
       # 4K PVR
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Update SC upgrade to 11 Theme Packs & 1 Premium
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9142952842813225187 | 9153357971813013786 |
       #Filipino Movies
@@ -87,23 +87,23 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       #Arabic Pack
       | 9155528473113237365 | 9153357971813013786 |
     #German entertainment
-    And prepare context data for Upgrade
+    And test prepare context data for Upgrade
       | From                | To                  |
       | 9153357971813013786 | 9153358200213013887 |
     #7 Theme Packs & 1 Premium | 11 Theme Packs & 2 Premium
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Update SC add charge additionally channels
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9145925448313321985 | 9153358200213013887 |
     #Crave+Movies+HBO
       | 9144579890813692894 | 9153358200213013887 |
       # 4K PVR
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Add promotion

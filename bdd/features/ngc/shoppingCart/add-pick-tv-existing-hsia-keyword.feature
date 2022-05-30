@@ -73,8 +73,8 @@ Feature: Add New Pik TV on existing active HSIA
      | Name                | Value               | Item                |
      | 9158306682113553797 | 9158306751513553872 | 9142046828213433815 |
    # Delivery method - Pro Install
-   When user try to update Shopping Cart
-   Then validate shopping cart is updated successfully
+   When test user try to update Shopping Cart
+   Then test validate shopping cart is updated successfully
 
  Scenario: Validate shopping cart 2
    Given preconditions by user are selected

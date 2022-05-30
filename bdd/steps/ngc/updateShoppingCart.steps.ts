@@ -32,7 +32,7 @@ export const updateShoppingCartSteps = ({
     const errorContext = (): ErrorContext =>
         featureContext().getContextById(Identificators.ErrorContext);
 
-    and('user select child offer:', (table) => {
+    and('test user select child offer:', (table) => {
         let offerMap = Common.getChildOfferMapFromTable(
           table,
           shoppingCartContext().topOffer,
@@ -41,22 +41,22 @@ export const updateShoppingCartSteps = ({
         shoppingCartContext().addingChild = true;
     });
 
-    and('user delete from SC context of child offers', () => {
+    and('test user delete from SC context of child offers', () => {
         shoppingCartContext().addingChild = false;
         shoppingCartContext().childOfferMap = null;
     });
 
-    and('user delete child offer:', (table) => {
+    and('test user delete child offer:', (table) => {
         let offerMap = Common.getChildOfferMapFromTable(table);
         shoppingCartContext().childOfferMap = {value: offerMap, action: 'Delete'};
         shoppingCartContext().addingChild = true;
     });
 
-  and('user set related party customer id', (customerId) => {
+  and('test user set related party customer id', (customerId) => {
     preconditionContext().externalCustomerId = customerId;
   });
 
-  when('user try to update Shopping Cart', async () => {
+  when('test user try to update Shopping Cart', async () => {
       const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
       let externalLocationId = preconditionContext().addressId;
       let distributionChannel = preconditionContext().distributionChannel;
@@ -142,7 +142,7 @@ export const updateShoppingCartSteps = ({
       }
     });
 
-    and('prepare context data for Upgrade', (table) => {
+    and('test prepare context data for Upgrade', (table) => {
         let charMap = shoppingCartContext().charMap;
         table.forEach((row: any) => {
             if (charMap !== null) {
@@ -181,7 +181,7 @@ export const updateShoppingCartSteps = ({
         console.log("SC CONTEXT", shoppingCartContext().charMap);
     });
 
-    then(/^validate shopping cart is updated successfully$/, async () => {
+    then(/^test validate shopping cart is updated successfully$/, async () => {
         let response: any;
         let responseText: any;
         response = responseContext().shoppingCartResponse;
@@ -244,7 +244,7 @@ export const updateShoppingCartSteps = ({
         return;
     });
 
-    then(/^validate that offers can not be removed$/, async () => {
+    then(/^test validate that offers can not be removed$/, async () => {
         let response: any;
         let responseText: any;
         response = responseContext().shoppingCartResponse;
@@ -274,7 +274,7 @@ export const updateShoppingCartSteps = ({
     });
 
     and(
-        /^validate total shopping cart price is updated successfully:(.*)$/,
+        /^test validate total shopping cart price is updated successfully:(.*)$/,
         (priceType) => {
             let SCResponseBody: any;
             let updatedPrice: number;
@@ -300,7 +300,7 @@ export const updateShoppingCartSteps = ({
     );
 
     and(
-        /^validate total shopping cart price alteration is updated successfully:(.*)$/,
+        /^test validate total shopping cart price alteration is updated successfully:(.*)$/,
         (priceType) => {
             let SCResponseBody: any;
             let updatedPriceAlteration: Array<string>;

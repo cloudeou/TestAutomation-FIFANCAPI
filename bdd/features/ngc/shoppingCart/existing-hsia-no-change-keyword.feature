@@ -50,12 +50,12 @@ Feature: Existing active HSIA plan
       #Apple TV 4K 32GB
       | 9153586297713374444 |
     # $200 Netflix Gift Card
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9150280421713159508 | 9150893104313917439 |
     #TELUS Boost Wi-Fi Starter Pack Easy Payment
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected

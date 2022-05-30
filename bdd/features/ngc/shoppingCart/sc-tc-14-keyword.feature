@@ -126,8 +126,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       #3 Months Free SHS 10 M&H
       | 9147904372813829170 |
     # Shipment
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -140,7 +140,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Select SHS, LWC Equipment and confirm OneTime Charges apply
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9150454993513203663 | 9162234603588639317 |
       # Doorbell Camera - Round Purchase
@@ -152,8 +152,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     # | Purchase Type       | One Time            | Doorbell Camera - Round Purchase |
       | 9151550795513408112 | 9151619944313285435 | 9154703764413382202 |
     # | Purchase Type       | One Time            | Replacement Belt Clip for LWC Go 2.0 |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: user add promotion
     Given preconditions by user are selected

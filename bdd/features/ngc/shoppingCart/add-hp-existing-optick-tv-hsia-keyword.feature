@@ -43,12 +43,12 @@ Feature: Add New HP on existing active Optik TV & HSIA
 
   Scenario: Update SC, add new device
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9144579890813692873 | 9142278346813160836 |
 		# HD PVR
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
@@ -78,8 +78,8 @@ Feature: Add New HP on existing active Optik TV & HSIA
 #      | OfferId             |
 #      | 9136923654113578822 |
 #    # Home Phone
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #
 #  Scenario: Validate shopping cart 2
 #    Given preconditions by user are selected

@@ -93,8 +93,8 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
       | OfferId             |
       | 9148870992313039465 |
       # TELUS Boost Wi-Fi Starter Pack
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 #
   Scenario: Validate shopping cart
     Given preconditions by user are selected

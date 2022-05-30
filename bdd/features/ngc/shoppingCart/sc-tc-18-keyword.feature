@@ -82,15 +82,15 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
 
   Scenario: Select WHSIA: Smart Hub + SIM + Antenna, SHS: Doorbell Camera - Slimline
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9160503549513228792 | 9159683640113535776 |
       | 9160571371613319983 | 9159683640113535776 |
       | 9160574219513321464 | 9159683640113535776 |
       | 9151963809313418384 | 9162234603588639317 |
       # Doorbell Camera - Slimline
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected

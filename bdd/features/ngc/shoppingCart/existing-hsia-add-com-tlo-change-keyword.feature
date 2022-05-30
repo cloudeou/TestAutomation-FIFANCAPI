@@ -50,12 +50,12 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
       #Apple TV 4K 32GB
       | 9153586297713374444 |
     # $200 Netflix Gift Card
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9150280421713159508 | 9150893104313917439 |
     #TELUS Boost Wi-Fi Starter Pack Easy Payment
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
@@ -98,8 +98,8 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9150529131613486915 |
     # Delivery method - Pro Install
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate SC 2
     Given preconditions by user are selected

@@ -79,8 +79,8 @@ Feature: Add New SHS on existing active HP
       # Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162234688573639328 |
     # Self-Install = No
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Select SHS commitment promotion
     Given preconditions by user are selected
@@ -90,8 +90,8 @@ Feature: Add New SHS on existing active HP
       #3 Months Free SHS 10 M&H
       | 9147904372813829170 |
     # Shipment
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 2
     Given preconditions by user are selected

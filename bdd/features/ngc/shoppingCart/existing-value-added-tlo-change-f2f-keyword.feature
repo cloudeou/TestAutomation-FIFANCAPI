@@ -49,8 +49,8 @@ Feature: Existing active Value added Service
       # $200 Steam Gift Card
       | 9151919214213285035 |
     # Free LG 55" 4K HDR TV
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
@@ -84,8 +84,8 @@ Feature: Existing active Value added Service
       | OfferId             |
       | 9157722449013159935 |
     # TELUS Online Security - Standard
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 2
     Given preconditions by user are selected
