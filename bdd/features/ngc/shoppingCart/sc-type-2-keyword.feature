@@ -39,11 +39,11 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
       # Home Phone
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9152406687013913547 |
       | 9142278346813160836 |
@@ -150,11 +150,11 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    # Delivery method - Pro Install
 #    When user try to create Shopping Cart
 #    Then validate shopping cart is created successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
-#    And user validate cart at least one item should contain price
-#    And user validate shopping cart should contain offers:
+#    And test user validate cart at least one item should contain price
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9152406687013913547 |
 #      | 9142278346813160836 |
@@ -273,12 +273,12 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      | 9143971100013709477 | ES80428948      | SalesOrder |
 #    When user try to create Shopping Cart
 #    Then validate shopping cart is created successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    #| description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      #| 9150400521113176960 |
@@ -286,7 +286,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      | 9150253846313241927 |
 #      | 9137773148713852470 |
 #      | 9146775320213795833 |
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
 #
@@ -298,12 +298,12 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    # TELUS Simple Switch
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    # | description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      #| 9150400521113176960 |
@@ -320,7 +320,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    # Home Security
 #    #| 9152405677313441427 |
 #    # Add-On Equipment
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9145572401713849539 |
 #      # TELUS Simple Switch
@@ -345,12 +345,12 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    # Last Name
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    # | description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      #| 9150400521113176960 |
@@ -363,11 +363,11 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # High Speed Home
 #      | 9146775320213795833 |
 #    # Pik TV
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
 #    # Work Offer
-#    And user validate shopping cart top level item should contain chars:
+#    And test user validate shopping cart top level item should contain chars:
 #      | Name                | Value               | Item                |
 #      | 9144240341813171759 | 9144283379913208296 | 9136923654113578822 |
 #  # Directory listing selection
@@ -384,12 +384,12 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    # TELUS Boost Wi-Fi Expansion Pack Purchase
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    # | description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And test validate total shopping cart price is updated successfully:Recurrent
 #    And test validate total shopping cart price is updated successfully:One Time
 #    And test validate total shopping cart price alteration is updated successfully:Recurrent
@@ -405,7 +405,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # High Speed Home
 #      | 9146775320213795833 |
 #    # Pik TV
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
 #  # Work Offer
@@ -422,12 +422,12 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    #| Name Display Format | Last Name + Initials| Name Display        |
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    # | description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      #| 9150400521113176960 |
@@ -440,7 +440,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # High Speed Home
 #      | 9146775320213795833 |
 #    # Pik TV
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
 #  # Work Offer
@@ -470,7 +470,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    Given preconditions by user are selected
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate shopping cart related party customer id
+#    And test user validate shopping cart related party customer id
 #
 #  Scenario: Patch Shipment characteristics
 #    Given preconditions by user are selected

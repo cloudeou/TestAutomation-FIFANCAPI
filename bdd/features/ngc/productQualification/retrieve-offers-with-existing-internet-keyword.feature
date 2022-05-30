@@ -32,11 +32,11 @@ Feature: Retrieve Offers With Existing internet
       # TELUS Internet 750/750
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9152406687013913547 |
 
@@ -49,11 +49,11 @@ Feature: Retrieve Offers With Existing internet
       # wHSIA Rural Internet - 500GB monthly data
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9159683640113535776 |
     #  | 9152406687013913547 |
@@ -71,7 +71,7 @@ Feature: Retrieve Offers With Existing internet
 #      Delivery method - Pro Install
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
-    And user validate at least one cart item should contain price alteration
+    And test user validate at least one cart item should contain price alteration
 
   Scenario: Update SC, change period of commitment trial for Regular Internet offer
     And distribution channel is F2F

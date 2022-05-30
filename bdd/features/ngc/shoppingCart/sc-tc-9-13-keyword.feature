@@ -55,11 +55,11 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     # TELUS Boost Wi-Fi Expansion Pack Purchase
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9150529131613486915 |
       # TELUS Internet 25/25
@@ -104,7 +104,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       # 4K PVR
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
-    And user validate at least one cart item should contain price alteration
+    And test user validate at least one cart item should contain price alteration
 
   Scenario: Add promotion
     And user apply the following manual discounts:

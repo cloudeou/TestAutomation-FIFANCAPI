@@ -83,11 +83,11 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 		# Self-Install = No (BOE rule, cannot change, for validation only)
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9136923654113578822 |
       | 9152406687013913547 |
@@ -179,12 +179,12 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #    # External Order Id Characteristic
 #    When user try to create Shopping Cart
 #    Then validate shopping cart is created successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    #| description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      | 9137773148713852470 |
@@ -195,7 +195,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #    # Commitment
 #    #| 9147368267313811293 |
 #    #  Coupon
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
 #  # Work Offer
@@ -220,12 +220,12 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #    # 24 MO - $10 Internet Discount
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    #| description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And test validate total shopping cart price alteration is updated successfully:Recurrent
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
@@ -235,7 +235,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      # High Speed Home
 #      | 9150409998313183105 |
 #    # LivingWell Offers
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
 #  # Work Offer
@@ -266,12 +266,12 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #    # Contact Order Preference
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    # | description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And test validate total shopping cart price is updated successfully:Recurrent
 #    And test validate total shopping cart price is updated successfully:One Time
 #    And user validate cart item categories should contain:
@@ -284,7 +284,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      # High Speed Home
 #      | 9150409998313183105 |
 #    # LivingWell Offers
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
 #  # Work Offer
@@ -300,22 +300,22 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      | 9157581860013018102 | 9157590380013026012 | 9157037812113621624 |
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    #| description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      | 9150400521113176960 |
 #      | 9147368267313811293 |
 #      | 9137773148713852470 |
 #      | 9150409998313183105 |
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
-#    And user validate shopping cart top level item should contain chars:
+#    And test user validate shopping cart top level item should contain chars:
 #      | Name                | Value               | Item                |
 #      | 9153028682213126502 | 9153028682213126508 | 9157037812113621624 |
 #      | 9157589563813025526 | FirstName           | 9157037812113621624 |
@@ -332,22 +332,22 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #    #| 9157950816213373074 | 9157950816213373076 | 9152406687013913547 |
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate cart item parameters should contain:
+#    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
 #    #| description   |
-#    And user validate cart at least one item should contain price
-#    And user validate cart item should contain price alteration
+#    And test user validate cart at least one item should contain price
+#    And test user validate cart item should contain price alteration
 #    And user validate cart item categories should contain:
 #      | CategoryId          |
 #      | 9150400521113176960 |
 #      | 9147368267313811293 |
 #      | 9137773148713852470 |
 #      | 9150409998313183105 |
-#    And user validate shopping cart should contain offers:
+#    And test user validate shopping cart should contain offers:
 #      | OfferId             |
 #      | 9146582143513681890 |
-#    And user validate shopping cart top level item should contain chars:
+#    And test user validate shopping cart top level item should contain chars:
 #      | Name                | Value               | Item                |
 #      | 9156198150013903799 | 9156198150013903802 | 9157037812113621624 |
 #  #| 9157950816213373074 | 9157950816213373076 | 9152406687013913547 |
@@ -374,7 +374,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #    Given preconditions by user are selected
 #    When test user try to update Shopping Cart
 #    Then test validate shopping cart is updated successfully
-#    And user validate shopping cart related party customer id
+#    And test user validate shopping cart related party customer id
 #
 #  # Scenario: Validate Cart associated with Customer ID
 #  #   Given preconditions by user are selected

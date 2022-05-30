@@ -42,11 +42,11 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     # | Coupon Code       |          |  $200 Optik TV One Time Credit |
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9150564125513493939 |
       | 9153347723813004284 |

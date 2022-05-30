@@ -69,11 +69,11 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
     # Self-Install = No (BOE rule, cannot change, for validation only)
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9159683640113535776 |
       | 9159621605313507298 |

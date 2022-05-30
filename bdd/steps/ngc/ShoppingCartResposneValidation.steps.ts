@@ -48,7 +48,7 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
 
-    /*and(/user validate shopping cart (should|should not) contain (child|top) offers:/, (present,typeOffer, table) => {
+    /*and(/test user validate shopping cart (should|should not) contain (child|top) offers:/, (present,typeOffer, table) => {
         console.log(present,'present',typeOffer, 'typeOffer',table, 'table','table!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         console.log(table)
         let SCResponseBody: JSON;
@@ -86,7 +86,7 @@ export const shoppingCartResponseValidationSteps = (
     })*/
 
     //after bug with regexps will be fixed, remove it and uncomment step above
-    and('user validate shopping cart should contain child offers:', (table) => {
+    and('test user validate shopping cart should contain child offers:', (table) => {
         console.log(table, 'table1','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
@@ -113,7 +113,7 @@ export const shoppingCartResponseValidationSteps = (
     })
 
     //after bug with regexps will be fixed, remove it and uncomment step above
-    and('user validate shopping cart should not contain child offers:', (table) => {
+    and('test user validate shopping cart should not contain child offers:', (table) => {
         console.log(table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
@@ -139,7 +139,7 @@ export const shoppingCartResponseValidationSteps = (
     })
 
     //after bug with regexps will be fixed, remove it and uncomment step above
-    and('user validate shopping cart should contain top offers:', (table) => {
+    and('test user validate shopping cart should contain top offers:', (table) => {
         console.log(table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
@@ -162,7 +162,7 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
 
-    and('user validate shopping cart should not contain top offers:', (table) => {
+    and('test user validate shopping cart should not contain top offers:', (table) => {
         console.log(table, 'table3','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
@@ -186,27 +186,7 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
 
-
-    // and(/^user validate shopping cart should contain child offers:$/, (table) => {
-    //     //let SCResponseBody
-    //     let cartItems: Array<any>;
-    //     let offeringIds: Array<any>;
-    //     let SCResponseBody: JSON = responseContext().shoppingCartResponse
-    //     cartItems = bodyParser.getCartItemObjects(SCResponseBody)
-    //     offeringIds = Common.getOffersFromTable(table, null)
-    //     expect(cartItems, 'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.').not.toHaveLength(0)
-    //     offeringIds.forEach((id) => {
-    //         let isOfferingReferenced = false
-    //         cartItems.forEach((item) => {
-    //             item.cartItem.forEach((cartItem) => {
-    //                 if (cartItem.productOffering.id == id) isOfferingReferenced = true
-    //             })
-    //             expect(isOfferingReferenced, `Error response is received due to offering ${id}, expected it to be referenced in cartItem, but it is not referenced.`).toBeTruthy()
-    //         })
-    //     })
-    // })
-
-    and(/^user validate shopping cart should contain discount:$/, (table) => {
+    and(/^test user validate shopping cart should contain discount:$/, (table) => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let promotionMap: any;
@@ -230,7 +210,7 @@ export const shoppingCartResponseValidationSteps = (
         }
     })
 
-    and(/^user validate shopping cart should contain characteristic term:$/, (table) => {
+    and(/^test user validate shopping cart should contain characteristic term:$/, (table) => {
         let SCResponseBody: JSON;
         let responseChars: Array<any>;
         let charValues: Array<any>;
@@ -253,7 +233,7 @@ export const shoppingCartResponseValidationSteps = (
     })
 
 
-    and(/^user validate shopping cart top level item should contain chars:$/, async (table) => {
+    and(/^test user validate shopping cart top level item should contain chars:$/, async (table) => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         SCResponseBody = responseContext().shoppingCartResponse!
@@ -262,7 +242,7 @@ export const shoppingCartResponseValidationSteps = (
         Common.validateCartItemChars(cartItems, charMap)
     })
 
-    and(/^user validate shopping cart chars should contain:$/, (table) => {
+    and(/^test user validate shopping cart chars should contain:$/, (table) => {
         let SCResponseBody: JSON;
         let charNames: Array<any>;
         let responseChars: Array<any>;
@@ -279,7 +259,7 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
     // ADD TO DOCS
-    and(/^user validate cart at least one item should contain price$/, () => {
+    and(/^test user validate cart at least one item should contain price$/, () => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         SCResponseBody = responseContext().shoppingCartResponse!
@@ -293,7 +273,7 @@ export const shoppingCartResponseValidationSteps = (
           .isnot(false,`Error response is received due to price, expected at least one item to contain price, but none contain it.`)
     })
 
-    and(/^user validate cart item should contain price$/, () => {
+    and(/^test user validate cart item should contain price$/, () => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         SCResponseBody = responseContext().shoppingCartResponse!
@@ -305,7 +285,7 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
     //ADD TO DOCS
-    and(/^user validate at least one cart item should contain price alteration$/, () => {
+    and(/^test user validate at least one cart item should contain price alteration$/, () => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         SCResponseBody = responseContext().shoppingCartResponse!
@@ -319,7 +299,7 @@ export const shoppingCartResponseValidationSteps = (
           .isnot(undefined,`Error response is received due to price alteration, expected at least one item to contain price alteration, but none contain it.}`)
     })
 
-    and(/^user validate cart item should contain price alteration$/, () => {
+    and(/^test user validate cart item should contain price alteration$/, () => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         SCResponseBody = responseContext().shoppingCartResponse!
@@ -331,7 +311,7 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
 
-    and('user validate cart item parameters should contain:', (table) => {
+    and('test user validate cart item parameters should contain:', (table) => {
         try {
             let SCResponseBody: JSON;
             let cartItems: Array<any>;
@@ -363,12 +343,12 @@ export const shoppingCartResponseValidationSteps = (
         }
 
         catch (e) {
-            console.log('error happened in /user validate cart item parameters should contain:/ feature')
+            console.log('error happened in /test user validate cart item parameters should contain:/ feature')
             console.log(e)
         }
     })
 
-    and('user validate shopping cart related party customer id', () => {
+    and('test user validate shopping cart related party customer id', () => {
         let actualECID: String;
         let originalECID: number;
         let response: any;

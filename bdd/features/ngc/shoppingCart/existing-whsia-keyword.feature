@@ -39,11 +39,11 @@ Feature: Existing WHSIA
 #      Delivery method - Pro Install
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9159602850913498849 |
 #      | 9152406687013913547 |
@@ -62,7 +62,7 @@ Feature: Existing WHSIA
 #      | 9160571371613319983 | 9159602850913498849 |
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
-    And user validate at least one cart item should contain price alteration
+    And test user validate at least one cart item should contain price alteration
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected

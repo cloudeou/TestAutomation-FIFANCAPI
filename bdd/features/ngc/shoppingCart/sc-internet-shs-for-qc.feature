@@ -66,11 +66,11 @@ Feature: New Customer ordering Internet, and SHS on a QC address
 			# Acquired From = Reliance
     When user try to create Shopping Cart
     Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9159778130613660699 |
       | 9162184618979604472 |
