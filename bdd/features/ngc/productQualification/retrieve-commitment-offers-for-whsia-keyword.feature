@@ -68,7 +68,6 @@ Feature: Retrieve Commitment Offers for WHSIA
     And user try to get list of the qualified offers by the following commitment id: 9159621605313507298
 
     When user try to get qualified product offering list with shopping cart
-    #todo: need to check
     Then list of the following product offerings should be available:
       | OfferId |
       | any     |
@@ -85,8 +84,8 @@ Feature: Retrieve Commitment Offers for WHSIA
 
 #  Scenario: Submit SC (1)
 #    Given preconditions by user are selected
-#    When user try to submit shopping cart
-#    Then sales order id should be returned
+#    When test user try to submit shopping cart
+#    Then test test sales order id should be returned
 #
 #  Scenario: Check backend orders validation (1)
 #    Given preconditions by user are selected
@@ -111,8 +110,8 @@ Feature: Retrieve Commitment Offers for WHSIA
 
   Scenario: Submit SC (2)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation (2)
     Given preconditions by user are selected

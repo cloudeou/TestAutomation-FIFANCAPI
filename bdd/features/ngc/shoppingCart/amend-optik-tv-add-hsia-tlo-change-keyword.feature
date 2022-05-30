@@ -62,8 +62,8 @@ Feature: Amend existing pending Optik TV and add HSIA
 
   Scenario: Submit SC 1
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Create same SC
     Given preconditions by user are selected
@@ -102,8 +102,8 @@ Feature: Amend existing pending Optik TV and add HSIA
 
   Scenario: Submit SC 2
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

@@ -166,8 +166,8 @@ Feature: Retrieve Offers With Existing internet
 
   Scenario: Submit SC (3)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation (3)
     Given preconditions by user are selected

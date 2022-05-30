@@ -66,8 +66,8 @@
 #     Then no error messages should be in shopping cart
 #   Scenario: Submit SC
 #     Given preconditions by user are selected
-#     When user try to submit shopping cart
-#     Then sales order id should be returned
+#     When test user try to submit shopping cart
+#     Then test sales order id should be returned
 #   Scenario: Check backend orders validation
 #     Given preconditions by user are selected
 #     When try to complete sales order on BE

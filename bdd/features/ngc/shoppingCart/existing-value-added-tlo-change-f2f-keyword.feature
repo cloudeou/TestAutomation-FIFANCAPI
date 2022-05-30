@@ -59,8 +59,8 @@ Feature: Existing active Value added Service
 
   Scenario: Submit Cart 1
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 1
     Given preconditions by user are selected
@@ -94,8 +94,8 @@ Feature: Existing active Value added Service
 
   Scenario: Submit Cart 2
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 2
     Given preconditions by user are selected

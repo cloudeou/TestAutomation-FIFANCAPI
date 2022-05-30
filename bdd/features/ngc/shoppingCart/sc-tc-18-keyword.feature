@@ -99,8 +99,8 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
 
   Scenario: Submit Cart
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

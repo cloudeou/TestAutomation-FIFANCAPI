@@ -108,8 +108,8 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Submit Cart in FIFA TC#12
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation in FIFA TC#12
     Given preconditions by user are selected

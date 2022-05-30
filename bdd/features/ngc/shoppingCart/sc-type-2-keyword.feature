@@ -65,8 +65,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 
   Scenario: Submit Cart in FIFA TC#7 (1)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation in FIFA TC#7 (1)
     Given preconditions by user are selected
@@ -106,8 +106,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 
   Scenario: Submit Cart in FIFA TC#7 (2)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation in FIFA TC#7 (2)
     Given preconditions by user are selected
@@ -189,8 +189,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Submit Cart in FIFA TC#7 (1)
 #    Given preconditions by user are selected
-#    When user try to submit shopping cart
-#    Then sales order id should be returned
+#    When test user try to submit shopping cart
+#    Then test sales order id should be returned
 #
 #  Scenario: Check backend orders validation in FIFA TC#7 (1)
 #    Given preconditions by user are selected
@@ -230,8 +230,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Submit Cart in FIFA TC#7 (2)
 #    Given preconditions by user are selected
-#    When user try to submit shopping cart
-#    Then sales order id should be returned
+#    When test user try to submit shopping cart
+#    Then test sales order id should be returned
 #
 #  Scenario: Check backend orders validation in FIFA TC#7 (2)
 #    Given preconditions by user are selected
@@ -492,8 +492,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  # Scenario: Checkout SC
 #  #   Given preconditions by user are selected
-#  #   When user try to submit shopping cart
-#  #   Then sales order id should be returned
+#  #   When test user try to submit shopping cart
+#  #   Then test sales order id should be returned
 #
 #  Scenario: Clean customer
 #    And drop customer id

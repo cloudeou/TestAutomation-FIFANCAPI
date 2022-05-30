@@ -98,8 +98,8 @@ Feature: New Customer ordering Internet, and SHS on a QC address
 
   Scenario: Submit Shopping Cart
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected
