@@ -181,15 +181,6 @@ export class TelusApiUtils {
             console.log(
             `Using netcracker api to complete shipment order`,
         );
-        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-        // const trackingNumber = "539459352A";
-        // const shipper = "CANADA POST";
-        // const expectedDeliveryDate = DateUtils.dateMMDDYYYY(
-        //     DateUtils.tomorrowDate(),
-        //     "/"
-        // );
 
         const api =
         envConfig.ikongUrl + envConfig.shipmentOrderCompletion.endpoint;
@@ -226,59 +217,6 @@ export class TelusApiUtils {
         }   
     }
 
-    async processShipmentOrder(orderNumber: string, purchaseOrderNumber: string) {
-        console.log(
-            `Using netcracker api to complete shipment order for order ${orderNumber},  purchase-order-number ${purchaseOrderNumber}`,
-        );
-        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-        const trackingNumber = "539459352A";
-        const shipper = "CANADA POST";
-        const expectedDeliveryDate = DateUtils.dateMMDDYYYY(
-            DateUtils.tomorrowDate(),
-            "/"
-        );
-
-        const api =
-        envConfig.ikongUrl + envConfig.shipmentOrderCompletion.endpoint;
-        
-        const contentType = {
-            "Content-Type": envConfig.shipmentOrderCompletion.contentType,
-        };
-        console.debug(`api-url: ${api}
-          headers: ${JSON.stringify(contentType)}`);
-
-        let body = {
-            orderNumber,
-            trackingNumber,
-            expectedDeliveryDate,
-            purchaseOrderNumber,
-            shipper
-        }
-        console.log('body: ' + body);
-
-        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
-        
-        console.debug(`Hitting as below details:
-            api: ${api}
-            contentType: ${JSON.stringify(contentType)}`);
-    try {
-        const headers = await generateKongHeaders(token);
-        const response: any = await axiosInstance({
-            method: "POST",
-            url: api,
-            headers,
-            data: body
-        });
-        return response;
-    } catch (error) {
-        console.log(error);
-        throw error;
-        }   
-    }
-
     public wait(ms: any) {
         let startPoint: any;
         let endPoint: any;
@@ -291,7 +229,7 @@ export class TelusApiUtils {
 
     async processSearchAvailableAppointment(locationId: string, monthToCheck: any) {
         // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+        // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
         let now = new Date();
         let startDate = DateUtils.formatDate(new Date(now.getFullYear(), now.getMonth(), 1), '-');
         let endDate = DateUtils.formatDate(new Date(now.getFullYear(), now.getMonth() + 1, 0), '-');
@@ -313,11 +251,11 @@ export class TelusApiUtils {
             console.debug(`api-url: ${api}
        headers: ${JSON.stringify(contentType)}`);
 
-            const body = JSON.stringify({
+            const body = {
                 "startDate": startDate,
                 "locationId": locationId,
                 "endDate": endDate
-            })
+            }
 
             try {
                 const response: AxiosResponse = await axiosInstance({
@@ -329,7 +267,7 @@ export class TelusApiUtils {
 
                 console.debug(`response received: ${JSON.stringify(response)}`);
 
-                test('processSearchAvailableAppointment response.status is 200', response.status, AssertionModes.strict).isnot(200,'processSearchAvailableAppointment response.status should be 200')
+                test('processSearchAvailableAppointment response.status is 200', response.status, AssertionModes.strict).is(200,'processSearchAvailableAppointment response.status should be 200')
                 startDate = DateUtils.formatDate(new Date(new Date(startDate).getFullYear(), new Date(startDate).getDate() + i + 1), '-');
                 endDate = DateUtils.formatDate(new Date(new Date(startDate).getFullYear(), new Date(startDate).getMonth() + 1, 0), '-')
 

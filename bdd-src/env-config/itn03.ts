@@ -68,7 +68,7 @@ export const envConfig = {
         "contentType": "application/json",
     },
     "searchAvailableAppointments": {
-        "endpoint": "/migration/v1/searchAvailableAppointments",
+        "endpoint": "/service/adtMigration/v1/searchAvailableAppointments",
         "contentType": "application/json",
     },
     dbApi: {
