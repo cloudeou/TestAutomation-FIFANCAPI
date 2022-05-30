@@ -26,7 +26,7 @@ Feature: Existing customer with active HS+Optik TV change TLO
 
   Scenario: Create SC with HS(Home security) offer and Optick TV offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162234688573639328 |
       #Secure
@@ -34,7 +34,7 @@ Feature: Existing customer with active HS+Optik TV change TLO
       #4 Theme Packs
       | 9150400880613177266 |
     # Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234688573639328 |
       # Delivery method SHS = Pro install
@@ -42,8 +42,8 @@ Feature: Existing customer with active HS+Optik TV change TLO
       # Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162234688573639328 |
     # Self-Install = No
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -74,8 +74,8 @@ Feature: Existing customer with active HS+Optik TV change TLO
 
   Scenario: Submit SC 1
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 1
     Given preconditions by user are selected
@@ -86,12 +86,12 @@ Feature: Existing customer with active HS+Optik TV change TLO
 
 #  Scenario: Create same SC
 #    Given preconditions by user are selected
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #
 #  Scenario: Add commitment offer to SC, change TV offer
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9152915333713768704 |
 #      #TELUS Internet & Optik TV Commitment
@@ -102,8 +102,8 @@ Feature: Existing customer with active HS+Optik TV change TLO
 #
 # Scenario: Submit SC 2
 #   Given preconditions by user are selected
-#   When user try to submit shopping cart
-#   Then sales order id should be returned
+#   When test user try to submit shopping cart
+#   Then test sales order id should be returned
 #
 # Scenario: Validate shopping cart 2
 #   Given preconditions by user are selected

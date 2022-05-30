@@ -7,7 +7,7 @@ Feature: Retrieve Offers With Existing internet
     Given user has address with type LTE
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '5753461'
     Then address id should be returned
 
 
@@ -26,34 +26,34 @@ Feature: Retrieve Offers With Existing internet
   Scenario: Create SC with Regular Internet offer
     And distribution channel is F2F
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9152406687013913547 |
       # TELUS Internet 750/750
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
-    And test user validate cart item parameters should contain:
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9152406687013913547 |
 
   Scenario: Add whsia Internet offer
     And distribution channel is PILOT6RT
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159683640113535776 |
       # wHSIA Rural Internet - 500GB monthly data
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
-    And test user validate cart item parameters should contain:
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9159683640113535776 |
     #  | 9152406687013913547 |
@@ -61,37 +61,37 @@ Feature: Retrieve Offers With Existing internet
   Scenario: Update SC, add child offer
     And distribution channel is PILOT6RT
     Given preconditions by user are selected
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9160503693613228831 | 9159683640113535776 |
       | 9159698239513542765 | 9159683640113535776 |
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9159683640113535776 |
 #      Delivery method - Pro Install
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
-    And test user validate at least one cart item should contain price alteration
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
+    And user validate at least one cart item should contain price alteration
 
   Scenario: Update SC, change period of commitment trial for Regular Internet offer
     And distribution channel is F2F
     Given preconditions by user are selected
-    And user select commitments in trial period:
+    And test user select commitments in trial period:
       | OfferId             |
       | 9160749291613917553 |
      # Save on Internet only for 24 months
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Update SC, change period of commitment trial for whsia Internet offer
     And distribution channel is PILOT6RT
     Given preconditions by user are selected
-    And user select commitments in trial period:
+    And test user select commitments in trial period:
       | OfferId             |
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Qualified product offering list with shopping cart
     Given preconditions by user are selected
@@ -109,65 +109,65 @@ Feature: Retrieve Offers With Existing internet
 
   Scenario: Validate shopping cart (1)
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Update SC, change period of commitment regular for Regular Internet offer
     And distribution channel is F2F
     Given preconditions by user are selected
-    And user select commitments in regular period:
+    And test user select commitments in regular period:
       | OfferId             |
       | 9160749291613917553 |
      # Save on Internet only for 24 months
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Update SC, change period of commitment regular for whsia Internet offer
     And distribution channel is PILOT6RT
     Given preconditions by user are selected
-    And user select commitments in regular period:
+    And test user select commitments in regular period:
       | OfferId             |
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
 
   Scenario: Update SC, change period of commitment earlyRenewal for Regular Internet offer
     And distribution channel is F2F
     Given preconditions by user are selected
-    And user select commitments in earlyRenewal period:
+    And test user select commitments in earlyRenewal period:
       | OfferId             |
       | 9160749291613917553 |
      # Save on Internet only for 24 months
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Update SC, change period of commitment earlyRenewal for whsia Internet offer
     And distribution channel is PILOT6RT
     Given preconditions by user are selected
-    And user select commitments in earlyRenewal period:
+    And test user select commitments in earlyRenewal period:
       | OfferId             |
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart (3)
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Submit SC (3)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation (3)
     Given preconditions by user are selected

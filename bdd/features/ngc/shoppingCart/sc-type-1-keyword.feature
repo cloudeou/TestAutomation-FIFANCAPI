@@ -10,7 +10,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#4
@@ -57,7 +57,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Home Phone + TELUS Internet 750  (MTM) + YP6 (2 Year term) + Home Security(Smart Camera)
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9136923654113578822 |
       # Home Phone
@@ -73,7 +73,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
      # Save on Internet & Optik TV For 24 months
       | 9157722449013159935 |
       # Telus Online Security Standard
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162184654783176533 |
 			# Delivery method = Tech install
@@ -81,8 +81,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 			# Acquired From = Fluent
       | 9152552492613455557 | 9152552492613455566 | 9162184654783176533 |
 		# Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -119,7 +119,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
       # Optik 4K Set Top Box
       | 9148267172313921553 | 9153347723813004284 |
       # Optik 4K PVR
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value          | Item                |
       | 9146582494313682120 | Beware of dogs | 9146582143513681890 |
     When test user try to update Shopping Cart
@@ -133,8 +133,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Submit Cart 1 in FIFA TC#4 (1)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation in FIFA TC#4 (1)
     Given preconditions by user are selected
@@ -145,8 +145,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Create SC to change TLO in FIFA TC#4
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
 
 #  Scenario: Check address
@@ -163,13 +163,13 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  Scenario: Create SC with Channel Info, Product Offerings
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9157037812113621624 |
 #      # LivingWell Companion Home - Cellular
 #      | 9152406687013913547 |
 #    # TELUS Internet 750/750
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value           | Item       |
 #      | 9138619718613259878 | 1100035639-2C7P | SalesOrder |
 #      # Coupon Id Characteristic
@@ -177,8 +177,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      # Source System
 #      | 9143971100013709477 | ES80428948      | SalesOrder |
 #    # External Order Id Characteristic
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -204,7 +204,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #    Given preconditions by user are selected
 #    And distribution channel is CSR
 #    And EXTERNAL_ID of distribution channel is None
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9152210814813354552 |
 #    # High Speed Upgrade
@@ -214,7 +214,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #  Scenario: Add Coupon based offer
 #    Given preconditions by user are selected
 #    And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9152202942013350155 |
 #    # 24 MO - $10 Internet Discount
@@ -250,7 +250,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #      # Emergency Contact
 #      | 9157037563913621469 | 9157037812113621624 |
 #    # Home Help Pendant - Cellular
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value          | Item                | ItemNumber |
 #      | 9157669257013588259 | Contact Name   | 9157582505713018514 | 1          |
 #      # Contact Name
@@ -291,7 +291,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  Scenario: Patch SC with Top Level Cart Item Characteristics(Set Living Well Service Provider, User Information)
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9153028682213126502 | 9153028682213126508 | 9157037812113621624 |
 #      | 9157589563813025526 | FirstName           | 9157037812113621624 |
@@ -326,7 +326,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  Scenario: Patch SC with Top Level Cart Item Characteristics(Set Internet Delivery Method and  Living Well Delivery Method)
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9156198150013903799 | 9156198150013903802 | 9157037812113621624 |
 #    #| 9157950816213373074 | 9157950816213373076 | 9152406687013913547 |
@@ -389,7 +389,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  # Scenario: Patch Shipment characteristics
 #  #   Given preconditions by user are selected
-#  #   And user set the chars for item:
+#  #   And test user set the chars for item:
 #  #     | Name                | Value         | Item                |
 #  #     | 9148018091313860374 | null          | 9147904372813829170 |
 #  #     # Telephone number
@@ -407,8 +407,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  # Scenario: Checkout SC
 #  #   Given preconditions by user are selected
-#  #   When user try to submit shopping cart
-#  #   Then sales order id should be returned
+#  #   When test user try to submit shopping cart
+#  #   Then test sales order id should be returned
 #
 #  Scenario: Clean customer
 #    And drop customer id

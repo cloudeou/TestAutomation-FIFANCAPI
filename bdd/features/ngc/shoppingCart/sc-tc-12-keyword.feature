@@ -10,7 +10,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#12
@@ -58,13 +58,13 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Provide Secure Plus Video with CP =5 years
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162234603588639317 |
       # Secure Plus Video
       | 9159389559513259218 |
     # Home Security Commitment for 60 months
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234603588639317 |
       # Delivery method = Tech install
@@ -72,8 +72,8 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
       # Acquired From = Fluent
       | 9152552492613455557 | 9152552492613455566 | 9162234603588639317 |
     # Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -91,7 +91,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
       #Doorbell Camera - Round TELUS Easy Pay B2C
       | 9150454993513203663 | 9162234603588639317 |
     #Doorbell Camera - Round Purchase
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9151550795513408112 | 9151550795513408113 | 9151670335513311270 |
       # | Purchase Type       | Easy Pay           | Doorbell Camera - Round TELUS Easy Pay B2C |
@@ -108,8 +108,8 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Submit Cart in FIFA TC#12
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation in FIFA TC#12
     Given preconditions by user are selected
@@ -120,5 +120,5 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Create SC to change TLO in FIFA TC#12
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully

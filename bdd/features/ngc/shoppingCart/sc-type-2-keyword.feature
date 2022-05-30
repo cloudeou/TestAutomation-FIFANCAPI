@@ -12,7 +12,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    And distribution channel is F2F
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#7
@@ -29,7 +29,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 
   Scenario: Internet + TV + HomePhone
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9152406687013913547 |
       # TELUS Internet 750/750
@@ -37,8 +37,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
       # Essentials
       | 9136923654113578822 |
       # Home Phone
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -65,8 +65,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 
   Scenario: Submit Cart in FIFA TC#7 (1)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation in FIFA TC#7 (1)
     Given preconditions by user are selected
@@ -77,8 +77,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 
   Scenario: Create SC to change TLO for FIFA TC#7
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Internet Addon - Unlimited HS , Norton VPN Basic
     Given preconditions by user are selected
@@ -90,7 +90,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
       # Norton Secure VPN - Basic
       | 9136923654113578868 | 9136923654113578822 |
     # Directory Listing
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9144240341813171759 | 9144283379913208296 | 9136923654113578822 |
     # Directory listing selection = Yes             Home Phone
@@ -106,8 +106,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 
   Scenario: Submit Cart in FIFA TC#7 (2)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation in FIFA TC#7 (2)
     Given preconditions by user are selected
@@ -138,18 +138,18 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Create SC HS25+ Pik TV The Basics + Crave MTM
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9150529131613486915 |
 #      # TELUS Internet 25/25
 #      | 9142046828213433809 |
 #    # You Pick 6
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9157950816213373074 | 9157950816213373076 | 9150529131613486915 |
 #    # Delivery method - Pro Install
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -176,7 +176,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # Cinema One
 #      | 9145902043713662333 | 9142046828213433809 |
 #    # Discovery
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value          | Item                |
 #      | 9146582494313682120 | Beware of dogs | 9146582143513681890 |
 #    When test user try to update Shopping Cart
@@ -189,8 +189,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Submit Cart in FIFA TC#7 (1)
 #    Given preconditions by user are selected
-#    When user try to submit shopping cart
-#    Then sales order id should be returned
+#    When test user try to submit shopping cart
+#    Then test sales order id should be returned
 #
 #  Scenario: Check backend orders validation in FIFA TC#7 (1)
 #    Given preconditions by user are selected
@@ -201,8 +201,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Create SC to change TLO for FIFA TC#7
 #    Given preconditions by user are selected
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #
 #  Scenario: Internet Addon - Unlimited HS , Norton VPN Basic
 #    Given preconditions by user are selected
@@ -214,7 +214,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # Norton Secure VPN - Basic
 #      | 9136923654113578868 | 9136923654113578822 |
 #    # Directory Listing
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9144240341813171759 | 9144283379913208296 | 9136923654113578822 |
 #      # Directory listing selection = Yes             Home Phone
@@ -230,8 +230,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Submit Cart in FIFA TC#7 (2)
 #    Given preconditions by user are selected
-#    When user try to submit shopping cart
-#    Then sales order id should be returned
+#    When test user try to submit shopping cart
+#    Then test sales order id should be returned
 #
 #  Scenario: Check backend orders validation in FIFA TC#7 (2)
 #    Given preconditions by user are selected
@@ -256,7 +256,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Create SC with Channel Info, Product Offerings and Coupon Code Offerings
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9136923654113578822 |
 #      # Home Phone
@@ -266,13 +266,13 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      # The Basics + Pik 5
 #      | 9154165459613717423 |
 #    # Pik TV EPP One Time Credit - $30
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value           | Item       |
 #      | 9138619718613259878 | 1100035639-2C7P | SalesOrder |
 #      | 9153649262313461871 | HS3             | SalesOrder |
 #      | 9143971100013709477 | ES80428948      | SalesOrder |
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -292,7 +292,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Add Add Telus Simple Switch on top of SC
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9145572401713849539 |
 #    # TELUS Simple Switch
@@ -333,7 +333,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      | OfferId             | Parent              |
 #      | 9136923654113578868 | 9136923654113578822 |
 #    #| Directory Listing   | Home Phone          |
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9144240341813171759 | 9144283379913208296 | 9136923654113578822 |
 #      # Directory listing selection
@@ -416,7 +416,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #      | OfferId             | Parent              |
 #      | 9136923654113578870 | 9136923654113578822 |
 #    #| Name Display        | Home Phone          |
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9136984610013616821 | 9136984610013616835 | 9136923654113578870 |
 #    #| Name Display Format | Last Name + Initials| Name Display        |
@@ -447,7 +447,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Patch Cart level characteristics(CSAg method Marketing Campaign attributes)
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item       |
 #      | 9151790559313390189 | 9151790559313390196 | SalesOrder |
 #      # Marketing Campaign Characteristic
@@ -474,7 +474,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  Scenario: Patch Shipment characteristics
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value         | Item                |
 #      | 9148018091313860374 | null          | 9147904372813829170 |
 #      # Telephone number
@@ -492,8 +492,8 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #
 #  # Scenario: Checkout SC
 #  #   Given preconditions by user are selected
-#  #   When user try to submit shopping cart
-#  #   Then sales order id should be returned
+#  #   When test user try to submit shopping cart
+#  #   Then test sales order id should be returned
 #
 #  Scenario: Clean customer
 #    And drop customer id

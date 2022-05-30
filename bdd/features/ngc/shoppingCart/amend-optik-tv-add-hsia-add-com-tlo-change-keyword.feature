@@ -7,7 +7,7 @@ Feature: Amend existing pending Optik TV and add HSIA Add Commitment
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -24,16 +24,16 @@ Feature: Amend existing pending Optik TV and add HSIA Add Commitment
 
   Scenario: Create SC with Optik TV offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9142278346813160836 |
     # Essentials
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9158306682113553797 | 9158306751513553872 | 9142278346813160836 |
     # Delivery Method TV - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -63,17 +63,17 @@ Feature: Amend existing pending Optik TV and add HSIA Add Commitment
 
   Scenario: Submit SC 1
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Create same SC
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update SC, Change Optik TV offer, add retain Add Ons for OptikTV offer, retain Equipment offers, Add commitment offer, add HSIA offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9154129004413082455 |
       # 3 Theme Packs
@@ -97,8 +97,8 @@ Feature: Amend existing pending Optik TV and add HSIA Add Commitment
 
   Scenario: Submit SC 2
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

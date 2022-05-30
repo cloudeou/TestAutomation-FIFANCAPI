@@ -10,7 +10,7 @@ Feature: Add New SHS on existing active HP
     And technology type is GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification
@@ -27,12 +27,12 @@ Feature: Add New SHS on existing active HP
 
   Scenario: Create SC with HP offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9136923654113578822 |
     # Home Phone
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -48,8 +48,8 @@ Feature: Add New SHS on existing active HP
 
   Scenario: Submit Shopping Cart 1
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 1
     Given preconditions by user are selected
@@ -60,18 +60,18 @@ Feature: Add New SHS on existing active HP
 
   Scenario: Create SC to add SHS offer
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Check update shopping cart Api
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162234688573639328 |
       # Secure
       | 9150400880613177266 |
     # Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234688573639328 |
       # Delivery method SHS = Pro install
@@ -84,7 +84,7 @@ Feature: Add New SHS on existing active HP
 
   Scenario: Select SHS commitment promotion
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162728983709155290 |
       #3 Months Free SHS 10 M&H
@@ -100,8 +100,8 @@ Feature: Add New SHS on existing active HP
 
   Scenario: Submit Shopping Cart 2
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 2
     Given preconditions by user are selected

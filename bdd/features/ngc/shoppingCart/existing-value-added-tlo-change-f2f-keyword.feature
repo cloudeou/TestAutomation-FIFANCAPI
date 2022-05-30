@@ -10,7 +10,7 @@ Feature: Existing active Value added Service
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification
@@ -27,12 +27,11 @@ Feature: Existing active Value added Service
 
   Scenario: Create SC with Telus Online Secutity offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9157722462813159948 |
     # TELUS Online Security - Ultimate
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -43,7 +42,7 @@ Feature: Existing active Value added Service
 
   Scenario: Update shopping cart add Add On and SLO
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9151498546013354202 |
       # $200 Steam Gift Card
@@ -59,8 +58,8 @@ Feature: Existing active Value added Service
 
   Scenario: Submit Cart 1
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 1
     Given preconditions by user are selected
@@ -71,16 +70,16 @@ Feature: Existing active Value added Service
 
   Scenario: Create SC to change TLO
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update shopping cart change TLO, remove and retain Add Ons
     Given preconditions by user are selected
-    # And user delete offers:
+    # And test user delete offers:
     #   | OfferId             |
     #   | 9151919214213285035 |
     # # Free LG 55" 4K HDR TV
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9157722449013159935 |
     # TELUS Online Security - Standard
@@ -94,8 +93,8 @@ Feature: Existing active Value added Service
 
   Scenario: Submit Cart 2
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 2
     Given preconditions by user are selected

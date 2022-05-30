@@ -8,7 +8,7 @@ Feature: Retrieve LTE commitment offers
     Given user has address with type LTE
     And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '5753461'
     Then address id should be returned
 
 
@@ -31,7 +31,7 @@ Feature: Retrieve LTE commitment offers
       | ParameterName |
       | name          |
       | description   |
-    And validate product offering characteristics should contain:
+    And validate product offering characteristics should contain:
       | Name                |
       | 9148880848313061086 |
       | 9149173476313064681 |

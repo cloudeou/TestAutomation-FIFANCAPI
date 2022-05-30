@@ -8,7 +8,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification 11
@@ -55,7 +55,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Provide HS750(2 year)+ Smart Automation Plus Video(3year)
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9152406687013913547 |
       # TELUS Internet 750/750
@@ -63,7 +63,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       # Smart Automation Plus Video
       | 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9155153987813123256 |
 			# Delivery method = Tech install
@@ -71,8 +71,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 			# Acquired From = Fluent
       | 9152552492613455557 | 9152552492613455566 | 9155153987813123256 |
 		# Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -90,8 +90,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Submit Cart 11 (1)
 #    Given preconditions by user are selected
-#    When user try to submit shopping cart
-#    Then sales order id should be returned
+#    When test user try to submit shopping cart
+#    Then test sales order id should be returned
 #
 #  Scenario: Check backend orders validation 11 (1)
 #    Given preconditions by user are selected
@@ -102,8 +102,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Create SC to change TLO 11
 #    Given preconditions by user are selected
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 
   Scenario: PLease include Doorbell Camera - Slimline as inlcuded, Carbon Monoxide Detector,Door/Window Sensor,Smart Garage Door Controller
     Given preconditions by user are selected
@@ -117,7 +117,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       # Door/Window Sensor - Purchase
       | 9151990038013433789 | 9155153987813123256 |
       # Smart Garage Door Controller
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9151550795513408112 | 9151550795513408113 | 9153012075113921235 |
     # Purchase Type           Easy Payment
@@ -128,7 +128,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Select SHS commitment promotion
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162728983709155290 |
       #3 Months Free SHS 10 M&H
@@ -144,8 +144,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Submit Cart 11 (2)
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 11 (2)
     Given preconditions by user are selected
@@ -180,7 +180,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Create SC HS25+ 7 Theme pack + 1 premium
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9150529131613486915 |
 #      # TELUS Internet 25/25
@@ -204,8 +204,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #      # Lifetime HD
 #      | 9140066935713112206 | 9153357971813013786 |
 #    # Crave(Premium)
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -262,8 +262,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Submit Cart 9
 #    Given preconditions by user are selected
-#    When user try to submit shopping cart
-#    Then sales order id should be returned
+#    When test user try to submit shopping cart
+#    Then test sales order id should be returned
 #
 #  Scenario: Check backend orders validation 9
 #    Given preconditions by user are selected
@@ -288,7 +288,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Create SC with Channel Info, Product Offerings and Commitment Offerings
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9136923654113578822 |
 #      # Home Phone
@@ -302,7 +302,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #      # Special Offer: Save on Internet & Optik TV For 24 months
 #      | 9159389559513259218 |
 #    # Home Security Commitment for 60 months
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value           | Item       |
 #      | 9138619718613259878 | 1100035639-2C7P | SalesOrder |
 #      # Coupon Id Characteristic
@@ -310,8 +310,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #      # Source System
 #      | 9143971100013709477 | ES80428948      | SalesOrder |
 #    # External Order Id Characteristic
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #    And test user validate cart item parameters should contain:
 #      | ParameterName |
 #      | name          |
@@ -337,7 +337,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Patch SC with Top Level Cart Item Characteristics(Set Optik TV Number of TV)
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9148465520113089778 | 9148465700013089860 | 9142046828213433809 |
 #    When test user try to update Shopping Cart
@@ -367,7 +367,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Patch SC with Top Level Cart Item Characteristics(Set Smart Home Security Service Provider, and SHS Delivery Method)
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9152694600113929802 | 9154132902813883880 | 9162234688573639328 |
 #      | 9155793580913292047 | 9155793538813291983 | 9162234688573639328 |
@@ -399,7 +399,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Add Add-On Equipment (Apple TV) on top of SC (with different payment types)
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9152439432613457799 |
 #      # Apple TV 4K 32GB - Easy Payment
@@ -438,7 +438,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Add Add Telus Simple Switch on top of SC
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9145572401713849539 |
 #    # TELUS Simple Switch
@@ -474,7 +474,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  # Scenario: Patch Connectivity Cart Item for OBD
 #  #   Given preconditions by user are selected
-#  #   And user set the chars for item:
+#  #   And test user set the chars for item:
 #  #     | Name                | Value               | Item                |
 #  #     | 9150228124813138286 | 9156317990713792821 | 9156188352713296633 |
 #  #   #  Customer Consent for DPO, TRUE, TELUS Connectivity #0156781902
@@ -683,10 +683,10 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Patch Work Offer Cart Item with coupon based offering
 #    Given preconditions by user are selected
-#    And user select offers:
+#    And test user select offers:
 #      | OfferId             |
 #      | 9151014680013867743 |
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value                | Item                |
 #      | 9146582494313682120 | Test Automation oder | 9146582143513681890 |
 #      # Additional Access Information for Technician
@@ -742,7 +742,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Patch Shipment characteristics
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value         | Item                |
 #      | 9148018091313860374 | null          | 9147904372813829170 |
 #      # Telephone number
@@ -760,8 +760,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  # Scenario: Checkout SC
 #  #   Given preconditions by user are selected
-#  #   When user try to submit shopping cart
-#  #   Then sales order id should be returned
+#  #   When test user try to submit shopping cart
+#  #   Then test sales order id should be returned
 #
 #  Scenario: Clean customer
 #    And drop customer id

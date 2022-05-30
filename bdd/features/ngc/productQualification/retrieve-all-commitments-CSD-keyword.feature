@@ -9,7 +9,7 @@ Feature: Retrieve all commitment offers for CSD users
         Given user has address with type LTE
         And EXTERNAL_ID of distribution channel is PERMIT_ROLE_PARTNER_TECH
         And customer category is RESIDENTIAL
-        When get address based on entered data
+        When get address based on entered data: '5753461'
         Then address id should be returned
 
 
@@ -33,7 +33,7 @@ Feature: Retrieve all commitment offers for CSD users
             | ParameterName |
             | name          |
             | description   |
-        And validate product offering characteristics should contain:
+        And validate product offering characteristics should contain:
             | Name                |
             | 9148880848313061086 |
             | 9149173476313064681 |

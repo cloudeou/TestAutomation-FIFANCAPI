@@ -9,7 +9,7 @@ Feature: New Customer ordering Internet, and SHS on a QC address
     And technology type is GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification
@@ -52,7 +52,7 @@ Feature: New Customer ordering Internet, and SHS on a QC address
 
   Scenario: Create shopping cart
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159778130613660699 |
       # Internet OPTIK 150/150
@@ -60,12 +60,12 @@ Feature: New Customer ordering Internet, and SHS on a QC address
        # Smart Automation Plus (Automation Hub)
       | 9151769954813376252 |
      # OPTIK TV Digital Basic
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9152694600113929802 | 9154132902813883884 | 9162184618979604472 |
 			# Acquired From = Reliance
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -98,8 +98,8 @@ Feature: New Customer ordering Internet, and SHS on a QC address
 
   Scenario: Submit Shopping Cart
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

@@ -8,7 +8,7 @@ Feature: Existing customer with active HS+Optik TV
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -25,7 +25,7 @@ Feature: Existing customer with active HS+Optik TV
 
   Scenario: Create SC with HS(Home security) offer and Optick TV offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162234688573639328 |
       #Secure
@@ -35,7 +35,7 @@ Feature: Existing customer with active HS+Optik TV
     # Home Security Commitment on 36 month contract
       | 9152915282613768554 |
     # TELUS Optik TV only Commitment
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234688573639328 |
       # Delivery method SHS = Pro install
@@ -43,8 +43,8 @@ Feature: Existing customer with active HS+Optik TV
       # Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162234688573639328 |
     # Self-Install = No
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -75,8 +75,8 @@ Feature: Existing customer with active HS+Optik TV
 
   Scenario: Submit SC
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

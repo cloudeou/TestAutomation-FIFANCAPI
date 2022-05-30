@@ -9,7 +9,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     And technology type is GPON
     And distribution channel is PILOT3RT
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification
@@ -26,7 +26,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: HS150 + 4 Theme Packs & 1 Premium on 2 year term
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9150564125513493939 |
       # TELUS Internet 150/150
@@ -36,12 +36,12 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     # Save on Internet only for 24 months (Mass) (NC)
       | 9154252954313818263 |
     # Save up to $10 per month on Optik TV for 24 months (NC)
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value    | Item                |
       | 9147361018813807887 | OPTIK200 | 9153525538913326122 |
     # | Coupon Code       |          |  $200 Optik TV One Time Credit |
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -93,8 +93,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Submit Cart
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

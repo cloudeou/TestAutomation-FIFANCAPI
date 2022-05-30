@@ -9,7 +9,7 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
   Scenario: Get service qualification
@@ -56,7 +56,7 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
 
   Scenario: Create shopping cart
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159714683413600757 |
       # TELUS Internet 300/300
@@ -68,7 +68,7 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
     # Secure Plus Video
       | 9159389559513259218 |
     # Home Security Commitment for 60 months
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9156198150013903799 | 9156198150013903801 | 9161482788965984291 |
             # Delivery method = Self install for Livingwell
@@ -82,8 +82,8 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
 			# Delivery method = Pro Install for SHS
       | 9152694600113929802 | 9154132902813883884 | 9162234603588639317 |
 			# Acquired From = Reliance
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -113,8 +113,8 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
 
   Scenario: Submit Shopping Cart
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

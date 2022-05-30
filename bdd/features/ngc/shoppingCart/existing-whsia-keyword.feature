@@ -9,7 +9,7 @@ Feature: Existing WHSIA
 #    And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
     And distribution channel is PILOT6RT
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '3238438'
     Then address id should be returned
 
 
@@ -27,18 +27,18 @@ Feature: Existing WHSIA
 
   Scenario: Create SC with wHSIA
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159602850913498849 |
     # wHSIA Rural Internet - 100GB monthly data
 #      | 9152406687013913547 |
 #      # TELUS Internet 750/750
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       |9157950816213373074  | 9157950816213373076 | 9159602850913498849 |
 #      Delivery method - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -71,8 +71,8 @@ Feature: Existing WHSIA
 
   Scenario: Submit SC 1
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 1
     Given preconditions by user are selected
@@ -83,12 +83,12 @@ Feature: Existing WHSIA
 
   Scenario: Create same SC
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Delete TLO
     Given preconditions by user are selected
-    And user delete offers:
+    And test user delete offers:
     | OfferId             |
     | 9159602850913498849 |
      # wHSIA Rural Internet - 100GB monthly data
@@ -97,7 +97,7 @@ Feature: Existing WHSIA
 
   Scenario: Add new TLO
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
     | OfferId             |
     | 9159683640113535776 |
     #wHSIA Rural Internet - 500GB monthly data
@@ -111,8 +111,8 @@ Feature: Existing WHSIA
 
   Scenario: Submit SC 2
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 2
     Given preconditions by user are selected

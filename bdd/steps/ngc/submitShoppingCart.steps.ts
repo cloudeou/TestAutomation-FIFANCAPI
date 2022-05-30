@@ -34,7 +34,7 @@ export const submitShoppingCartSteps = ({
     featureContext().getContextById(Identificators.ErrorContext);
   const dbProxy = new DbProxyApi();
 
-  when('user try to submit shopping cart', async () => {
+  when('test user try to submit shopping cart', async () => {
     const shoppingCartId = shoppingCartContext().shoppingCartId;
     const distributionChannel = preconditionContext().distributionChannel;
     const customerCategory = preconditionContext().customerCategory;
@@ -67,7 +67,7 @@ export const submitShoppingCartSteps = ({
     }
   });
 
-  then('sales order id should be returned', async () => {
+  then('test sales order id should be returned', async () => {
     const body: any = responseContext().shoppingCartResponse;
     const responseText: any = responseContext().shoppingCartResponseText;
 
