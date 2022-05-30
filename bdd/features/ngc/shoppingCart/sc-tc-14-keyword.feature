@@ -98,8 +98,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Validate shopping cart for FIFA TC#14 (1)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit Cart for FIFA TC#14 (1)
     Given preconditions by user are selected
@@ -168,8 +168,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Validate shopping cart in FIFA TC#14 (2)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit Cart 2 in FIFA TC#14 (2)
     Given preconditions by user are selected

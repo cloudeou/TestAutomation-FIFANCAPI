@@ -60,8 +60,8 @@ Feature: Retrieve Commitment Offers
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit SC
     Given preconditions by user are selected

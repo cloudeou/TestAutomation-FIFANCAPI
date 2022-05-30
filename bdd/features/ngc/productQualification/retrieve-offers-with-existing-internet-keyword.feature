@@ -109,8 +109,8 @@ Feature: Retrieve Offers With Existing internet
 
   Scenario: Validate shopping cart (1)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Update SC, change period of commitment regular for Regular Internet offer
     And distribution channel is F2F
@@ -134,8 +134,8 @@ Feature: Retrieve Offers With Existing internet
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
 
   Scenario: Update SC, change period of commitment earlyRenewal for Regular Internet offer
@@ -161,8 +161,8 @@ Feature: Retrieve Offers With Existing internet
 
   Scenario: Validate shopping cart (3)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit SC (3)
     Given preconditions by user are selected

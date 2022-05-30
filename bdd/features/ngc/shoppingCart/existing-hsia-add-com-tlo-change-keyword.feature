@@ -59,8 +59,8 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit SC 1
     Given preconditions by user are selected
@@ -103,8 +103,8 @@ Feature: Existing active HSIA plan, Add Commintment, Change TLO
 
   Scenario: Validate SC 2
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit SC 2
     Given preconditions by user are selected

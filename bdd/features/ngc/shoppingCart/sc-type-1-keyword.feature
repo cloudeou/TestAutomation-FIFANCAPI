@@ -128,8 +128,8 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Validate shopping cart in FIFA TC#4 (1)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit Cart 1 in FIFA TC#4 (1)
     Given preconditions by user are selected
@@ -354,14 +354,14 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  # Scenario: Validate Anonymous cart
 #  #   Given preconditions by user are selected
-#  #   When user try to validate shopping cart
-#  #   Then no error messages should be in shopping cart
-#  #   And shopping cart validation should contain attributes:
+#  #   When test user try to validate shopping cart
+#  #   Then test no error messages should be in shopping cart
+#  #   And test shopping cart validation should contain attributes:
 #  #     | Name              |
 #  #     | action            |
 #  #     | message           |
 #  #     | notificationType  |
-#  #   And shopping cart validation should contain custom rule parameters
+#  #   And test shopping cart validation should contain custom rule parameters
 #
 #  Scenario: Create a customer
 #    Given preconditions by user are selected
@@ -378,14 +378,14 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #
 #  # Scenario: Validate Cart associated with Customer ID
 #  #   Given preconditions by user are selected
-#  #   When user try to validate shopping cart
-#  #   Then no error messages should be in shopping cart
-#  #   And shopping cart validation should contain attributes:
+#  #   When test user try to validate shopping cart
+#  #   Then test no error messages should be in shopping cart
+#  #   And test shopping cart validation should contain attributes:
 #  #     | Name              |
 #  #     | action            |
 #  #     | message           |
 #  #     | notificationType  |
-#  #   And shopping cart validation should contain custom rule parameters
+#  #   And test shopping cart validation should contain custom rule parameters
 #
 #  # Scenario: Patch Shipment characteristics
 #  #   Given preconditions by user are selected

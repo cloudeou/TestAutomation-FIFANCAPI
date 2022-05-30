@@ -85,8 +85,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
 #  Scenario: Validate shopping cart 11 (1)
 #    Given preconditions by user are selected
-#    When user try to validate shopping cart
-#    Then no error messages should be in shopping cart
+#    When test user try to validate shopping cart
+#    Then test no error messages should be in shopping cart
 #
 #  Scenario: Submit Cart 11 (1)
 #    Given preconditions by user are selected
@@ -139,8 +139,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Validate shopping cart 11 (2)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit Cart 11 (2)
     Given preconditions by user are selected
@@ -257,8 +257,8 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #
 #  Scenario: Validate shopping cart 9
 #    Given preconditions by user are selected
-#    When user try to validate shopping cart
-#    Then no error messages should be in shopping cart
+#    When test user try to validate shopping cart
+#    Then test no error messages should be in shopping cart
 #
 #  Scenario: Submit Cart 9
 #    Given preconditions by user are selected
@@ -630,12 +630,12 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #    #4 Theme Packs & 1 Premium | 7 Theme Packs & 1 Premium
 #    Then test validate shopping cart is updated successfully
 #    And test validate total shopping cart price is updated successfully:Recurrent
-#    And shopping cart validation should contain attributes:
+#    And test shopping cart validation should contain attributes:
 #      | Name             |
 #      | action           |
 #      | message          |
 #      | notificationType |
-#    And shopping cart validation should contain custom rule parameters
+#    And test shopping cart validation should contain custom rule parameters
 #
 #  Scenario: Patch SC with Second Level Cart Item Characteristics(Optik TV - remove theme packs from the SC that has isPackInd as true)
 #    Given preconditions by user are selected

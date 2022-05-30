@@ -54,8 +54,8 @@ Feature: Existing active Value added Service
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit Shopping Cart Api
     Given preconditions by user are selected
@@ -85,8 +85,8 @@ Feature: Existing active Value added Service
 
   Scenario: Validate shopping cart2
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit Shopping Cart Api2
     Given preconditions by user are selected
