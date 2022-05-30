@@ -10,7 +10,7 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data: '3238438'
+    When get address based on entered data
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#12
@@ -58,13 +58,13 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 
   Scenario: Provide Secure Plus Video with CP =5 years
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9162234603588639317 |
       # Secure Plus Video
       | 9159389559513259218 |
     # Home Security Commitment for 60 months
-    And test user set the chars for item:
+    And user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234603588639317 |
       # Delivery method = Tech install
@@ -72,44 +72,44 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
       # Acquired From = Fluent
       | 9152552492613455557 | 9152552492613455566 | 9162234603588639317 |
     # Self-Install = No (BOE rule, cannot change, for validation only)
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
-    And test user validate cart item parameters should contain:
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9162234603588639317 |
       | 9159389559513259218 |
 
   Scenario: +2 Accessories ( 1- Easy Pay,1- One Time)
     Given preconditions by user are selected
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9151670335513311270 | 9162234603588639317 |
       #Doorbell Camera - Round TELUS Easy Pay B2C
       | 9150454993513203663 | 9162234603588639317 |
     #Doorbell Camera - Round Purchase
-    And test user set the chars for item:
+    And user set the chars for item:
       | Name                | Value               | Item                |
       | 9151550795513408112 | 9151550795513408113 | 9151670335513311270 |
       # | Purchase Type       | Easy Pay           | Doorbell Camera - Round TELUS Easy Pay B2C |
       | 9151550795513408112 | 9151619944313285435 | 9150454993513203663 |
     # | Purchase Type       | One Time            | Doorbell Camera - Round Purchase
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart in FIFA TC#12
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Submit Cart in FIFA TC#12
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
   Scenario: Check backend orders validation in FIFA TC#12
     Given preconditions by user are selected
@@ -117,8 +117,3 @@ Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
     Then validate that no errors created on BE
     And validate that all orders are completed successfully
     And validate that all billing actions completed successfully
-
-  Scenario: Create SC to change TLO in FIFA TC#12
-    Given preconditions by user are selected
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully

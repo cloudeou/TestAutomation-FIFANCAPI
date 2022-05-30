@@ -2,6 +2,7 @@
 @api
 @SC
 @existing-triple-no-change-keyword
+  #https://flcncapp-itn02.tsl.telus.com/common/uobject.jsp?tab=_Orders&object=9163680851313443474
 Feature: Existing commitment in Regular Period Triple Play no change
 
   Scenario: Check address
@@ -9,7 +10,7 @@ Feature: Existing commitment in Regular Period Triple Play no change
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '3238438'
+    When get address based on entered data
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -26,7 +27,7 @@ Feature: Existing commitment in Regular Period Triple Play no change
 
   Scenario: Create SC with HSIA(Internet) offrer, TV offer, SHS offer and commitment offer
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9150893104313917439 |
       #TELUS Internet 15/15
@@ -38,7 +39,7 @@ Feature: Existing commitment in Regular Period Triple Play no change
       # Home Security Commitment on 36 month contract
       | 9160783963613938850 |
     #Save on Internet & SHS For 24 months
-    And test user set the chars for item:
+    And user set the chars for item:
       | Name                | Value               | Item                |
       | 9158306682113553797 | 9158306751513553873 | 9142278346813160836 |
       # Delivery Method TV - Self Install
@@ -48,13 +49,13 @@ Feature: Existing commitment in Regular Period Triple Play no change
       # Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162234688573639328 |
     # Self-Install = No
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
-    And test user validate cart item parameters should contain:
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9150893104313917439 |
       | 9142278346813160836 |
@@ -63,13 +64,13 @@ Feature: Existing commitment in Regular Period Triple Play no change
 
   Scenario: Update SC with SLO, add Add Ons offer, add Boost WiFi offer, add Equipment(TV, SHS) offers
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9152405677313441444 |
       #Apple TV 4K 32GB
       | 9153586297713374444 |
     # $200 Netflix Gift Card
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9150280421713159508 | 9150893104313917439 |
       #TELUS Boost Wi-Fi Starter Pack Easy Payment
@@ -77,18 +78,18 @@ Feature: Existing commitment in Regular Period Triple Play no change
       # 4K PVR
       | 9154703630213381920 | 9162234688573639328 |
     #4 CR2 Battery
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Submit SC 1
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
   Scenario: Check backend orders validation 1
     Given preconditions by user are selected
@@ -99,31 +100,31 @@ Feature: Existing commitment in Regular Period Triple Play no change
 
   Scenario: Create same SC
     Given preconditions by user are selected
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
 
   Scenario: Update SC, remove some Add Ons, remove Boost WiFi
     Given preconditions by user are selected
-    And test user delete offers:
+    And user delete offers:
       | OfferId             |
       | 9152405677313441444 |
     #Apple TV 4K 32GB
-    And test user delete child offer:
+    And user delete child offer:
       | OfferId             | Parent              |
       | 9150280421713159508 | 9150893104313917439 |
     #TELUS Boost Wi-Fi Starter Pack Easy Payment
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Submit SC 2
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
   Scenario: Validate shopping cart 2
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Check backend orders validation 2
     Given preconditions by user are selected

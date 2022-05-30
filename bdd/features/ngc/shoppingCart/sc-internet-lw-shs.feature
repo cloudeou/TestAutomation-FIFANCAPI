@@ -9,7 +9,7 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data: '3238438'
+    When get address based on entered data
     Then address id should be returned
 
   Scenario: Get service qualification
@@ -56,19 +56,17 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
 
   Scenario: Create shopping cart
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9159714683413600757 |
       # TELUS Internet 300/300
       | 9161482788965984291 |
         # Livingwell companion Go
-      | 9161360097813671797 |
-      # LivingWell Commitment for 12 months
       | 9162234603588639317 |
     # Secure Plus Video
       | 9159389559513259218 |
     # Home Security Commitment for 60 months
-    And test user set the chars for item:
+    And user set the chars for item:
       | Name                | Value               | Item                |
       | 9156198150013903799 | 9156198150013903801 | 9161482788965984291 |
             # Delivery method = Self install for Livingwell
@@ -82,13 +80,13 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
 			# Delivery method = Pro Install for SHS
       | 9152694600113929802 | 9154132902813883884 | 9162234603588639317 |
 			# Acquired From = Reliance
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
-    And test user validate cart item parameters should contain:
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9159714683413600757 |
       | 9161482788965984291 |
@@ -97,24 +95,24 @@ Feature: New Customer ordering  Internet, SHS, and Living Well
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9151963809313418384 | 9162234603588639317 |
 		# add Doorbell Camera - Slimline
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
 
   Scenario: Submit Shopping Cart
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

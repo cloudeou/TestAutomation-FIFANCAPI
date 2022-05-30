@@ -2,13 +2,13 @@
 @SC
 @existing-triple-com-change-tlo-change-keyword
 Feature: Existing commitment in Regular Period Triple Play change TLO
-
+#https://flcncapp-itn02.tsl.telus.com/common/uobject.jsp?tab=_Orders&object=9163680730213436940
   Scenario: Check address
     Given user has address with type FIBER
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '3238438'
+    When get address based on entered data
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -25,7 +25,7 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
 
   Scenario: Create SC with HSIA(Internet) offrer, TV offer, SHS offer and commitment offer
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9150893104313917439 |
       #TELUS Internet 15/15
@@ -37,7 +37,7 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
       # Home Security Commitment on 36 month contract
       | 9160783681513938083 |
     #Save on Internet & SHS For 24 months
-    And test user set the chars for item:
+    And user set the chars for item:
       | Name                | Value               | Item                |
       | 9158306682113553797 | 9158306751513553872 | 9142278346813160836 |
       # Delivery Method TV - Pro Install
@@ -47,13 +47,13 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
       # Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162234688573639328 |
     # Self-Install = No
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
-    And test user validate cart item parameters should contain:
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9150893104313917439 |
       | 9142278346813160836 |
@@ -62,13 +62,13 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
 
   Scenario: Update SC with SLO, add Add Ons offer, add Boost WiFi offer, add Equipment(TV, SHS) offers
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9152405677313441444 |
       #Apple TV 4K 32GB
       | 9153586297713374444 |
     # $200 Netflix Gift Card
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9150280421713159508 | 9150893104313917439 |
       #TELUS Boost Wi-Fi Starter Pack Easy Payment
@@ -76,18 +76,18 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
       # 4K PVR
       | 9154703630213381920 | 9162234688573639328 |
     #4 CR2 Battery
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart 1
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Submit SC 1
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
   Scenario: Check backend orders validation 1
     Given preconditions by user are selected
@@ -98,36 +98,36 @@ Feature: Existing commitment in Regular Period Triple Play change TLO
 
   Scenario: Create same SC
     Given preconditions by user are selected
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
 
   Scenario: Change commitment and TLO(internet) in SC, remove some Add Ons, remove Boost WiFi
     Given preconditions by user are selected
-    And test user delete offers:
+    And user delete offers:
       | OfferId             |
       | 9160783681513938083 |
       #Save on Internet & SHS For 24 months
       | 9150893104313917439 |
     #ATELUS Internet 15/15
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9156255393713992911 |
       #Optik TV Cross Sell Offer: Save on Internet & Optik TV for 24
       | 9150529041113486764 |
     # TELUS Internet 75/75
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
 
   Scenario: Submit SC 2
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
   Scenario: Validate shopping cart 2
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Check backend orders validation 2
     Given preconditions by user are selected

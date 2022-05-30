@@ -6,7 +6,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
   Scenario: Get addess 9
     Given user has address with type FIBER
     And technology type is GPON
-    When get address based on entered data: '3238438'
+    When get address based on entered data
     Then address id should be returned
 
   Scenario: Get service qualification 9
@@ -25,13 +25,13 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Create SC HS25+ 7 Theme pack + 1 premium
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9150529131613486915 |
       # TELUS Internet 25/25
       | 9153357971813013786 |
     # 7 Theme Packs & 1 Premium
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9155519369313230144 | 9153357971813013786 |
       # Cinema One
@@ -53,13 +53,13 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       # TELUS Boost Wi-Fi Starter Pack Easy Payment
       | 9148871359813039639 | 9150529131613486915 |
     # TELUS Boost Wi-Fi Expansion Pack Purchase
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
-    And test user validate cart item parameters should contain:
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9150529131613486915 |
       # TELUS Internet 25/25
@@ -68,16 +68,16 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Update SC with SLO, add Add Ons for OptikTV offer, add Equipment offers.
     Given preconditions by user are selected
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9144579890813692894 | 9153357971813013786 |
       # 4K PVR
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Update SC upgrade to 11 Theme Packs & 1 Premium
     Given preconditions by user are selected
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9142952842813225187 | 9153357971813013786 |
       #Filipino Movies
@@ -87,24 +87,24 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       #Arabic Pack
       | 9155528473113237365 | 9153357971813013786 |
     #German entertainment
-    And test prepare context data for Upgrade
+    And prepare context data for Upgrade
       | From                | To                  |
       | 9153357971813013786 | 9153358200213013887 |
     #7 Theme Packs & 1 Premium | 11 Theme Packs & 2 Premium
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
   Scenario: Update SC add charge additionally channels
     Given preconditions by user are selected
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9145925448313321985 | 9153358200213013887 |
     #Crave+Movies+HBO
       | 9144579890813692894 | 9153358200213013887 |
       # 4K PVR
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
-    And test user validate at least one cart item should contain price alteration
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
+    And user validate at least one cart item should contain price alteration
 
   Scenario: Add promotion
     And user apply the following manual discounts:
@@ -117,13 +117,13 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Validate shopping cart 9
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Submit Cart 9
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
   Scenario: Check backend orders validation 9
     Given preconditions by user are selected

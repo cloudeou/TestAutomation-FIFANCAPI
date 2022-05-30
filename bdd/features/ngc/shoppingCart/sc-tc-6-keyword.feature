@@ -2,22 +2,22 @@
 @SC
 @sc-tc-6-keyword
 Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Commitment Offerings)
+#https://flcncapp-itn02.tsl.telus.com/common/uobject.jsp?tab=_Orders&object=9163680933013447942
 
-
-  Scenario: Get addess
+  Scenario: Get addess 6
     Given user has address with type FIBER
     And technology type is GPON
     And distribution channel is PILOT3RT
     And customer category is RESIDENTIAL
-    When get address based on entered data: '3238438'
+    When get address based on entered data
     Then address id should be returned
 
-  Scenario: Get service qualification
+  Scenario: Get service qualification 6
     Given preconditions by user are selected
     When user check availability
     Then address should be qualified for GPON
 
-  Scenario: Create customer
+  Scenario: Create customer 6
     Given preconditions by user are selected
     When user try to create customer
     Then external customer id should be returned
@@ -26,79 +26,67 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: HS150 + 4 Theme Packs & 1 Premium on 2 year term
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9150564125513493939 |
       # TELUS Internet 150/150
       | 9153347723813004284 |
      # 4 Theme Packs & 1 Premium
-      | 9160749291613917553 |
-    # Save on Internet only for 24 months (Mass) (NC)
-      | 9154252954313818263 |
-    # Save up to $10 per month on Optik TV for 24 months (NC)
-    And test user set the chars for item:
+      | 9160783800613938284 |
+    # Save on Internet & Optik TV For 24 months
+      | 9153525538913326122 |
+    # $200 Optik TV One Time Credit
+    And user set the chars for item:
       | Name                | Value    | Item                |
       | 9147361018813807887 | OPTIK200 | 9153525538913326122 |
     # | Coupon Code       |          |  $200 Optik TV One Time Credit |
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
-    And test user validate cart item parameters should contain:
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9150564125513493939 |
       | 9153347723813004284 |
-      | 9160749291613917553 |
-      | 9154252954313818263 |
+      | 9160783800613938284 |
+     # | 9153525538913326122 |
 
   Scenario: Update SC with SLO, add Add Ons for OptikTV offer, add Equipment offers.
     Given preconditions by user are selected
-    And test user select child offer:
+    And user select child offer:
       | OfferId             | Parent              |
       | 9152633535113644812 | 9153347723813004284 |
       #4K Channel Pack
+      | 9154703630213381920 | 9162234688573639328 |
+    #4 CR2 Battery
       | 9144579890813692894 | 9153347723813004284 |
       # 4K PVR
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+      | 9153346572313003606 | 9153347723813004284 |
+      # Netflix Premium
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 
-  Scenario: Update SC with SLO, add Add Ons for HSIA offer, add Equipment offers.
+
+  Scenario: Validate shopping cart 6
     Given preconditions by user are selected
-    And test user select child offer:
-      | OfferId             | Parent              |
-      | 9151960774813952250 | 9150564125513493939 |
-      #TELUS Boost Starter Pack PIF
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
-  Scenario: Update shopping cart and add child offers to apply promotion
+  Scenario: Submit Cart 6
     Given preconditions by user are selected
-    And user apply the following manual discounts:
-      | DiscountId          | ReasonCd            | Parent              |
-      | 9151676224413062040 | 9149562400313086741 | 9150564125513493939 |
-     # HS 12 MO Upsell Discount - $5 with reason TELUS Rewards for HSIA
-      | 9149256790313067360 | 9149562400313086741 | 9153347723813004284 |
-    # Optik TV 20% Realtor discount - 3 months TELUS Rewards for TV
-    When user try to apply promotions
-    Then promotions are applied
-    And discount savings are correct after apply promotions
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
-
-  Scenario: Validate shopping cart
-    Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
-
-  Scenario: Submit Cart
-    Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
-
-  Scenario: Check backend orders validation
+  Scenario: Check backend orders validation 6
     Given preconditions by user are selected
     When try to complete sales order on BE
     Then validate that no errors created on BE
     And validate that all orders are completed successfully
     And validate that all billing actions completed successfully
+
+  Scenario: Create SC to change TLO 6
+    Given preconditions by user are selected
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully

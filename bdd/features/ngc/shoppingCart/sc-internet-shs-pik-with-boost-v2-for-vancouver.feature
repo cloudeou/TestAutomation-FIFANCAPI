@@ -10,7 +10,7 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
 #    And distribution channel is F2F
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '3238438'
+    When get address based on entered data
     Then address id should be returned
 
   Scenario: Get service qualification
@@ -57,7 +57,7 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
 
   Scenario: Create shopping cart
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9152406687013913547 |
       # TELUS Internet 750/750
@@ -69,17 +69,17 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
       # Home Security Commitment on 36 month
       | 9146775787813796264 |
 		# The Basics + Pik 5
-    And test user set the chars for item:
+    And user set the chars for item:
       | Name                | Value               | Item                |
       | 9152694600113929802 | 9154132902813883884 | 9155153987813123256 |
 			# Acquired From = Reliance
-    When test user try to create Shopping Cart
-    Then test validate shopping cart is created successfully
-    And test user validate cart item parameters should contain:
+    When user try to create Shopping Cart
+    Then validate shopping cart is created successfully
+    And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And test user validate cart at least one item should contain price
-    And test user validate shopping cart should contain top offers:
+    And user validate cart at least one item should contain price
+    And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9152406687013913547 |
       | 9160783963613938850 |
@@ -89,22 +89,22 @@ Feature: New Customer ordering  Internet, SHS, Boost V2 (Add on Equipment), PikT
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
-    And test user select offers:
+    And user select offers:
       | OfferId             |
       | 9148870992313039465 |
       # TELUS Boost Wi-Fi Starter Pack
-    When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
+    When user try to update Shopping Cart
+    Then validate shopping cart is updated successfully
 #
   Scenario: Validate shopping cart
     Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    When user try to validate shopping cart
+    Then no error messages should be in shopping cart
 
   Scenario: Submit Shopping Cart
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When user try to submit shopping cart
+    Then sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected
