@@ -25,7 +25,11 @@
     "@types/retry-as-promised": "^2.3.3",
     "axios": "^0.27.2",
     "lodash": "^4.17.21",
+    "proxy-agent": "^5.0.0",
     "retry-as-promised": "^5.0.0",
-    "simple-oauth2": "^4.3.0"
+    "simple-oauth2": "^4.3.0",
+    "superagent": "^5.3.1",
+    "superagent-graphql": "^0.1.2",
+    "superagent-proxy": "^2.1.0"
   }
 }

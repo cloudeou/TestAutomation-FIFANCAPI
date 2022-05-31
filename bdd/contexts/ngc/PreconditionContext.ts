@@ -22,6 +22,7 @@ export default class PreconditionContext {
   private _customerEmail: string = '';
   private _errors: string[] = [];
   private _bootstrapData: Object = {};
+  private _emailId: string = '';
 
 
   public set streetNumberId(value: bigint) {
@@ -144,6 +145,14 @@ export default class PreconditionContext {
 
   public set errors(error: string) {
     this._errors.push(error);
+  }
+
+  public get emailId() {
+    return this._emailId;
+  }
+
+  public set emailId(value: string) {
+    this._emailId = value;
   }
 
   public getBootstrapData(key: string) {
