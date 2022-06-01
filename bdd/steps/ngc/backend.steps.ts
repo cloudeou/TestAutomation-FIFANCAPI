@@ -10,7 +10,8 @@ import {
   queryCheckOrdersStatuses,
   queryCheckTheRDB_SALES_ORDERSTable,
   queryATTR_TYPE_ID,
-  queryOption82
+  queryOption82,
+  iptvServiceKey
 } from "../../../bdd-src/ngc/db/db-queries";
 import {TelusApiUtils} from "../../../bdd-src/telus-apis/telus-apis";
 import {Common} from "../../../bdd-src/utils/commonBDD/Common";
@@ -329,30 +330,27 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     await tapis.processSearchAvailableAppointment(addressId,monthToCheck)
   });
 
-  /*and(/send async call to (link|unlink) a Smart Speaker/, async (value) => {
+  and(/send async call to (link|unlink) a Smart Speaker/, async (value) => {
+    console.log("value ", value)
     const enterpriseCustomerID =preconditionContext().externalCustomerId;
-    value === 'link'
-      ? console.log( await tapis.sendingCallToLink(apicfg,enterpriseCustomerID, 'new'))
-      : console.log( await tapis.sendingCallToLink(apicfg,enterpriseCustomerID, 'delete'))
-  });*/
+    console.log("enterpriseCustomerID ", enterpriseCustomerID)
 
-  /*and('add STB with SOAP', async () => {
+    value === 'link' 
+    ? console.log( await tapis.sendingCallToLink(enterpriseCustomerID, 'new')) 
+    : console.log( await tapis.sendingCallToLink(enterpriseCustomerID, 'delete')) 
+  });
+
+  and('add STB with SOAP', async () => {
     const customerId =preconditionContext().externalCustomerId;
 
     const response = await dbProxy.executeQuery(iptvServiceKey(customerId))
 
-    /!*let iptvServiceKey = await du.select(
-      dbcfg,
-      dq.iptvServiceKey(
-        customerId,
-      ),
-    );*!/
     console.log('customerId: ' + customerId)
 
     console.log('iptvServiceKey: ' + response.data.rows)
 
     console.log( await tapis.stepForAddingSTB(response.data.rows))
-  });*/
+  });
 
   and('get option 82', async () => {
     const customerId = preconditionContext().externalCustomerId;

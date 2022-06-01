@@ -5,7 +5,9 @@ import { Identificators } from "../../contexts/Identificators";
 import { RandomValueGenerator } from "../../../bdd-src/utils/common/RandomValueGenerator"
 import { CreateCustomerSample } from "../../../bdd-src/ngc/createCustomer/CreateCustomerSample.body-samples"
 import { CreateCustomerApi } from "../../../bdd-src/ngc/createCustomer/createCustomer.api"
+import {TelusApiUtils} from "../../../bdd-src/telus-apis/telus-apis";
 
+const tapis = new TelusApiUtils();
 
 type step = (
     stepMatcher: string | RegExp,
@@ -85,6 +87,12 @@ export const createCustomerSteps = ({ given, and, when, then } : { [key: string]
       response = responseContext().createCustomerResponse;
       let checkPerformed = response.creditCheckPerformed;
       test('Check is performed', checkPerformed, AssertionModes.strict).isnot(true,'credit check is not performed');;
+    });
+
+    and('set customers migration flag', async () => {
+      const customerId: string| null = preconditionContext().customerObjectId;
+      const response = await tapis.setMigrationFlag(customerId);
+      test('Setting migration flag for customer', response.status, AssertionModes.strict).is(200, `Error on Netcracker BE setting migration flag for customer ${customerId}` )
     });
 
   }

@@ -78,5 +78,26 @@ export const envConfig = {
         scope: 195,
         clientId: "c19b9aa0-82b4-4aaf-92c0-e62e3ad5880c",
         clientSecret: process.env.PI_CLIENTSECRET_ITN,
-    }
+    },
+    "setMigrationFlag": {
+        "endpoint": "/service/adtMigration/v1/telus/gem/rest/api/fifacustomeraccountapi/v1/updateCustomerAccount?attrId=9144723841513165963&val=9144723913513165973&objectId=#CUSTOMER_ID#",
+        "contentType": "",
+        "keywordsToReplace": ["#CUSTOMER_ID#"]
+      },
+    "sendAsyncCall": {
+        "endpoint": "/service/adtMigration/v1/NCSOAPIntegrationWebServiceOperation",
+        "keywordsToReplace": [
+          "#enterpriseCustomerID#",
+          "#actionValue#",
+          "#operationName#"
+        ]
+      },
+    "stepForAddingSTB": {
+        "endpoint": "/service/adtMigration/v1/NcOssjOrderManagementWebService/addSTB",
+        "keywordsToReplace": [
+          "#iptvServiceKey#",
+          "#GUID#",
+          "#MACAddress#"
+        ]
+      },
 }

@@ -478,7 +478,7 @@ export const queryATTR_TYPE_ID = () => {
 }
 
 export const iptvServiceKey = (
-  customerId: string,
+  customerId: number|null,
 ) => {
 
   let query = `
