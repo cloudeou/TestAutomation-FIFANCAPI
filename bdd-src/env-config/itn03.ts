@@ -97,7 +97,7 @@ export const envConfig = {
         ]
       },
     "stepForAddingSTB": {
-        "endpoint": "/service/adtMigration/v1/NcOssjOrderManagementWebService/addSTB",
+        "endpoint": "/service/adtMigration/v1/OSSJ/OrderManagement/NcOssjOrderManagementWebService/addSTB",
         "keywordsToReplace": [
           "#iptvServiceKey#",
           "#GUID#",

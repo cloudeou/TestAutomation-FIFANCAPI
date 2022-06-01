@@ -316,7 +316,7 @@ export class TelusApiUtils {
         }
        
     }
-    async sendingCallToLink(enterpriseCustomerID: any, actionValue: string) {
+    async sendingCallToLink(ecid: any, action: string) {
 
         const api =
         envConfig.ikongUrl + envConfig.sendAsyncCall.endpoint;
@@ -324,9 +324,9 @@ export class TelusApiUtils {
         console.log(`api-url: ${api}`);
 
         let body = {
-            ecid: enterpriseCustomerID,
+            ecid,
             operationName: "externalVOIPDevice",
-            action: actionValue
+            action
         }
 
 
@@ -353,18 +353,18 @@ export class TelusApiUtils {
     
     }
 
-    async stepForAddingSTB(iptvServiceKey: any) {
+    async stepForAddingSTB(iptvServiceObjId: any) {
         console.log(
-          `Using netcracker api to complete customer ID iptvServiceKey ${iptvServiceKey}`,
+          `Using netcracker api to complete customer ID iptvServiceKey ${iptvServiceObjId}`,
         );
        
-        let GUID = RandomValueGenerator.getRandomInt(10000000, 99999999) + '-' + RandomValueGenerator.getRandomInt(1000, 9999) + '-' + RandomValueGenerator.getRandomInt(1000, 9999)
+        let guid = RandomValueGenerator.getRandomInt(10000000, 99999999) + '-' + RandomValueGenerator.getRandomInt(1000, 9999) + '-' + RandomValueGenerator.getRandomInt(1000, 9999)
           + '-' + RandomValueGenerator.getRandomInt(1000, 9999) + '-' + RandomValueGenerator.getRandomInt(100000000000, 999999999999)
-        console.log('GUID ' + GUID)
+        console.log('guid ' + guid)
 
-        let MACAddress = RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':'
+        let macAddress = RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':'
           + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99)
-        console.log('MACAddress ' + MACAddress)
+        console.log('macAddress ' + macAddress)
 
         const api =
         envConfig.ikongUrl + envConfig.stepForAddingSTB.endpoint;
@@ -372,9 +372,9 @@ export class TelusApiUtils {
         console.log(`api-url: ${api}`);
 
         let body = {
-            iptvServiceObjId: iptvServiceKey,
-            guid: GUID,
-            macAddress: MACAddress
+            iptvServiceObjId,
+            guid,
+            macAddress
           }
 
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);

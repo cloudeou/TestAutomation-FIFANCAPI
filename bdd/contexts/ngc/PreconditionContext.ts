@@ -62,7 +62,7 @@ export default class PreconditionContext {
   }
 
   public get distributionChannel() {
-    if (this._distributionChannel == null) {
+    if (this._distributionChannel == '' || null) {
       this._distributionChannel = data.distributionChannel.CSR;
     }
     return this._distributionChannel;
@@ -100,7 +100,7 @@ export default class PreconditionContext {
   }
 
   public get customerCategory() {
-    if (this._customerCategory == null) {
+    if (this._customerCategory == '' || null) {
       this._customerCategory = data.customerCategory.CONSUMER;
     }
     return this._customerCategory;
