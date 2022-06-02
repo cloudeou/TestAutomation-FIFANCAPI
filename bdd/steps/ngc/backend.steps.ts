@@ -21,6 +21,7 @@ import {OrdersHandler} from "../../../bdd-src/ngc/backendSteps/OrdersHandler";
 import {TasksHandler} from "../../../bdd-src/ngc/backendSteps/TasksHandler";
 import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 import { data } from '../../../test-data/data';
+import {MailerApi} from "../../../bdd-src/utils/mailer/MailerApi";
 
 type step = (
     stepMatcher: string | RegExp,
@@ -38,6 +39,7 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
   const dbProxy = new DbProxyApi();
   const tasksHandler = new TasksHandler();
   const ordersHandler = new OrdersHandler()
+
 
   when('try to complete sales order on BE', async () => {
     let customExternalId = preconditionContext().externalCustomerId;
@@ -217,68 +219,11 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     test('allPendingOrders length toBe (0)', allPendingOrders.length, AssertionModes.strict).is(0,'allPendingOrders length should Be (0)')
   });
 
-  /*and('check that the letters was received:', async (letterInfoTable) => {
+  and('check that the letters was received:', async (letterInfoTable) => {
     await Common.delay(15000);
-    const emailId = preconditionContext().getEmailId();
-    const userEmail = await getLastEmail(emailId);
-    for (let letter in userEmail)
-      letterInfoTable.forEach(({ subject, body }: any) => {
-        const splittedBody = body.split('=>');
-        let checkResult =  checkEmail(userEmail[0],splittedBody,subject);
-        if (checkResult.includesSubject === false || checkResult.includesSubject === false)
-          checkResult =  checkEmail(userEmail[1],splittedBody,subject);
-        test(`Email contains ${splittedBody}`,checkResult.includesKeyWords, AssertionModes.strict).is(true,`Email doest not contains ${splittedBody}`)
-        test(`Email contains letter with subject ${subject}`,checkResult.includesSubject, AssertionModes.strict).is(true,`Email doest not contains letter with subject ${subject}, but ${userEmail[0].headerSubject}`)
-
-      });
-
-    // const customerEmail = preconditionContext().getCustomerEmail();
-    // const userLetters = await getUserAllLetters(
-    //   customerEmail,
-    //   letterInfoTable.length,
-    // );
-    // expect(userLetters, "Letters wasn't received").not.toBeNull();
-    // expect(
-    //   userLetters.length,
-    //   `Recieved letters is't equal to table length`,
-    // ).toEqual(letterInfoTable.length);
-    //
-    // logger.info(
-    //   `Started comparing subject and body in inbox ${userLetters[0].inboxId}`,
-    // );
-    // letterInfoTable.forEach(({ subject, body }) => {
-    //   const foundLetter = userLetters.find((letter: any) => {
-    //     const splittedBody = body.split('=>');
-    //
-    //     if (splittedBody.length === 1) {
-    //       if (
-    //         !!letter.subject.match(new RegExp(subject, 'ig')) ||
-    //         !!letter.body.match(new RegExp(splittedBody[0], 'ig'))
-    //       ) {
-    //         logger.info(
-    //           `Letter: ${letter.id} in inbox: ${letter.inboxId}@mailslurp.com recieved`,
-    //         );
-    //         return true;
-    //       }
-    //     }
-    //     const includesKeyWords = splittedBody.every(
-    //       (keyword: any) =>
-    //         !!letter.subject.match(new RegExp(subject, 'ig')) ||
-    //         !!letter.body.match(new RegExp(keyword, 'ig')),
-    //     );
-    //     if (includesKeyWords) {
-    //       logger.info(
-    //         `Letter: ${letter.id} in inbox: ${letter.inboxId}@mailslurp.com recieved`,
-    //       );
-    //       return true;
-    //     }
-    //   });
-    //   expect(
-    //     foundLetter,
-    //     `Letter with subject ${subject} did't come`,
-    //   ).not.toBeUndefined();
-    // });
-  });*/
+    const emailId = preconditionContext().emailId;
+    await MailerApi.checkEmail(emailId,letterInfoTable)
+  });
 
   and('validate that all billing actions completed successfully', async () => {
     const customerId = preconditionContext().customerObjectId!;
