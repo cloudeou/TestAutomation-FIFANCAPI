@@ -52,7 +52,7 @@ Feature: New Customer ordering Internet, and SHS on a QC address
 
   Scenario: Create shopping cart
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159714683413600757 |
       # TELUS Internet 300/300
@@ -60,17 +60,17 @@ Feature: New Customer ordering Internet, and SHS on a QC address
        # Smart Automation Plus (Automation Hub)
       | 9150400880613177266 |
       # Home Security Commitment on 36 month
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9152694600113929802 | 9154132902813883884 | 9162184618979604472 |
 			# Acquired From = Reliance
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
      # | 9159714683413600757 |
       | 9162184618979604472 |
@@ -80,14 +80,14 @@ Feature: New Customer ordering Internet, and SHS on a QC address
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
 
   Scenario: Submit Shopping Cart
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

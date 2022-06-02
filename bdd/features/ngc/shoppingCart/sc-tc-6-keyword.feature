@@ -26,7 +26,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: HS150 + 4 Theme Packs & 1 Premium on 2 year term
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9150564125513493939 |
       # TELUS Internet 150/150
@@ -36,17 +36,17 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     # Save on Internet & Optik TV For 24 months
       | 9153525538913326122 |
     # $200 Optik TV One Time Credit
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value    | Item                |
       | 9147361018813807887 | OPTIK200 | 9153525538913326122 |
     # | Coupon Code       |          |  $200 Optik TV One Time Credit |
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9150564125513493939 |
       | 9153347723813004284 |
@@ -55,7 +55,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Update SC with SLO, add Add Ons for OptikTV offer, add Equipment offers.
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9152633535113644812 | 9153347723813004284 |
       #4K Channel Pack
@@ -65,19 +65,19 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
       # 4K PVR
       | 9153346572313003606 | 9153347723813004284 |
       # Netflix Premium
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart 6
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit Cart 6
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation 6
     Given preconditions by user are selected
@@ -88,5 +88,5 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 
   Scenario: Create SC to change TLO 6
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully

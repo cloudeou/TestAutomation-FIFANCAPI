@@ -49,7 +49,7 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
 
   Scenario: Internet Rural 500 GB (2Yr) with Secure Plus Video (3 yr)
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159683640113535776 |
       #wHSIA Rural Internet - 500GB monthly data
@@ -59,7 +59,7 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
       # Secure Plus Video
       | 9150400880613177266 |
     # Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234603588639317 |
       # Delivery method = Tech install
@@ -67,13 +67,13 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
       # Acquired From = Fluent
       | 9152552492613455557 | 9152552492613455566 | 9162234603588639317 |
     # Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9159683640113535776 |
       | 9159621605313507298 |
@@ -82,25 +82,25 @@ Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
 
   Scenario: Select WHSIA: Smart Hub + SIM + Antenna, SHS: Doorbell Camera - Slimline
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9160503549513228792 | 9159683640113535776 |
       | 9160571371613319983 | 9159683640113535776 |
       | 9160574219513321464 | 9159683640113535776 |
       | 9151963809313418384 | 9162234603588639317 |
       # Doorbell Camera - Slimline
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit Cart
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

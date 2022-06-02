@@ -45,11 +45,11 @@ Feature: Retrieve Offers with exiting Home Phone
     # Self-Install = No
     When test user try to create Shopping Cart
     Then test validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9162234688573639328 |
       | 9150400880613177266 |
@@ -69,13 +69,13 @@ Feature: Retrieve Offers with exiting Home Phone
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit SC
     Given preconditions by user are selected
-    When test user try to submit shopping cart
-    Then test sales order id should be returned
+    When test test user try to submit shopping cart
+    Then test test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected

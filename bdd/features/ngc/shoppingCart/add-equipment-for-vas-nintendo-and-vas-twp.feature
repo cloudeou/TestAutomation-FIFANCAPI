@@ -25,25 +25,25 @@ Feature: Add Equipment for VAS-Nintendo and VAS-TWP
 
   Scenario: Provide Gaming and TELUS Wi-Fi Plus
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9161222936213626491 |
       # Gaming
       | 9162267642120575793 |
      # TELUS Wi-Fi Plus
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9162000749744043855 | 9162000766678043856 | 9162267642120575793 |
 			# Delivery method = Tech install for TELUS Wi-Fi Plus
       | 9161396657313719050 | 9161396657313719057 | 9161222936213626491 |
 				# Delivery method = Tech install for Gaming
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
       | description   |
-    And user validate cart at least one item should contain price
+    And test user validate cart at least one item should contain price
     And user validate cart item should contain price alteration
     And user validate cart item categories should contain:
       | CategoryId          |
@@ -63,7 +63,7 @@ Feature: Add Equipment for VAS-Nintendo and VAS-TWP
     # Add-On Equipment
       | 9157723471513163131 |
     # Value added services
-    And user validate shopping cart should contain top offers:
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9146582143513681890 |
     # Work Offer
@@ -81,13 +81,13 @@ Feature: Add Equipment for VAS-Nintendo and VAS-TWP
 
   Scenario: Patch SC with Customer
     Given preconditions by user are selected
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate shopping cart related party customer id
 
 #  Scenario: Patch Shipment characteristics
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value         | Item                |
 #      | 9148018091313860374 | null          | 9147904372813829170 |
 #      # Telephone number
@@ -100,10 +100,10 @@ Feature: Add Equipment for VAS-Nintendo and VAS-TWP
 #      # City
 #      | 9148017499713860022 | AB            | 9147904372813829170 |
 #    # Province
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 
   Scenario: Checkout SC
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
