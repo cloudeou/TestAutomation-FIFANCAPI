@@ -10,7 +10,8 @@ import {
   queryCheckOrdersStatuses,
   queryCheckTheRDB_SALES_ORDERSTable,
   queryATTR_TYPE_ID,
-  queryOption82
+  queryOption82,
+  iptvServiceKey
 } from "../../../bdd-src/fifa/db/db-queries";
 import {TelusApiUtils} from "../../../bdd-src/fifa/telus-apis/telus-apis";
 import {Common} from "../../../bdd-src/fifa/utils/commonBDD/Common";
@@ -235,7 +236,33 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     test(`Status for customer: ${customerId} should be less then 1}`,billingActionStatus.length < 1 , AssertionModes.strict).is(true,`Status for customer: ${customerId} is ${billingActionStatus}`)
   });
 
-  and(/check (present|absent) order statuses/, async (status,table) => {
+  and('check present order statuses', async (table) => {
+    let status = 'present'
+    console.log("status ", status)
+
+    let customerObjectId = preconditionContext().customerObjectId!;
+    let statusMap = Common.getStatusesMapFromTable(table);
+
+    await Common.delay(15000);
+    for (const [key, value] of statusMap) {
+      const response = await dbProxy.executeQuery(queryCheckOrdersStatuses(key, customerObjectId))
+      let orderStatus = response.data.rows
+       console.log(orderStatus)
+       console.log(key)
+       
+       status === 'present'
+       ?
+        test(`Status for ${key} = ${orderStatus[0][1]} but not ${value} is equal to ${data.statuses[value]}`, orderStatus[0][0], AssertionModes.strict)
+          .is(data.statuses[value],`Status for ${key} = ${orderStatus[0][1]} but not ${value}`)
+        //expect(orderStatus[0][0], `Status for ${key} = ${orderStatus[0][1]} but not ${value}`,).toEqual(data.statuses[value])
+        :
+        test('orderStatus equal []', orderStatus.length === 0, AssertionModes.strict).is(true,`Order ${key} present in shoping cart`)
+        //expect(orderStatus, `Order ${key} present in shoping cart`).toEqual([]);
+    }
+  });
+
+  and('check absent order statuses', async (table) => {
+    let status = 'absent'
     let customerObjectId = preconditionContext().customerObjectId!;
     let statusMap = Common.getStatusesMapFromTable(table);
 
@@ -274,30 +301,26 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
     await tapis.processSearchAvailableAppointment(addressId,monthToCheck)
   });
 
-  /*and(/send async call to (link|unlink) a Smart Speaker/, async (value) => {
+  and(/send async call to (link|unlink) a Smart Speaker/, async (value) => {
+    console.log("value ", value)
     const enterpriseCustomerID =preconditionContext().externalCustomerId;
-    value === 'link'
-      ? console.log( await tapis.sendingCallToLink(apicfg,enterpriseCustomerID, 'new'))
-      : console.log( await tapis.sendingCallToLink(apicfg,enterpriseCustomerID, 'delete'))
-  });*/
+    value === 'link' 
+    ? console.log( await tapis.sendingCallToLink(enterpriseCustomerID, 'new')) 
+    : console.log( await tapis.sendingCallToLink(enterpriseCustomerID, 'delete')) 
 
-  /*and('add STB with SOAP', async () => {
+  });
+
+  and('add STB with SOAP', async () => {
     const customerId =preconditionContext().externalCustomerId;
 
     const response = await dbProxy.executeQuery(iptvServiceKey(customerId))
 
-    /!*let iptvServiceKey = await du.select(
-      dbcfg,
-      dq.iptvServiceKey(
-        customerId,
-      ),
-    );*!/
     console.log('customerId: ' + customerId)
 
-    console.log('iptvServiceKey: ' + response.data.rows)
+    console.log('iptvServiceKey: ' + response.data.rows[0][0])
 
-    console.log( await tapis.stepForAddingSTB(response.data.rows))
-  });*/
+    console.log( await tapis.stepForAddingSTB(response.data.rows[0][0]))
+  });
 
   and('get option 82', async () => {
     const customerId = preconditionContext().externalCustomerId;

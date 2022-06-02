@@ -6,7 +6,10 @@ import {RandomValueGenerator} from "../../../bdd-src/fifa/utils/common/RandomVal
 import {CreateCustomerSample} from "../../../bdd-src/fifa/createCustomer/CreateCustomerSample.body-samples"
 import {CreateCustomerApi} from "../../../bdd-src/fifa/createCustomer/createCustomer.api"
 import {MailerApi} from "../../../bdd-src/fifa/utils/mailer/MailerApi";
+import {TelusApiUtils} from "../../../bdd-src/fifa/telus-apis/telus-apis";
 
+
+const tapis = new TelusApiUtils();
 
 type step = (
   stepMatcher: string | RegExp,
@@ -67,41 +70,46 @@ export const createCustomerSteps = ({given, and, when, then}: { [key: string]: s
         const body = CreateCustomerResponse;
         responseContext().createCustomerResponse = body;
       }
-    } catch (error: any) {
-      console.log('CreateCustomerError: ' + error.response.data)
-      throw new Error(`Customer creation is failed`);
     }
-  });
+       catch(error: any) {
+        console.log('CreateCustomerError: '+ error.response.data)
+        throw new Error(`Customer creation is failed`);
+       }
+    });
 
-  then('external customer id should be returned', () => {
-    let response: any;
-    response = responseContext().createCustomerResponse;
-    let ecid = response.ecid; //99178852;
-    let customerId = response.customerId; //9159028580013802859;
-    test('ECID should create', ecid, AssertionModes.strict).isnot(undefined, 'ECID is not created');
-    test('ECID should create', ecid, AssertionModes.strict).isnot(null, 'ECID is not created');
-    preconditionContext().externalCustomerId = ecid;
-    preconditionContext().customerObjectId = customerId;
-  });
+    then('external customer id should be returned', () => {
+      let response: any;
+      response = responseContext().createCustomerResponse;
+      let ecid = response.ecid; //99178852;
+      let customerId = response.customerId; //9159028580013802859;
+      test('ECID should create', ecid,AssertionModes.strict).isnot(undefined,'ECID is not created');
+      test('ECID should create', ecid,AssertionModes.strict).isnot(null,'ECID is not created');
+      preconditionContext().externalCustomerId = ecid;
+      preconditionContext().customerObjectId = customerId;
+    });
 
-  and('billing account number is returned', () => {
-    let response: any;
-    response = responseContext().createCustomerResponse;
-    let ban = response.ban;
-    test('Ban should create', ban, AssertionModes.strict).isnot(undefined, 'Ban is not created');
-    test('Ban should create', ban, AssertionModes.strict).isnot(null, 'Ban is not created');
-    ;
+    and('billing account number is returned', () => {
+      let response: any;
+      response = responseContext().createCustomerResponse;
+      let ban = response.ban;
+      test('Ban should create', ban, AssertionModes.strict).isnot(undefined,'Ban is not created');
+      test('Ban should create', ban, AssertionModes.strict).isnot(null,'Ban is not created');;
+      
+    });
 
-  });
+    and('credit check is performed', () => {
+      let response: any;
+      response = responseContext().createCustomerResponse;
+      let checkPerformed = response.creditCheckPerformed;
+      test('Check is performed', checkPerformed, AssertionModes.strict).isnot(true,'credit check is not performed');;
+    });
 
-  and('credit check is performed', () => {
-    let response: any;
-    response = responseContext().createCustomerResponse;
-    let checkPerformed = response.creditCheckPerformed;
-    test('Check is performed', checkPerformed, AssertionModes.strict).isnot(true, 'credit check is not performed');
-    ;
-  });
+    and('set customers migration flag', async () => {
+      const customerId: string| null = preconditionContext().customerObjectId;
+      const response = await tapis.setMigrationFlag(customerId);
+      test('Setting migration flag for customer', response.status, AssertionModes.strict).is(200, `Error on Netcracker BE setting migration flag for customer ${customerId}` )
+    });
 
-}
+  }
     
 

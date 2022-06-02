@@ -4,9 +4,10 @@ import {axiosInstance} from "../axios-instance";
 import retry from "retry-as-promised";
 import { DateUtils } from "../utils/common/DateUtils"
 import {AxiosResponse} from "axios";
-import {test, AssertionModes} from '@cloudeou/telus-bdd'
+import {test, AssertionModes} from '@cloudeou/telus-bdd';
 import { OauthToken } from "../oauth-token";
 import {generateKongHeaders} from "../IkongApi";
+import { RandomValueGenerator } from "../utils/common/RandomValueGenerator"
 
 export class TelusApiUtils {
 
@@ -279,121 +280,122 @@ export class TelusApiUtils {
         }
     }
 
-    /*async sendingCallToLink(enterpriseCustomerID, actionValue) {
-
-        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-        const api =
-          cfg.sendAsyncCall.base + cfg.sendAsyncCall.endpoint;
-        const contentType = {
-            "Content-Type": cfg.sendAsyncCall.contentType,
-        };
-        logger.debug(`api-url: ${api}
-           headers: ${JSON.stringify(contentType)}`);
-
-        let rawBody = FileSystem.readFileSync(
-          cfg.sendAsyncCall.fileForBody
-        ).toString();
-
-        let keywordToReplace = '#enterpriseCustomerID#';
-        logger.debug(`Replacing ${keywordToReplace} in body with ${enterpriseCustomerID}`);
-        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, enterpriseCustomerID);
-
-        keywordToReplace = '#actionValue#';
-        logger.debug(`Replacing ${keywordToReplace} in body with ${actionValue}`);
-        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, actionValue);
-
-        rawBody = rawBody.replace(/\r?\n|\r/g, ' ');
-        logger.debug(`Hitting as below details:
-        api: ${api}
-        contentType: ${JSON.stringify(contentType)}
-        rawBody: ${rawBody}`);
-        console.log(`Hitting as below details:
-        api: ${api}
-        contentType: ${JSON.stringify(contentType)}
-        rawBody: ${rawBody}`)
-
-        // const response = await request("post", api).set(contentType).send(rawBody);
-        const response = await this.postNgetResponse(api, contentType, rawBody);
-        logger.debug(`response received: ${JSON.stringify(response)}`);
-        logger.exitMethod(`response status: ${response.status}`);
-        return response;
-    }*/
-
-    /*async stepForAddingSTB(cfg, iptvServiceKey) {
-        logger.enterMethod(
-          `Using netcracker api to complete customer ID iptvServiceKey ${iptvServiceKey}`,
+    async setMigrationFlag(customerId: any) {
+        console.log(
+            `Using netcracker api to set migrated flag for customer: ${customerId}`,
         );
-        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-        let GUID = btapi.getRandomInt(10000000, 99999999) + '-' + btapi.getRandomInt(1000, 9999) + '-' + btapi.getRandomInt(1000, 9999)
-          + '-' + btapi.getRandomInt(1000, 9999) + '-' + btapi.getRandomInt(100000000000, 999999999999)
-        console.log('GUID ' + GUID)
-
-        let MACAddress = btapi.getRandomInt(10, 99) + ':' + btapi.getRandomInt(10, 99) + ':' + btapi.getRandomInt(10, 99) + ':'
-          + btapi.getRandomInt(10, 99) + ':' + btapi.getRandomInt(10, 99) + ':' + btapi.getRandomInt(10, 99)
-        console.log('MACAddress ' + MACAddress)
-
-        const api =
-          cfg.stepForAddingSTB.base + cfg.stepForAddingSTB.endpoint;
-        const contentType = {
-            "Content-Type": cfg.stepForAddingSTB.contentType,
+        let api =  envConfig.ikongUrl + envConfig.setMigrationFlag.endpoint;
+        
+        let contentType = {
+            "Content-Type": "text/plain",
         };
-        logger.debug(`api-url: ${api}
-         headers: ${JSON.stringify(contentType)}`);
+        console.log(`api-url: ${api}`);
 
-        let rawBody = FileSystem.readFileSync(
-          cfg.stepForAddingSTB.fileForBody
-        ).toString();
+        const keywordToReplace = envConfig.setMigrationFlag.keywordsToReplace;
+        console.log(`Replacing ${keywordToReplace} in api with ${customerId}`);
 
-        let keywordToReplace = '#iptvServiceKey#';
-        logger.debug(`Replacing ${keywordToReplace} in body with ${iptvServiceKey}`);
-        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, iptvServiceKey);
+        api = StringUtils.replaceString(api, keywordToReplace, customerId);
+        console.log(`api after replacing keywords: ${api}`);
+        console.debug(`Hitting as below details: api: ${api}`);
 
-        keywordToReplace = '#GUID#';
-        logger.debug(`Replacing ${keywordToReplace} in body with ${GUID}`);
-        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, GUID);
-
-        keywordToReplace = '#MACAddress#';
-        logger.debug(`Replacing ${keywordToReplace} in body with ${MACAddress}`);
-        rawBody = StringUtils.replaceString(rawBody, keywordToReplace, MACAddress);
-
-        rawBody = rawBody.replace(/\r?\n|\r/g, ' ');
-        logger.debug(
-                    `Hitting as below details:
-                    api: ${api}
-                    contentType: ${JSON.stringify(contentType)}
-                    rawBody: ${rawBody}`);
-                            console.log(`Hitting as below details:
-                    api: ${api}
-                    contentType: ${JSON.stringify(contentType)}
-                    rawBody: ${rawBody}`)
-
-        // let response = await request
-        // .post(api)
-        // .auth("Administrator", "netcracker", {type: "basic"})
-        // .set(contentType)
-        // .send(rawBody)
-        // .on("response", (res)=>{
-        //     console.log(res.text);
-        //     console.log(res.status);
-        // })
-        // logger.debug(`response received: ${JSON.stringify(response)}`);
-        // logger.exitMethod(`response status: ${response.status}`);
-        // console.log(`response status: ${response.status}`)
-        // console.log('response: ' + JSON.stringify(response))
-        // console.log('response: ' + response)
+        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+        console.log("token", token);
 
         try {
-            return await request
-              .post(api)
-              .auth("Administrator", "netcracker", {type: "basic"}).set(contentType)
-              .send(rawBody);
+            const headers = await generateKongHeaders(token);
+            const response: any = await axiosInstance({
+                method: "POST",
+                url: api,
+                headers: {...headers, ...contentType},
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw error;
         }
-        catch (error) {
-            return error.response.text;
+       
+    }
+    async sendingCallToLink(ecid: any, action: string) {
+
+        const api =
+        envConfig.ikongUrl + envConfig.sendAsyncCall.endpoint;
+       
+        console.log(`api-url: ${api}`);
+
+        let body = {
+            ecid,
+            operationName: "externalVOIPDevice",
+            action
         }
-    }*/
+
+
+        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+        console.log("token", token);
+
+        console.log(`Hitting as below details:
+        api: ${api}
+        body: ${JSON.stringify(body)}`);
+
+        try {
+            const headers = await generateKongHeaders(token);
+            const response: any = await axiosInstance({
+                method: "POST",
+                url: api,
+                headers,
+                data: body
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    
+    }
+
+    async stepForAddingSTB(iptvServiceObjId: any) {
+        console.log(
+          `Using netcracker api to complete customer ID iptvServiceKey ${iptvServiceObjId}`,
+        );
+       
+        let guid = RandomValueGenerator.getRandomInt(10000000, 99999999) + '-' + RandomValueGenerator.getRandomInt(1000, 9999) + '-' + RandomValueGenerator.getRandomInt(1000, 9999)
+          + '-' + RandomValueGenerator.getRandomInt(1000, 9999) + '-' + RandomValueGenerator.getRandomInt(100000000000, 999999999999)
+        console.log('guid ' + guid)
+
+        let macAddress = RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':'
+          + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99)
+        console.log('macAddress ' + macAddress)
+
+        const api =
+        envConfig.ikongUrl + envConfig.stepForAddingSTB.endpoint;
+     
+        console.log(`api-url: ${api}`);
+
+        let body = {
+            iptvServiceObjId,
+            guid,
+            macAddress
+          }
+
+        const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
+        console.log("token", token);
+        
+        console.log(`Hitting as below details:
+            api: ${api}
+            body: ${JSON.stringify(body)}`);
+
+        try {
+            const headers = await generateKongHeaders(token);
+            const response: any = await axiosInstance({
+                method: "POST",
+                url: api,
+                headers,
+                data: body
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
 }

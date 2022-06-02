@@ -53,4 +53,15 @@ export const serviceQualificationSteps = ({ when, and, then, given}: { [key: str
             AssertionModes.strict,
         ).is(true, `Technology is not present in response ${value}`);
     });
+
+    and(/^address is not qualified for (.*)$/, (techType) => {
+        console.log("techType ", techType)
+        test('Technology is not present in response',
+          Common.IsItemQualified(
+            techType,
+            ResponseContext().shoppingCartResponse,
+          ),
+          AssertionModes.strict,
+        ).is(false,  'Technology is present in response' + techType,);
+      });
 }

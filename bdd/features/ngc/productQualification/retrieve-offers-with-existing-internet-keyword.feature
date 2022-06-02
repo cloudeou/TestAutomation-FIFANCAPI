@@ -78,7 +78,7 @@ Feature: Retrieve Offers With Existing internet
     Given preconditions by user are selected
     And test user select commitments in trial period:
       | OfferId             |
-      | 9160749291613917553 |
+      | 9160783681513938083 |
      # Save on Internet only for 24 months
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
@@ -117,7 +117,7 @@ Feature: Retrieve Offers With Existing internet
     Given preconditions by user are selected
     And test user select commitments in regular period:
       | OfferId             |
-      | 9160749291613917553 |
+      | 9160783681513938083 |
      # Save on Internet only for 24 months
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
@@ -143,7 +143,7 @@ Feature: Retrieve Offers With Existing internet
     Given preconditions by user are selected
     And test user select commitments in earlyRenewal period:
       | OfferId             |
-      | 9160749291613917553 |
+      | 9160783681513938083 |
      # Save on Internet only for 24 months
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully

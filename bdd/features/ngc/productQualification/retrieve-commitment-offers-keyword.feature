@@ -29,7 +29,7 @@ Feature: Retrieve Commitment Offers
       | OfferId             |
       | 9150564125513493939 |
       # TELUS Internet 150/150
-      | 9160749291613917553 |
+      | 9160783681513938083 |
     # Save on Internet only for 24 months
     When test user try to create Shopping Cart
     Then test validate shopping cart is created successfully
@@ -40,7 +40,7 @@ Feature: Retrieve Commitment Offers
     And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9150564125513493939 |
-      | 9160749291613917553  |
+      | 9160783681513938083  |
 
   Scenario: Qualified product offering list with shopping cart
     Given preconditions by user are selected

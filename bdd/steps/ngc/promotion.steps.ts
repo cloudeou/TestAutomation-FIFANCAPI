@@ -43,6 +43,24 @@ export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
         shoppingCartContext().addingPromotion = true;
     })
 
+    and('user remove the following manual discounts:', async (table) => {
+        const action = 'remove';
+        let promotionMap = await fifaNcApi.getMapFromPromotionTable(table);
+        if (
+
+            String(action).toLowerCase() === 'apply' ||
+            String(action).toLowerCase() === 'add'
+        ) {
+            shoppingCartContext().promotions = {value: promotionMap, action: 'Add'};
+        } else if (
+            String(action).toLowerCase() === 'remove' ||
+            String(action).toLowerCase() === 'delete'
+        ) {
+            shoppingCartContext().promotions = {value: promotionMap, action: 'Remove'};
+        }
+        shoppingCartContext().addingPromotion = true;
+    })
+
     when(/^user try to (apply|remove) promotions$/, async () => {
         price.clear();
         let externalLocationId = PreconditionContext().addressId;
