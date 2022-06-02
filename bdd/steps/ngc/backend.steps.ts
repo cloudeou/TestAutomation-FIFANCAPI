@@ -372,9 +372,9 @@ export const backendSteps = ({ given, and, when, then } : { [key: string]: step 
 
     console.log('customerId: ' + customerId)
 
-    console.log('iptvServiceKey: ' + response.data.rows)
+    console.log('iptvServiceKey: ' + response.data.rows[0][0])
 
-    console.log( await tapis.stepForAddingSTB(response.data.rows[0]))
+    console.log( await tapis.stepForAddingSTB(response.data.rows[0][0]))
   });
 
   and('get option 82', async () => {
