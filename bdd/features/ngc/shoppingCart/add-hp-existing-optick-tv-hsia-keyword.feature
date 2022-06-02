@@ -7,7 +7,7 @@ Feature: Add New HP on existing active Optik TV & HSIA
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '5753461'
     Then address id should be returned
 
   Scenario: Check service qualification for an address

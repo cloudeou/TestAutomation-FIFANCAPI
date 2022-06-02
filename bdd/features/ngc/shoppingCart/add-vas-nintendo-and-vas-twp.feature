@@ -7,7 +7,7 @@ Feature: Add VAS-Nintendo and VAS-TWP top level offers
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address based on entered data: '5753461'
     Then address id should be returned
 
   Scenario: Get service qualification

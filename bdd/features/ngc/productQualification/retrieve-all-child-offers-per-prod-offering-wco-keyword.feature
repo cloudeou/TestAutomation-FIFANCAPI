@@ -9,7 +9,7 @@ Feature: Retrieve all child offers per selected product offering with commitment
 		Given user has address with type LTE
 		And distribution channel is PILOT6RT
 		And customer category is RESIDENTIAL
-		When get address based on entered data: '5753461'
+		When get address based on entered data: '5753461': '5753461'
 		Then address id should be returned
 
 
