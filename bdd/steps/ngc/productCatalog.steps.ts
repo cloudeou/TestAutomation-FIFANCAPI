@@ -1,10 +1,10 @@
-import { ProductCatalogApi } from "../../../bdd-src/ngc/productCatalog/pc.api";
-import { Common } from "../../../bdd-src/utils/commonBDD/Common";
-import ProductCatalogContext from "../../contexts/ngc/ProductCatalogContext";
-import ResponseContext from "../../contexts/ngc/ResponseConntext"
+import { ProductCatalogApi } from "../../../bdd-src/fifa/productCatalog/pc.api";
+import { Common } from "../../../bdd-src/fifa/utils/commonBDD/Common";
+import FIFA_ProductCatalogContext from "../../contexts/fifa/FIFA_ProductCatalogContext";
+import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext"
 import { Identificators } from "../../contexts/Identificators";
 import { AssertionModes, featureContext, test } from "@cloudeou/telus-bdd";
-import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 type step = (
     stepMatcher: string | RegExp,
@@ -12,10 +12,10 @@ type step = (
 ) => void;
 
 export const productCatalogSteps = ({ when, and, then}: { [key: string]: step }) => {
-    const productCatalogContext = (): ProductCatalogContext =>
-        featureContext().getContextById(Identificators.ProductCatalogContext);
+    const productCatalogContext = (): FIFA_ProductCatalogContext =>
+        featureContext().getContextById(Identificators.FIFA_ProductCatalogContext);
     const ResponseContext = (): ResponseContext =>
-        featureContext().getContextById(Identificators.ResponseContext);
+        featureContext().getContextById(Identificators.FIFA_ResponseContext);
 
     const fifaNcApi = new ProductCatalogApi();
 

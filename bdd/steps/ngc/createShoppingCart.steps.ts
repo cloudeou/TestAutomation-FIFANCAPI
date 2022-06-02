@@ -1,13 +1,13 @@
 import {AssertionModes, featureContext , test} from "@cloudeou/telus-bdd";
 import { Identificators } from '../../contexts/Identificators';
-import PreconditionContext  from '../../contexts/ngc/PreconditionContext';
-import ResponseContext from '../../contexts/ngc/ResponseConntext';
-import ShoppingCartContext from '../../contexts/ngc/ShoppingCartContext';
-import ErrorContext from "../../contexts/ngc/ErrorContext";
-import { ErrorStatus } from "../../../bdd-src/utils/error-status";
-import { Common } from "../../../bdd-src/utils/commonBDD/Common";
-import { ShoppingCartApi } from "../../../bdd-src/ngc/shopping-cart/shopping-cart.api";
-import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import FIFA_PreconditionContext  from '../../contexts/fifa/FIFA_PreconditionContext';
+import ResponseContext from '../../contexts/fifa/FIFA_ResponseConntext';
+import FIFA_ShoppingCartContext from '../../contexts/fifa/FIFA_ShoppingCartContext';
+import FIFA_ErrorContext from "../../contexts/fifa/FIFA_ErrorContext";
+import { ErrorStatus } from "../../../bdd-src/fifa/utils/error-status";
+import { Common } from "../../../bdd-src/fifa/utils/commonBDD/Common";
+import { ShoppingCartApi } from "../../../bdd-src/fifa/shopping-cart/shopping-cart.api";
+import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 import { APIs } from "../apis.enum";
 type step = (
   stepMatcher: string | RegExp,
@@ -21,14 +21,14 @@ export const createShoppingCartSteps = ({
 }: {
   [key: string]: step;
 }) => {
-  let preconditionContext = (): PreconditionContext =>
-    featureContext().getContextById(Identificators.preConditionContext);
+  let preconditionContext = (): FIFA_PreconditionContext =>
+    featureContext().getContextById(Identificators.FIFA_preConditionContext);
   let responseContext = (): ResponseContext =>
-    featureContext().getContextById(Identificators.ResponseContext);
-  let shoppingCartContext = (): ShoppingCartContext =>
-    featureContext().getContextById(Identificators.shoppingCartContext);
-  const errorContext = (): ErrorContext =>
-    featureContext().getContextById(Identificators.ErrorContext);
+    featureContext().getContextById(Identificators.FIFA_ResponseContext);
+  let shoppingCartContext = (): FIFA_ShoppingCartContext =>
+    featureContext().getContextById(Identificators.FIFA_shoppingCartContext);
+  const errorContext = (): FIFA_ErrorContext =>
+    featureContext().getContextById(Identificators.FIFA_ErrorContext);
   const shoppingCartApi = new ShoppingCartApi();
 
 

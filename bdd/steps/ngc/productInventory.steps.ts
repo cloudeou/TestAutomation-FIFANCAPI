@@ -1,11 +1,11 @@
 import { AssertionModes, featureContext, test } from "@cloudeou/telus-bdd";
-import PreconditionContext from "../../contexts/ngc/PreconditionContext";
-import ResponseContext from "../../contexts/ngc/ResponseConntext";
-import ShoppingCartContext from "../../contexts/ngc/ShoppingCartContext";
-import ProductInventoryContext from "../../contexts/ngc/ProductInventoryContext";
+import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext";
+import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext";
+import FIFA_ShoppingCartContext from "../../contexts/fifa/FIFA_ShoppingCartContext";
+import FIFA_ProductInventoryContext from "../../contexts/fifa/FIFA_ProductInventoryContext";
 import { Identificators } from "../../contexts/Identificators";
-import { ProductInventoryApi } from "../../../bdd-src/ngc/productInventory/productInventory.api"
-import {payloadGenerator} from "../../../bdd-src/ngc/productInventory/productInventory.payload-generator";
+import { ProductInventoryApi } from "../../../bdd-src/fifa/productInventory/productInventory.api"
+import {payloadGenerator} from "../../../bdd-src/fifa/productInventory/productInventory.payload-generator";
 
 const fifaNcApi = new ProductInventoryApi();
 
@@ -15,14 +15,14 @@ type step = (
 ) => void;
 
 export const productInventorySteps = ({ given, and, when, then } : { [key: string]: step }) => {
-    let preconditionContext = (): PreconditionContext =>
-    featureContext().getContextById(Identificators.preConditionContext);
+    let preconditionContext = (): FIFA_PreconditionContext =>
+    featureContext().getContextById(Identificators.FIFA_preConditionContext);
   let responseContext = (): ResponseContext =>
-    featureContext().getContextById(Identificators.ResponseContext);
-  let shoppingCartContext = (): ShoppingCartContext =>
-    featureContext().getContextById(Identificators.shoppingCartContext);
-  let productInventoryContext = (): ProductInventoryContext =>
-    featureContext().getContextById(Identificators.productInventoryContext);
+    featureContext().getContextById(Identificators.FIFA_ResponseContext);
+  let shoppingCartContext = (): FIFA_ShoppingCartContext =>
+    featureContext().getContextById(Identificators.FIFA_shoppingCartContext);
+  let productInventoryContext = (): FIFA_ProductInventoryContext =>
+    featureContext().getContextById(Identificators.FIFA_productInventoryContext);
 
     when(/^(User|user) try to get product instance(s)?$/, async () => {
         const relatedPartyRole = 'customer';

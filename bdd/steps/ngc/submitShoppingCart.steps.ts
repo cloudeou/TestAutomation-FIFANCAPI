@@ -1,16 +1,16 @@
 import { featureContext, postgresQueryExecutor,test,AssertionModes } from "@cloudeou/telus-bdd";
 import { Identificators } from '../../contexts/Identificators';
-import PreconditionContext  from '../../contexts/ngc/PreconditionContext';
-import ResponseContext from '../../contexts/ngc/ResponseConntext';
-import ShoppingCartContext from '../../contexts/ngc/ShoppingCartContext';
-import ErrorContext from "../../contexts/ngc/ErrorContext";
-import { ErrorStatus } from "../../../bdd-src/utils/error-status";
-import { Common } from "../../../bdd-src/utils/commonBDD/Common";
-import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
-import { getSalesOrderStatusQuery } from "../../../bdd-src/ngc/db/db-queries";
+import FIFA_PreconditionContext  from '../../contexts/fifa/FIFA_PreconditionContext';
+import ResponseContext from '../../contexts/fifa/FIFA_ResponseConntext';
+import FIFA_ShoppingCartContext from '../../contexts/fifa/FIFA_ShoppingCartContext';
+import FIFA_ErrorContext from "../../contexts/fifa/FIFA_ErrorContext";
+import { ErrorStatus } from "../../../bdd-src/fifa/utils/error-status";
+import { Common } from "../../../bdd-src/fifa/utils/commonBDD/Common";
+import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import { getSalesOrderStatusQuery } from "../../../bdd-src/fifa/db/db-queries";
 import {AxiosResponse} from "axios";
 import retry from 'retry-as-promised';
-import {DbProxyApi} from "../../../bdd-src/ngc/db/db-proxy-api/db-proxy.api";
+import {DbProxyApi} from "../../../bdd-src/fifa/db/db-proxy-api/db-proxy.api";
 
 type step = (
   stepMatcher: string | RegExp,
@@ -24,14 +24,14 @@ export const submitShoppingCartSteps = ({
 }: {
   [key: string]: step;
 }) => {
-  let preconditionContext = (): PreconditionContext =>
-    featureContext().getContextById(Identificators.preConditionContext);
+  let preconditionContext = (): FIFA_PreconditionContext =>
+    featureContext().getContextById(Identificators.FIFA_preConditionContext);
   let responseContext = (): ResponseContext =>
-    featureContext().getContextById(Identificators.ResponseContext);
-  let shoppingCartContext = (): ShoppingCartContext =>
-    featureContext().getContextById(Identificators.shoppingCartContext);
-  const errorContext = (): ErrorContext =>
-    featureContext().getContextById(Identificators.ErrorContext);
+    featureContext().getContextById(Identificators.FIFA_ResponseContext);
+  let shoppingCartContext = (): FIFA_ShoppingCartContext =>
+    featureContext().getContextById(Identificators.FIFA_shoppingCartContext);
+  const errorContext = (): FIFA_ErrorContext =>
+    featureContext().getContextById(Identificators.FIFA_ErrorContext);
   const dbProxy = new DbProxyApi();
 
   when('test user try to submit shopping cart', async () => {

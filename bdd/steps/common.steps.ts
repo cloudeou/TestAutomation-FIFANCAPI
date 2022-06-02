@@ -5,7 +5,7 @@
 import { Identificators } from "./../contexts/Identificators";
 import AddressContext from "../contexts/adt-migration/AddressContext";
 import CustomerContext from "../contexts/adt-migration/CustomerContext";
-import ErrorContext from "../contexts/ErrorContext";
+import FIFA_ErrorContext from "../contexts/FIFA_ErrorContext";
 import ResponseContext from "../contexts/adt-migration/ResponseContext";
 import { APIs } from "./apis.enum";
 import { ErrorStatus } from "../../bdd-src/adt-migration/utils/error-status";
@@ -38,8 +38,8 @@ export enum commonFlags {
 }
 
 /*export const commonSteps = ({ then, and, when }: { [key: string]: step }) => {
-  const errorContext = (): ErrorContext =>
-    featureContext().getContextById(Identificators.ErrorContext);
+  const errorContext = (): FIFA_ErrorContext =>
+    featureContext().getContextById(Identificators.FIFA_ErrorContext);
   const responseContext = (): ResponseContext =>
     featureContext().getContextById(Identificators.ResponseContext);
   const addressContext = (): AddressContext =>

@@ -1,9 +1,9 @@
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
 import {Identificators} from "../../contexts/Identificators";
-import {Common} from "../../../bdd-src/utils/commonBDD/Common";
-import PreconditionContext from "../../contexts/ngc/PreconditionContext";
-import ResponseContext from "../../contexts/ngc/ResponseConntext";
-import {ServiceQualificationApi} from "../../../bdd-src/ngc/serviceQualification/sq.api";
+import {Common} from "../../../bdd-src/fifa/utils/commonBDD/Common";
+import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext";
+import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext";
+import {ServiceQualificationApi} from "../../../bdd-src/fifa/serviceQualification/sq.api";
 
 
 type step = (
@@ -12,10 +12,10 @@ type step = (
 ) => void;
 
 export const serviceQualificationSteps = ({ when, and, then, given}: { [key: string]: step }) => {
-    const preconditionContext = (): PreconditionContext =>
-        featureContext().getContextById(Identificators.preConditionContext);
+    const preconditionContext = (): FIFA_PreconditionContext =>
+        featureContext().getContextById(Identificators.FIFA_preConditionContext);
     const ResponseContext = (): ResponseContext =>
-        featureContext().getContextById(Identificators.ResponseContext);
+        featureContext().getContextById(Identificators.FIFA_ResponseContext);
 
     const fifaNcApi = new ServiceQualificationApi();
 

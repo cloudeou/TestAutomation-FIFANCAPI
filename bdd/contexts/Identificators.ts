@@ -1,13 +1,13 @@
 // create identificators for contexts here
 
 export const Identificators = {
-  ProductCatalogContext: "ProductCatalogContext",
-  ResponseContext: "ResponseContext",
-  ErrorContext: "ErrorContext",
-  AddressContext: "AddressContext",
-  shoppingCartContext: "shoppingCartContext",
-  preConditionContext: "preConditionContext",
-  reportContext: "reportContext",
-  ProductQualificationContext: "ProductQualificationContext",
-  productInventoryContext: "productInventoryContext"
+  FIFA_ProductCatalogContext: "FIFA_ProductCatalogContext",
+  FIFA_ResponseContext: "FIFA_ResponseContext",
+  FIFA_ErrorContext: "FIFA_ErrorContext",
+  FIFA_AddressContext: "FIFA_AddressContext",
+  FIFA_shoppingCartContext: "FIFA_shoppingCartContext",
+  FIFA_preConditionContext: "FIFA_preConditionContext",
+  FIFA_reportContext: "FIFA_reportContext",
+  FIFA_ProductQualificationContext: "FIFA_ProductQualificationContext",
+  FIFA_productInventoryContext: "FIFA_productInventoryContext"
 }

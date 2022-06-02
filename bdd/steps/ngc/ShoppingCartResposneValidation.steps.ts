@@ -1,10 +1,10 @@
 import {AssertionModes, featureContext , test} from "@cloudeou/telus-bdd";
 import { Identificators } from '../../contexts/Identificators';
-import PreconditionContext  from '../../contexts/ngc/PreconditionContext';
-import ResponseContext from '../../contexts/ngc/ResponseConntext';
-import ShoppingCartContext from '../../contexts/ngc/ShoppingCartContext';
-import { Common } from "../../../bdd-src/utils/commonBDD/Common";
-import {bodyParser} from "../../../bdd-src/ngc/shopping-cart/shopping-cart.body-parser";
+import FIFA_PreconditionContext  from '../../contexts/fifa/FIFA_PreconditionContext';
+import ResponseContext from '../../contexts/fifa/FIFA_ResponseConntext';
+import FIFA_ShoppingCartContext from '../../contexts/fifa/FIFA_ShoppingCartContext';
+import { Common } from "../../../bdd-src/fifa/utils/commonBDD/Common";
+import {bodyParser} from "../../../bdd-src/fifa/shopping-cart/shopping-cart.body-parser";
 
 
 type step = (
@@ -21,12 +21,12 @@ export const shoppingCartResponseValidationSteps = (
   }:{
     [key: string]: step;
 }) => {
-    let preconditionContext = (): PreconditionContext =>
-        featureContext().getContextById(Identificators.preConditionContext);
+    let preconditionContext = (): FIFA_PreconditionContext =>
+        featureContext().getContextById(Identificators.FIFA_preConditionContext);
     let responseContext = (): ResponseContext =>
-        featureContext().getContextById(Identificators.ResponseContext);
-    let shoppingCartContext = (): ShoppingCartContext =>
-        featureContext().getContextById(Identificators.shoppingCartContext);
+        featureContext().getContextById(Identificators.FIFA_ResponseContext);
+    let shoppingCartContext = (): FIFA_ShoppingCartContext =>
+        featureContext().getContextById(Identificators.FIFA_shoppingCartContext);
 
     and(/^user validate cart item categories should contain:$/, (table) => {
         let SCResponseBody: JSON;

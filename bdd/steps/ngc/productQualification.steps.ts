@@ -1,16 +1,16 @@
-import ProductCatalogContext from "../../contexts/ngc/ProductCatalogContext";
-import ResponseContext from "../../contexts/ngc/ResponseConntext";
-import ProductQualificationContext from "../../contexts/ngc/ProductQualificationContext";
-import ShoppingCartContext from "../../contexts/ngc/ShoppingCartContext";
+import FIFA_ProductCatalogContext from "../../contexts/fifa/FIFA_ProductCatalogContext";
+import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext";
+import FIFA_ProductQualificationContext from "../../contexts/fifa/FIFA_ProductQualificationContext";
+import FIFA_ShoppingCartContext from "../../contexts/fifa/FIFA_ShoppingCartContext";
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
 import {Identificators} from "../../contexts/Identificators";
-import {Common} from "../../../bdd-src/utils/commonBDD/Common";
-import PreconditionContext from "../../contexts/ngc/PreconditionContext";
-import {ProductQualificationApi} from "../../../bdd-src/ngc/productQualification/pq.api";
-import {bodyParser} from "../../../bdd-src/ngc/productQualification/pq.body-parser";
+import {Common} from "../../../bdd-src/fifa/utils/commonBDD/Common";
+import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext";
+import {ProductQualificationApi} from "../../../bdd-src/fifa/productQualification/pq.api";
+import {bodyParser} from "../../../bdd-src/fifa/productQualification/pq.body-parser";
 import {AxiosResponse} from "axios";
 import {APIs} from "../apis.enum";
-import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 
 type step = (
@@ -20,17 +20,17 @@ type step = (
 
 export const productQualificationSteps = ({when, and, then}: { [key: string]: step }) => {
 
-  const productCatalogContext = (): ProductCatalogContext =>
-    featureContext().getContextById(Identificators.ProductCatalogContext);
+  const productCatalogContext = (): FIFA_ProductCatalogContext =>
+    featureContext().getContextById(Identificators.FIFA_ProductCatalogContext);
   const ResponseContext = (): ResponseContext =>
-    featureContext().getContextById(Identificators.ResponseContext);
-  const ProductQualificationContext = (): ProductQualificationContext =>
-    featureContext().getContextById(Identificators.ProductQualificationContext);
-  const PreconditionContext = (): PreconditionContext =>
-    featureContext().getContextById(Identificators.preConditionContext);
+    featureContext().getContextById(Identificators.FIFA_ResponseContext);
+  const ProductQualificationContext = (): FIFA_ProductQualificationContext =>
+    featureContext().getContextById(Identificators.FIFA_ProductQualificationContext);
+  const PreconditionContext = (): FIFA_PreconditionContext =>
+    featureContext().getContextById(Identificators.FIFA_preConditionContext);
   const fifaNcApi = new ProductQualificationApi();
-  const shoppingCartContext = (): ShoppingCartContext =>
-    featureContext().getContextById(Identificators.shoppingCartContext);
+  const shoppingCartContext = (): FIFA_ShoppingCartContext =>
+    featureContext().getContextById(Identificators.FIFA_shoppingCartContext);
 
   and(/^user filter by the following product offering id: (.*)$/, (offerId) => {
     console.log('hihihi',offerId);

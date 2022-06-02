@@ -1,12 +1,12 @@
-import ResponseContext from "../../contexts/ngc/ResponseConntext"
+import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext"
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
 import {Identificators} from "../../contexts/Identificators";
-import ShoppingCartContext from "../../contexts/ngc/ShoppingCartContext";
-import {PromotionApi} from "../../../bdd-src/ngc/promotion/promotion.api"
-import PreconditionContext from "../../contexts/ngc/PreconditionContext"
-import {Common} from "../../../bdd-src/utils/commonBDD/Common";
-import {replacerFunc} from "../../../bdd-src/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
-import {bodyParser} from "../../../bdd-src/ngc/promotion/promotion.body-parser";
+import FIFA_ShoppingCartContext from "../../contexts/fifa/FIFA_ShoppingCartContext";
+import {PromotionApi} from "../../../bdd-src/fifa/promotion/promotion.api"
+import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext"
+import {Common} from "../../../bdd-src/fifa/utils/commonBDD/Common";
+import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import {bodyParser} from "../../../bdd-src/fifa/promotion/promotion.body-parser";
 
 type step = (
     stepMatcher: string | RegExp,
@@ -18,12 +18,12 @@ let price = new Map();
 
 export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
     const ResponseContext = (): ResponseContext =>
-        featureContext().getContextById(Identificators.ResponseContext);
-    const shoppingCartContext = (): ShoppingCartContext =>
-        featureContext().getContextById(Identificators.shoppingCartContext);
+        featureContext().getContextById(Identificators.FIFA_ResponseContext);
+    const shoppingCartContext = (): FIFA_ShoppingCartContext =>
+        featureContext().getContextById(Identificators.FIFA_shoppingCartContext);
     const fifaNcApi = new PromotionApi();
-    const PreconditionContext = (): PreconditionContext =>
-        featureContext().getContextById(Identificators.preConditionContext);
+    const PreconditionContext = (): FIFA_PreconditionContext =>
+        featureContext().getContextById(Identificators.FIFA_preConditionContext);
 
     and('user apply the following manual discounts:', async (table) => {
         const action = 'apply';
