@@ -7,7 +7,7 @@ Feature: Retrieve Offers With Existing internet
     Given user has address with type LTE
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+  When get address based on entered data: '5753461'
     Then address id should be returned
 
 
