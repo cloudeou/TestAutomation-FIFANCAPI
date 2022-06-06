@@ -209,7 +209,7 @@ export class Common {
         let errorMessage = '';
         if (offers !== null && offers !== undefined && offers.length > 0) {
             offers.forEach((offer: any) => {
-                if (bodyParser.getItemIdByProductOffering(response, offer) !== null) {
+                if (bodyParser.getItemIdByProductOffering(response, offer) !== '' || null) {
                     n = bodyParser.getItemByProductOffering(response, offer);
                     if (
                       String(n.action).toLowerCase() !== 'cancel' &&
