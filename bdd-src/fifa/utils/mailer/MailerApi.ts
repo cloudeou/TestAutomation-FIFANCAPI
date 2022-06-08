@@ -57,24 +57,65 @@ export class MailerApi {
   };
 
    static async checkEmail (emailId: string,letterInfoTable: any)  {
-     const checkEmailContent =  (email: any, splittedBody: string[], subject: string): any => {
+     const checkEmailContent = async (email: any, splittedBody: string[], subject: string) => {
+       if(email.headerSubject === null || email.text === null) {
+         console.log('headerSubject or text is null')
+         const response = await request
+           .get(email.downloadUrl)
+           .proxy(this.proxy)
+         const emailBody = response.body.toString();
+         return {
+           notFoundKeyWordsInBody: splittedBody.filter(w => !emailBody.includes(w.toString())),
+           includesKeyWords: splittedBody.every(w => emailBody.includes(w.toString())),
+           includesSubject : emailBody.includes(subject)
+         }
+       }
+       console.log('email.headerSubject -', email.headerSubject,'has to be like', subject, 'reslut ', email.headerSubject?.match(new RegExp(subject, 'ig')))
+       console.log('email.text.includes -', email.text, '_spitted body -', splittedBody)
        return {
-         includesKeyWords: splittedBody.every(w => email.text.includes(w.toString())),
-         includesSubject : !!email.headerSubject.match(new RegExp(subject, 'ig'))
+         notFoundKeyWordsInBody: splittedBody.filter(w => !email.text?.includes(w.toString())),
+         includesKeyWords: splittedBody.every(w => email.text?.includes(w.toString())),
+         includesSubject : !!email.headerSubject?.match(new RegExp(subject, 'ig'))
        }
      };
 
      const userEmail = await this.getLastEmail(emailId);
-     for (let letter in userEmail)
-       letterInfoTable.forEach(({ subject, body }: any) => {
-         const splittedBody = body.split('=>');
-         let checkResult =  checkEmailContent(userEmail[0],splittedBody,subject);
-         if (!checkResult.includesSubject || !checkResult.includesSubject)
-           checkResult =  checkEmailContent(userEmail[1],splittedBody,subject);
-         test(`Email contains ${splittedBody}`,checkResult.includesKeyWords, AssertionModes.strict).is(true,`Email doest not contains ${splittedBody}`)
-         test(`Email contains letter with subject ${subject}`,checkResult.includesSubject, AssertionModes.strict).is(true,`Email doest not contains letter with subject ${subject}, but ${userEmail[0].headerSubject}`)
 
-       });
+     if(!userEmail){
+       throw new Error('userEmail was not received')
+     }
+
+     console.log('full emaill is -', global.JSON.stringify(userEmail))
+     let allLettersIncludeKeyWords = true;
+     const keyWordsThatWereNotFound: string[] = [];
+     let allLettersIncludeSubject = true;
+     const subjectsThatWereNotFound: string[] = []
+     for(const{subject, body} of letterInfoTable ) {
+       const splittedBody = body.split('=>');
+       let checkResult: any = await checkEmailContent(userEmail[0], splittedBody, subject);
+       if(!checkResult.includesKeyWords || !checkResult.includesSubject) {
+         checkResult = await checkEmailContent(userEmail[1], splittedBody, subject);
+       }
+       if(checkResult.notFoundKeyWordsInBody.length > 0) {
+         allLettersIncludeKeyWords = false;
+         checkResult.notFoundKeyWordsInBody.forEach((str: string)=>{
+           if(!keyWordsThatWereNotFound.includes(str)) {
+             keyWordsThatWereNotFound.push(str)
+           }
+         })
+       }
+       if (!checkResult.includesSubject){
+         allLettersIncludeSubject = false;
+         if(!subjectsThatWereNotFound.includes(subject)) {
+           subjectsThatWereNotFound.push(subject)
+         }
+
+       }
+     }
+
+     test('all letters were received in a customer\'s email', allLettersIncludeKeyWords && allLettersIncludeSubject, AssertionModes.strict)
+       .is(true, `In ${userEmail.length} letters were not found ${keyWordsThatWereNotFound.length} phrases: \n ${keyWordsThatWereNotFound.map((s,i)=>`${i+1}. "${s}"`).join('\n')};
+               \r\n subject was not found: \n ${subjectsThatWereNotFound.map((s,i)=>`${i+1}. "${s}"`).join('\n')};`)
 
    };
 }
