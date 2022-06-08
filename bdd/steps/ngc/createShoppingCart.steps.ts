@@ -133,6 +133,7 @@ export const createShoppingCartSteps = ({
   });
 
   and('test user delete offers:', function (table) {
+    console.log('removing items', shoppingCartContext())
     let productOfferingList: any = Common.getOffersFromTable(
       table,
       shoppingCartContext,

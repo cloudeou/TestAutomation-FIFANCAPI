@@ -64,7 +64,7 @@ export class OrdersHandler {
 
                   const response = await dbProxy.executeQuery(query)
 
-                  console.log(`status -`, response.data.rows)
+                  console.log(`status - select to_char(status) from nc_po_Tasks where order_id `, response.data.rows)
 
                   if (response.data.rows[0][0].length === undefined) {
                     throw (
