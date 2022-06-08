@@ -246,7 +246,7 @@ export const validateShoppingCartSteps = ({
     test('Cart version should be greater than 0 as we are on', parseFloat(body.version) > 0, AssertionModes.strict)
       .is(true, 'Cart version should be greater than 0 as we are on \n')
 
-    test('cartItem should not be empty - HS, LW and WO\n', body.cartItem.length > 0, AssertionModes.strict)
+    test('cartItem should not be empty - HS, LW and WO test in validateShoppingCart', body.cartItem.length > 0, AssertionModes.strict)
       .is(true, 'cartItem should not be empty - HS, LW and WO\n' +
         JSON.stringify(
           body.cartItem.map(function (elem: any) {
