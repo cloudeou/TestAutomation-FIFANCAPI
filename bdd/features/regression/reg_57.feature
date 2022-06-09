@@ -3,13 +3,13 @@
 @Api
 @reg_57-keyword
 # Address Parameters
-@addressType=FIBER
-@addressPort=GPON
+@addressType=LTE
+@addressPort=LTE
 Feature: Provide TELUS Gamer Internet
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data: '475884'
+    When get address based on entered data: '6144684'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -26,7 +26,7 @@ Feature: Provide TELUS Gamer Internet
 
   Scenario: Check product offerings under the home security category
     Given preconditions by user are selected
-    And distribution channel is PILOT6RT
+    And distribution channel is PILOT2FL
     And customer category is RESIDENTIAL
     And user filter by the following categories:
       | CategoryId          |

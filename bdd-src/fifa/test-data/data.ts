@@ -10,6 +10,7 @@ export class data {
       PILOT6RT: '9158361207713377416',
       PILOT3RT: '9154691748013070160',
       Parksville: '9155240272513753576',
+      PILOT2FL:'9154691728013070157'
     };
     static defaultDistChanExtId = 'CPMS';
     static customerCategory = {
