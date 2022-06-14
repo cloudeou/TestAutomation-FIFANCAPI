@@ -3,7 +3,7 @@
 @retrieve-offers-with-existing-tv-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={ 'type': 'GPON', 'suiteName': 'productQualification'  }
+@DBbootstrapParams={"type":"GPON","suiteName":"productQualification"}
 
 Feature: Retrieve Offers with exiting TV
 

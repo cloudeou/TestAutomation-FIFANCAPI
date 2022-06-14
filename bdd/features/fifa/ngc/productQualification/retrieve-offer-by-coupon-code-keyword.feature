@@ -3,7 +3,7 @@
 @retrieve-offer-by-coupon-code-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={ 'type': 'LTE', 'suiteName': 'productQualification'  }
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
 
 Feature: retrieve offer by coupon code
 

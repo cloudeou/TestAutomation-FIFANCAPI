@@ -3,7 +3,7 @@
 @existing-whsia-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={ 'type': 'LTE', 'suiteName': 'productQualification'  }
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
 
 Feature: Retrieve Offers With Existing internet
 

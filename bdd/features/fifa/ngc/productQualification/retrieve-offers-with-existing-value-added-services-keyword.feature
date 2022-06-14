@@ -3,7 +3,7 @@
 @retrieve-offers-with-existing-value-added-services-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={ 'type': 'GPON', 'suiteName': 'productQualification'  }
+@DBbootstrapParams={"type":"GPON","suiteName":"productQualification"}
 
 Feature: Existing active Value added Service
 

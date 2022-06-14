@@ -3,7 +3,7 @@
 @retrieve-lte-commitment-offers-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={ 'type': 'LTE', 'suiteName': 'productQualification'  }
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
 #VALID ADDRESS 4905944
 Feature: Retrieve LTE commitment offers
 

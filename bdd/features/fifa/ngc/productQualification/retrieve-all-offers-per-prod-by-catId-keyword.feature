@@ -3,7 +3,7 @@
 @retrieve-all-offers-per-prod-by-catId-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={ 'type': 'LTE', 'suiteName': 'productQualification'  }
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
 
 Feature: Retrieve all offers per product by category ID
 

@@ -3,7 +3,7 @@
 @retrieve-tv-child-offers-without-co-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={ 'type': 'LTE', 'suiteName': 'productQualification'  }
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
 
 Feature: Retrieve TV child offers without commitment offering
 

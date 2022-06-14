@@ -82,7 +82,12 @@ export const FIFA_preconditionSteps = async ({ given, and, when, then } : { [key
       preconditionContext().dpu = dpu;
     });
   
-    when(/get address based on entered data: '(.*)'/, async (addressId: string) => {
+    // when(/get address based on entered data: '(.*)'/, async (addressId: string) => {
+    //   console.log(`addressId: ${addressId}`);
+    //   preconditionContext().addressId = addressId;
+    // });
+
+    when(/get address is/, async (addressId: string) => {
       console.log(`addressId: ${addressId}`);
       preconditionContext().addressId = addressId;
     });

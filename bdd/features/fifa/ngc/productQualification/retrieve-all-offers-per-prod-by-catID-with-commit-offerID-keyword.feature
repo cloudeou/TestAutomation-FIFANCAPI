@@ -3,7 +3,7 @@
 @retrieve-all-offers-per-prod-by-catID-with-commit-offerID-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={ 'type': 'LTE', 'suiteName': 'productQualification'  }
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
 
 Feature: Retrieve all offers per product by category ID with Commitment Offer ID (Offers with commitment pricing)
 
