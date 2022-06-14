@@ -231,11 +231,9 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
     const response = await dbProxy.executeQuery(getBillingFailedActionStatus(customerId))
     const billingActionStatus = response.data.rows
 
-    const isCreateProductOneTimeCharge = response.data.rows[0]['ba_id']==='9148326370213948158';// we check if its a Create Product (OneTimeCharge) billing action
-
     test(`Billing action status for ${customerId} is not NULL`, billingActionStatus, AssertionModes.strict).isnot(null,`Billing action status for ${customerId} should not be NULL`)
     test(`Billing action status for ${customerId} is defined`, billingActionStatus, AssertionModes.strict).isnot(undefined,`Billing action status for ${customerId} is not defined`)
-    test(`Status for customer: ${customerId} should be less then 1}`,billingActionStatus.length < 1 && !isCreateProductOneTimeCharge , AssertionModes.strict).is(true,`Status for customer: ${customerId} is ${billingActionStatus}`)
+    test(`Status for customer: ${customerId} should be less then 1}`,billingActionStatus.length < 1, AssertionModes.strict).is(true,`Status for customer: ${customerId} is ${billingActionStatus}`)
   });
 
   and('check present order statuses', async (table) => {
