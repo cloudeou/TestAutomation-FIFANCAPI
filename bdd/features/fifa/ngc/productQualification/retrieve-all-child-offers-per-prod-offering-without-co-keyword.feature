@@ -1,14 +1,17 @@
 @atlas
 @PQ
 @retrieve-all-child-offers-per-prod-offering-without-co-keyword
-@addressType=LTE
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={ 'type': 'LTE', 'suiteName': 'productQualification'  }
+
 Feature: Retrieve all child offers per selected product offering without commitment offerings
     
     Scenario: Check address
         Given user has address with type LTE
         And distribution channel is PILOT6RT
         And customer category is RESIDENTIAL
-      When get address based on entered data: '5753461'
+        When get address is @lpdsid
         Then address id should be returned
 
 

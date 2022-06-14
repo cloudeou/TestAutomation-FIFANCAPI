@@ -1,7 +1,10 @@
 @atlas
 @PQ
 @retrieve-all-commitments-CSD-keyword
-@addressType=LTE
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={ 'type': 'LTE', 'suiteName': 'productQualification'  }
+
 Feature: Retrieve all commitment offers for CSD users
 
 
@@ -9,7 +12,7 @@ Feature: Retrieve all commitment offers for CSD users
         Given user has address with type LTE
         And EXTERNAL_ID of distribution channel is PERMIT_ROLE_PARTNER_TECH
         And customer category is RESIDENTIAL
-      When get address based on entered data: '5753461'
+        When get address is @lpdsid
         Then address id should be returned
 
 
