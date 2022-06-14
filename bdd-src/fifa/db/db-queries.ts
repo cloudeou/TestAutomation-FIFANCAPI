@@ -1,4 +1,4 @@
-import { adtFlags, commonFlags } from "../../../bdd/steps/common.steps";
+import { adtFlags, commonFlags } from "../../../bdd/steps/fifa/common.steps";
 import { envConfig } from "../env-config/index";
 
 export const completeMigrationQuery = (

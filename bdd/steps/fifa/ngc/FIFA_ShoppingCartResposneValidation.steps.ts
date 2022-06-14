@@ -1,10 +1,10 @@
 import {AssertionModes, featureContext , test} from "@cloudeou/telus-bdd";
-import { Identificators } from '../../contexts/Identificators';
-import FIFA_PreconditionContext  from '../../contexts/fifa/FIFA_PreconditionContext';
-import ResponseContext from '../../contexts/fifa/FIFA_ResponseConntext';
-import FIFA_ShoppingCartContext from '../../contexts/fifa/FIFA_ShoppingCartContext';
-import { Common } from "../../../bdd-src/fifa/utils/commonBDD/Common";
-import {bodyParser} from "../../../bdd-src/fifa/shopping-cart/shopping-cart.body-parser";
+import { Identificators } from '../../../contexts/Identificators';
+import FIFA_PreconditionContext  from '../../../contexts/fifa/FIFA_PreconditionContext';
+import ResponseContext from '../../../contexts/fifa/FIFA_ResponseConntext';
+import FIFA_ShoppingCartContext from '../../../contexts/fifa/FIFA_ShoppingCartContext';
+import { Common } from "../../../../bdd-src/fifa/utils/commonBDD/Common";
+import {bodyParser} from "../../../../bdd-src/fifa/shopping-cart/shopping-cart.body-parser";
 
 
 type step = (

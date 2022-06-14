@@ -1,8 +1,8 @@
-import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext";
-import {Identificators} from "../../contexts/Identificators";
+import FIFA_PreconditionContext from "../../../contexts/fifa/FIFA_PreconditionContext";
+import {Identificators} from "../../../contexts/Identificators";
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
-import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext";
-import FIFA_ShoppingCartContext from "../../contexts/fifa/FIFA_ShoppingCartContext";
+import ResponseContext from "../../../contexts/fifa/FIFA_ResponseConntext";
+import FIFA_ShoppingCartContext from "../../../contexts/fifa/FIFA_ShoppingCartContext";
 import {
   queryNcCustomerOrdersStatusNeitherCompletedNorProcessed,
   getErrorsOccuredForCustomer,
@@ -12,24 +12,24 @@ import {
   queryATTR_TYPE_ID,
   queryOption82,
   iptvServiceKey
-} from "../../../bdd-src/fifa/db/db-queries";
-import {TelusApiUtils} from "../../../bdd-src/fifa/telus-apis/telus-apis";
-import {Common} from "../../../bdd-src/fifa/utils/commonBDD/Common";
+} from "../../../../bdd-src/fifa/db/db-queries";
+import {TelusApiUtils} from "../../../../bdd-src/fifa/telus-apis/telus-apis";
+import {Common} from "../../../../bdd-src/fifa/utils/commonBDD/Common";
 import retry from "retry-as-promised";
 import {AxiosResponse} from "axios";
-import {DbProxyApi} from "../../../bdd-src/fifa/db/db-proxy-api/db-proxy.api";
-import {OrdersHandler} from "../../../bdd-src/fifa/backendSteps/OrdersHandler";
-import {TasksHandler} from "../../../bdd-src/fifa/backendSteps/TasksHandler";
-import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
-import { data } from '../../../bdd-src/fifa/test-data/data';
-import {MailerApi} from "../../../bdd-src/fifa/utils/mailer/MailerApi";
+import {DbProxyApi} from "../../../../bdd-src/fifa/db/db-proxy-api/db-proxy.api";
+import {OrdersHandler} from "../../../../bdd-src/fifa/backendSteps/OrdersHandler";
+import {TasksHandler} from "../../../../bdd-src/fifa/backendSteps/TasksHandler";
+import {replacerFunc} from "../../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import { data } from '../../../../bdd-src/fifa/test-data/data';
+import {MailerApi} from "../../../../bdd-src/fifa/utils/mailer/MailerApi";
 
 type step = (
     stepMatcher: string | RegExp,
     callback: (...args: any) => void
 ) => void;
 
-export const backendSteps = ({ given, and, when, then } : { [key: string]: step }) => {
+export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: step }) => {
   let preconditionContext = (): FIFA_PreconditionContext =>
     featureContext().getContextById(Identificators.FIFA_preConditionContext);
   let responseContext = (): ResponseContext =>

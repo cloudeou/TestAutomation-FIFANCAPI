@@ -1,12 +1,12 @@
-import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext"
+import ResponseContext from "../../../contexts/fifa/FIFA_ResponseConntext"
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
-import {Identificators} from "../../contexts/Identificators";
-import FIFA_ShoppingCartContext from "../../contexts/fifa/FIFA_ShoppingCartContext";
-import {PromotionApi} from "../../../bdd-src/fifa/promotion/promotion.api"
-import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext"
-import {Common} from "../../../bdd-src/fifa/utils/commonBDD/Common";
-import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
-import {bodyParser} from "../../../bdd-src/fifa/promotion/promotion.body-parser";
+import {Identificators} from "../../../contexts/Identificators";
+import FIFA_ShoppingCartContext from "../../../contexts/fifa/FIFA_ShoppingCartContext";
+import {PromotionApi} from "../../../../bdd-src/fifa/promotion/promotion.api"
+import FIFA_PreconditionContext from "../../../contexts/fifa/FIFA_PreconditionContext"
+import {Common} from "../../../../bdd-src/fifa/utils/commonBDD/Common";
+import {replacerFunc} from "../../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import {bodyParser} from "../../../../bdd-src/fifa/promotion/promotion.body-parser";
 
 type step = (
     stepMatcher: string | RegExp,
@@ -16,7 +16,7 @@ type step = (
 
 let price = new Map();
 
-export const promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
+export const FIFA_promotionSteps = ({ when, and, then}: { [key: string]: step }) => {
     const ResponseContext = (): ResponseContext =>
         featureContext().getContextById(Identificators.FIFA_ResponseContext);
     const shoppingCartContext = (): FIFA_ShoppingCartContext =>

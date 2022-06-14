@@ -1,12 +1,12 @@
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
-import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext";
-import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext";
-import {Identificators} from "../../contexts/Identificators";
-import {RandomValueGenerator} from "../../../bdd-src/fifa/utils/common/RandomValueGenerator"
-import {CreateCustomerSample} from "../../../bdd-src/fifa/createCustomer/CreateCustomerSample.body-samples"
-import {CreateCustomerApi} from "../../../bdd-src/fifa/createCustomer/createCustomer.api"
-import {MailerApi} from "../../../bdd-src/fifa/utils/mailer/MailerApi";
-import {TelusApiUtils} from "../../../bdd-src/fifa/telus-apis/telus-apis";
+import FIFA_PreconditionContext from "../../../contexts/fifa/FIFA_PreconditionContext";
+import ResponseContext from "../../../contexts/fifa/FIFA_ResponseConntext";
+import {Identificators} from "../../../contexts/Identificators";
+import {RandomValueGenerator} from "../../../../bdd-src/fifa/utils/common/RandomValueGenerator"
+import {CreateCustomerSample} from "../../../../bdd-src/fifa/createCustomer/CreateCustomerSample.body-samples"
+import {CreateCustomerApi} from "../../../../bdd-src/fifa/createCustomer/createCustomer.api"
+import {MailerApi} from "../../../../bdd-src/fifa/utils/mailer/MailerApi";
+import {TelusApiUtils} from "../../../../bdd-src/fifa/telus-apis/telus-apis";
 
 
 const tapis = new TelusApiUtils();
@@ -18,7 +18,7 @@ type step = (
 
 const fifaNcApi = new CreateCustomerApi();
 
-export const createCustomerSteps = ({given, and, when, then}: { [key: string]: step }) => {
+export const FIFA_createCustomerSteps = ({given, and, when, then}: { [key: string]: step }) => {
   let preconditionContext = (): FIFA_PreconditionContext =>
     featureContext().getContextById(Identificators.FIFA_preConditionContext);
   let responseContext = (): ResponseContext =>

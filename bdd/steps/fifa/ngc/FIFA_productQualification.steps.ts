@@ -1,16 +1,16 @@
-import FIFA_ProductCatalogContext from "../../contexts/fifa/FIFA_ProductCatalogContext";
-import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext";
-import FIFA_ProductQualificationContext from "../../contexts/fifa/FIFA_ProductQualificationContext";
-import FIFA_ShoppingCartContext from "../../contexts/fifa/FIFA_ShoppingCartContext";
+import FIFA_ProductCatalogContext from "../../../contexts/fifa/FIFA_ProductCatalogContext";
+import ResponseContext from "../../../contexts/fifa/FIFA_ResponseConntext";
+import FIFA_ProductQualificationContext from "../../../contexts/fifa/FIFA_ProductQualificationContext";
+import FIFA_ShoppingCartContext from "../../../contexts/fifa/FIFA_ShoppingCartContext";
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
-import {Identificators} from "../../contexts/Identificators";
-import {Common} from "../../../bdd-src/fifa/utils/commonBDD/Common";
-import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext";
-import {ProductQualificationApi} from "../../../bdd-src/fifa/productQualification/pq.api";
-import {bodyParser} from "../../../bdd-src/fifa/productQualification/pq.body-parser";
+import {Identificators} from "../../../contexts/Identificators";
+import {Common} from "../../../../bdd-src/fifa/utils/commonBDD/Common";
+import FIFA_PreconditionContext from "../../../contexts/fifa/FIFA_PreconditionContext";
+import {ProductQualificationApi} from "../../../../bdd-src/fifa/productQualification/pq.api";
+import {bodyParser} from "../../../../bdd-src/fifa/productQualification/pq.body-parser";
 import {AxiosResponse} from "axios";
 import {APIs} from "../apis.enum";
-import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import {replacerFunc} from "../../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 
 type step = (
@@ -18,7 +18,7 @@ type step = (
   callback: (args: any) => void
 ) => void;
 
-export const productQualificationSteps = ({when, and, then}: { [key: string]: step }) => {
+export const FIFA_productQualificationSteps = ({when, and, then}: { [key: string]: step }) => {
 
   const productCatalogContext = (): FIFA_ProductCatalogContext =>
     featureContext().getContextById(Identificators.FIFA_ProductCatalogContext);
