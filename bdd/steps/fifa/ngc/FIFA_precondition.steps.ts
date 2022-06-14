@@ -1,6 +1,6 @@
-import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext";
-import FIFA_ReportContext from "../../contexts/fifa/FIFA_ReportContext";
-import { Identificators } from "../../contexts/Identificators";
+import FIFA_PreconditionContext from "../../../contexts/fifa/FIFA_PreconditionContext";
+import FIFA_ReportContext from "../../../contexts/fifa/FIFA_ReportContext";
+import { Identificators } from "../../../contexts/Identificators";
 import { TestResultStatus } from '../apis.enum';
 import { AssertionModes, featureContext, test } from "@cloudeou/telus-bdd";
 
@@ -10,7 +10,7 @@ type step = (
     callback: (args: any) => void
 ) => void;
 
-export const preconditionSteps = async ({ given, and, when, then } : { [key: string]: step }) => {
+export const FIFA_preconditionSteps = async ({ given, and, when, then } : { [key: string]: step }) => {
     let preconditionContext = (): FIFA_PreconditionContext =>
       featureContext().getContextById(Identificators.FIFA_preConditionContext);
     let repContext = (): FIFA_ReportContext =>

@@ -1,23 +1,23 @@
 import { featureContext, postgresQueryExecutor,test,AssertionModes } from "@cloudeou/telus-bdd";
-import { Identificators } from '../../contexts/Identificators';
-import FIFA_PreconditionContext  from '../../contexts/fifa/FIFA_PreconditionContext';
-import ResponseContext from '../../contexts/fifa/FIFA_ResponseConntext';
-import FIFA_ShoppingCartContext from '../../contexts/fifa/FIFA_ShoppingCartContext';
-import FIFA_ErrorContext from "../../contexts/fifa/FIFA_ErrorContext";
-import { ErrorStatus } from "../../../bdd-src/fifa/utils/error-status";
-import { Common } from "../../../bdd-src/fifa/utils/commonBDD/Common";
-import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
-import { getSalesOrderStatusQuery } from "../../../bdd-src/fifa/db/db-queries";
+import { Identificators } from '../../../contexts/Identificators';
+import FIFA_PreconditionContext  from '../../../contexts/fifa/FIFA_PreconditionContext';
+import ResponseContext from '../../../contexts/fifa/FIFA_ResponseConntext';
+import FIFA_ShoppingCartContext from '../../../contexts/fifa/FIFA_ShoppingCartContext';
+import FIFA_ErrorContext from "../../../contexts/fifa/FIFA_ErrorContext";
+import { ErrorStatus } from "../../../../bdd-src/fifa/utils/error-status";
+import { Common } from "../../../../bdd-src/fifa/utils/commonBDD/Common";
+import {replacerFunc} from "../../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import { getSalesOrderStatusQuery } from "../../../../bdd-src/fifa/db/db-queries";
 import {AxiosResponse} from "axios";
 import retry from 'retry-as-promised';
-import {DbProxyApi} from "../../../bdd-src/fifa/db/db-proxy-api/db-proxy.api";
+import {DbProxyApi} from "../../../../bdd-src/fifa/db/db-proxy-api/db-proxy.api";
 
 type step = (
   stepMatcher: string | RegExp,
   callback: (...args: any) => void
 ) => void;
 
-export const submitShoppingCartSteps = ({
+export const FIFA_submitShoppingCartSteps = ({
   when,
   then,
   and,

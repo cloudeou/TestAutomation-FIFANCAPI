@@ -1,13 +1,13 @@
 import {AssertionModes, featureContext, test} from "@cloudeou/telus-bdd";
-import {Identificators} from '../../contexts/Identificators';
-import FIFA_PreconditionContext from '../../contexts/fifa/FIFA_PreconditionContext';
-import ResponseContext from '../../contexts/fifa/FIFA_ResponseConntext';
-import FIFA_ShoppingCartContext from '../../contexts/fifa/FIFA_ShoppingCartContext';
-import FIFA_ErrorContext from "../../contexts/fifa/FIFA_ErrorContext";
-import {ErrorStatus} from "../../../bdd-src/fifa/utils/error-status";
-import {Common} from "../../../bdd-src/fifa/utils/commonBDD/Common";
-import {replacerFunc} from "../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
-import ncConstants from "../../../bdd-src/fifa/utils/nc-constants";
+import {Identificators} from '../../../contexts/Identificators';
+import FIFA_PreconditionContext from '../../../contexts/fifa/FIFA_PreconditionContext';
+import ResponseContext from '../../../contexts/fifa/FIFA_ResponseConntext';
+import FIFA_ShoppingCartContext from '../../../contexts/fifa/FIFA_ShoppingCartContext';
+import FIFA_ErrorContext from "../../../contexts/fifa/FIFA_ErrorContext";
+import {ErrorStatus} from "../../../../bdd-src/fifa/utils/error-status";
+import {Common} from "../../../../bdd-src/fifa/utils/commonBDD/Common";
+import {replacerFunc} from "../../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
+import ncConstants from "../../../../bdd-src/fifa/utils/nc-constants";
 import {AxiosResponse} from "axios";
 
 type step = (
@@ -16,7 +16,7 @@ type step = (
 ) => void;
 
 
-export const validateShoppingCartSteps = ({
+export const FIFA_validateShoppingCartSteps = ({
                                             given,
                                             and,
                                             when,

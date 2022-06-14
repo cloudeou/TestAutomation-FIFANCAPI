@@ -1,11 +1,11 @@
 import { AssertionModes, featureContext, test } from "@cloudeou/telus-bdd";
-import FIFA_PreconditionContext from "../../contexts/fifa/FIFA_PreconditionContext";
-import ResponseContext from "../../contexts/fifa/FIFA_ResponseConntext";
-import FIFA_ShoppingCartContext from "../../contexts/fifa/FIFA_ShoppingCartContext";
-import FIFA_ProductInventoryContext from "../../contexts/fifa/FIFA_ProductInventoryContext";
-import { Identificators } from "../../contexts/Identificators";
-import { ProductInventoryApi } from "../../../bdd-src/fifa/productInventory/productInventory.api"
-import {payloadGenerator} from "../../../bdd-src/fifa/productInventory/productInventory.payload-generator";
+import FIFA_PreconditionContext from "../../../contexts/fifa/FIFA_PreconditionContext";
+import ResponseContext from "../../../contexts/fifa/FIFA_ResponseConntext";
+import FIFA_ShoppingCartContext from "../../../contexts/fifa/FIFA_ShoppingCartContext";
+import FIFA_ProductInventoryContext from "../../../contexts/fifa/FIFA_ProductInventoryContext";
+import { Identificators } from "../../../contexts/Identificators";
+import { ProductInventoryApi } from "../../../../bdd-src/fifa/productInventory/productInventory.api"
+import {payloadGenerator} from "../../../../bdd-src/fifa/productInventory/productInventory.payload-generator";
 
 const fifaNcApi = new ProductInventoryApi();
 
@@ -14,7 +14,7 @@ type step = (
     callback: (...args: any) => void
 ) => void;
 
-export const productInventorySteps = ({ given, and, when, then } : { [key: string]: step }) => {
+export const FIFA_productInventorySteps = ({ given, and, when, then } : { [key: string]: step }) => {
     let preconditionContext = (): FIFA_PreconditionContext =>
     featureContext().getContextById(Identificators.FIFA_preConditionContext);
   let responseContext = (): ResponseContext =>
