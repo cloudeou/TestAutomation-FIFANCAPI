@@ -1,6 +1,10 @@
 @atlas
 @SC
 @sc-tc-11-keyword.feature
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Commitment Offerings)
 
   Scenario: Get addess 11

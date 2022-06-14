@@ -1,6 +1,10 @@
 @atlas
 @SC
 @add-equipment-for-vas-nintendo-and-vas-twp-keyword.feature
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Add Equipment for VAS-Nintendo and VAS-TWP
 
   Scenario: Get addess

@@ -1,6 +1,10 @@
 @atlas
 @SC
 @amend-optik-tv-add-hsia-add-com-tlo-change-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Amend existing pending Optik TV and add HSIA Add Commitment
   Scenario: Check address
     Given user has address with type GPON

@@ -1,6 +1,9 @@
 @atlas
 @SC
 @sc-tc-11-keyword.feature
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
 
 Feature: New Customer ordering Home Phone + Internet + TV + SHS + TOS+Nintendo+TWP
 

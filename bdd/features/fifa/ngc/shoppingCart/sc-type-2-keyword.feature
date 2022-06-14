@@ -1,6 +1,10 @@
 @atlas
 @SC
 @sc-type-2-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Coupon Code Offerings) TC 8,13,7,3
 
 
@@ -18,7 +22,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
   Scenario: Get service qualification for FIFA TC#7
     Given preconditions by user are selected
     When user check availability
-    Then address should be qualified for GPON
+    Then address should be qualified for LTE
 
   Scenario: Create customer for FIFA TC#7
     Given preconditions by user are selected

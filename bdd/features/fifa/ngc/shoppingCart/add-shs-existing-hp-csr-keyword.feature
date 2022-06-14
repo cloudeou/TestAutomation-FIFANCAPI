@@ -3,6 +3,10 @@
 @add-shs-existing-hp-csr-keyword
 @addressType=FIBER
 @addressPort=GPON
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Add New  on existing active SHSHP
   Scenario: Get addess
     Given user has address with type FIBER

@@ -2,6 +2,10 @@
 @api
 @SC
 @existing-shs-no-chage-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Create existing-triple-com-change-tlo-change
 
   Scenario: Check address

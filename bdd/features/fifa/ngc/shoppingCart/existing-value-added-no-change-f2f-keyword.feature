@@ -3,6 +3,10 @@
 @existing-value-added-no-change-f2f-keyword
 @addressType=FIBER
 @addressPort=GPON
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Existing active Value added Service
 
   Scenario: Get addess

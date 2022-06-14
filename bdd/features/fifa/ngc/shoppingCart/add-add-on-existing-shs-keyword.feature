@@ -1,6 +1,10 @@
 @atlas
 @SC
 @add-add-on-existing-shs-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Add New Add On Equipment on existing SHS
   Scenario: Check address
     Given user has address with type GPON

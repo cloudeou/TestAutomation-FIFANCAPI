@@ -1,6 +1,10 @@
 @atlas
 @SC
 @existing-hsia-add-com-tlo-change-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Existing active HSIA plan, Add Commintment, Change TLO
 
   Scenario: Check address

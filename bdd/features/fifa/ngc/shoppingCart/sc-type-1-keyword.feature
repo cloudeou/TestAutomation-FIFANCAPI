@@ -2,6 +2,10 @@
 @api
 @SC
 @sc-type-4-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 
   #FIFA TC#4: use in SC 1

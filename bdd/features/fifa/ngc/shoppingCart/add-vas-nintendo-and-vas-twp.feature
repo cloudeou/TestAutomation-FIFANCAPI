@@ -1,6 +1,10 @@
 @atlas
 @SC
 @add-vas-nintendo-and-vas-twp-keyword.feature
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Add VAS-Nintendo and VAS-TWP top level offers
   Scenario: Get addess
     Given user has address with type FIBER

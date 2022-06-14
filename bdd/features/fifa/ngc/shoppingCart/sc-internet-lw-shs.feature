@@ -1,6 +1,10 @@
 @atlas
 @SC
 @newSC
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
+
 Feature: New Customer ordering  Internet, SHS, and Living Well
 
 

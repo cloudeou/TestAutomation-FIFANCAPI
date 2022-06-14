@@ -2,6 +2,10 @@
 @api
 @SC
 @sc-type-14-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Commitment Offerings)
 
 #FIFA TC#14: use in SC 3

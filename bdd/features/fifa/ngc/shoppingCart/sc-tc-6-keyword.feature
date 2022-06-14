@@ -1,6 +1,10 @@
 @atlas
 @SC
 @sc-tc-6-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Commitment Offerings)
 #https://flcncapp-itn02.tsl.telus.com/common/uobject.jsp?tab=_Orders&object=9163680933013447942
 

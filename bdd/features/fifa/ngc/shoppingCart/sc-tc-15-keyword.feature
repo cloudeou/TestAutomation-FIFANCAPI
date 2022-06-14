@@ -2,6 +2,10 @@
 @api
 @SC
 @sc-type-15-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: FIFA TC#15
 
 

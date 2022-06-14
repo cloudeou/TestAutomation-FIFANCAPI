@@ -1,6 +1,10 @@
 @atlas
 @SC
 @existing-hs-optik-tv-add-com-tv-change-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Existing customer with active HS+Optik TV change TLO
 
   Scenario: Check address

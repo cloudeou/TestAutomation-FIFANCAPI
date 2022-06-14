@@ -1,6 +1,10 @@
 @atlas
 @SC
 @existing-whsia-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
+
 Feature: Existing WHSIA
 
 

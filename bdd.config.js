@@ -2,11 +2,11 @@ module.exports = {
 	"featuresPath": "./bdd/features",
 	"stepsPath": "./dist/bdd/steps",
 	// "db": {
+	// 	// database configuration for DB bootstrap
 	// 	"user": "",
 	// 	"passwd": "",
 	// 	"host": "",
-	// 	"port": 0,
-	// 	"database": ""
+	// 	"port": 0
 	// },
 	"envsPath": "",
 	"contextsPath": "./dist/bdd/contexts",

@@ -1,6 +1,10 @@
 @atlas
 @SC
 @existing-hsia-no-change-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Existing active HSIA plan
 
   Scenario: Check address
