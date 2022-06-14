@@ -11,7 +11,7 @@ Feature: Existing active Value added Service
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address is @lpdsid
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address

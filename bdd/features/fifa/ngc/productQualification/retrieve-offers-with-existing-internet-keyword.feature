@@ -11,7 +11,7 @@ Feature: Retrieve Offers With Existing internet
     Given user has address with type LTE
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address is @lpdsid
+    When get address is: @lpdsid
     Then address id should be returned
 
 

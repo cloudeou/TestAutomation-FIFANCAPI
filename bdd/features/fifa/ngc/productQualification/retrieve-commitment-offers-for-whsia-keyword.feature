@@ -13,7 +13,7 @@ Feature: Retrieve Commitment Offers for WHSIA
 #    And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
     And distribution channel is PILOT6RT
     And customer category is RESIDENTIAL
-    When get address is @lpdsid
+    When get address is: @lpdsid
     Then address id should be returned
 
 

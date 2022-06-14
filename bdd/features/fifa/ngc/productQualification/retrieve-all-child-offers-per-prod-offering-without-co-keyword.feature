@@ -11,7 +11,7 @@ Feature: Retrieve all child offers per selected product offering without commitm
         Given user has address with type LTE
         And distribution channel is PILOT6RT
         And customer category is RESIDENTIAL
-        When get address is @lpdsid
+        When get address is: @lpdsid
         Then address id should be returned
 
 

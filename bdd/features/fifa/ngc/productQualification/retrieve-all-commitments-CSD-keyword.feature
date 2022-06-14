@@ -12,7 +12,7 @@ Feature: Retrieve all commitment offers for CSD users
         Given user has address with type LTE
         And EXTERNAL_ID of distribution channel is PERMIT_ROLE_PARTNER_TECH
         And customer category is RESIDENTIAL
-        When get address is @lpdsid
+        When get address is: @lpdsid
         Then address id should be returned
 
 
