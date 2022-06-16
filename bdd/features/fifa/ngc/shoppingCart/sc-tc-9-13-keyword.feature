@@ -10,7 +10,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
   Scenario: Get addess 9
     Given user has address with type FIBER
     And technology type is GPON
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid '5753461'
     Then address id should be returned
 
   Scenario: Get service qualification 9

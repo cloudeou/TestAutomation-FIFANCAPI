@@ -16,7 +16,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    And distribution channel is F2F
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid '5753461'
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#7
@@ -127,7 +127,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #  Scenario: Get addess
 #    Given user has address with type FIBER
 #    And technology type is GPON
-#    When get address based on entered data: '5753461'
+#    When get address is: @lpdsid '5753461'
 #    Then address id should be returned
 #
 #  Scenario: Get service qualification
@@ -254,7 +254,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    Given user has address with type LTE
 #    And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
 #    And customer category is RESIDENTIAL
-#    When get address based on entered data: '5753461'
+#    When get address is: @lpdsid '5753461'
 #    Then address id should be returned
 #
 #  Scenario: Check service qualification for an address
