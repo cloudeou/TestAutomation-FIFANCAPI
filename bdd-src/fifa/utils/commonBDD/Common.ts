@@ -692,4 +692,64 @@ export class Common {
         });
         return charList;
     }
+
+    static validatePromotionsInResponseDefaultAdded(promotion: string, response: any) {
+        let errorMessage = '';
+        if (promotion !== null && promotion !== undefined) {
+                let cartOffers = [];
+                for (let cart of response.cartTotalPrice) {
+                        if(cart.priceAlteration) {
+                            for (let alteration of cart.priceAlteration) {
+                                cartOffers.push(
+                                     alteration.catalogId,
+                                );
+                            }    
+                        }
+                    }
+          
+                if (
+                    !JSON.stringify(cartOffers).includes(
+                        JSON.stringify(promotion))
+                    ) {
+                        errorMessage =
+                            errorMessage +
+                            'Promotion: ' +
+                            JSON.stringify(promotion) +
+                            ' not found for product' +
+                            '\n';    
+                        }
+        } else {
+            errorMessage = errorMessage + 'No promotion passed or promotion is null';
+        }
+        test('Error message should be null',errorMessage === '', AssertionModes.strict).is(true, errorMessage)
+        return errorMessage === '' ? true : false
+       
+    }
+
+    static validatePromotionsNotInResponseDefaultAdded(promotion: string, response: any) {
+        let flag = true;
+        let errorMessage = '';
+        if (promotion !== null && promotion !== undefined) {
+            for (let cart of response.cartTotalPrice) {
+                    if(cart.priceAlteration) {
+                        for (let alteration of cart.priceAlteration) {
+                            if (
+                                alteration.catalogId === promotion &&
+                                alteration.action !== 'Delete' 
+                            ) {
+                                flag = flag ? false : flag;
+                                errorMessage =
+                                    errorMessage +
+                                    'Discount: ' +
+                                    JSON.stringify(promotion) +
+                                    ' not removed\n';
+                                break;
+                            }
+                        }    
+                    }
+                } 
+        }
+        test('Error message should be empty',flag, AssertionModes.strict).is(true, errorMessage)
+        return flag === true ? true : false
+    }
 }

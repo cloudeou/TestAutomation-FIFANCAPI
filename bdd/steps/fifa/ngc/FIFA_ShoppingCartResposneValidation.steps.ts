@@ -186,6 +186,54 @@ export const shoppingCartResponseValidationSteps = (
         })
     })
 
+    and('test user validate shopping cart should contain promotion offers:', (table) => {
+        console.log(table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        let SCResponseBody: JSON;
+        let cartItems: Array<any>;
+        let offeringIds: Array<any>;
+        SCResponseBody = responseContext().shoppingCartResponse!
+        cartItems = bodyParser.getCartItemObjects(SCResponseBody)
+        offeringIds = Common.getOffersFromTable(table, null)
+
+        test('expected cart item to contain products',cartItems.length,AssertionModes.strict)
+          .isnot(0,'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.')
+
+        offeringIds.forEach((id) => {
+            let isOfferingReferenced = false
+            Common.validatePromotionsInResponseDefaultAdded(id, SCResponseBody) === true
+                                ? isOfferingReferenced = true
+                                : isOfferingReferenced = false
+                                
+            test(`due to offering ${id}, expected it to be referenced in cartItem`,isOfferingReferenced, AssertionModes.strict)
+              .is(true,`Error response is received due to offering ${id}, expected it to be referenced in cartItem, but it is not referenced.`)
+
+        })
+    })
+
+    and('test user validate shopping cart should not contain promotion offers:', (table) => {
+        console.log(table, 'table3','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        let SCResponseBody: JSON;
+        let cartItems: Array<any>;
+        let offeringIds: Array<any>;
+        SCResponseBody = responseContext().shoppingCartResponse!
+        cartItems = bodyParser.getCartItemObjects(SCResponseBody)
+        offeringIds = Common.getOffersFromTable(table, null)
+
+        test('expected cart item to contain products',cartItems.length,AssertionModes.strict)
+          .isnot(0,'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.')
+
+        offeringIds.forEach((id) => {
+            let isOfferingReferenced = false
+            Common.validatePromotionsNotInResponseDefaultAdded(id, SCResponseBody) === true
+            ? isOfferingReferenced = false
+            : isOfferingReferenced = true
+
+            test('due to offering ${id}, expected it to be not referenced in cartItem', isOfferingReferenced,AssertionModes.strict)
+              .isnot(true,`Error response is received due to offering ${id}, expected it to be not referenced in cartItem, but it is referenced.`)
+
+        })
+    })
+
     and(/^test user validate shopping cart should contain discount:$/, (table) => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
