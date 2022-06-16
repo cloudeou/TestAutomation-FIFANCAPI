@@ -133,6 +133,7 @@ export const FIFA_createShoppingCartSteps = ({
   });
 
   and('test user delete offers:', function (table) {
+    console.log('removing items', shoppingCartContext())
     let productOfferingList: any = Common.getOffersFromTable(
       table,
       shoppingCartContext,
@@ -222,7 +223,7 @@ export const FIFA_createShoppingCartSteps = ({
       test('Response should contain cartItem', body.cartItem, AssertionModes.strict)
         .isnot(undefined,'Response should contain cartItem\n' + responseText,)
 
-      test('Expecting some offers to be returned',body.cartItem.length,AssertionModes.strict)
+      test('Expecting some offers to be returned when creating shopping cart',body.cartItem.length,AssertionModes.strict)
         .isnot(0,'Expecting some offers to be returned \n Body: ' + JSON.stringify(body))
 
 
