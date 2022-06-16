@@ -417,18 +417,19 @@ const queryGetAllBillingActionStatus = (
   customerId: string,
 ) => {
   let query = `
-                  SELECT
-                  to_char(ba.object_id) AS ba_id,
-                      substr(stv.value, 10) AS status
-                  FROM
-                      nc_params_ix     ba
-                      LEFT JOIN nc_params        s ON s.object_id = ba.object_id
-                                              AND s.attr_id = 9141614096913188381
-                      LEFT JOIN nc_list_values   stv ON stv.list_value_id = s.list_value_id
-                  WHERE
-                      ba.value = to_char(${customerId}) /* Customer Id*/
-                      AND ba.ix_key = pkgutils.params_ix(to_char(${customerId})) /* Customer Id*/
-                      AND ba.attr_id = 9141251166913825730`;
+                SELECT 
+                  a_obj.OBJECT_ID action_obj_id, a_obj.NAME, stv.LIST_VALUE_ID status_lv_id, substr(stv.VALUE,10) status
+                FROM 
+                  nc_params_ix ba
+                LEFT JOIN nc_params s ON s.object_id = ba.object_id
+                  AND s.attr_id = 9141614096913188381
+                LEFT JOIN nc_list_values stv ON stv.list_value_id = s.list_value_id
+                LEFT JOIN NC_REFERENCES a_ref ON a_ref.OBJECT_ID = ba.OBJECT_ID AND a_ref.ATTR_ID=9141390312313929810
+                LEFT JOIN NC_OBJECTS a_obj ON a_ref.REFERENCE = a_obj.OBJECT_ID
+                WHERE 
+                  ba.value = to_char(${customerId}) /* Customer Id*/
+                  AND ba.ix_key = pkgutils.params_ix(to_char(${customerId})) /* Customer Id*/
+                  AND ba.attr_id = 9141251166913825730`;
   console.debug(`queryGetAllBillingActionStatus: ${query}`);
   return query;
 }

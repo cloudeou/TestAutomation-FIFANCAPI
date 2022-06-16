@@ -77,34 +77,34 @@ Feature: Add New Add On Equipment on existing SHS
     Then validate that no errors created on BE
     And validate that all orders are completed successfully
     And validate that all billing actions completed successfully
+#################################
+  Scenario: Create same SC
+    Given preconditions by user are selected
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
-#  Scenario: Create same SC
-#    Given preconditions by user are selected
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
-#
-#  Scenario: Update SC, add New Add On Equipment offer
-#    Given preconditions by user are selected
-#    And user select child offer:
-#      | OfferId             | Parent              |
-#      | 9153003010213913793 | 9162234688573639328 |
-#    #4-Button Key Ring Remote
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
-#
-#  Scenario: Validate shopping cart 2
-#    Given preconditions by user are selected
-#    When user try to validate shopping cart
-#    Then no error messages should be in shopping cart
-#
-#  Scenario: Submit SC 2
-#    Given preconditions by user are selected
-#    When user try to submit shopping cart
-#    Then sales order id should be returned
-#
-#  Scenario: Check backend orders validation 2
-#    Given preconditions by user are selected
-#    When try to complete sales order on BE
-#    Then validate that no errors created on BE
-#    And validate that all orders are completed successfully
-#    And validate that all billing actions completed successfully
+  Scenario: Update SC, add New Add On Equipment offer
+    Given preconditions by user are selected
+    And test user select child offer:
+      | OfferId             | Parent              |
+      | 9153003010213913793 | 9162234688573639328 |
+    #4-Button Key Ring Remote
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
+
+  Scenario: Validate shopping cart 2
+    Given preconditions by user are selected
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
+
+  Scenario: Submit SC 2
+    Given preconditions by user are selected
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
+
+  Scenario: Check backend orders validation 2
+    Given preconditions by user are selected
+    When try to complete sales order on BE
+    Then validate that no errors created on BE
+    And validate that all orders are completed successfully
+    And validate that all billing actions completed successfully

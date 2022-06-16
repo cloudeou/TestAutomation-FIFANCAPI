@@ -1,13 +1,17 @@
 @atlas
 @SC
 @existing-whsia-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
+
 Feature: Retrieve Offers With Existing internet
 
   Scenario: Check address
     Given user has address with type LTE
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-  When get address based on entered data: '5753461'
+    When get address is: @lpdsid
     Then address id should be returned
 
 

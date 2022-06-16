@@ -1,7 +1,10 @@
 @atlas
 @PQ
 @retrieve-all-offers-per-prod-by-catId-keyword
-@addressType=LTE
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
+
 Feature: Retrieve all offers per product by category ID
 
 
@@ -9,7 +12,7 @@ Feature: Retrieve all offers per product by category ID
         Given user has address with type LTE
         And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
         And customer category is RESIDENTIAL
-      When get address based on entered data: '5753461'
+        When get address is: @lpdsid
         Then address id should be returned
 
 
