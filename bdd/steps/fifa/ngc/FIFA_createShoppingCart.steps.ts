@@ -72,7 +72,7 @@ export const FIFA_createShoppingCartSteps = ({
     shoppingCartContext().charMap = newCharMap;
   });
 
-  and('test user select commitments in regular period', (table) => {
+  and('test user select commitments in regular period:', (table) => {
     const commitmentsList = Common.getOffersFromTable(
       table,
       shoppingCartContext,
@@ -102,7 +102,7 @@ export const FIFA_createShoppingCartSteps = ({
     shoppingCartContext().charMap = newCharMap;
   });
 
-  and('test user select commitments in earlyRenewal period', (table) => {
+  and('test user select commitments in earlyRenewal period:', (table) => {
     const commitmentsList = Common.getOffersFromTable(
       table,
       shoppingCartContext,

@@ -3,12 +3,12 @@
 @existing-whsia-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
+@DBbootstrapParams={"type":"WHSIA-STANDARD","suiteName":"productQualification"}
 
 Feature: Retrieve Offers With Existing internet
 
   Scenario: Check address
-    Given user has address with type LTE
+    Given user has address with type WHSIA-STANDARD
     And distribution channel is F2F
     And customer category is RESIDENTIAL
     When get address is: @lpdsid
@@ -18,7 +18,7 @@ Feature: Retrieve Offers With Existing internet
   Scenario: Check service qualification for an address
     Given preconditions by user are selected
     When user check availability
-    Then address should be qualified for LTE
+    Then address should be qualified for WHSIA-STANDARD
 
   Scenario: Create a customer
     Given preconditions by user are selected
@@ -75,7 +75,7 @@ Feature: Retrieve Offers With Existing internet
 #      Delivery method - Pro Install
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
-    And user validate at least one cart item should contain price alteration
+    And test user validate at least one cart item should contain price alteration
 
   Scenario: Update SC, change period of commitment trial for Regular Internet offer
     And distribution channel is F2F
@@ -170,8 +170,8 @@ Feature: Retrieve Offers With Existing internet
 
   Scenario: Submit SC (3)
     Given preconditions by user are selected
-    When test test user try to submit shopping cart
-    Then test test sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation (3)
     Given preconditions by user are selected

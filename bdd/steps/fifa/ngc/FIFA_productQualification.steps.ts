@@ -33,14 +33,12 @@ export const FIFA_productQualificationSteps = ({when, and, then}: { [key: string
     featureContext().getContextById(Identificators.FIFA_shoppingCartContext);
 
   and(/^user filter by the following product offering id: (.*)$/, (offerId) => {
-    console.log('hihihi',offerId);
     ProductQualificationContext().productOfferingId = offerId;
   });
 
   and(
     /^user try to get list of the qualified offers by the following commitment id: (.*)$/,
     (commitmentId: string) => {
-      console.log('hihihi');
       ProductQualificationContext().commitmentId = commitmentId;
     },
   );
@@ -61,7 +59,6 @@ export const FIFA_productQualificationSteps = ({when, and, then}: { [key: string
       distributionChannel,
     );
     ProductQualificationContext().reset();
-    // externalLocationId, null, selectedOffers, null, null);
     try {
       const pqResponse: AxiosResponse = await fifaNcApi.productQualification({
         categoryList,
@@ -76,7 +73,6 @@ export const FIFA_productQualificationSteps = ({when, and, then}: { [key: string
 
       Common.checkValidResponse(pqResponse, 200);
       const response = pqResponse.data;
-      const responseText = JSON.stringify(response, null, '\t');
       test(
         'Response should contain productOfferingQualificationItem',
         response.productOfferingQualificationItem,
@@ -89,10 +85,9 @@ export const FIFA_productQualificationSteps = ({when, and, then}: { [key: string
         console.debug('Prod Offer ID' + productOfferingId);
       }
       let topOffer = bodyParser.getProductOfferings(response)[0];
-      // todo: re-comment after add shopping cart api
       shoppingCartContext().topOffer = topOffer;
     } catch (error) {
-      throw error;
+     console.log(error);
     }
 
   });
@@ -122,29 +117,34 @@ export const FIFA_productQualificationSteps = ({when, and, then}: { [key: string
   );
 
   and(
-    /^validate product offering characteristics should contain:$/,
+    "validate product offering characteristics should contain:",
     (table) => {
       let response = ResponseContext().PQresponse
-      let productOfferings: any; //Array<any> | string; return type of getProductOfferings???
+      let productOfferings: any;
       let charsToCheck: Array<any>;
-      productOfferings = bodyParser.getProductOfferingObjects(response);
-      charsToCheck = Common.getCharListFromValidationTable(table);
-      productOfferings.forEach((productOffering: any) => {
-        charsToCheck.forEach((char) => {
-          const charInItem = productOffering.prodSpecCharValueUse.find(
-            (c: any) => c.name === char,
-          );
-
-          test('but expected ${charInItem.name} to be defined', charInItem.value, AssertionModes.strict)
-            .isnot(undefined, `Error response is received due to productOffering char ${charInItem.name} is ${charInItem.value}, but expected ${charInItem.name} to be defined`)
-          test('expected ${charInItem.name} not to be null', charInItem.value, AssertionModes.strict)
-            .isnot(null, `Error response is received due to productOffering char ${charInItem.name} is ${charInItem.value}, but expected ${charInItem.name} not to be null`)
+      try{
+        productOfferings = bodyParser.getProductOfferingObjects(response);
+        charsToCheck = Common.getCharListFromValidationTable(table);
+        productOfferings.forEach((productOffering: any) => {
+          charsToCheck.forEach((char) => {
+            const charInItem = productOffering.prodSpecCharValueUse.find(
+                (c: any) => c.name === char,
+            );
+            test(`but expected ${charInItem.name} to be defined`, charInItem.value, AssertionModes.strict)
+                .isnot(undefined, `Error response is received due to productOffering char ${charInItem.name} is ${charInItem.value}, but expected ${charInItem.name} to be defined`)
+            test(`expected ${charInItem.name} not to be null`, charInItem.value, AssertionModes.strict)
+                .isnot(null, `Error response is received due to productOffering char ${charInItem.name} is ${charInItem.value}, but expected ${charInItem.name} not to be null`)
+          });
         });
-      });
+      }
+      catch (e){
+        console.log(e);
+      }
+
     },
   );
 
-  and(/^validate all product offerings have categories:$/, (table) => {
+  and("validate all product offerings have categories:", (table) => {
     let response = ResponseContext().PQresponse;
     let productOfferings: any;
     let categoryIds: Array<any>;
@@ -152,13 +152,8 @@ export const FIFA_productQualificationSteps = ({when, and, then}: { [key: string
     categoryIds = Common.getCategoriesFromTable(table);
     productOfferings.forEach((productOffering: any) => {
       categoryIds.forEach((id) => {
-
         test(`expected all product offerings to contain category ${id}`, JSON.stringify(productOffering.category) === JSON.stringify({id}), AssertionModes.strict)
           .is(true, `Error response is received due to productOffering, expected all product offerings to contain category ${id}, but offering ${productOffering.id} doesn't contain it.`)
-        /* expect(
-           productOffering.category,
-           `Error response is received due to productOffering, expected all product offerings to contain category ${id}, but offering ${productOffering.id} doesn't contain it.`,
-         ).toContainEqual({ id });*/
       });
     });
   });
