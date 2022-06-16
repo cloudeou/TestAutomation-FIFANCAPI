@@ -26,6 +26,7 @@ export default class FIFA_ShoppingCartContext {
     private _distributionChannelExternalId: string = "";
     private _customerCategory: string = ncConstants.customerCategory.RESIDENTIAL;
     private _shoppingCartApiInstance: ShoppingCartApi = <ShoppingCartApi>(<unknown>null);
+    private allSalesOrder: Array<string> = [];
 
 
     public set existingChildOffers(childOffers: Map<string, Map<string, any>> | null) {
@@ -220,4 +221,10 @@ export default class FIFA_ShoppingCartContext {
         return this._shoppingCartApiInstance;
     }
 
+    public set allSalesOrderId(orderId: string) {
+        this.allSalesOrder.push(orderId)
+      }
+    public get allSalesOrderId(): any {
+       return this.allSalesOrder
+    }
 }
