@@ -2,9 +2,7 @@
 @regression
 @Api
 @reg_57-keyword
-# Address Parameters
-@addressType=LTE
-@addressPort=LTE
+
 Feature: Provide TELUS Gamer Internet
 
   Scenario: Check address
