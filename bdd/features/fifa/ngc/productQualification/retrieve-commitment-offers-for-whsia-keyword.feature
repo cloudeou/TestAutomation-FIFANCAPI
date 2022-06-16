@@ -1,6 +1,10 @@
 @atlas
 @PQ
 @retrieve-commitment-offers-for-whsia-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
+
 Feature: Retrieve Commitment Offers for WHSIA
 
 
@@ -9,7 +13,7 @@ Feature: Retrieve Commitment Offers for WHSIA
 #    And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
     And distribution channel is PILOT6RT
     And customer category is RESIDENTIAL
-  When get address based on entered data: '5753461'
+    When get address is: @lpdsid
     Then address id should be returned
 
 

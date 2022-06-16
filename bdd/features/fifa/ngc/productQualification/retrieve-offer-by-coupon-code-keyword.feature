@@ -1,15 +1,17 @@
 @atlas
 @PQ
 @retrieve-offer-by-coupon-code-keyword
-@addressType=LTE
-Feature: retrieve offer by coupon code
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
 
+Feature: retrieve offer by coupon code
 
     Scenario: Check address
         Given user has address with type LTE
         And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
         And customer category is RESIDENTIAL
-      When get address based on entered data: '5753461'
+        When get address is: @lpdsid
         Then address id should be returned
 
 
