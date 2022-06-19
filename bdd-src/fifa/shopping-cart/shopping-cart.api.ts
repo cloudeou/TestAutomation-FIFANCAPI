@@ -2,7 +2,6 @@ import { envConfig } from "../env-config";
 import { OauthToken } from "../oauth-token";
 import { axiosInstance } from "../axios-instance";
 import { AxiosResponse } from "axios";
-import ncConstants from "../utils/nc-constants";
 import { bodyParser } from "./shopping-cart.body-parser";
 import { BodySamples } from "./shopping-cart.body-samples";
 import { BodyGenerator } from "./shopping-cart.body-generator";
@@ -33,10 +32,6 @@ export class ShoppingCartApi {
   private _oauthToken: any;
   private _body: { [key: string]: any } = {};
   private _shoppingCartId: string = "";
-  // //no usage found
-  // public get shoppingCartId(): string {
-  //   return this._shoppingCartId;
-  // }
 
   public set shoppingCartId(shoppingCartId: string) {
     this._shoppingCartId = shoppingCartId;
@@ -58,9 +53,7 @@ export class ShoppingCartApi {
     action: string,
     scParams: SCParams
   ): { [key: string]: any } {
-    const isDistChanExtId = !Object.values(
-      ncConstants.distributionChannel
-    ).includes(scParams.distributionChannel);
+
     if (action == ShoppingCartActions.submit || action == ShoppingCartActions.validate) {
       return BodySamples.validateOrSubmitBody(
         scParams.customerCategory,
@@ -87,8 +80,7 @@ export class ShoppingCartApi {
 
   public async createShoppingCart(scParams: SCParams): Promise<AxiosResponse> {
     const body = this.generateBody(ShoppingCartActions.create, scParams);
-    console.log(`${ShoppingCartActions.create} shopping cart`);
-    console.log(JSON.stringify(body));
+    console.log(`create shopping cart`);
     try {
       const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
       const headers = await generateKongHeaders(token);
@@ -108,8 +100,7 @@ export class ShoppingCartApi {
 
   public async updateShoppingCart(scParams: SCParams): Promise<AxiosResponse> {
     const body = this.generateBody(ShoppingCartActions.update, scParams);
-    console.log(scParams.charMap);
-    console.log(`${ShoppingCartActions.update} shopping cart`);
+    console.log(`update shopping cart`);
     console.log(JSON.stringify(body));
     try {
       const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
@@ -128,7 +119,7 @@ export class ShoppingCartApi {
   }
 
   public async getShoppingCart(): Promise<AxiosResponse> {
-    console.log(`${ShoppingCartActions.get} shopping cart`);
+    console.log(`get shopping cart`);
     try {
       const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
       const headers = await generateKongHeaders(token);
@@ -145,7 +136,7 @@ export class ShoppingCartApi {
   }
 
   public async deleteShoppingCart(): Promise<AxiosResponse> {
-    console.log(`${ShoppingCartActions.delete} shopping cart`);
+    console.log(`delete shopping cart`);
     try {
       const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
       const headers = await generateKongHeaders(token);
@@ -165,7 +156,7 @@ export class ShoppingCartApi {
     scParams: SCParams
   ): Promise<AxiosResponse> {
     const body = this.generateBody(ShoppingCartActions.validate, scParams);
-    console.log(`${ShoppingCartActions.validate} shopping cart`);
+    console.log(`validate shopping cart`);
     console.log(body);
     try {
       const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);
@@ -185,7 +176,7 @@ export class ShoppingCartApi {
 
   public async submitShoppingCart(scParams: SCParams): Promise<AxiosResponse> {
     const body = this.generateBody(ShoppingCartActions.submit, scParams);
-    console.log(`${ShoppingCartActions.submit} shopping cart`);
+    console.log(`submit shopping cart`);
     console.log(body);
     try {
       const token = await this._oauthToken.getToken(envConfig.shoppingCart.scope);

@@ -75,7 +75,6 @@ export const FIFA_promotionSteps = ({ when, and, then}: { [key: string]: step })
 
         let response = ResponseContext().shoppingCartResponse;
         let shoppingCartId = shoppingCartContext().shoppingCartId;
-        let responseText = JSON.stringify(response);
         if(shoppingCartId)
         try {
             const prResponse = await fifaNcApi.requestPromotion({
@@ -86,7 +85,7 @@ export const FIFA_promotionSteps = ({ when, and, then}: { [key: string]: step })
                 promotionMap,
                 shoppingCartId
             });
-            JSON.stringify(prResponse, replacerFunc(), '\t'),
+
             Common.checkValidResponse(prResponse, 200);
             const promoResponse = prResponse.data;
             const responseText = JSON.stringify(promoResponse, replacerFunc(), '\t');
@@ -100,12 +99,10 @@ export const FIFA_promotionSteps = ({ when, and, then}: { [key: string]: step })
 
     then(/^promotions are (applied|removed)$/, () => {
         let response: any;
-        let responseText: any;
         response = ResponseContext().shoppingCartResponse;
-        responseText = ResponseContext().shoppingCartResponseText;
         let promotions = shoppingCartContext().promotions;
-        var addPromotion = null;
-        var removePromotion = null;
+        let addPromotion = null;
+        let removePromotion = null;
         for (let [key, value] of promotions) {
             if (String(value) === 'Add') {
                 addPromotion = key;
@@ -126,7 +123,7 @@ export const FIFA_promotionSteps = ({ when, and, then}: { [key: string]: step })
         async (action) => {
             let response = ResponseContext().shoppingCartResponse;
             let promotionsMap = shoppingCartContext().promotions;
-            var promotions = [];
+            const promotions = [];
             for (let [key, value] of promotionsMap) {
                 if (String(value) === 'Add' || String(value) === 'Delete') {
                     promotions.push(key);

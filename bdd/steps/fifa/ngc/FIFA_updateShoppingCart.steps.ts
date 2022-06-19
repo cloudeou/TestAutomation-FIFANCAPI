@@ -57,88 +57,93 @@ export const FIFA_updateShoppingCartSteps = ({
   });
 
   when('test user try to update Shopping Cart', async () => {
-      const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
-      let externalLocationId = preconditionContext().addressId;
-      let distributionChannel = preconditionContext().distributionChannel;
-      let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
-      let customerCategory = preconditionContext().customerCategory;
-      let selectedOffers = null;
-
-      let distChannelOption = Common.resolveAddressId(
-        distributionChannelExternalId,
-        distributionChannel,
-      );
-      if (shoppingCartContext().addingOffer) {
-          selectedOffers = shoppingCartContext().offersToAdd;
-      } else {
-          shoppingCartContext().offersToAdd = null;
-      }
-      let charMap = null;
-      if (shoppingCartContext().addingCharMap) {
-          charMap = shoppingCartContext().charMap;
-      } else {
-          shoppingCartContext().charMap = null;
-      }
-      let customerAccountECID: any = preconditionContext().externalCustomerId!;
-      let childOfferMap = null;
-      if (shoppingCartContext().addingChild) {
-          childOfferMap = shoppingCartContext().childOfferMap;
-      } else {
-          shoppingCartContext().childOfferMap = null;
-      }
-
-      let promotionMap = null;
-      if (shoppingCartContext().addingPromotion) {
-          promotionMap = shoppingCartContext().promotions;
-      } else {
-          shoppingCartContext().promotions = null;
-      }
-      let response = responseContext().shoppingCartResponse;
-      let responseText = JSON.stringify(response)
-
-      if (responseText.includes(customerAccountECID)) {
-          customerAccountECID = null;
-      }
-
-      const requestBody = {
-          prevResponse: response,
-          lpdsid: externalLocationId,
-          customerCategory: customerCategory,
-          distributionChannel: distChannelOption,
-          charMap,
-          childOfferMap,
-          ecid: customerAccountECID,
-          offersToAdd: selectedOffers,
-          promotionMap
-      }
-
-      console.log('BODY IN UPDATE: ' + JSON.stringify(requestBody));
-
-      shoppingCartContext().addingOffer = false;
-      shoppingCartContext().addingChild = false;
-      shoppingCartContext().addingCharMap = false;
-      shoppingCartContext().addingPromotion = false;
-
       try {
-          const response: AxiosResponse = await shoppingCartApi.updateShoppingCart(requestBody);
+          const shoppingCartApi = shoppingCartContext().shoppingCartApiInstance;
+          let externalLocationId = preconditionContext().addressId;
+          let distributionChannel = preconditionContext().distributionChannel;
+          let distributionChannelExternalId = preconditionContext().distributionChannelExternalId;
+          let customerCategory = preconditionContext().customerCategory;
+          let selectedOffers = null;
 
-          if (response.status != 201) {
-              errorContext().error = `Unexpected http status code in update ShoppingCart: ${response.status}`;
-              errorContext().status = ErrorStatus.skipped;
+          let distChannelOption = Common.resolveAddressId(
+            distributionChannelExternalId,
+            distributionChannel,
+          );
+          if (shoppingCartContext().addingOffer) {
+              selectedOffers = shoppingCartContext().offersToAdd;
+          } else {
+              shoppingCartContext().offersToAdd = null;
+          }
+          let charMap = null;
+          if (shoppingCartContext().addingCharMap) {
+              charMap = shoppingCartContext().charMap;
+          } else {
+              shoppingCartContext().charMap = null;
+          }
+          let customerAccountECID: any = preconditionContext().externalCustomerId!;
+          let childOfferMap = null;
+          if (shoppingCartContext().addingChild) {
+              childOfferMap = shoppingCartContext().childOfferMap;
+          } else {
+              shoppingCartContext().childOfferMap = null;
           }
 
-          Common.checkValidResponse(response, 200);
-          const responseText = JSON.stringify(response, replacerFunc(), '\t');
-          responseContext().shoppingCartResponse = response.data;
-          responseContext().shopppingCartResonseText = responseText;
-      } catch (error: any) {
-          console.log(error)
-          errorContext().error = error;
-          errorContext().status = ErrorStatus.failed;
-          responseContext().SCstatusCode = error.response.status;
-          responseContext().shoppingCartResponse = error.response.data;
-          test('Error response should be received', true, AssertionModes.strict)
-            .is(false, 'Error response is received\n' + JSON.stringify(error, null, '\t'))
+          let promotionMap = null;
+          if (shoppingCartContext().addingPromotion) {
+              promotionMap = shoppingCartContext().promotions;
+          } else {
+              shoppingCartContext().promotions = null;
+          }
+          let response = responseContext().shoppingCartResponse;
+          let responseText = JSON.stringify(response)
+
+          if (responseText.includes(customerAccountECID)) {
+              customerAccountECID = null;
+          }
+
+          const requestBody = {
+              prevResponse: response,
+              lpdsid: externalLocationId,
+              customerCategory: customerCategory,
+              distributionChannel: distChannelOption,
+              charMap,
+              childOfferMap,
+              ecid: customerAccountECID,
+              offersToAdd: selectedOffers,
+              promotionMap
+          }
+
+          console.log('BODY IN UPDATE');
+
+          shoppingCartContext().addingOffer = false;
+          shoppingCartContext().addingChild = false;
+          shoppingCartContext().addingCharMap = false;
+          shoppingCartContext().addingPromotion = false;
+
+          try {
+              const response: AxiosResponse = await shoppingCartApi.updateShoppingCart(requestBody);
+
+              if (response.status != 201) {
+                  errorContext().error = `Unexpected http status code in update ShoppingCart: ${response.status}`;
+                  errorContext().status = ErrorStatus.skipped;
+              }
+
+              Common.checkValidResponse(response, 200);
+              const responseText = JSON.stringify(response, replacerFunc(), '\t');
+              responseContext().shoppingCartResponse = response.data;
+              responseContext().shopppingCartResonseText = responseText;
+          } catch (error: any) {
+              console.log(error)
+              errorContext().error = error;
+              errorContext().status = ErrorStatus.failed;
+              responseContext().SCstatusCode = error.response.status;
+              responseContext().shoppingCartResponse = error.response.data;
+              test('Error response should be received', true, AssertionModes.strict)
+                .is(false, 'Error response is received\n' + JSON.stringify(error, null, '\t'))
+          }
+      }
+      catch (e) {
+          console.log(e)
       }
     });
 
@@ -178,70 +183,73 @@ export const FIFA_updateShoppingCartSteps = ({
                 }
             }
         });
-        console.log("SC CONTEXT", shoppingCartContext().charMap);
     });
 
     then(/^test validate shopping cart is updated successfully$/, async () => {
-        let response: any;
-        let responseText: any;
-        response = responseContext().shoppingCartResponse;
-        console.log("RESD", JSON.stringify(response));
-        responseText = responseContext().shoppingCartResponseText;
-        test('update SC - SC should have OPEN status', response.status, AssertionModes.strict)
-            .is('OPEN', 'SC should have OPEN status\n' + responseText)
-        test('update SC - Response should contain cartItem', response.cartItem, AssertionModes.strict)
-            .isnot(undefined, 'Response should contain cartItem\n' + responseText)
-        test('update SC - Expecting some offers to be returned', true, AssertionModes.strict)
-            .is(response.cartItem.length > 0, 'Expecting some offers to be returned \n',)
+        try {
+            let response: any;
+            let responseText: any;
+            response = responseContext().shoppingCartResponse;
+            responseText = responseContext().shoppingCartResponseText;
+            test('update SC - SC should have OPEN status', response.status, AssertionModes.strict)
+              .is('OPEN', 'SC should have OPEN status\n' + responseText)
+            test('update SC - Response should contain cartItem', response.cartItem, AssertionModes.strict)
+              .isnot(undefined, 'Response should contain cartItem\n' + responseText)
+            test('update SC - Expecting some offers to be returned', true, AssertionModes.strict)
+              .is(response.cartItem.length > 0, 'Expecting some offers to be returned \n',)
 
-        let shoppingCartId = response.id;
-        shoppingCartContext().shoppingCartId = shoppingCartId;
+            let shoppingCartId = response.id;
+            shoppingCartContext().shoppingCartId = shoppingCartId;
 
-        const offers = shoppingCartContext().offersToAdd;
-        const offerList = [];
-        const offersDeleted = [];
-        for (let [key, value] of offers) {
-            if (String(value) === 'Add') {
-                offerList.push(String(key));
-            } else if (String(value) === 'Delete') {
-                offersDeleted.push(String(key));
+            const offers = shoppingCartContext().offersToAdd;
+            const offerList = [];
+            const offersDeleted = [];
+            for (let [key, value] of offers) {
+                if (String(value) === 'Add') {
+                    offerList.push(String(key));
+                } else if (String(value) === 'Delete') {
+                    offersDeleted.push(String(key));
+                }
             }
-        }
-        Common.validateAllOffersPresentInResponse(response, offerList);
-        Common.validateAllOffersNotPresentInResponse(response, offersDeleted);
+            Common.validateAllOffersPresentInResponse(response, offerList);
+            Common.validateAllOffersNotPresentInResponse(response, offersDeleted);
 
-        const childOffers = shoppingCartContext().childOfferMap;
-        let childOfferMap = null;
-        let childOfferMapDeleted = null;
-        for (let [key, value] of childOffers) {
-            if (String(value) === 'Add') {
-                childOfferMap = key;
-            } else if (String(value) === 'Delete') {
-                childOfferMapDeleted = key;
+            const childOffers = shoppingCartContext().childOfferMap;
+            let childOfferMap = null;
+            let childOfferMapDeleted = null;
+            for (let [key, value] of childOffers) {
+                if (String(value) === 'Add') {
+                    childOfferMap = key;
+                } else if (String(value) === 'Delete') {
+                    childOfferMapDeleted = key;
+                }
             }
-        }
-        Common.validateOfferMapInResponse(childOfferMap, response);
-        Common.validateOfferMapNotInResponse(childOfferMapDeleted, response);
+            Common.validateOfferMapInResponse(childOfferMap, response);
+            Common.validateOfferMapNotInResponse(childOfferMapDeleted, response);
 
-        Common.validateCharMapInResponse(
-            childOfferMap,
-            shoppingCartContext().charMap,
-            response,
-            shoppingCartContext().existingChildOffers,
-        );
-        if (!Common.validateWorkOrdersCorrectness(response)) {
-            console.warn(
-                'Expected work orders did not match workOrders in cart...!!!',
+            Common.validateCharMapInResponse(
+              childOfferMap,
+              shoppingCartContext().charMap,
+              response,
+              shoppingCartContext().existingChildOffers,
             );
+            if (!Common.validateWorkOrdersCorrectness(response)) {
+                console.warn(
+                  'Expected work orders did not match workOrders in cart...!!!',
+                );
+            }
+
+            let existingChildOfferMap = Common.createExistingChildOffersMap(
+              responseContext().shoppingCartResponse,
+            );
+
+            shoppingCartContext().existingChildOffers = existingChildOfferMap;
+
+            return;
         }
-
-        let existingChildOfferMap = Common.createExistingChildOffersMap(
-            responseContext().shoppingCartResponse,
-        );
-        // console.log(existingChildOfferMap);
-        shoppingCartContext().existingChildOffers = existingChildOfferMap;
-
-        return;
+        catch (e) {
+            console.log(e)
+        }
     });
 
     then(/^test validate that offers can not be removed$/, async () => {

@@ -6,14 +6,14 @@
 Feature: Provide TELUS Gamer Internet
 
   Scenario: Check address
-    Given user has address with type LTE
-    When get address based on entered data: '6144684'
+    Given user has address with type GPON
+    When get address based on entered data: '5014594'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
     Given preconditions by user are selected
     When user check availability
-    Then address should be qualified for LTE
+    Then address should be qualified for GPON
 
   Scenario: Create a customer
     Given preconditions by user are selected
@@ -76,27 +76,42 @@ Feature: Provide TELUS Gamer Internet
     And validate that all orders are completed successfully
 
 
-  Scenario: Create SC to remove commitment
+  Scenario: Create same SC
     Given preconditions by user are selected
     When test user try to create Shopping Cart
     Then test validate shopping cart is created successfully
 
-  Scenario: Update shopping cart and add child offers
+  Scenario: Update shopping cart and remove commitment
     Given preconditions by user are selected
     And test user delete offers:
       | OfferId             |
-#      | 9160783681513938083 |
-#    # Save on Internet only for 24 months
-      | 9162267642120575793 |
-    # TELUS Wi-Fi Plus
+      | 9160783681513938083 |
+    # Save on Internet only for 24 months
     When test user try to update Shopping Cart
-    Then test validate shopping cart is updated successfully
-
+    And test user validate shopping cart should contain top offers:
+      | OfferId             |
+      | 9160783681513938083 |
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
     When test user try to validate shopping cart
-    Then test no error messages should be in shopping cart
+    Then test error messages should be in shopping cart: 'Block Gamer Internet if Gift is selected'
+
+  Scenario: Update shopping cart and remove TELUS Wi-Fi Plus
+    Given preconditions by user are selected
+    And test user delete offers:
+      | OfferId             |
+      | 9162267642120575793 |
+    # TELUS Wi-Fi Plus
+    When test user try to update Shopping Cart
+    And test user validate shopping cart should contain top offers:
+      | OfferId             |
+      | 9162267642120575793 |
+
+  Scenario: Validate shopping cart
+    Given preconditions by user are selected
+    When test user try to validate shopping cart
+    Then test error messages should be in shopping cart: 'Gamer Internet requires TELUS Wi-Fi Plus to be selected'
 
 
 

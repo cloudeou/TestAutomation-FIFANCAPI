@@ -35,7 +35,7 @@ export class DbProxyApi  {
   public async executeQuery(query: string): Promise<AxiosResponse> {
     const body = this.generatePayload(dbActions.rawQuery, query);
     const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-    console.log("token", token);
+
     try {
       const headers = await generateKongHeaders(token);
       const response = await axiosInstance({

@@ -20,8 +20,6 @@ export class DateUtils {
 
    let month = (monthNumber < 10 ? "0" : "") + monthNumber;
    let day = (dayNumber < 10 ? "0" : "") + dayNumber;
-   console.log("month " + month)
-   console.log("day " + day)
 
     return [month, day, year].join(sep);
   }

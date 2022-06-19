@@ -12,7 +12,7 @@ export class bodyParser {
         return actualOffers;
     }
     static getProductOfferings(response: any) {
-        var offers: any = [];
+        const offers: any = [];
         if (response == null) {
             return '';
         }
@@ -22,7 +22,7 @@ export class bodyParser {
         return offers;
     }
     static getChildsByProductOffering(response: any, productOfferingId: string):Array<any> | null {
-        var childs:Array<any> = [];
+        const childs:Array<any> = [];
         if (response == null) {
             return null;
         }
@@ -48,7 +48,7 @@ export class bodyParser {
         });
     }
     static getProductOfferingObjects(response: any) {
-        var offers: any = [];
+        const offers: any = [];
         if (response == null) {
             return '';
         }

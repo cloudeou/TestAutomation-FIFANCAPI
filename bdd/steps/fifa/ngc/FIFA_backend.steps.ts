@@ -43,58 +43,59 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
 
 
   when('try to complete sales order on BE', async () => {
-    let customExternalId = preconditionContext().externalCustomerId;
-    let addressId = preconditionContext().addressId;
-    let salesOrderId = shoppingCartContext().salesOrderId;
-    console.debug('Sales Order ID' + salesOrderId);
-    test('customExternalId is defined',
-      customExternalId,
-      AssertionModes.strict).isnot(undefined, 'ecid undefined');
-    test('Customer external Id is not null',
-      customExternalId,
-      AssertionModes.strict).isnot(null, "Customer external Id is null'");
-    test('SO is defined',
-      salesOrderId,
-      AssertionModes.strict).isnot(undefined, 'SO is undefined');
-    test('SO is not null',
-      salesOrderId,
-      AssertionModes.strict).isnot(null, 'SO is null');
-    let response = responseContext().shoppingCartResponse;
-    test('Response is not null',
-      response,
-      AssertionModes.strict).isnot(null, 'Response is null');
-    const customerId = preconditionContext().customerObjectId!;
-    console.debug('customer id' + customerId);
-    let order: any;
-    order = {customerId};
-    order.customerId = customerId;
-    console.debug(`Customer's internal id: ${order.customerId}`);
-    console.debug('Storing Manual Task Id');
-    let incompleteorders: any;
-
     try {
-      const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
-      await Common.delay(10000)
-      incompleteorders = response.data.rows;
-      console.log('get correct incompleteorders', incompleteorders);
-    } catch (error) {
+      let customExternalId = preconditionContext().externalCustomerId;
+      let addressId = preconditionContext().addressId;
+      let salesOrderId = shoppingCartContext().salesOrderId;
+      console.debug('Sales Order ID' + salesOrderId);
+      test('customExternalId is defined',
+        customExternalId,
+        AssertionModes.strict).isnot(undefined, 'ecid undefined');
+      test('Customer external Id is not null',
+        customExternalId,
+        AssertionModes.strict).isnot(null, "Customer external Id is null'");
+      test('SO is defined',
+        salesOrderId,
+        AssertionModes.strict).isnot(undefined, 'SO is undefined');
+      test('SO is not null',
+        salesOrderId,
+        AssertionModes.strict).isnot(null, 'SO is null');
+      let response = responseContext().shoppingCartResponse;
+      test('Response is not null',
+        response,
+        AssertionModes.strict).isnot(null, 'Response is null');
+      const customerId = preconditionContext().customerObjectId!;
+      console.debug('customer id' + customerId);
+      let order: any;
+      order = {customerId};
+      order.customerId = customerId;
+      console.debug(`Customer's internal id: ${order.customerId}`);
+      console.debug('Storing Manual Task Id');
+      let incompleteorders: any;
 
-      console.log(error);
-      throw error
-    }
-    if (!!incompleteorders && incompleteorders.length > 0) {
+      try {
+        const response = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId!));
+        await Common.delay(10000)
+        incompleteorders = response.data.rows;
+        console.log('get correct incompleteorders', incompleteorders);
+      } catch (error) {
 
-      await tasksHandler.processManualTask(customerId)
+        console.log(error);
+        throw error
+      }
+      if (!!incompleteorders && incompleteorders.length > 0) {
 
-      await ordersHandler.processPendingWorkOrders(customerId)
+        await tasksHandler.processManualTask(customerId)
 
-      await ordersHandler.processAllPendingOrders(customerId)
+        await ordersHandler.processPendingWorkOrders(customerId)
 
-      await Common.delay(60000)
+        await ordersHandler.processAllPendingOrders(customerId)
 
-      await retry(
-          async (options) => { 
-            // options.current, times callback has been called including this call
+        await Common.delay(60000)
+
+        await retry(
+          async (options) => {
+
             const response: AxiosResponse = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId))
 
             if (!response || response.data.rows.length === undefined) {
@@ -106,28 +107,25 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
                 response,
                 replacerFunc()
               ))
-              /*throw new Error(
-                `Retrying now as we are getting still pending orders: ${JSON.stringify(
-                  response,
-                  replacerFunc()
-                )}`,
-              );*/
             }
-            console.log(`response.data.rows !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ${response.data.rows}`)
             shoppingCartContext().allPendingOrders = response.data.rows;
           },
           {
-              max: 5, // maximum amount of tries
-              timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
-              backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
+            max: 5, // maximum amount of tries
+            timeout: 20000, // throw if no response or error within millisecond timeout, default: undefined,
+            backoffBase: 3000, // Initial backoff duration in ms. Default: 100,
           },
-      );
-    }
+        );
+      }
 
       else {
         shoppingCartContext().allPendingOrders = [];
       }
 
+    }
+    catch (e) {
+      console.log(e)
+    }
   })
 
   when('try to cancel sales order on BE', async () => {
@@ -166,24 +164,13 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
 
       await retry(
         async function (options) {
-          // options.current, times callback has been called including this call
+
           const response: AxiosResponse= await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
 
           if (!response.data.rows || response.data.rows.length === undefined) {
             throw 'Got pending orders as undefined' + response;
           }
-          if (response.data.rows.length > 0) {
-            // throw new Error(
-            //   `Retrying now as we are getting still pending orders: ${JSON.stringify(
-            //     response,
-            //   )}`,
-            // );
-          }
-          // console.info(
-          //   `all pending orders after completing order on ncbe${JSON.stringify(
-          //     response,
-          //   )}`,
-          // );
+
           shoppingCartContext().allPendingOrders = response.data.rows;
         },
         {
@@ -200,19 +187,29 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
   });
 
   then('validate that no errors created on BE', async () => {
-    const customerId = preconditionContext().customerObjectId!;
-    const response = await dbProxy.executeQuery(getErrorsOccuredForCustomer(customerId))
+    try {
+      const customerId = preconditionContext().customerObjectId!;
+      const response = await dbProxy.executeQuery(getErrorsOccuredForCustomer(customerId))
 
-    const customerErrors = response.data.rows
-    console.debug('Errors' + JSON.stringify(customerErrors));
-    test('customerErrors is not null', customerErrors,AssertionModes.strict).isnot(null,'customerErrors has not to be null')
-    test('customerErrors is not undefined', customerErrors,AssertionModes.strict).isnot(undefined,'customerErrors has not to be undefined')
-    test('customerErrors.length less than 1', customerErrors.length < 1,AssertionModes.strict).is(true,'customerErrors.length less than 1')
+      const customerErrors = response.data.rows
+      console.debug('Errors' + JSON.stringify(customerErrors));
+      test('customerErrors is not null', customerErrors,AssertionModes.strict).isnot(null,'customerErrors has not to be null')
+      test('customerErrors is not undefined', customerErrors,AssertionModes.strict).isnot(undefined,'customerErrors has not to be undefined')
+      test('customerErrors.length less than 1', customerErrors.length < 1,AssertionModes.strict).is(true,'customerErrors.length less than 1')
+    }
+    catch (e) {
+      console.log(e)
+    }
   });
 
   and('validate that all orders are completed successfully', () => {
-    let allPendingOrders = shoppingCartContext().allPendingOrders;
-    test('allPendingOrders length toBe (0)', allPendingOrders.length, AssertionModes.strict).is(0,'allPendingOrders length should Be (0)')
+    try {
+      let allPendingOrders = shoppingCartContext().allPendingOrders;
+      test('allPendingOrders length toBe (0)', allPendingOrders.length, AssertionModes.strict).is(0,'allPendingOrders length should Be (0)')
+    }
+    catch (e) {
+      console.log(e)
+    }
   });
 
   and('validate that all orders are canceled successfully', () => {
@@ -235,8 +232,6 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
 
     const isKindOfSubscriberProblem = listOfActionsWIthSubscriberProblem.includes(billingActionStatus?.[0]?.[1])
 
-    console.log('failed actions',billingActionStatus)
-
     test(`Billing action status for ${customerId} is not NULL`, billingActionStatus, AssertionModes.strict).isnot(null,`Billing action status for ${customerId} should not be NULL`)
     test(`Billing action status for ${customerId} is defined`, billingActionStatus, AssertionModes.strict).isnot(undefined,`Billing action status for ${customerId} is not defined`)
     test(`Status for customer: ${customerId} should be less then 1}`,billingActionStatus.length < 1 || isKindOfSubscriberProblem, AssertionModes.strict).is(true,`Status for customer: ${customerId} is ${billingActionStatus}`)
@@ -244,7 +239,6 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
 
   and('check present order statuses', async (table) => {
     let status = 'present'
-    console.log("status ", status)
 
     let customerObjectId = preconditionContext().customerObjectId!;
     let statusMap = Common.getStatusesMapFromTable(table);
@@ -253,17 +247,13 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
     for (const [key, value] of statusMap) {
       const response = await dbProxy.executeQuery(queryCheckOrdersStatuses(key, customerObjectId))
       let orderStatus = response.data.rows
-       console.log(orderStatus)
-       console.log(key)
        
        status === 'present'
        ?
         test(`Status for ${key} = ${orderStatus[0][1]} but not ${value} is equal to ${data.statuses[value]}`, orderStatus[0][0], AssertionModes.strict)
           .is(data.statuses[value],`Status for ${key} = ${orderStatus[0][1]} but not ${value}`)
-        //expect(orderStatus[0][0], `Status for ${key} = ${orderStatus[0][1]} but not ${value}`,).toEqual(data.statuses[value])
         :
         test('orderStatus equal []', orderStatus.length === 0, AssertionModes.strict).is(true,`Order ${key} present in shoping cart`)
-        //expect(orderStatus, `Order ${key} present in shoping cart`).toEqual([]);
     }
   });
 
@@ -282,10 +272,8 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
         ?
         test(`Status for ${key} = ${orderStatus[0][1]} but not ${value} is equal to ${data.statuses[value]}`, orderStatus[0][0], AssertionModes.strict)
           .is(data.statuses[value],`Status for ${key} = ${orderStatus[0][1]} but not ${value}`)
-        //expect(orderStatus[0][0], `Status for ${key} = ${orderStatus[0][1]} but not ${value}`,).toEqual(data.statuses[value])
         :
         test('orderStatus equal []', orderStatus.length === 0, AssertionModes.strict).is(true,`Order ${key} present in shoping cart`)
-        //expect(orderStatus, `Order ${key} present in shoping cart`).toEqual([]);
     }
   });
 
@@ -308,7 +296,6 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
   });
 
   and(/send async call to (link|unlink) a Smart Speaker/, async (value) => {
-    console.log("value ", value)
     const enterpriseCustomerID =preconditionContext().externalCustomerId;
     value === 'link' 
     ? console.log( await tapis.sendingCallToLink(enterpriseCustomerID, 'new')) 
@@ -321,10 +308,6 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
 
     const response = await dbProxy.executeQuery(iptvServiceKey(customerId))
 
-    console.log('customerId: ' + customerId)
-
-    console.log('iptvServiceKey: ' + response.data.rows[0][0])
-
     console.log( await tapis.stepForAddingSTB(response.data.rows[0][0]))
   });
 
@@ -335,7 +318,6 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
       const response = await dbProxy.executeQuery(queryOption82((customerId.toString())))
 
       let option82 = response.data.rows
-      console.log('customerId: ' + customerId)
 
       console.log('option82: ' + option82)
     }

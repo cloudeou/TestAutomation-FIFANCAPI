@@ -86,9 +86,6 @@ export class BodyGenerator {
     this.scResponse = scResponse;
     this.type = type;
     this.action = action;
-
-    // this.envcfg = brconfig.getConfigForGivenEnv();
-    // this.promoEnv = brconfig.getPromotionEnv(this.envcfg);
     this.envcfg = envConfig;
     this.promoEnv = envConfig.env;
   }
@@ -323,8 +320,6 @@ export class BodyGenerator {
       cartItem.push(
         bodySample.appPromotionCarts(
           discountDetail,
-          // discountDetail[0].discountId,
-          // discountDetail[0].reasonCd,
           cartItemId,
           'Add',
         ),
@@ -338,16 +333,6 @@ export class BodyGenerator {
     if (this.deletePromotionMap === null) {
       return null;
     }
-    // bodyParser.getDiscountIdForProductOffer(
-    //   this.scResponse,
-    //   offerId,
-    //   discountDetail[0].discountId,
-    // ),
-    // bodyParser.getDiscountValueForProductOffer(
-    //   this.scResponse,
-    //   offerId,
-    //   discountDetail[0].discountId,
-    // ),
     let cartItem = [];
     for (let [offerId, discountDetail] of this.deletePromotionMap) {
       let cartItemId = bodyParser.getItemIdByProductOffering(
@@ -361,16 +346,6 @@ export class BodyGenerator {
           'Delete',
           offerId,
           this.scResponse,
-          // bodyParser.getDiscountIdForProductOffer(
-          //   this.scResponse,
-          //   offerId,
-          //   discountDetail[0].discountId,
-          // ),
-          // bodyParser.getDiscountValueForProductOffer(
-          //   this.scResponse,
-          //   offerId,
-          //   discountDetail[0].discountId,
-          // ),
         ),
       );
     }
@@ -434,7 +409,7 @@ export class BodyGenerator {
         if (this.charMap !== null && this.charMap !== undefined) {
           charItemsT = this.charMap.get(childOffer);
         }
-        console.log('Chars for one child item:' + charItemsT);
+
         let charItems = [];
         for (let j = 0; !!charItemsT && j < charItemsT.length; j++) {
           let c = charItemsT[j];
@@ -486,8 +461,7 @@ export class BodyGenerator {
           this.scResponse,
           childOffer,
         );
-        console.log('childItemInCart: ' + childItemInCart)
-        console.log('childOffer: ' + childOffer)
+
         if (this.charMap !== null && this.charMap !== undefined) {
           charItems = this.generateCharsItem(this.charMap.get(childOffer));
         }

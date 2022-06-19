@@ -5,8 +5,7 @@ import ResponseContext from "../../../bdd/contexts/fifa/FIFA_ResponseConntext";
 import { Identificators } from "../../../bdd/contexts/Identificators";
 import {
   getHoldOrderTaskNumber, getManualTasksFromOrder,
-  getShipmentOrderNumberAndPurchaseOrderNumber, getTaskNumber,
-  getWorkOrderNumbersNotCompleted,
+  getTaskNumber, getWorkOrderNumbersNotCompleted,
   queryNcCustomerOrdersStatusNeitherCompletedNorProcessed,
   getShipmentOrderObjectIdAndShipmentItemsQuery
 } from "../db/db-queries";
@@ -31,8 +30,6 @@ export class OrdersHandler {
   async processPendingWorkOrders(customerId: string) {
     await this.requestWorkOrderNumbersNotCompleted(customerId);
 
-    console.log('pendingWorkOrders class, ',this._pendingWorkOrders)
-
     if (
       this._pendingWorkOrders !== null &&
       this._pendingWorkOrders !== undefined &&
@@ -45,12 +42,10 @@ export class OrdersHandler {
 
           await retry(
             async (options) => {
-              // options.current, times callback has been called including this call
 
               const response: AxiosResponse = await dbProxy.executeQuery(queryNcCustomerOrdersStatusNeitherCompletedNorProcessed(customerId));
 
               const ordersnotprocessed = response.data.rows;
-
 
               for (
                 let orIndex = 0;
@@ -63,8 +58,6 @@ export class OrdersHandler {
                   let query = `select to_char(status) from nc_po_Tasks where order_id = ${orderInternalId} and name = 'Wait for Release Activation notification'`;
 
                   const response = await dbProxy.executeQuery(query)
-
-                  console.log(`status - select to_char(status) from nc_po_Tasks where order_id `, response.data.rows)
 
                   if (response.data.rows[0][0].length === undefined) {
                     throw (
@@ -104,7 +97,7 @@ export class OrdersHandler {
         const response = await dbProxy.executeQuery(getWorkOrderNumbersNotCompleted(customerId));
         await Common.delay(10000);
         const workOrderNumbersNotCompleted = response.data.rows;
-        console.log('getWorkOrderNumbersNotCompleted',response.data)
+
         if (workOrderNumbersNotCompleted.length === undefined) {
           throw 'Got pending work orders as undefined' + response;
         }
@@ -141,16 +134,12 @@ export class OrdersHandler {
           let ecid = response.ecid;
           console.log("ecid", ecid)
           if (orderName.toLowerCase().includes('shipment')) {
-            console.debug(
-              'Processing release activation for orderInternalId: ' +
-              orderInternalId,
-            );
+
             await tapis.processReleaseActivation(orderInternalId);
-            // console.info('Getting shipment order and purchase no.');
+
             const getShipmentOrder = await dbProxy.executeQuery(getShipmentOrderObjectIdAndShipmentItemsQuery(ecid))
 
             const getShipmentOrderResponse = getShipmentOrder.data.rows
-            console.log("getShipmentOrderResponse ",JSON.stringify(getShipmentOrderResponse))
             
             let items = []
             for (let orShIndex = 0; orShIndex < getShipmentOrderResponse.length; orShIndex++) {
@@ -160,19 +149,14 @@ export class OrdersHandler {
               const item = new PayloadGenerator(ecid, shipmentOrderObjectId, orderNumber, sku).generateItem(ecid, shipmentOrderObjectId, orderNumber, sku)
               items.push(item)
             }
-            console.log("items ", JSON.stringify(items))
 
-            const response = await tapis.completeShipmentOrder(items);
-            console.log("responseStatus ",response.status)
+            await tapis.completeShipmentOrder(items);
 
-            console.debug('Getting HoldOrderTaskNumber');
             await Common.delay(10000);
             const holdordertask = await dbProxy.executeQuery(getHoldOrderTaskNumber(getShipmentOrderResponse[0][0]))
-            console.log("holdordertask " + (holdordertask));
             const holdordertaskResponce = holdordertask.data.rows
-            console.log("holdordertask " +(holdordertaskResponce));
+
             try {
-              console.debug('Processing Hold order task: ' + holdordertaskResponce);
               await tapis.processHoldOrderTask(holdordertaskResponce);
             } catch (err) {
               console.log(err)
@@ -276,7 +260,6 @@ export class OrdersHandler {
         if (response.data.rows.length === undefined) {
           throw 'Got pending orders as undefined' + response;
         }
-        console.log('allPendingOrders ' + response.data.rows)
 
         this._allPendingOrders =  response.data.rows;
       },

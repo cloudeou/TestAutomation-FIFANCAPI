@@ -18,9 +18,7 @@ export const FIFA_productInventorySteps = ({ given, and, when, then } : { [key: 
     let preconditionContext = (): FIFA_PreconditionContext =>
     featureContext().getContextById(Identificators.FIFA_preConditionContext);
   let responseContext = (): ResponseContext =>
-    featureContext().getContextById(Identificators.FIFA_ResponseContext);
-  let shoppingCartContext = (): FIFA_ShoppingCartContext =>
-    featureContext().getContextById(Identificators.FIFA_shoppingCartContext);
+    featureContext().getContextById(Identificators.FIFA_ResponseContext);;
   let productInventoryContext = (): FIFA_ProductInventoryContext =>
     featureContext().getContextById(Identificators.FIFA_productInventoryContext);
 
@@ -51,8 +49,6 @@ export const FIFA_productInventorySteps = ({ given, and, when, then } : { [key: 
     
         try {
             const productInventoryResponse = await fifaNcApi.requestProductInventory(uri)
-
-            console.log(JSON.stringify(productInventoryResponse));
 
             test(
                 'Product inventory response created successfully',
@@ -97,10 +93,8 @@ export const FIFA_productInventorySteps = ({ given, and, when, then } : { [key: 
             );
             const productstatusreceived = body[index].status;
             productIdsReceived.push(productidreceived);
-            console.log(`productinvetoryIds: ${productIdsReceived}`);
 
             productNameReceived.push(productnamereceived);
-            console.log(`productinvetoryNames:${productNameReceived}`);
 
             productNameReceived.push(productSpecificationName);
             productIdsReceived.push(prodductSpecificationId);
@@ -207,9 +201,6 @@ export const FIFA_productInventorySteps = ({ given, and, when, then } : { [key: 
             foundProduct, 
             AssertionModes.strict,
             ).isnot(undefined, `Product with id: ${productOfferId} not found`)
-          // availability === 'have'
-          // ? expect(foundProduct, `Product with id: ${productOfferId} not found`).not.toBeUndefined()
-          // : expect(foundProduct, `Product with id: ${productOfferId} not found`).not.toBeUndefined()
     
           const foundChilds = foundProduct.productRelationship.filter(
             ({ product }: any) => {

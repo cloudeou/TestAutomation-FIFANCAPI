@@ -71,23 +71,6 @@ export class bodyParser {
     return itemResult;
   }
 
-  static getPriceForProductOffer(response: any, productOfferingId: string) {
-    if (response == null) {
-      return "";
-    }
-    let price = null;
-    for (let i = 0; i < response.cartItem.length; i++) {
-      if (response.cartItem[i].productOffering.id == productOfferingId) {
-        price = response.cartItem[i].itemPrice.price.dutyFreeAmount.value;
-        break;
-      }
-    }
-    if (price == null) {
-      console.log("No price for this item or item not found");
-    }
-    return price;
-  }
-  // body.cartItem[2].itemPrice[1].priceAlteration[0].id
   static getDiscountIdForProductOffer(
     response: any,
     productOfferingId: string,
@@ -116,65 +99,6 @@ export class bodyParser {
     return id;
   }
 
-  static getDiscountValueForProductOffer(
-    response: any,
-    productOfferingId: string,
-    promotionCode: string
-    // promoType
-  ) {
-    if (response == null) {
-      return "";
-    }
-    let price = null,
-      temp;
-    for (let i = 0; i < response.cartItem.length; i++) {
-      if (response.cartItem[i].productOffering.id == productOfferingId) {
-        for (let x = 0; x < response.cartItem[i].itemPrice.length; x++) {
-          temp = response.cartItem[i].itemPrice[x].priceAlteration;
-          for (let j = 0; j < temp.length; j++) {
-            if (temp[j].catalogId === promotionCode) {
-              price = temp[j].price.dutyFreeAmount.value;
-              break;
-            }
-          }
-        }
-        if (price !== null) break;
-      }
-    }
-    if (price == null) {
-      console.log("No price for this item or item not found");
-    }
-    return price;
-  }
-
-  static getDiscountValueById(
-    response: any,
-    productOfferingId: string,
-    id: string
-  ) {
-    if (response == null) {
-      return "";
-    }
-    let price = null,
-      temp;
-    for (let i = 0; i < response.cartItem.length; i++) {
-      if (response.cartItem[i].productOffering.id == productOfferingId) {
-        temp = response.cartItem[i].itemPrice[1].priceAlteration;
-        for (let j = 0; j < temp.length; j++) {
-          if (temp[j].id === id) {
-            price = temp[j].price.dutyFreeAmount.value;
-            break;
-          }
-        }
-        if (price !== null) break;
-      }
-    }
-    if (price == null) {
-      console.log("No price for this item or item not found");
-    }
-    return price;
-  }
-
   static getSCChars(resposnse: any) {
     return resposnse.characteristic;
   }
@@ -194,49 +118,11 @@ export class bodyParser {
     return offerings;
   }
 
-  static getProductOfferings(response: any) {
-    var offers: string[] = [];
-    if (response == null) {
-      return "";
-    }
-    response.productOfferingQualificationItem.forEach((item: any) => {
-      offers.push(item.productOffering.id);
-    });
-    return offers;
-  }
-
-  // UPD: get productOfferings as objects
-  static getProductOfferingObjects(response: any) {
-    var offers: string[] = [];
-    if (response == null) {
-      return "";
-    }
-    response.productOfferingQualificationItem.forEach((item: any) => {
-      offers.push(item.productOffering);
-    });
-    return offers;
-  }
-
-  static getChildsByProductOffering(response: any, productOfferingId: string) {
-    var childs: string[] = [];
-    if (response == null) {
-      return "";
-    }
-    response.productOfferingQualificationItem.forEach((item: any) => {
-      if (item.productOffering.id == productOfferingId) {
-        item.productOffering.bundledProductOffering.forEach((child: any) => {
-          childs.push(child.productOffering.id);
-        });
-      }
-    });
-    return childs;
-  }
-
   static getChildsByProductOfferingFromCart(
     response: any,
     productOfferingId: string
   ) {
-    var childs: string[] = [];
+    const childs: string[] = [];
     if (response == null) {
       return "";
     }
@@ -277,7 +163,6 @@ export class bodyParser {
       const res = matches[itemNumber - 1 + shift].product.characteristic.find(
         (char: any) => char.name == charName
       ).value;
-      //console.log(res);
       return res;
     }
   }

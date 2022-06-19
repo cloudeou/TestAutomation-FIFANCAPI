@@ -19,10 +19,9 @@ export class ProductInventoryApi {
     public async requestProductInventory(uri?: any, body?: any, queryParams?: any): Promise<AxiosResponse> {
         
         try {
-            body = body || null;
             queryParams = queryParams || null;
             const token = await this._oauthToken.getToken(envConfig.productInventory.scope);
-            console.log("token", token);
+
             const headers =  await generateKongHeaders(token);
             const response = await axiosInstance({
                 method: "GET",

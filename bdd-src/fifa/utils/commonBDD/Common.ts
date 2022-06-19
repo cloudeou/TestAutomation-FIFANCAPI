@@ -1,4 +1,4 @@
-import {skipScenario, featureContext, test, AssertionModes} from '@cloudeou/telus-bdd';
+import {featureContext, test, AssertionModes} from '@cloudeou/telus-bdd';
 import {RandomValueGenerator} from '../common/RandomValueGenerator';
 import {bodyParser} from "../../shopping-cart/shopping-cart.body-parser";
 import FIFA_PreconditionContext from "../../../../bdd/contexts/fifa/FIFA_PreconditionContext";
@@ -17,8 +17,7 @@ let preconditionContext = (): FIFA_PreconditionContext =>
 export class Common {
     static getOffersFromTable(table: any, shoppingCartContext: any) {
         let productOfferingList: Array<any> = [];
-        console.log("inside getOffersFromTable");
-        console.log(table);
+
         table.forEach(function (row: any) {
             let offerId = row.OfferId;
             if (offerId === "any") {
@@ -33,7 +32,7 @@ export class Common {
         test('Response should not be empty', response, AssertionModes.strict ).isnot(null,'Response is empty');
         test('Response field should be present',  response.data, AssertionModes.strict).isnot(undefined,'Response is not present');
         test('Response should contain body', response.data, AssertionModes.strict).isnot(undefined,'Response is not contain body');
-        //test('Actual result', response,AssertionModes.strict).isnot(null,'Response should contain body')
+
         if (statusCode !== undefined) {
             test('Status code',
               response.status, AssertionModes.strict).is(statusCode, `statusCode should be statusCode`)
@@ -59,11 +58,7 @@ export class Common {
         });
         return isCatContain;
     }
-    // static getBootstrapIfExists(defaultValue: any) {
-    //     return defaultValue[0] === '@'
-    //         ? preconditionContext().getBootstrapData(defaultValue.slice(1))
-    //         : defaultValue;
-    // }
+
     static IsItemQualified(qItem: any, body: any) {
 
         let flag = false;
@@ -189,7 +184,7 @@ export class Common {
     }
 
     static validateAllOffersPresentInResponse(response: any, offers: any) {
-        var flag = true;
+        let flag = true;
         let errorMessage = '';
         if (offers !== null && offers !== undefined && offers.length > 0) {
             offers.forEach((offer: any) => {
@@ -200,11 +195,10 @@ export class Common {
             });
         }
         test('validateAllOffersPresentInResponse flag to be truthy', flag, AssertionModes.strict).is(true,'flag should be truthy')
-        //expect(flag, errorMessage).toBeTruthy();
     }
 
     static validateAllOffersNotPresentInResponse(response: any, offers: any) {
-        var flag = true;
+        let flag = true;
         let n: any;
         let errorMessage = '';
         if (offers !== null && offers !== undefined && offers.length > 0) {
@@ -221,8 +215,7 @@ export class Common {
                 }
             });
         }
-        test('validateAllOffersNotPresentInResponse flag to be truthy', flag, AssertionModes.strict).is(true,'flag should be truthy')
-        //expect(flag, errorMessage).toBeTruthy();
+        test('validateAllOffersNotPresentInResponse flag to be truthy', flag, AssertionModes.strict).is(true,'validateAllOffersNotPresentInResponse flag should be truthy'+errorMessage)
     }
 
     static checkIfHasShippmentOrder(response: any) {
@@ -434,7 +427,7 @@ export class Common {
       response: any,
       existingChildOffersMap: any,
     ) {
-        //console.log(charMap);
+
         let flag = true;
         let errorMessage = '';
         if (charMap !== null) {
@@ -447,8 +440,7 @@ export class Common {
                     let itemNumberShift = 0;
                     if (childOfferMap !== null) {
                         for (let [productOfferingId, childOfferList] of childOfferMap) {
-                            // console.log(childOfferList);
-                            // console.log(item);
+
                             if (childOfferList.includes(item)) {
                                 responseTemp = bodyParser.getItemByProductOffering(
                                   response,
@@ -597,8 +589,7 @@ export class Common {
         let expectedWorkOrderCount = { count: 0, action: "" };
         response.cartItem.forEach((cartItem: any) => {
             if (cartItem.product.name === "Work Offer") {
-                // console.log('WORK OFFER WAS FOUND');
-                //console.log(JSON.stringify(cartItem));
+
                 expectedWorkOrderCount.count = cartItem.cartItem.length;
                 expectedWorkOrderCount.action = cartItem.action;
             }
@@ -607,9 +598,7 @@ export class Common {
     }
 
     static validateCustomRuleParameters(errorItem: any) {
-        // const { error, value } = customRuleParametersSchema.validate(
-        //   errorItem.customRuleParameters,
-        // );
+
         const { error } = errorItem.customRuleParameters;
         if (error) {
             return {
@@ -636,15 +625,9 @@ export class Common {
     }
 
     static createValuesMapFromTable(table: any) {
-        // let statusMap = new Map<string, any>();
-        // table.forEach(({Name, Value}) => {
-        //     statusMap.set(Name, Value);
-        // });
-        // return statusMap;
         let valuesMap: any = {};
         table.forEach(({Name, Value}: any) => {
             return Object.assign(valuesMap, { [Name]: Value })
-            // return  { ...valuesMap, [Name]: Value }
         });
         return valuesMap;
     }

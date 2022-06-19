@@ -1,4 +1,4 @@
-import {ILetter, ITestEmail} from "./types";
+import {ITestEmail} from "./types";
 import {Common} from "../commonBDD/Common";
 import {AssertionModes, test} from "@cloudeou/telus-bdd";
 const request = require('superagent');
@@ -21,7 +21,7 @@ export class MailerApi {
     `;
 
   static async createTestEmail (): Promise<ITestEmail | null> {
-    console.log('got here for creating address')
+
     try {
       const response = await request
         .post("https://dropmail.me/api/graphql/web-test-20220126bXutz")
@@ -70,8 +70,7 @@ export class MailerApi {
            includesSubject : emailBody.includes(subject)
          }
        }
-       console.log('email.headerSubject -', email.headerSubject,'has to be like', subject, 'reslut ', email.headerSubject?.match(new RegExp(subject, 'ig')))
-       console.log('email.text.includes -', email.text, '_spitted body -', splittedBody)
+
        return {
          notFoundKeyWordsInBody: splittedBody.filter(w => !email.text?.includes(w.toString())),
          includesKeyWords: splittedBody.every(w => email.text?.includes(w.toString())),
@@ -85,7 +84,6 @@ export class MailerApi {
        throw new Error('userEmail was not received')
      }
 
-     console.log('full emaill is -', global.JSON.stringify(userEmail))
      let allLettersIncludeKeyWords = true;
      const keyWordsThatWereNotFound: string[] = [];
      let allLettersIncludeSubject = true;

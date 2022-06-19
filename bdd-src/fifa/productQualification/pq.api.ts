@@ -3,7 +3,6 @@ import {envConfig} from "../env-config";
 import {OauthToken} from "../oauth-token";
 import {axiosInstance} from "../axios-instance";
 import {AxiosResponse} from "axios";
-import {bodySamples} from "../serviceQualification/sq.body-samples";
 import {generateKongHeaders} from "../IkongApi"
 
 
@@ -21,7 +20,6 @@ type PQparams = {
 export class ProductQualificationApi {
     private _body: { [key: string]: any } = {};
     private _oauthToken: any;
-    private _SCid: string = "";
 
     constructor() {
         this._oauthToken = new OauthToken(
@@ -52,9 +50,9 @@ export class ProductQualificationApi {
 
     public async productQualification(scParams: PQparams): Promise<AxiosResponse> {
         const body = this.generateBody(scParams);
-        console.log('body for PQ',JSON.stringify(body));
+
         const token = await this._oauthToken.getToken(envConfig.productQualification.scope);
-        console.log("return token")
+
         try {
             const headers = await generateKongHeaders(token);
             const response: any = await axiosInstance({

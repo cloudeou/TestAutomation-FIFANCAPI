@@ -87,7 +87,6 @@ export const shoppingCartResponseValidationSteps = (
 
     //after bug with regexps will be fixed, remove it and uncomment step above
     and('test user validate shopping cart should contain child offers:', (table) => {
-        console.log(table, 'table1','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
@@ -114,7 +113,6 @@ export const shoppingCartResponseValidationSteps = (
 
     //after bug with regexps will be fixed, remove it and uncomment step above
     and('test user validate shopping cart should not contain child offers:', (table) => {
-        console.log(table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
@@ -140,7 +138,6 @@ export const shoppingCartResponseValidationSteps = (
 
     //after bug with regexps will be fixed, remove it and uncomment step above
     and('test user validate shopping cart should contain top offers:', (table) => {
-        console.log(table, 'table','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;
@@ -163,7 +160,6 @@ export const shoppingCartResponseValidationSteps = (
     })
 
     and('test user validate shopping cart should not contain top offers:', (table) => {
-        console.log(table, 'table3','!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringIds: Array<any>;

@@ -11,7 +11,7 @@ export class TasksHandler {
 
   async processManualTask (customerId: string) {
     const manualCreditTaskId = await this.requestManualCreditTaskId(customerId);
-    console.log('get correct manualCreditTaskId', manualCreditTaskId);
+
     if (manualCreditTaskId !== null && manualCreditTaskId !== undefined) {
       await Common.delay(10000)
       await tapis.processManualTask(manualCreditTaskId);

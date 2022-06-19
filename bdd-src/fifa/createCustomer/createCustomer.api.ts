@@ -1,4 +1,3 @@
-import { data } from "../test-data/data";
 import {envConfig} from '../env-config';
 import { axiosInstance } from "../axios-instance";
 import { AssertionModes, test } from "@cloudeou/telus-bdd";
@@ -22,9 +21,8 @@ export class CreateCustomerApi {
       ): Promise<AxiosResponse> {
         try {
             const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-            console.log("token", token);
+
             const headers = await generateKongHeaders(token);
-            console.log("headers", headers);
 
             const response = await axiosInstance({
                 method: 'POST',
@@ -36,9 +34,7 @@ export class CreateCustomerApi {
             return response;
             
         } catch (error: any) {
-            console.log(`Error while send requestCreateCustomer: ${error}`);
-            console.log(`Error while send requestCreateCustomer: ${JSON.stringify(error.response.data)}`);
-
+            console.log(`Error while send requestCreateCustomer: ${JSON.stringify(error)}`);
             throw error;
         }
         
@@ -79,7 +75,6 @@ export class CreateCustomerApi {
               successText,);
 
               if (!isBCA) {
-                // console.log('TESTIK' + JSON.stringify(customerAccount));
                 test(
                 'Customer external ID should be defined and not empty',
                   customerAccount.ecid,
@@ -105,10 +100,6 @@ export class CreateCustomerApi {
                 AssertionModes.strict,
               ).isnot(0, 'Customer account ID should have more than one character\n' +
               customerAccountText);
-
-              console.log(
-                `Customer Id: ${customerAccount.customerAccountObjectId}\nECID: ${customerAccount.ecid}`,
-              );
 
               return {
                 ecid: customerAccount.ecid,

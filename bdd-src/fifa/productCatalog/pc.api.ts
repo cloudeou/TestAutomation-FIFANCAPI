@@ -4,7 +4,6 @@ import { axiosInstance } from "../axios-instance";
 import { AxiosResponse } from "axios";
 import {payloadGenerator} from "./pc.payload-generator";
 import {generateKongHeaders} from "../IkongApi"
-import {replacerFunc} from "../utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 export class ProductCatalogApi {
     private _oauthToken: any;
@@ -24,9 +23,9 @@ export class ProductCatalogApi {
 
     public async requestProductCatalog(offers: Array<String>): Promise<AxiosResponse> {
         const params = this.generateParams(offers);
-        console.log(JSON.stringify(`Params: ${params}`));
+
         const token = await this._oauthToken.getToken(envConfig.productCatalog.scope);
-        console.log("token", token);
+
         try {
             const headers = await generateKongHeaders(token);
             const response = await axiosInstance({

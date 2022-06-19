@@ -2,9 +2,7 @@
 @regression
 @Api
 @reg_59-keyword
-# Address Parameters
-@addressType=LTE
-@addressPort=LTE
+
 Feature: Provide Residential Customer
 
   Scenario: Check address

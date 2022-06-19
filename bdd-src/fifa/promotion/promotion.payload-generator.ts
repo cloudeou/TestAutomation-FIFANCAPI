@@ -109,7 +109,7 @@ export class payloadGenerator {
                 deletePromotionBody !== null &&
                 deletePromotionBody != undefined
             ) {
-                if (body !== undefined && /*body !== 'undefined' &&*/ body !== null) {
+                if (body !== undefined && body !== null) {
                     body.cartItem = body.cartItem.concat(deletePromotionBody);
                 } else {
                     body = bodySamples.getAppPromotion(

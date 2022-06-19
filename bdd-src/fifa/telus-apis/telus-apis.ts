@@ -22,19 +22,12 @@ export class TelusApiUtils {
     
 
     async processHoldOrderTask(taskObjectId: string) {
-
-        console.log( `Using netcracker api to complete holorder task ${taskObjectId}`);
-
-        let api =
-        envConfig.ikongUrl + envConfig.holdOrderTaskCompletion.endpoint;
+        let api = envConfig.ikongUrl + envConfig.holdOrderTaskCompletion.endpoint;
         const keywordToReplace = envConfig.holdOrderTaskCompletion.keywordsToReplace;
-        console.log(`Replacing ${keywordToReplace} in api with ${taskObjectId}`);
         api = StringUtils.replaceString(api, keywordToReplace, taskObjectId);
-        console.debug(`api after replacing keywords: ${api}`);
-        console.debug(`Hitting as below details: api: ${api}`);
 
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
+
         try {
             const headers = await generateKongHeaders(token);
             const response: any = await axiosInstance({
@@ -52,18 +45,14 @@ export class TelusApiUtils {
 
 
     async processManualTask(taskObjectId: string) {
-        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
         let api = envConfig.ikongUrl + envConfig.processManualTaskCompletion.endpoint;
         const keywordToReplace = '#TASK_OBJECT_ID#';
         api = StringUtils.replaceString(api, keywordToReplace, taskObjectId);
 
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
-        const headers = await generateKongHeaders(token);
 
-        console.log(`manual-task-api-url: ${api}`);
+        const headers = await generateKongHeaders(token);
 
         try {
             const response: any = await axiosInstance({
@@ -81,26 +70,13 @@ export class TelusApiUtils {
 
 
     async processReleaseActivation(workOrderId: string) {
-        console.log(
-            `Using netcracker api to send release activation event for work order ${workOrderId}`,
-        );
-        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
         const api = envConfig.ikongUrl + envConfig.releaseActivation.endpoint;
         const contentType = {
             "Content-Type": envConfig.releaseActivation.contentType,
         };
-        console.log(`api-url: ${api}
-        headers: ${JSON.stringify(contentType)}`);
 
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
-       
-      
-        console.debug(`Hitting as below details:
-        api: ${api}
-        contentType: ${JSON.stringify(contentType)}
-        `);
 
         try {
             const headers = await generateKongHeaders(token);
@@ -119,15 +95,14 @@ export class TelusApiUtils {
     }
 
     async processWorkOrder(workOrderId: string) {
-        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
         const api = envConfig.ikongUrl + envConfig.workOrderCompletion.endpoint;
         const contentType = {
             "Content-Type": envConfig.workOrderCompletion.contentType,
         };
 
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
+
         const headers = await generateKongHeaders(token);
         const body = JSON.stringify({workOrderId})
 
@@ -170,18 +145,12 @@ export class TelusApiUtils {
           }
         );
 
-        console.log(`processworkorder is ${JSON.stringify(response.data)}`)
-
         return response;
 
 
     }
 
     async completeShipmentOrder(items: any) {
-        
-            console.log(
-            `Using netcracker api to complete shipment order`,
-        );
 
         const api =
         envConfig.ikongUrl + envConfig.shipmentOrderCompletion.endpoint;
@@ -189,20 +158,13 @@ export class TelusApiUtils {
         const contentType = {
             "Content-Type": envConfig.shipmentOrderCompletion.contentType,
         };
-        console.debug(`api-url: ${api}
-          headers: ${JSON.stringify(contentType)}`);
 
         let body = {
             "items": items
         }
-        console.log('body: ' + JSON.stringify(body));
 
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
-        
-        console.debug(`Hitting as below details:
-            api: ${api}
-            contentType: ${JSON.stringify(contentType)}`);
+
     try {
         const headers = await generateKongHeaders(token);
         const response: any = await axiosInstance({
@@ -229,28 +191,23 @@ export class TelusApiUtils {
 
 
     async processSearchAvailableAppointment(locationId: string, monthToCheck: any) {
-        // Disable TLS/SSL unauthorized verification; i.e. ignore ssl certificates
-        // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+
         let now = new Date();
         let startDate = DateUtils.formatDate(new Date(now.getFullYear(), now.getMonth(), 1), '-');
         let endDate = DateUtils.formatDate(new Date(now.getFullYear(), now.getMonth() + 1, 0), '-');
         for (let i = 1; i <= monthToCheck; i++) {
-            console.log('start', startDate);
-            console.log('end', endDate);
 
             let api =
               envConfig.ikongUrl +
               envConfig.searchAvailableAppointments.endpoint;
 
             const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-            console.log("token", token);
+
             const headers = await generateKongHeaders(token);
 
             let contentType = {
                 "Content-Type": envConfig.searchAvailableAppointments.contentType,
             };
-            console.debug(`api-url: ${api}
-       headers: ${JSON.stringify(contentType)}`);
 
             const body = {
                 "startDate": startDate,
@@ -266,8 +223,6 @@ export class TelusApiUtils {
                     data: body
                 });
 
-                console.debug(`response received: ${JSON.stringify(response)}`);
-
                 test('processSearchAvailableAppointment response.status is 200', response.status, AssertionModes.strict).is(200,'processSearchAvailableAppointment response.status should be 200')
                 startDate = DateUtils.formatDate(new Date(new Date(startDate).getFullYear(), new Date(startDate).getDate() + i + 1), '-');
                 endDate = DateUtils.formatDate(new Date(new Date(startDate).getFullYear(), new Date(startDate).getMonth() + 1, 0), '-')
@@ -281,26 +236,18 @@ export class TelusApiUtils {
     }
 
     async setMigrationFlag(customerId: any) {
-        console.log(
-            `Using netcracker api to set migrated flag for customer: ${customerId}`,
-        );
 
         let api =  envConfig.ikongUrl + envConfig.setMigrationFlag.endpoint;
         
         let contentType = {
             "Content-Type": "text/plain",
         };
-        console.log(`api-url: ${api}`);
 
         const keywordToReplace = envConfig.setMigrationFlag.keywordsToReplace;
-        console.log(`Replacing ${keywordToReplace} in api with ${customerId}`);
 
         api = StringUtils.replaceString(api, keywordToReplace, customerId);
-        console.log(`api after replacing keywords: ${api}`);
-        console.debug(`Hitting as below details: api: ${api}`);
 
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
 
         try {
             const headers = await generateKongHeaders(token);
@@ -318,10 +265,7 @@ export class TelusApiUtils {
     }
     async sendingCallToLink(ecid: any, action: string) {
 
-        const api =
-        envConfig.ikongUrl + envConfig.sendAsyncCall.endpoint;
-       
-        console.log(`api-url: ${api}`);
+        const api = envConfig.ikongUrl + envConfig.sendAsyncCall.endpoint;
 
         let body = {
             ecid,
@@ -329,13 +273,7 @@ export class TelusApiUtils {
             action
         }
 
-
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
-
-        console.log(`Hitting as below details:
-        api: ${api}
-        body: ${JSON.stringify(body)}`);
 
         try {
             const headers = await generateKongHeaders(token);
@@ -354,22 +292,15 @@ export class TelusApiUtils {
     }
 
     async stepForAddingSTB(iptvServiceObjId: any) {
-        console.log(
-          `Using netcracker api to complete customer ID iptvServiceKey ${iptvServiceObjId}`,
-        );
        
         let guid = RandomValueGenerator.getRandomInt(10000000, 99999999) + '-' + RandomValueGenerator.getRandomInt(1000, 9999) + '-' + RandomValueGenerator.getRandomInt(1000, 9999)
           + '-' + RandomValueGenerator.getRandomInt(1000, 9999) + '-' + RandomValueGenerator.getRandomInt(100000000000, 999999999999)
-        console.log('guid ' + guid)
+
 
         let macAddress = RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':'
           + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99) + ':' + RandomValueGenerator.getRandomInt(10, 99)
-        console.log('macAddress ' + macAddress)
 
-        const api =
-        envConfig.ikongUrl + envConfig.stepForAddingSTB.endpoint;
-     
-        console.log(`api-url: ${api}`);
+        const api = envConfig.ikongUrl + envConfig.stepForAddingSTB.endpoint;
 
         let body = {
             iptvServiceObjId,
@@ -378,11 +309,6 @@ export class TelusApiUtils {
           }
 
         const token = await this._oauthToken.getToken(envConfig.dbApi.scope);
-        console.log("token", token);
-        
-        console.log(`Hitting as below details:
-            api: ${api}
-            body: ${JSON.stringify(body)}`);
 
         try {
             const headers = await generateKongHeaders(token);

@@ -213,7 +213,7 @@ export const queryNcCustomerOrdersStatus = (customerId: string | null): string =
                       )
                       AND lv.list_value_id = status_id.list_value_id
     `;
-    console.debug(`queryNcCustomerOrdersStatus: ${query}`);
+
     return query;
 }
 
@@ -229,9 +229,7 @@ export const queryNcCustomerOrdersStatusNeitherCompletedNorProcessed = (
               upper(status) NOT LIKE '%COMPLETED%'
               AND upper(status) NOT LIKE '%PROCESSED%'
               AND upper(status) NOT LIKE '%SUPERSEDED%'`;
-        console.debug(
-            `queryNcCustomerOrdersStatusNeitherCompletedNorProcessed: ${query}`,
-        );
+
     return query;
 }
 
@@ -264,7 +262,7 @@ export const getManualCreditTaskId = (customerId: string | null): string => {
                       )
                       and attr_id = 9137996003413538340 /* Task ID */
                 `;
-    console.log(`queryManualCreditTaskId: ${query}`);
+
     return query;
 }
 
@@ -291,7 +289,7 @@ export const getWorkOrderNumbersNotCompleted = (customerInternalId: string) => {
                           )
 
                 `;
-    console.log(`queryWorkOrderNumberFromCustomerInternalId: ${query}`);
+
     return query;
 }
 
@@ -313,7 +311,7 @@ export const getShipmentOrderObjectIdAndShipmentItemsQuery = (ecid: string) => {
               join NC_PARAMS_IX sku on sku.OBJECT_ID=item_instance.OBJECT_ID and sku.ATTR_ID=9147911862813832433
               join NC_PARAMS_IX order_num on order_num.OBJECT_ID=ship_item.OBJECT_ID and order_num.ATTR_ID=9163167533813315909
               `;
-    console.log(`getShipmentOrderObjectIdAndShipmentItemsQuery: ${query}`);
+
     return query;
 
 }
@@ -336,7 +334,7 @@ export const getShipmentOrderNumberAndPurchaseOrderNumber = (shipmentObjectId: s
                     name = 'Shipment Order Number'
                 )
               `;
-    console.log(`getShipmentOrderNumberAndPurchaseOrderNumber: ${query}`);
+
     return query;
 
 }
@@ -345,7 +343,7 @@ export const getHoldOrderTaskNumber = (purchaseeOrderNumber: any) => {
   let query = `     
   select to_char(task_id) from nc_po_Tasks where order_id = ${purchaseeOrderNumber} and name = 'Hold Order Completion'    
           `;
-    console.log(`getHoldOrderTaskNumber: ${query}`);
+
     return query;
 }
 
@@ -408,7 +406,7 @@ export const  getErrorsOccuredForCustomer = (
                               PRIOR object_type_id = parent_id
                       )
     `;
-  console.log(query)
+
   return query
 }
 
@@ -430,7 +428,7 @@ const queryGetAllBillingActionStatus = (
                   ba.value = to_char(${customerId}) /* Customer Id*/
                   AND ba.ix_key = pkgutils.params_ix(to_char(${customerId})) /* Customer Id*/
                   AND ba.attr_id = 9141251166913825730`;
-  console.debug(`queryGetAllBillingActionStatus: ${query}`);
+
   return query;
 }
 
@@ -440,7 +438,7 @@ const  queryGetAllBillingFailedActionStatus = (
   let query = `select * from (${queryGetAllBillingActionStatus(
     customerId,
   )}) where lower(status) = 'failed'`;
-  console.debug(`queryGetAllBillingFailedActionStatus: ${query}`);
+
   return query;
 }
 
@@ -462,19 +460,19 @@ export const queryCheckOrdersStatuses = (objectTypeId:string,customerObjectId:st
         and no.OBJECT_TYPE_ID = ${objectTypeId}
         order by no.name) order_status
         where ROWNUM = 1`
-  console.debug(`queryCheckOrdersStatus: ${query}`);
+
   return query;
 }
 
 export const queryCheckTheRDB_SALES_ORDERSTable = () => {
   const query=`select COUNT(USER_OUTLET_ID) from RDB_SALES_ORDERS`
-  console.debug(`queryCheckATTR_TYPE_ID: ${query}`);
+
   return query;
 }
 
 export const queryATTR_TYPE_ID = () => {
   const query=`select ATTR_TYPE_ID from nc_attributes where ATTR_ID = 9153903967913504806`
-  console.debug(`queryCheckATTR_TYPE_ID: ${query}`);
+
   return query;
 }
 
@@ -490,9 +488,6 @@ export const iptvServiceKey = (
          and npx.ix_key = '${customerId}')
    and no.name like 'IPTV CFS #%v.01'`;
 
-  console.debug(
-    `iptvServiceKey: ${query}`,
-  );
   return query;
 }
 
@@ -525,8 +520,6 @@ select VALUE from NCMBE.NC_PARAMS_IX
 where ATTR_ID = 9135689397313386074 and OBJECT_ID=(
   select REFERENCE from NCMBE.NC_REFERENCES where ATTR_ID = 4070569491013010665 and OBJECT_ID = (select * from conorder)
 )`;
-  console.debug(
-    `queryOption82: ${query}`,
-  );
+
   return query;
 }

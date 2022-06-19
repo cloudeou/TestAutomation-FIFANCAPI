@@ -4,7 +4,6 @@ import FIFA_ProductCatalogContext from "../../../contexts/fifa/FIFA_ProductCatal
 import ResponseContext from "../../../contexts/fifa/FIFA_ResponseConntext"
 import { Identificators } from "../../../contexts/Identificators";
 import { AssertionModes, featureContext, test } from "@cloudeou/telus-bdd";
-import {replacerFunc} from "../../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 
 type step = (
     stepMatcher: string | RegExp,
@@ -20,27 +19,23 @@ export const FIFA_productCatalogSteps = ({ when, and, then}: { [key: string]: st
     const fifaNcApi = new ProductCatalogApi();
 
     and('user set list of offers:', (table) => {
-        console.log('inside select step')
+
         let productOfferingList: Array<String> = Common.getOffersFromTable(
             table,
             productCatalogContext,
         );
-        console.log(productOfferingList);
-        console.log('set context');
+
         productCatalogContext().requestedItems = productOfferingList;
-        console.log(productCatalogContext().requestedItems)
+
     })
 
     when('user try to retrieve offer details', async ()=>{
         let offerList: Array<String> = productCatalogContext().requestedItems;
-        console.log(`inside first validate`);
-        console.log('context');
-        console.log(offerList);
         try{
             const pcResponse = await fifaNcApi.requestProductCatalog(offerList);
 
             Common.checkValidResponse(pcResponse, 200);
-            const response = pcResponse.data//JSON.parse(pcResponse.data);
+            const response = pcResponse.data
             test('Validate response',response,AssertionModes.strict).isnot([], 'Error has occured due to PC API call received an empty array.');
             response.forEach((detItem: any) => {
                 test('Response must to be defined',

@@ -41,10 +41,9 @@ export class bodyParser {
         return itemResult;
     }
     static validatePromotionsInResponse(promotions: any, response: any) {
-        let flag = false;
+
         let errorMessage = '';
         if (promotions !== null && promotions !== undefined) {
-            // childOfferMapList.forEach(childOfferMap => {
             for (let offer of promotions.keys()) {
                 let cart: any;
                 cart = this.getItemByProductOffering(response, offer);
@@ -95,12 +94,10 @@ export class bodyParser {
     }
 
     static validatePromotionsNotInResponse(promotions: any, response: any) {
-        console.log("RESPONSE");
-        console.log(JSON.stringify(response));
-        var flag = true;
+        let flag = true;
         let errorMessage = '';
         if (promotions !== null && promotions !== undefined) {
-            // childOfferMapList.forEach(childOfferMap => {
+
             for (let offer of promotions.keys()) {
                 let cart: any;
                 cart = bodyParser.getItemByProductOffering(response, offer);

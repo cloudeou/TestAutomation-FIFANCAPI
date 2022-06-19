@@ -11,9 +11,6 @@ export class BodySamples {
         cartItems?: Array<any>,
         charItems?: Array<any>
     ) {
-    const isDistChanExtId = !Object.values(
-      ncConstants.distributionChannel
-    ).includes(distributionChannel);
 
     return {
       relatedParty: [
@@ -110,17 +107,6 @@ export class BodySamples {
       },
     };
   }
-
-  // removechildOfferItem: function (itemId, parentItem) {
-  //     return cartItem = {
-  //         'action': 'Delete',
-  //         'id': itemId,
-  //         'cartItemRelationship': [{
-  //             'id': parentItem,
-  //             'type': 'parent'
-  //         }]
-  //     }
-  // },
 
   updateTopOfferItem(itemId: string, charItems: Array<any>) {
     return {
