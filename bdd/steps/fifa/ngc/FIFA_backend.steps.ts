@@ -11,7 +11,8 @@ import {
   queryCheckTheRDB_SALES_ORDERSTable,
   queryATTR_TYPE_ID,
   queryOption82,
-  iptvServiceKey
+  iptvServiceKey,
+  getSalesOrderStatusQuery
 } from "../../../../bdd-src/fifa/db/db-queries";
 import {TelusApiUtils} from "../../../../bdd-src/fifa/telus-apis/telus-apis";
 import {Common} from "../../../../bdd-src/fifa/utils/commonBDD/Common";
@@ -381,6 +382,23 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
 
 
     // console.log( await tapis.filterCustomersByValues(apicfg, Option82, connectivityStatus, activeServiceIndicator, hsiaServiceIndicator, tvServiceIndicator, voiceServiceIndicator))
+
+  });
+
+  when(/check sales order statuse is: '(.*)'/, async (statuse: string) => {
+    let arraySO = shoppingCartContext().allSalesOrderId
+    console.log('arraySO ', JSON.stringify(arraySO))
+    let responseSalesOrderId = await dbProxy.executeQuery(getSalesOrderStatusQuery(arraySO[0]))
+    let responseSalesOrderIdFirst = responseSalesOrderId.data.rows[0][0]
+    console.log('responseSalesOrderIdFirst ', JSON.stringify(responseSalesOrderIdFirst))
+
+    statuse === 'Superseded'
+      ? responseSalesOrderIdFirst = String(responseSalesOrderIdFirst).replace('6#DDDDDD$', '')
+      : responseSalesOrderIdFirst = String(responseSalesOrderIdFirst).replace('6#009B00$', '')                                  
+      console.log(`responseSalesOrderIdFirst: ${responseSalesOrderIdFirst}`);
+
+    test('SalesOrder status should be defined', responseSalesOrderIdFirst.includes(statuse), AssertionModes.strict)
+      .is(true, `Sales Order status is not ${statuse} - ${responseSalesOrderIdFirst}`)
 
   });
 

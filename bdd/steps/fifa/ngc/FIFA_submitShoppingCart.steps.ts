@@ -83,7 +83,10 @@ export const FIFA_submitShoppingCartSteps = ({
       test('SalesOrderId should not be null\n', body.id, AssertionModes.strict)
         .isnot(null,'SalesOrderId should not be null\n' + responseText)
 
-      shoppingCartContext().salesOrderId = body.id;
+
+    shoppingCartContext().salesOrderId = body.id;
+    shoppingCartContext().allSalesOrderId = body.id;
+
 
       await retry(
         async function (options: any) {
