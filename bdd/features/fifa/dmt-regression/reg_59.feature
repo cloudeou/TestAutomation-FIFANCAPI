@@ -9,7 +9,7 @@ Feature: Provide Residential Customer
     Given user has address with type LTE
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '475894'
+    When get address based on entered data: '5789401'
     Then address id should be returned
 
   Scenario: Check service qualification for an address

@@ -7,7 +7,7 @@ Feature: Provide TELUS Gamer Internet
 
   Scenario: Check address
     Given user has address with type GPON
-    When get address based on entered data: '5014594'
+    When get address based on entered data: '5014600'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -92,11 +92,6 @@ Feature: Provide TELUS Gamer Internet
       | OfferId             |
       | 9160783681513938083 |
 
-  Scenario: Validate shopping cart
-    Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test error messages should be in shopping cart: 'Block Gamer Internet if Gift is selected'
-
   Scenario: Update shopping cart and remove TELUS Wi-Fi Plus
     Given preconditions by user are selected
     And test user delete offers:
@@ -107,11 +102,6 @@ Feature: Provide TELUS Gamer Internet
     And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9162267642120575793 |
-
-  Scenario: Validate shopping cart
-    Given preconditions by user are selected
-    When test user try to validate shopping cart
-    Then test error messages should be in shopping cart: 'Gamer Internet requires TELUS Wi-Fi Plus to be selected'
 
 
 

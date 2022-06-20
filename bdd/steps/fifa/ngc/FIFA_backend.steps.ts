@@ -104,10 +104,7 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
             }
 
             if (response.data.rows.length > 0) {
-              console.log('error inside if ', JSON.stringify(
-                response,
-                replacerFunc()
-              ))
+              console.log('NeitherCompletedNorProcessed orders > 1')
             }
             shoppingCartContext().allPendingOrders = response.data.rows;
           },
@@ -229,7 +226,7 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
     const response = await dbProxy.executeQuery(getBillingFailedActionStatus(customerId))
     const billingActionStatus = response.data.rows
 
-    const listOfActionsWIthSubscriberProblem = ['Create Product (OneTimeCharge)','Modify Subscriber']
+    const listOfActionsWIthSubscriberProblem = ['Create Product (OneTimeCharge)','Modify Subscriber','Create Subscriber']
 
     const isKindOfSubscriberProblem = listOfActionsWIthSubscriberProblem.includes(billingActionStatus?.[0]?.[1])
 

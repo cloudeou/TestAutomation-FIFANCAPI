@@ -132,7 +132,7 @@ export class OrdersHandler {
           let response: any;
           response = responseContext().createCustomerResponse;
           let ecid = response.ecid;
-          console.log("ecid", ecid)
+
           if (orderName.toLowerCase().includes('shipment')) {
 
             await tapis.processReleaseActivation(orderInternalId);
