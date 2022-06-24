@@ -411,7 +411,7 @@ export const shoppingCartResponseValidationSteps = (
         let offeringArray: Array<any>;
         SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
-        offeringArray = Common.getChildOffersForPromotionFromTable(table)
+        offeringArray = Common.getOffersForPromotionFromTable(table)
 
         test('expected cart item to contain products',cartItems.length,AssertionModes.strict)
           .isnot(0,'Error response is received due to cartItem, expected cart item to contain products, but cartItem is empty.')

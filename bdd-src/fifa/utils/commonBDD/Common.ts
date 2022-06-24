@@ -736,7 +736,7 @@ export class Common {
         return flag === true ? true : false
     }
 
-    static getChildOffersForPromotionFromTable(table: any) {
+    static getOffersForPromotionFromTable(table: any) {
         let productOfferingList: Array<any> = [];
         table.forEach(function (row: any) {
             let offerId = Common.getBootstrapIfExists(row.OfferId);
