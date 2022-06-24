@@ -411,7 +411,7 @@ export const  getErrorsOccuredForCustomer = (
 }
 
 
-const queryGetAllBillingActionStatus = (
+export const queryGetAllBillingActionStatus = (
   customerId: string,
 ) => {
   let query = `

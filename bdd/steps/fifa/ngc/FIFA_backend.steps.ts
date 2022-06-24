@@ -12,7 +12,7 @@ import {
   queryATTR_TYPE_ID,
   queryOption82,
   iptvServiceKey,
-  getSalesOrderStatusQuery
+  getSalesOrderStatusQuery, queryGetAllBillingActionStatus
 } from "../../../../bdd-src/fifa/db/db-queries";
 import {TelusApiUtils} from "../../../../bdd-src/fifa/telus-apis/telus-apis";
 import {Common} from "../../../../bdd-src/fifa/utils/commonBDD/Common";
@@ -21,7 +21,6 @@ import {AxiosResponse} from "axios";
 import {DbProxyApi} from "../../../../bdd-src/fifa/db/db-proxy-api/db-proxy.api";
 import {OrdersHandler} from "../../../../bdd-src/fifa/backendSteps/OrdersHandler";
 import {TasksHandler} from "../../../../bdd-src/fifa/backendSteps/TasksHandler";
-import {replacerFunc} from "../../../../bdd-src/fifa/utils/common/replaceFunctionForJsonStrigifyCircularDepencdency";
 import { data } from '../../../../bdd-src/fifa/test-data/data';
 import {MailerApi} from "../../../../bdd-src/fifa/utils/mailer/MailerApi";
 
@@ -398,5 +397,41 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
       .is(true, `Sales Order status is not ${statuse} - ${responseSalesOrderIdFirst}`)
 
   });
+
+  and('check that billing actions created:', async (table)=>{
+    /*
+      ACTION_OBJ_ID,	    NAME,	            STATUS_LV_ID,	      STATUS
+      9141210636113786083	Modify Subscriber	9141614096913188387	Failed*/
+    type CreatedBillingActions = [number, string, number, string]
+    interface ITableRow {
+      name: string,
+      status: string,
+      triggeredFor: string
+    }
+
+    try {
+      const customerId = '9163819850413383762'//preconditionContext().customerObjectId!;
+      const response = await dbProxy.executeQuery(queryGetAllBillingActionStatus(customerId));
+      const createdBillingActions: CreatedBillingActions[] = response.data.rows
+
+      table.forEach((tableRow: ITableRow)=>{
+        const billingActionFromResponse = createdBillingActions.find((responseRow: CreatedBillingActions)=>{
+          return responseRow[1] === tableRow.name
+        })
+
+        test(`billing action ${tableRow.name} should be created`, billingActionFromResponse, AssertionModes.strict)
+          .isnot(undefined,`billing action ${tableRow.name} is not created`)
+
+        test(`status for billing action ${tableRow.name} should be  ${tableRow.status}`, billingActionFromResponse?.[3], AssertionModes.strict)
+          .is(tableRow.status, `status for billing action ${tableRow.name} is ${billingActionFromResponse?.[3]} , but has to be ${tableRow.status}`)
+      })
+
+    }
+    catch (e) {
+      console.log(e)
+    }
+
+
+  })
 
 }
