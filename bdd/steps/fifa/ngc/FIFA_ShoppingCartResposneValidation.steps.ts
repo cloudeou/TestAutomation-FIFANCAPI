@@ -405,11 +405,11 @@ export const shoppingCartResponseValidationSteps = (
           .is(originalECID,`Error response is received due to SC related party, expected SC creator to be ${originalECID}, but got ${actualECID} instead.`)
     })
 
-    and('user validate shopping cart promotion price in \$\ for top offers should be:', (table) => {
+    and('user validate shopping cart promotion price in \$\ for child offers should be:', (table) => {
         let SCResponseBody: JSON;
         let cartItems: Array<any>;
         let offeringArray: Array<any>;
-        SCResponseBody = responseContext().shoppingCartResponse
+        SCResponseBody = responseContext().shoppingCartResponse!
         cartItems = bodyParser.getCartItemObjects(SCResponseBody)
         offeringArray = Common.getOffersForPromotionFromTable(table)
 
@@ -418,14 +418,15 @@ export const shoppingCartResponseValidationSteps = (
 
         offeringArray.forEach((offer) => {
             cartItems.forEach((item) => {
-                if (item.productOffering.id  == offer.offerId) {
-                    for (let itemPrice of item.itemPrice) {
-                        let priceValue = itemPrice.price.dutyFreeAmount.value
-                        test('Check price for top offer', Number(priceValue) === Number(offer.price), AssertionModes.strict)
-                            .is(true, `Price for top offer doesnot equal price`)
-
+                item.cartItem.forEach((cartItem: any) => {
+                    if (cartItem.productOffering.id == offer.offerId) {
+                        for (let itemPrice of cartItem.itemPrice) {
+                            let priceValue = itemPrice.price.dutyFreeAmount.value
+                            test('Check promotion price', Number(priceValue) === Number(offer.price), AssertionModes.strict)
+                            .is(true, `Promotion price doesnot equal price`)
+                        }
                     }
-                }
+                });
             })
         })
     })
