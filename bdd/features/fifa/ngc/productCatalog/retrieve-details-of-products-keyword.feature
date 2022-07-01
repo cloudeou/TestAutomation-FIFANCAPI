@@ -1,6 +1,7 @@
 @ngc
 @PC
 @retrieve-details-of-products-keyword
+@DBbootstrap=retriveTAaddressData
 Feature: Retrieve product offering details of a list of Product offers
 
   Scenario: Retrieve product offering details of a list of Product offers

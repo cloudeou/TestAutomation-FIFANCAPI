@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "bdd:start": "env-cmd -f config/dev.env bdd",
     "build": "tsc"
   },
   "repository": {
