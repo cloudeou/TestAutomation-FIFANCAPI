@@ -735,4 +735,18 @@ export class Common {
         test('Error message should be empty',flag, AssertionModes.strict).is(true, errorMessage)
         return flag === true ? true : false
     }
+
+    static getOffersForPromotionFromTable(table: any) {
+        let productOfferingList: Array<any> = [];
+        table.forEach(function (row: any) {
+            let offerId = Common.getBootstrapIfExists(row.OfferId);
+            let price = row.Price
+            let offer = {
+                offerId,
+                price
+            }
+            productOfferingList.push(offer)
+        });
+        return productOfferingList;
+    }
 }

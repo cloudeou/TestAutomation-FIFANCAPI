@@ -12,7 +12,8 @@ import {
   queryATTR_TYPE_ID,
   queryOption82,
   iptvServiceKey,
-  getSalesOrderStatusQuery
+  getSalesOrderStatusQuery,
+  getWorkOrderNumbersIsCompleted
 } from "../../../../bdd-src/fifa/db/db-queries";
 import {TelusApiUtils} from "../../../../bdd-src/fifa/telus-apis/telus-apis";
 import {Common} from "../../../../bdd-src/fifa/utils/commonBDD/Common";
@@ -397,6 +398,22 @@ export const FIFA_backendSteps = ({ given, and, when, then } : { [key: string]: 
     test('SalesOrder status should be defined', responseSalesOrderIdFirst.includes(statuse), AssertionModes.strict)
       .is(true, `Sales Order status is not ${statuse} - ${responseSalesOrderIdFirst}`)
 
+  });
+
+  and(/check (present|absent) work order/, async (statuse: string) => {
+    const customerId = preconditionContext().customerObjectId!;
+    try {
+      const response = await dbProxy.executeQuery(getWorkOrderNumbersIsCompleted(customerId));
+      const workOrders = response.data.rows;
+
+      statuse === 'present'
+      ? test('Check WO statuse',workOrders.length > 0, AssertionModes.strict).is(true, `WorkOrders is absent`)
+      : test('Check WO statuse',workOrders.length > 0, AssertionModes.strict).isnot(true, `WorkOrders is present`)
+
+    }
+    catch(error) {
+      throw 'Got work orders as undefined' + error
+    }
   });
 
 }
