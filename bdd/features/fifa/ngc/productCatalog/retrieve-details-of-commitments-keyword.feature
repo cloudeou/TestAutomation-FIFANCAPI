@@ -1,6 +1,7 @@
 @ngc
 @PC
 @retrieve-details-of-coupon-code-offers-keyword
+@DBbootstrap=retriveTAaddressData
 Feature: Retrieve product offering details of a list of Commitment offers
 
   Scenario: Retrieve product offering details of a list of Commitment offers

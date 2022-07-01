@@ -4,7 +4,7 @@ export default `create table ta_addresses (
   city text,
   province text,
   type text default 'LTE',
-  env varchar(4) default 'itn01',
+  env varchar(5) default 'itn01',
   tc_id int8,
   used boolean default false,
   cleanup_ready boolean default false,
