@@ -3,12 +3,15 @@
 @Api
 @reg_07-keyword
 # Address Parameters
-@addressType=LTE
+
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
 Feature: Provide LWC, check the Security Information page
 
 	Scenario: Check address
 		Given user has address with type LTE
-		When get address based on entered data
+		When get address is: @lpdsid
 		Then address id should be returned
 
 	Scenario: Check service qualification for an address
@@ -25,11 +28,11 @@ Feature: Provide LWC, check the Security Information page
 
     Scenario: Create shopping cart to order top offer
         Given preconditions by user are selected
-        And user select offers:
+        And test user select offers:
             | OfferId             |
             | 9161505363905984296 |
             # Livingwell companion home - Cellular
-        And user set the chars for item:
+        And test user set the chars for item:
             | Name                | Value               | Item                |
             | 9156198150013903799 | 9156198150013903801 | 9161505363905984296 |
             # Delivery method Livingwell companion home - Cellular = Self install
@@ -37,18 +40,18 @@ Feature: Provide LWC, check the Security Information page
             # End user first name
             | 9157607665813042503 | ProInstall          | 9161505363905984296 |
             # End user last name
-        When user try to create Shopping Cart
-        Then validate shopping cart is created successfully
+        When test user try to create Shopping Cart
+        Then test validate shopping cart is created successfully
 
     Scenario: Update shopping cart and add child offers - emergency contact
 		Given preconditions by user are selected
-		And user select child offer:
+		And  test user select child offer:
 			| OfferId             | Parent              |
 			| 9157582505713018514 | 9161505363905984296 |
 			| 9157582505713018514 | 9161505363905984296 |
 			# add Emergency Contact
 			# duplicated because there are two sets of emergency contact
-		And user set the chars for item:
+		And test user set the chars for item:
 			| Name                | Value      | Item                | ItemNumber |
 			| 9157669257013588259 | Contact 1  | 9157582505713018514 | 1          |
 			# Contact Name = Contact 1
@@ -62,8 +65,8 @@ Feature: Provide LWC, check the Security Information page
 			# Contact Order Preference = 2
 			| 9157669218013588255 | 6041234568 | 9157582505713018514 | 2          |
 			# Contact Phone Number = 6041234568
-		When user try to update Shopping Cart
-		Then validate shopping cart is updated successfully
+		When test user try to update Shopping Cart
+		Then test validate shopping cart is updated successfully
 
     #todo: There is no error, that Pro Install and Retailer Supplied delivery method aren't available for LWC
 

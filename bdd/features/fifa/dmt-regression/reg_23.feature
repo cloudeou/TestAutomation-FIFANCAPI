@@ -2,11 +2,15 @@
 @regression
 @Api
 @reg_23-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide VAS TOS
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data: '5564222'
+    When get address is: @lpdsid '5564222'
     Then address id should be returned
 
   Scenario: Check service qualification for an address

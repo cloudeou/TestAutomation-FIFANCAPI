@@ -1,11 +1,15 @@
 @regression
 @Api
 @reg_43-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade TOS to Utimate
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -22,13 +26,13 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
 
   Scenario: Provide Smart Automation Plus
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162184618979604472 |
      # Smart Automation Plus
       | 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162184618979604472 |
 			# Delivery method = Tech install
@@ -36,8 +40,8 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
 			# Acquired From = No Security services
       | 9152552492613455557 | 9152552492613455566 | 9162184618979604472 |
 		# Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9157722345313159909 |
@@ -58,19 +62,19 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
       | OfferId             |
       | 9157722345313159909 |
 			# TELUS Online Security - Basic
-    When user try to update Shopping Cart
+    When test user try to update Shopping Cart
     Then validate that offers can not be removed
 
   Scenario: Change SHS offer to Control
     Given preconditions by user are selected
     Then user try to delete Shopping Cart context
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162184182465524071 |
      # Control
       | 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162184182465524071 |
 			# Delivery method = Tech install
@@ -78,8 +82,8 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
 			# Acquired From = No Security services
       | 9152552492613455557 | 9152552492613455566 | 9162184182465524071 |
 		# Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9157722449013159935 |
@@ -97,13 +101,13 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
   Scenario: Change SHS offer to Control (2)
     Given preconditions by user are selected
     Then user try to delete Shopping Cart context
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162184618979604472 |
      # Smart Automation Plus
       | 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162184618979604472 |
 			# Delivery method = Tech install
@@ -111,8 +115,8 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
 			# Acquired From = No Security services
       | 9152552492613455557 | 9152552492613455566 | 9162184618979604472 |
 		# Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9157722345313159909 |
@@ -141,8 +145,8 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
 
   Scenario: Create shopping cart to amend order
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update shopping cart and remove offers
     Given preconditions by user are selected
@@ -152,8 +156,8 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
 		# Smart Automation Plus
       | 9157722345313159909 |
    # TELUS Online Security - Basic
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Submit Shopping Cart (2)
     Given preconditions by user are selected
@@ -170,13 +174,13 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
   Scenario: Change SHS offer to Secure
     Given preconditions by user are selected
     Then user try to delete Shopping Cart context
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162234688573639328 |
      # Secure
       | 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162234688573639328 |
 			# Delivery method = Tech install
@@ -184,8 +188,8 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
 			# Acquired From = No Security services
       | 9152552492613455557 | 9152552492613455566 | 9162234688573639328 |
 		# Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate shopping cart should contain top offers:
       | OfferId             |
       | 9157722449013159935 |
@@ -215,12 +219,12 @@ Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade
   Scenario: Change TOS offer to Ultimate
     Given preconditions by user are selected
     Then user try to delete Shopping Cart context
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9157722462813159948 |
      # TELUS Online Security - Ultimate
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Validate shopping cart (5)
     Given preconditions by user are selected

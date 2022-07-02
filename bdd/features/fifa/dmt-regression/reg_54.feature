@@ -1,12 +1,15 @@
 @regression
 @Api
 @reg_54-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
 
 Feature: Add SIMs to an active wHSIA
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -39,18 +42,18 @@ Feature: Add SIMs to an active wHSIA
 
   Scenario: Create SC with wHSIA
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159602850913498849 |
     # wHSIA Rural Internet - 100GB monthly data
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9159602850913498849 |
 #      Delivery method - Self Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -61,34 +64,34 @@ Feature: Add SIMs to an active wHSIA
 
   Scenario: Update SC, add IDU
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9162193374812538335 | 9159602850913498849 |
       # IDU BYOD
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Update SC, add SIM
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9160571371613319983 | 9159602850913498849 |
       # 5G Outdoor Router
       | 9159698239513542765 | 9159602850913498849 |
       # SIM
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Add Add Telus Simple Switch on top of SC
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9145572401713849539 |
     # TELUS Simple Switch
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -98,16 +101,16 @@ Feature: Add SIMs to an active wHSIA
 
   Scenario: Patch SC with Second Level Cart Items(Add Single Line, Internet, and TV disconnect under Telus Simple Switch Cart Item)
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9145573187313849914 | 9145572401713849539 |
       #| Internet            | TELUS Simple Switch |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Set Mobility provider
     Given preconditions by user are selected
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9152497744313044202 | 9162270831163772868 | 9145572401713849539 |
 #      Current Service Provider = Telus Mobility
@@ -117,8 +120,8 @@ Feature: Add SIMs to an active wHSIA
       # Phone number
       | 9145665702813926993 | 104129862           | 9145572401713849539 |
       # Account number
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (1)
     Given preconditions by user are selected
@@ -139,12 +142,12 @@ Feature: Add SIMs to an active wHSIA
 
   Scenario: Create shopping cart
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Check that several SIMs can be added to the Shopping Cart
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9159698239513542765 | 9159602850913498849 |
       # SIM
@@ -156,8 +159,8 @@ Feature: Add SIMs to an active wHSIA
       # SIM
       | 9159698239513542765 | 9159602850913498849 |
       # SIM
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
     And validate product offering price
 

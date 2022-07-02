@@ -2,13 +2,17 @@
 @regression
 @Api
 @hisa-provide-HSIA-with-Pik-TV-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+
 Feature: Provide HSIA with Pik TV
 
   Scenario: Check address
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '3706760'
+    When get address is: @lpdsid '3706760'
     Then address id should be returned
 
   Scenario: Check service qualification for an address

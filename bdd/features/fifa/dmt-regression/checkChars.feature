@@ -2,11 +2,15 @@
 @regression
 @Api
 @reg_55-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Check characteristic Geo Type Code under all wHSIA offers
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -28,18 +32,18 @@ Feature: Check characteristic Geo Type Code under all wHSIA offers
 
   Scenario: Check Characteristic for Smart Hub Rural Internet 25/10 - 100 GB Monthly Data
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159602850913498849 |
     # Smart Hub Rural Internet 25/10 - 100 GB Monthly Data
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9159602850913498849 |
 #      Delivery method - Self Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -55,18 +59,18 @@ Feature: Check characteristic Geo Type Code under all wHSIA offers
   Scenario: Check Characteristic for Smart Hub Rural Internet 25/10 - 500 GB Monthly Data
     Given preconditions by user are selected
     Then user try to delete Shopping Cart context
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159683640113535776 |
     # Smart Hub Rural Internet 25/10 - 500 GB Monthly Data
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9159683640113535776 |
 #      Delivery method - Self Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -83,18 +87,18 @@ Feature: Check characteristic Geo Type Code under all wHSIA offers
   Scenario: Check Characteristic for Smart Hub Rural Internet - 50Mbps (500GB)
     Given preconditions by user are selected
     Then user try to delete Shopping Cart context
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9161414124118156706 |
     # Smart Hub Rural Internet - 50Mbps (500GB)
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9161414124118156706 |
 #      Delivery method - Self Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -110,18 +114,18 @@ Feature: Check characteristic Geo Type Code under all wHSIA offers
   Scenario: Check Characteristic for Smart Hub Rural Internet - 100Mbps (500GB)
     Given preconditions by user are selected
     Then user try to delete Shopping Cart context
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9161354253113686113 |
     # Smart Hub Rural Internet - 100Mbps (500GB)
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9161354253113686113 |
 #      Delivery method - Self Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |

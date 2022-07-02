@@ -2,11 +2,15 @@
 @regression
 @Api
 @reg_25-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide Nintendo, add/remove devices, disconnect before financing term is over
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -46,12 +50,12 @@ Feature: Provide Nintendo, add/remove devices, disconnect before financing term 
 
   Scenario: Create SC with Gaming offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9161222936213626491 |
     # Gaming
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart at least one item should contain price
     And user validate shopping cart should contain top offers:
       | OfferId             |
@@ -84,17 +88,17 @@ Feature: Provide Nintendo, add/remove devices, disconnect before financing term 
 
   Scenario: Create shopping cart to add one more child offer
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9161223209113626687 | 9161222936213626491 |
 		# Nintendo Switch + Nintendo Switch Online - 24 Mo
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart (2)
@@ -120,8 +124,8 @@ Feature: Provide Nintendo, add/remove devices, disconnect before financing term 
 
   Scenario: Create shopping cart to delete child offer
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update shopping cart and delete child offers
     Given preconditions by user are selected
@@ -129,8 +133,8 @@ Feature: Provide Nintendo, add/remove devices, disconnect before financing term 
       | OfferId             | Parent              |
       | 9161223209113626687 | 9161222936213626491 |
 		# Nintendo Switch + Nintendo Switch Online - 24 Mo
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart (3)
@@ -152,8 +156,8 @@ Feature: Provide Nintendo, add/remove devices, disconnect before financing term 
 
   Scenario: Create shopping cart to cease Gaming service
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
@@ -161,8 +165,8 @@ Feature: Provide Nintendo, add/remove devices, disconnect before financing term 
       | OfferId             |
       | 9161222936213626491 |
     # Gaming
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart (4)

@@ -2,14 +2,18 @@
 @api
 @SC
 @existing-hs-optik-no-change-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
   #https://flcncapp-itn02.tsl.telus.com/common/uobject.jsp?tab=_Orders&object=9163680640013433753
+
 Feature: Existing customer with active HS+Optik TV
   Scenario: Check address
     Given user has address with type FIBER
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid '5753461'
     Then address id should be returned
 
   Scenario: Check service qualification for an address

@@ -2,12 +2,16 @@
 @regression
 @Api
 @reg_30-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
   #todo cancel return
+
 Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure, cancel Reverse Logistics order
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
 
@@ -55,13 +59,13 @@ Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure,
 
   Scenario: Create shopping cart to order top offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162234688573639328 |
 			# Secure
       | 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813292020 | 9162234688573639328 |
 			# Delivery method = Self Install
@@ -69,8 +73,8 @@ Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure,
 			# Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162234688573639328 |
 		# Self-Install = No
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Validate shopping cart (1)
     Given preconditions by user are selected
@@ -91,8 +95,8 @@ Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure,
 
   Scenario: Create shopping cart to remove top offer
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Disconnect the service
     Given preconditions by user are selected
@@ -100,16 +104,16 @@ Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure,
       | OfferId             |
       | 9162234688573639328 |
     # SmartHome Security: Secure
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Add returner details
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9154332738813526343 |
     #return
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value         | Item                |
       | 9154341731813531459 | T7A1T3        | 9154332738813526343 |
       #postalCode
@@ -128,8 +132,8 @@ Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure,
       | 9154341355213531243 | TestLastName  | 9154332738813526343 |
     # last name
 
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected
@@ -150,8 +154,8 @@ Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure,
 
 #  Scenario: Create shopping cart to cancel
 #    Given preconditions by user are selected
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #
 #
 #    #todo need cancel return
@@ -161,11 +165,11 @@ Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure,
 #      | OfferId             |
 #      | 9154332738813526343 |
 #    #return
-##    And user set the chars for item:
+##    And test user set the chars for item:
 ##      | Name                | Value               | Item                |
 ##      | 9158669606313698918 | 9156711051513485514 | 9154332738813526343 |
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #
 #  Scenario: Validate shopping cart (3)
 #    Given preconditions by user are selected

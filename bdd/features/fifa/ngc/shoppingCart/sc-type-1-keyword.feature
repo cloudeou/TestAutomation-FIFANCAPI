@@ -2,6 +2,10 @@
 @api
 @SC
 @sc-type-4-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 
   #FIFA TC#4: use in SC 1
@@ -10,7 +14,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid '5753461'
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#4
@@ -152,7 +156,7 @@ Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 #    Given user has address with type LTE
 #    And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
 #    And customer category is RESIDENTIAL
-#    When get address based on entered data: '5753461'
+#    When get address is: @lpdsid '5753461'
 #    Then address id should be returned
 #
 #  Scenario: Check service qualification for an address

@@ -1,6 +1,10 @@
 @atlas
 @SC
 @sc-type-2-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Coupon Code Offerings) TC 8,13,7,3
 
 
@@ -12,13 +16,13 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    And distribution channel is F2F
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid '5753461'
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#7
     Given preconditions by user are selected
     When user check availability
-    Then address should be qualified for GPON
+    Then address should be qualified for LTE
 
   Scenario: Create customer for FIFA TC#7
     Given preconditions by user are selected
@@ -123,7 +127,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #  Scenario: Get addess
 #    Given user has address with type FIBER
 #    And technology type is GPON
-#    When get address based on entered data: '5753461'
+#    When get address is: @lpdsid '5753461'
 #    Then address id should be returned
 #
 #  Scenario: Get service qualification
@@ -250,7 +254,7 @@ Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Cou
 #    Given user has address with type LTE
 #    And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
 #    And customer category is RESIDENTIAL
-#    When get address based on entered data: '5753461'
+#    When get address is: @lpdsid '5753461'
 #    Then address id should be returned
 #
 #  Scenario: Check service qualification for an address

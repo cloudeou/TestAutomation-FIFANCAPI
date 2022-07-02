@@ -1,12 +1,16 @@
 @regression
 @Api
 @reg_19-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
   #todo need to complete order on be
 Feature: Add P2P Gaming APN add-on to an active wHSIA service
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
 
@@ -41,18 +45,18 @@ Feature: Add P2P Gaming APN add-on to an active wHSIA service
 
   Scenario: Create SC with wHSIA
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159602850913498849 |
     # wHSIA Rural Internet - 100GB monthly data
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9159602850913498849 |
 #      Delivery method - Self Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -63,22 +67,22 @@ Feature: Add P2P Gaming APN add-on to an active wHSIA service
 
   Scenario: Update SC, add ODU
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9162193393572538338 | 9159602850913498849 |
       # ODU BYOD
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Update SC, add SIM
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9159698239513542765 | 9159602850913498849 |
       # SIM
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Validate shopping cart (1)
@@ -102,17 +106,17 @@ Feature: Add P2P Gaming APN add-on to an active wHSIA service
 
   Scenario: Check Create shopping cart
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Check update shopping cart Api(2)
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9161879593566731513 | 9159602850913498849 |
       # P2P Gaming APN
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected

@@ -2,6 +2,9 @@
 @regression
 @Api
 @reg_57-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
 
 Feature: Provide TELUS Gamer Internet
 

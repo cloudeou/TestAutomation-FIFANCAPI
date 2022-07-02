@@ -2,13 +2,17 @@
 @regression
 @Api
 @reg_09-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+
 Feature: Provide HSIA with Pik TV: amend cancel and reprovide
 
   Scenario: Check address
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -25,7 +29,7 @@ Feature: Provide HSIA with Pik TV: amend cancel and reprovide
 
   Scenario: Create SC with Pik TV and HSIA 1 
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9150529041113486764 |
       # TELUS Internet 75/75
@@ -33,12 +37,12 @@ Feature: Provide HSIA with Pik TV: amend cancel and reprovide
       #Special Offer: Save on Internet for 24 months (NC)
       | 9146775787813796264 |
     # The Basics + Pik 5
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9150893104313917439 |
     # Delivery method - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Validate SC#1
     Given preconditions by user are selected
@@ -79,7 +83,7 @@ Feature: Provide HSIA with Pik TV: amend cancel and reprovide
 
   Scenario: Create SC with Pik TV and HSIA
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9150529041113486764 |
       # TELUS Internet 75/75
@@ -87,12 +91,12 @@ Feature: Provide HSIA with Pik TV: amend cancel and reprovide
       #Special Offer: Save on Internet for 24 months (NC)
       | 9146775787813796264 |
     # The Basics + Pik 5
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9150893104313917439 |
     # Delivery method - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Validate SC#2
     Given preconditions by user are selected

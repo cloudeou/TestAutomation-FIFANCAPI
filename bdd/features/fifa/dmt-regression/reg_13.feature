@@ -3,13 +3,17 @@
 @Api
 @reg_13-keyword
 # Address Parameters
-@addressType=LTE
+
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+
 Feature: Provide Home Phone without Call Control, add Call Control manually
 
 	Scenario: Check address
 		Given user has address with type FIBER
 		And technology type is GPON
-		When get address based on entered data
+		When get address is: @lpdsid
 		Then address id should be returned
 
 
@@ -40,11 +44,11 @@ Feature: Provide Home Phone without Call Control, add Call Control manually
     
     Scenario: Create shopping cart
         Given preconditions by user are selected
-        And user select offers:
+        And test user select offers:
             | OfferId             |
             | 9136923654113578822 |
-        When user try to create Shopping Cart
-        Then validate shopping cart is created successfully
+        When test user try to create Shopping Cart
+        Then test validate shopping cart is created successfully
 
     Scenario: Validate shopping cart
         Given preconditions by user are selected
@@ -57,8 +61,8 @@ Feature: Provide Home Phone without Call Control, add Call Control manually
             | OfferId             | Parent              |
             | 9154160031913906502 | 9136923654113578822 |
         # delete Call Control
-        When user try to update Shopping Cart
-        Then validate shopping cart is updated successfully
+        When test user try to update Shopping Cart
+        Then test validate shopping cart is updated successfully
 
     Scenario: Validate shopping cart for removed item
         Given preconditions by user are selected
@@ -79,17 +83,17 @@ Feature: Provide Home Phone without Call Control, add Call Control manually
 
     Scenario: Create Shopping cart to add child offers
         Given preconditions by user are selected
-        When user try to create Shopping Cart
-        Then validate shopping cart is created successfully
+        When test user try to create Shopping Cart
+        Then test validate shopping cart is created successfully
 
      Scenario: Update shopping cart to add child offers in amend
         Given preconditions by user are selected
-        And user select child offer:
+        And  test user select child offer:
             | OfferId             | Parent              |
             | 9154160031913906502 | 9136923654113578822 |
         # add Call Control
-        When user try to update Shopping Cart
-        Then validate shopping cart is updated successfully
+        When test user try to update Shopping Cart
+        Then test validate shopping cart is updated successfully
 
     Scenario: Validate shopping cart after add equipment
         Given preconditions by user are selected

@@ -2,6 +2,10 @@
 @api
 @SC
 @sc-type-14-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Commitment Offerings)
 
 #FIFA TC#14: use in SC 3
@@ -11,7 +15,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid '5753461'
     Then address id should be returned
 
   Scenario: Get service qualification for FIFA TC#14

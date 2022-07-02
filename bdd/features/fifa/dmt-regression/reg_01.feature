@@ -2,11 +2,15 @@
 @regression
 @Api
 @reg_01-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide Smart Camera with retail supplied delivery method, check Equipment views, try to change top offer
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
 
@@ -52,13 +56,13 @@ Feature: Provide Smart Camera with retail supplied delivery method, check Equipm
 
   Scenario: Create shopping cart to order top offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162184654783176533 |
 			# Smart Camera
       | 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813292023 | 9162184654783176533 |
 			# Delivery method = Retailer supplied
@@ -66,25 +70,25 @@ Feature: Provide Smart Camera with retail supplied delivery method, check Equipm
 			# Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455566 | 9162184654783176533 |
 		# Self-Install = No
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
 #  Scenario: Update shopping cart and add child offers
 #    Given preconditions by user are selected
-#    And user select child offer:
+#    And  test user select child offer:
 #      | OfferId             | Parent              |
 #      | 9151990640613434162 | 9162184654783176533 |
 #      # Indoor Wi-Fi Security Camera
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9151990640613434162 | 9162184654783176533 |
 			# Indoor Wi-Fi Security Camera
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value      | Item                |
       | 9157669257013588259 | Contact 1  | 9157582505713018514 |
 			# Contact Name = Contact 1
@@ -96,8 +100,8 @@ Feature: Provide Smart Camera with retail supplied delivery method, check Equipm
 			# End User First Name
       | 9157607665813042503 | Automation | 9161505363905984296 |
 		# End User Last Name
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
@@ -119,21 +123,21 @@ Feature: Provide Smart Camera with retail supplied delivery method, check Equipm
 
   Scenario: Create shopping cart to order
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update shopping cart and upgrade offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9155119344613072294 |
 		# Smart Automation
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9152694600113929802 | 9154132902813883884 | 9155119344613072294 |
         # Acquired From = Reliance
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart after upgrade
     Given preconditions by user are selected

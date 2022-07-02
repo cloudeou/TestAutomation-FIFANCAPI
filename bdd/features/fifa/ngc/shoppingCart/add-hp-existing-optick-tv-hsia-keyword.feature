@@ -1,13 +1,17 @@
 @atlas
 @SC
 @add-hp-existing-optick-tv-hsia-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Add New HP on existing active Optik TV & HSIA
 
   Scenario: Check address
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address

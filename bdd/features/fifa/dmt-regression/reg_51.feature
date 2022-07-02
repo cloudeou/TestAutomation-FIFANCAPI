@@ -2,15 +2,15 @@
 @regression
 @Api
 @reg_51-keyword
-# Address Parameters
-@addressType=FIBER
-@addressPort=GPON
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
 Feature: Add a MR STB to an active OptikTV
 
   Scenario: Check address
     Given user has address with type FIBER
     And technology type is GPON
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -27,22 +27,22 @@ Feature: Add a MR STB to an active OptikTV
 
   Scenario: Check create shopping cart
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9153347723813004284 |
 	    # 4 Theme Packs & 1 Premium
       | 9154252954313818263 |
 	    # Save up to $10 per month on Optik TV for 24 months (NC)
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9158306682113553797 | 9158306751513553872 | 9153347723813004284 |
 	  	# Delivery Method TV - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Check update shopping cart Api
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9149235557313488193 | 9153347723813004284 |
 		  # Sportsnet & Beyond
@@ -54,12 +54,12 @@ Feature: Add a MR STB to an active OptikTV
 		  # Blockbusters
       | 9145925448313321985 | 9153347723813004284 |
 		  # Crave
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9148465520113089778 | 9148465700013089859 | 9153347723813004284 |
 		  # Number of TVs = 2
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Check Submit Shopping Cart Api
     Given preconditions by user are selected

@@ -1,6 +1,10 @@
 @atlas
 @SC
 @sc-tc-11-keyword.feature
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Commitment Offerings)
 
   Scenario: Get addess 11
@@ -8,7 +12,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
     And technology type is GPON
     And distribution channel is F2F
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid '5753461'
     Then address id should be returned
 
   Scenario: Get service qualification 11
@@ -151,7 +155,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #  Scenario: Get addess 9
 #    Given user has address with type FIBER
 #    And technology type is GPON
-#    When get address based on entered data: '5753461'
+#    When get address is: @lpdsid '5753461'
 #    Then address id should be returned
 #
 #  Scenario: Get service qualification 9
@@ -267,7 +271,7 @@ Feature: Shopping cart 3 (Create SC with Channel Info, Product Offerings and Com
 #    Given user has address with type LTE
 #    And EXTERNAL_ID of distribution channel is CPMS_CURRENTCHANNELOUTLETID_0000029199
 #    And customer category is RESIDENTIAL
-#    When get address based on entered data: '5753461'
+#    When get address is: @lpdsid '5753461'
 #    Then address id should be returned
 #
 #

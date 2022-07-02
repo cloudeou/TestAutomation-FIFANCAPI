@@ -3,12 +3,16 @@
 @Api
 @reg_02-keyword
 # Address Parameters
-@addressType=LTE
+
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide Secure plus Video, change to Smart Automation, change to Control, check integration
 
 	Scenario: Check address
 		Given user has address with type LTE
-		When get address based on entered data
+		When get address is: @lpdsid
 		Then address id should be returned
 
 	Scenario: Check service qualification for an address
@@ -25,13 +29,13 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 
     Scenario: Create shopping cart and provide Secure Plus Video with 3 year commitment
 		Given preconditions by user are selected
-		And user select offers:
+		And test user select offers:
 			| OfferId             |
 			| 9162234603588639317 |
 			# Secure Plus Video
 			| 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-		And user set the chars for item:
+		And test user set the chars for item:
 			| Name                | Value               | Item                |
 			| 9155793580913292047 | 9155793538813291983 | 9162234603588639317 |
 			# Delivery method = Pro install
@@ -39,17 +43,17 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 			# Acquired From = Reliance
 			| 9152552492613455557 | 9152552492613455566 | 9162234603588639317 |
 		# Self-Install = No
-		When user try to create Shopping Cart
-		Then validate shopping cart is created successfully
+		When test user try to create Shopping Cart
+		Then test validate shopping cart is created successfully
 
 
 	Scenario: Update shopping cart and add child offers
 		Given preconditions by user are selected
-		And user select child offer:
+		And  test user select child offer:
 			| OfferId             | Parent              |
 			| 9151990640613434162 | 9162234603588639317 |
 			# Indoor Wi-Fi Security Camera
-		And user set the chars for item:
+		And test user set the chars for item:
 			| Name                | Value      | Item                |
 			| 9157669257013588259 | Contact 1  | 9157582505713018514 |
 			# Contact Name = Contact 1
@@ -61,20 +65,20 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 			# End User First Name
 			| 9157607665813042503 | Automation | 9161505363905984296 |
 		# End User Last Name
-		When user try to update Shopping Cart
-		Then validate shopping cart is updated successfully
+		When test user try to update Shopping Cart
+		Then test validate shopping cart is updated successfully
 
 
 #	Scenario: Update shopping cart and add child offers
 #        Given preconditions by user are selected
-#        And user select child offer:
+#        And  test user select child offer:
 #            | OfferId             | Parent              |
 #            | 9153343783813276726 | 9162234603588639317 |
 #            | 9153343783813276726 | 9162234603588639317 |
 #            | 9153343783813276726 | 9162234603588639317 |
 #			# add Emergency Contact
 #			# duplicated because there are two sets of emergency contact
-#        And user set the chars for item:
+#        And test user set the chars for item:
 #            | Name                | Value             | Item                | ItemNumber |
 #            | 9157484187713852073 | Merlip            | 9153343783813276726 | 1          |
 #            # First Name = Merlip
@@ -106,8 +110,8 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 #            # Verbal Authentication Passphrase
 #            | 9153359442413286138 | 6041234569        | 9153343783813276726 | 3          |
 #        # Contact Phone Number = 6041234569
-#        When user try to update Shopping Cart
-#        Then validate shopping cart is updated successfully
+#        When test user try to update Shopping Cart
+#        Then test validate shopping cart is updated successfully
 
     Scenario: Validate shopping cart(1)
 		Given preconditions by user are selected
@@ -136,13 +140,13 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 
 	Scenario: Create shopping cart and provide Smart Automation with 3 year commitment
 		Given preconditions by user are selected
-		And user select offers:
+		And test user select offers:
 			| OfferId             |
 			| 9155119344613072294 |
 			# Smart Automation
 			| 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-		And user set the chars for item:
+		And test user set the chars for item:
 			| Name                | Value               | Item                |
 			| 9155793580913292047 | 9155793538813291983 | 9162184182465524071 |
 			# Delivery method = Pro install
@@ -150,16 +154,16 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 			# Acquired From = Reliance
 			| 9152552492613455557 | 9152552492613455566 | 9162184182465524071 |
 		# Self-Install = No
-		When user try to create Shopping Cart
-		Then validate shopping cart is created successfully
+		When test user try to create Shopping Cart
+		Then test validate shopping cart is created successfully
 
 	Scenario: Update shopping cart and add child offers(2)
 		Given preconditions by user are selected
-		And user select child offer:
+		And  test user select child offer:
 			| OfferId             | Parent              |
 			| 9151990640613434162 | 9155119344613072294 |
 			# Indoor Wi-Fi Security Camera
-		And user set the chars for item:
+		And test user set the chars for item:
 			| Name                | Value      | Item                |
 			| 9157669257013588259 | Contact 1  | 9157582505713018514 |
 			# Contact Name = Contact 1
@@ -171,8 +175,8 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 			# End User First Name
 			| 9157607665813042503 | Automation | 9161505363905984296 |
 		# End User Last Name
-		When user try to update Shopping Cart
-		Then validate shopping cart is updated successfully
+		When test user try to update Shopping Cart
+		Then test validate shopping cart is updated successfully
 
 	Scenario: Validate shopping cart(2)
 		Given preconditions by user are selected
@@ -200,13 +204,13 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 
 	Scenario: Create shopping cart and provide control with 3 year commitment
 		Given preconditions by user are selected
-		And user select offers:
+		And test user select offers:
 			| OfferId             |
 			| 9162184182465524071 |
 			# Сontrol
 			| 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-		And user set the chars for item:
+		And test user set the chars for item:
 			| Name                | Value               | Item                |
 			| 9155793580913292047 | 9155793538813291983 | 9162184182465524071 |
 			# Delivery method = Pro install
@@ -214,17 +218,17 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 			# Acquired From = Reliance
 			| 9152552492613455557 | 9152552492613455566 | 9162184182465524071 |
 		# Self-Install = No
-		When user try to create Shopping Cart
-		Then validate shopping cart is created successfully
+		When test user try to create Shopping Cart
+		Then test validate shopping cart is created successfully
 
 
 	Scenario: Update shopping cart and add child offers(3)
 		Given preconditions by user are selected
-		And user select child offer:
+		And  test user select child offer:
 			| OfferId             | Parent              |
 			| 9151990640613434162 | 9162184182465524071 |
 			# Indoor Wi-Fi Security Camera
-		And user set the chars for item:
+		And test user set the chars for item:
 			| Name                | Value      | Item                |
 			| 9157669257013588259 | Contact 1  | 9157582505713018514 |
 			# Contact Name = Contact 1
@@ -236,8 +240,8 @@ Feature: Provide Secure plus Video, change to Smart Automation, change to Contro
 			# End User First Name
 			| 9157607665813042503 | Automation | 9161505363905984296 |
 		# End User Last Name
-		When user try to update Shopping Cart
-		Then validate shopping cart is updated successfully
+		When test user try to update Shopping Cart
+		Then test validate shopping cart is updated successfully
 
 	Scenario: Validate shopping cart(3)
 		Given preconditions by user are selected

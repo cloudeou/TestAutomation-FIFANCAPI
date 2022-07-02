@@ -2,15 +2,16 @@
 @regression
 @Api
 @reg_56-6-keyword
-# Address Parameters
-@addressType=FIBER
-@addressPort=GPON
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+
 Feature: Provide HSIA with VOICE
 
   Scenario: Check address
     Given user has address with type FIBER
     And technology type is GPON
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -39,7 +40,7 @@ Feature: Provide HSIA with VOICE
 
   Scenario: Provide HSIA with HP
    	Given preconditions by user are selected
-	And user select offers:
+	And test user select offers:
 	  | OfferId             |
 	  | 9160783681513938083 |
 	  # Save on Internet only for 24 months (Mass) (NC)
@@ -47,7 +48,7 @@ Feature: Provide HSIA with VOICE
 	  # TELUS Internet 750/750
 	  | 9136923654113578822 |
 	  # HomePhone
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9152406687013913547 |
       # Delivery Method HSIA - Pro Install
@@ -65,8 +66,8 @@ Feature: Provide HSIA with VOICE
       # Type Consumer
       | 9141866552013121612 | 9141866653113121711 | 9136923654113578822 |            
       # Number portability - Yes - Home phone
-	When user try to create Shopping Cart
-	Then validate shopping cart is created successfully
+	When test user try to create Shopping Cart
+	Then test validate shopping cart is created successfully
 
   Scenario: Check Validate shopping cart
 	Given preconditions by user are selected

@@ -3,13 +3,17 @@
 @add-shs-existing-hp-csr-keyword
 @addressType=FIBER
 @addressPort=GPON
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+
 Feature: Add New  on existing active SHSHP
   Scenario: Get addess
     Given user has address with type FIBER
     And technology type is GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5753461'
+    When get address is: @lpdsid '5753461'
     Then address id should be returned
 
   Scenario: Get service qualification

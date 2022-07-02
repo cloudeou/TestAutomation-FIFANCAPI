@@ -2,13 +2,16 @@
 @regression
 @Api
 @hisa-provide-HSIA-with-Pik-TV-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
 Feature: Provide HSIA with Pik TV
 
   Scenario: Check address
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -25,13 +28,13 @@ Feature: Provide HSIA with Pik TV
 
   Scenario: Create shopping cart to order top offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9162184182465524071 |
 			# Control
       | 9150400880613177266 |
 		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9155793580913292047 | 9155793538813291983 | 9162184182465524071 |
 			# Delivery method = Tech install
@@ -39,18 +42,18 @@ Feature: Provide HSIA with Pik TV
 			# Acquired From = No Security services
       | 9152552492613455557 | 9152552492613455566 | 9162184182465524071 |
 		# Self-Install = No (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
-    And user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
       | 9151558905213258767 | 9162184182465524071 |
 		# add Wired Takeover to control
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Check Appointment
     Given preconditions by user are selected

@@ -1,12 +1,15 @@
 @regression
 @Api
 @reg_52-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
 
 Feature: Provide wHSIA with IDU + SHS with multiple equipments (Self-Install)
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -39,7 +42,7 @@ Feature: Provide wHSIA with IDU + SHS with multiple equipments (Self-Install)
 
   Scenario: Create SC with wHSIA
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159602850913498849 |
     # wHSIA Rural Internet - 100GB monthly data
@@ -49,7 +52,7 @@ Feature: Provide wHSIA with IDU + SHS with multiple equipments (Self-Install)
 			# Smart Camera
       | 9150400880613177266 |
 #		# Home Security Commitment on 36 month contract
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9159602850913498849 |
 #      Delivery method - Self Install
@@ -59,8 +62,8 @@ Feature: Provide wHSIA with IDU + SHS with multiple equipments (Self-Install)
 			# Acquired From = Reliance
       | 9152552492613455557 | 9152552492613455562 | 9162184654783176533 |
 		# Self-Install = Yes (BOE rule, cannot change, for validation only)
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -71,18 +74,18 @@ Feature: Provide wHSIA with IDU + SHS with multiple equipments (Self-Install)
 
   Scenario: Update SC, add IDU
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9162193374812538335 | 9159602850913498849 |
 #      | 9159698239513542765 | 9159602850913498849 |
       # 5G Indoor Router
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Update SC, add child for HS
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9150455235813203812 | 9162184654783176533 |
     # Smart Push Button Door Lock (Venetian Bronze) - Purchase
@@ -96,19 +99,19 @@ Feature: Provide wHSIA with IDU + SHS with multiple equipments (Self-Install)
    # Smoke Sensor Purchase
       | 9150455235813203809 | 9162184654783176533 |
    # Smart Thermostat Purchase
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Update SC, add SIM
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9160571371613319983 | 9159602850913498849 |
       | 9159698239513542765 | 9159602850913498849 |
       # SIM
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Validate shopping cart (3)

@@ -1,12 +1,15 @@
 @regression
 @Api
 @reg_48-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
 
 Feature: Check TV with Telus TV Digital Boxes (via CLS)
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -36,7 +39,7 @@ Feature: Check TV with Telus TV Digital Boxes (via CLS)
 
   Scenario: Check create shopping cart with Pik TV
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9160783681513938083 |
 			# Save on Internet only for 24 months (Mass) (NC)
@@ -44,21 +47,21 @@ Feature: Check TV with Telus TV Digital Boxes (via CLS)
 			# TELUS Internet 750/750
       | 9146775787813796264 |
 		# The Basics + Pik 5
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9152406687013913547 |
 		# Delivery Method HSIA - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Check Telus TV Digital Box (1)
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9161813964424559241 | 9146775787813796264 |
 			# Telus TV Digital Box
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (1)
     Given preconditions by user are selected
@@ -68,43 +71,43 @@ Feature: Check TV with Telus TV Digital Boxes (via CLS)
   Scenario: Check create shopping cart with Optic TV
     Given preconditions by user are selected
     Then user try to delete Shopping Cart context
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9153347723813004284 |
 	  # 4 Theme Packs & 1 Premium
       | 9154252954313818263 |
 	  # Save up to $10 per month on Optik TV for 24 months (NC)
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9158306682113553797 | 9158306751513553872 | 9153347723813004284 |
 		# Delivery Method TV - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
 
   Scenario: Add PVR
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9145902043713662345 | 9153347723813004284 |
 			# OLN
       | 9144579890813692873 | 9153347723813004284 |
 		# HD PVR
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9148465520113089778 | 9148465700013089856 | 9153347723813004284 |
 		# Number of TVs
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario:  Check Telus TV Digital Box (2)
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9161813964424559241 | 9153347723813004284 |
 			# Telus TV Digital Box
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping321 cart (2)
@@ -118,7 +121,7 @@ Feature: Check TV with Telus TV Digital Boxes (via CLS)
       | OfferId             | Parent              |
       | 9161813964424559241 | 9153347723813004284 |
 			# Telus TV Digital Box
-    When user try to update Shopping Cart
+    When test user try to update Shopping Cart
 
   Scenario: Validate shopping cart (4)
     Given preconditions by user are selected
@@ -134,8 +137,8 @@ Feature: Check TV with Telus TV Digital Boxes (via CLS)
 
   Scenario: Patch SC with Customer
     Given preconditions by user are selected
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate shopping cart related party customer id
 
   Scenario: Check Validate shopping cart

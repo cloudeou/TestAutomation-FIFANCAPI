@@ -1,12 +1,15 @@
 @regression
 @Api
 @reg_42-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
 
 Feature: Provide 5G wHSIA with P2P Gaming APN add-on
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
 
@@ -41,18 +44,18 @@ Feature: Provide 5G wHSIA with P2P Gaming APN add-on
 
   Scenario: Create SC with wHSIA
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9161414124118156706 |
     # Smart Hub Rural Internet - 50Mbps (500GB)
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9161414124118156706 |
 #      Delivery method - Self-Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -64,7 +67,7 @@ Feature: Provide 5G wHSIA with P2P Gaming APN add-on
 
   Scenario: Update SC, add child offer
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9162328806049982024 | 9161414124118156706 |
       # 5G Indoor Router
@@ -72,13 +75,13 @@ Feature: Provide 5G wHSIA with P2P Gaming APN add-on
     # Sim
       | 9161879593566731513 | 9161414124118156706 |
     # P2P Gaming APN
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Update shopping cart and add shipping details in amend
     Given preconditions by user are selected
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value  | Item                |
       | 9147912230013832655 | T7A1T3 | 9147904372813829170 |
 
@@ -89,8 +92,8 @@ Feature: Provide 5G wHSIA with P2P Gaming APN add-on
       | 9147904820813829381 | Testing | 9147904372813829170 |
 
       | 9147983057213907287 | LastName | 9147904372813829170 |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected

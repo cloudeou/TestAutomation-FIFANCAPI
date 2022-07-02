@@ -1,11 +1,15 @@
 @regression
 @Api
 @reg_17-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide Wireless HSIA with ODU, disconnect the service
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
 
@@ -39,18 +43,18 @@ Feature: Provide Wireless HSIA with ODU, disconnect the service
 
   Scenario: Create SC with wHSIA
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159602850913498849 |
     # wHSIA Rural Internet - 100GB monthly data
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9159602850913498849 |
 #      Delivery method - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -66,13 +70,13 @@ Feature: Provide Wireless HSIA with ODU, disconnect the service
 
   Scenario: Update SC, add child offer
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9160588767613329201 | 9159602850913498849 |
       # 5G Indoor Router
       | 9160588767613329201 | 9159602850913498849 |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
     And user validate shopping cart should contain child offers:
       | OfferId             |
@@ -86,8 +90,8 @@ Feature: Provide Wireless HSIA with ODU, disconnect the service
       | 9160588767613329201 | 9159602850913498849 |
       # 5G Indoor Router
       | 9160588767613329201 | 9159602850913498849 |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
     And user validate shopping cart should not contain child offers:
       | OfferId             |
@@ -97,13 +101,13 @@ Feature: Provide Wireless HSIA with ODU, disconnect the service
   Scenario: Update SC, add child offer (2)
     Given preconditions by user are selected
     And user delete from SC context of child offers
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9159698239513542765 | 9159602850913498849 |
       # 5G Indoor Router
       | 9160588767613329201 | 9159602850913498849 |
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
     And user validate shopping cart should contain child offers:
       | OfferId             |
@@ -112,12 +116,12 @@ Feature: Provide Wireless HSIA with ODU, disconnect the service
 
   Scenario: Change Delivery Method on Self Install
     Given preconditions by user are selected
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9159602850913498849 |
 #      Delivery method - Self Install
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected
@@ -127,12 +131,12 @@ Feature: Provide Wireless HSIA with ODU, disconnect the service
 
   Scenario: Change Delivery Method on Pro Install
     Given preconditions by user are selected
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9159602850913498849 |
 #      Delivery method - Pro Install
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (3)
     Given preconditions by user are selected
@@ -153,8 +157,8 @@ Feature: Provide Wireless HSIA with ODU, disconnect the service
 
   Scenario: Create shopping cart to amend order
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update shopping cart and remove offers
     Given preconditions by user are selected
@@ -164,8 +168,8 @@ Feature: Provide Wireless HSIA with ODU, disconnect the service
     # wHSIA Rural Internet - 100GB monthly data
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (4)
     Given preconditions by user are selected

@@ -3,12 +3,15 @@
 @Api
 @reg_04-keyword
 # Address Parameters
-@addressType=LTE
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide Secure with guard response add on, check a streamline pop-up
 
 	Scenario: Check address
 		Given user has address with type LTE
-		When get address based on entered data
+		When get address is: @lpdsid
 		Then address id should be returned
 
 
@@ -26,13 +29,13 @@ Feature: Provide Secure with guard response add on, check a streamline pop-up
 
 	Scenario: Create shopping cart to order top offer
 		Given preconditions by user are selected
-		And user select offers:
+		And test user select offers:
 			| OfferId             |
 			| 9162234688573639328 |
 			# Secure
 			| 9150400880613177266 |
 			# Home Security Commitment on 36 month contract
-        And user set the chars for item:
+        And test user set the chars for item:
 			| Name                | Value               | Item                |
 			| 9155793580913292047 | 9155793538813292020 | 9162234688573639328 |
 			# Delivery method = Self install
@@ -40,19 +43,19 @@ Feature: Provide Secure with guard response add on, check a streamline pop-up
 			# Acquired From = Reliance
 			| 9152552492613455557 | 9152552492613455562 | 9162234688573639328 |
 		# Self-Install = Yes (BOE rule, cannot change, for validation only)
-		When user try to create Shopping Cart
-		Then validate shopping cart is created successfully
+		When test user try to create Shopping Cart
+		Then test validate shopping cart is created successfully
 
 	Scenario: Update shopping cart and add child offers
 		Given preconditions by user are selected
-		And user select child offer:
+		And  test user select child offer:
 			| OfferId             | Parent              |
 #			| 9159964940013727890 | 9162234688573639328 |
 			# add Guard Response – Monthly Add On
 			 | 9159965202013727998 | 9162234688573639328 |
 			 #Guard Response – Monthly Add On Legacy
-		When user try to update Shopping Cart
-		Then validate shopping cart is updated successfully
+		When test user try to update Shopping Cart
+		Then test validate shopping cart is updated successfully
 
 	Scenario: Validate shopping cart (1)
 		Given preconditions by user are selected

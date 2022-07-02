@@ -1,15 +1,16 @@
 @regression
 @Api
 @reg_14-keyword
-# Address Parameters
-@addressType=FIBER
-@addressPort=GPON
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+
 Feature: Provide Home Phone (HDM Enabled = yes for the OLT)
 
   Scenario: Check address
     Given user has address with type FIBER
     And technology type is GPON
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -26,11 +27,11 @@ Feature: Provide Home Phone (HDM Enabled = yes for the OLT)
 
   Scenario: Check create shopping cart
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
         | OfferId             |
         | 9136923654113578822 |
         # HomePhone
-    And user set the chars for item:
+    And test user set the chars for item:
         | Name                | Value               | Item                |
         | 9144240341813171759 | 9144283379913208296 | 9136923654113578822 |
         # Directory listing selection - Yes - Home phone
@@ -48,5 +49,5 @@ Feature: Provide Home Phone (HDM Enabled = yes for the OLT)
         # Offering Type Consumer
         | 9146333779513770041 | 9146333611813769961 | 9136923654113578822 |
         # Number portability - Yes - Home phone 
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully

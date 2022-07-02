@@ -2,12 +2,16 @@
 @regression
 @Api
 @reg_24-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide VAS TOS for Non-ILEC Quebec
 #TODO: check language and check notification
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -26,13 +30,13 @@ Feature: Provide VAS TOS for Non-ILEC Quebec
   Scenario: Provide TOS
    # 9157722345313159909  TELUS Online Security - Basic
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9157722345313159909 |
 			# TELUS Online Security - Basic
 
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected

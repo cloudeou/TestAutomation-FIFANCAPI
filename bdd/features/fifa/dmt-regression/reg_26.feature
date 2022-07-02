@@ -2,12 +2,16 @@
 @regression
 @Api
 @reg_26-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
   #todo catch error in shipment order (01). need to check on another itn
+
 Feature: Provide Personal Safety, add, swap, remove device, disconnect service
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -47,12 +51,12 @@ Feature: Provide Personal Safety, add, swap, remove device, disconnect service
 
   Scenario: Create SC with Gaming offer
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9160902650913677200 |
     # SmartWear Security - Monthly
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart at least one item should contain price
     And user validate shopping cart should contain top offers:
       | OfferId             |
@@ -67,7 +71,7 @@ Feature: Provide Personal Safety, add, swap, remove device, disconnect service
 
   Scenario: Update shopping cart and add child offers
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9161375560613709577 | 9160902650913677200 |
      # Black Fitness Band Easy Payment
@@ -75,8 +79,8 @@ Feature: Provide Personal Safety, add, swap, remove device, disconnect service
      # Gold Chain Necklace Easy Payment
       | 9161316511013682124 | 9160902650913677200 |
      # Gold Replacement Charm Easy Payment
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And validate total shopping cart price is updated successfully:Recurrent
     And shopping cart validation should contain attributes:
       | Name             |
@@ -99,7 +103,7 @@ Feature: Provide Personal Safety, add, swap, remove device, disconnect service
 
   Scenario: Fill parameters for security subscriber
     Given preconditions by user are selected
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value                     | Item                |
       | 9161144472513826205 | 6043254364                | 9160902650913677200 |
 			# Phone for subscriber
@@ -109,8 +113,8 @@ Feature: Provide Personal Safety, add, swap, remove device, disconnect service
 		#  subscriber lastName
       | 9161144496913826207 | testemail@telus.com       | 9160902650913677200 |
       # subscriber email
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
 
   Scenario: Validate shopping cart (2)
@@ -132,17 +136,17 @@ Feature: Provide Personal Safety, add, swap, remove device, disconnect service
 
   Scenario: Create shopping cart to add OTC child offer
     Given preconditions by user are selected
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Update shopping cart and add OTC child offer
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9161376435013710198 | 9160902650913677200 |
      # Silver Replacement Charm
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (4)
     Given preconditions by user are selected
@@ -165,19 +169,19 @@ Feature: Provide Personal Safety, add, swap, remove device, disconnect service
 
 #  Scenario: Create shopping cart to swap
 #    Given preconditions by user are selected
-#    When user try to create Shopping Cart
-#    Then validate shopping cart is created successfully
+#    When test user try to create Shopping Cart
+#    Then test validate shopping cart is created successfully
 #
 #
 #  Scenario: Fill parameters for security subscriber fgh
 #    Given preconditions by user are selected
-#    And user set the chars for item:
+#    And test user set the chars for item:
 #      | Name                | Value               | Item                |
 #      | 9154736941113672883 | 9161307529213677653 | 9161313194613680335 |
 #			# Phone for subscriber
 #      | 9149960334513292444 | 9154764568813528755 | 9161313194613680335 |
-#    When user try to update Shopping Cart
-#    Then validate shopping cart is updated successfully
+#    When test user try to update Shopping Cart
+#    Then test validate shopping cart is updated successfully
 #
 #  Scenario: Validate shopping cart (4)
 #    Given preconditions by user are selected

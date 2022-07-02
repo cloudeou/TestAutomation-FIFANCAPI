@@ -1,11 +1,15 @@
 @regression
 @Api
 @reg_21-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide STORK Email for QC customer
 #todo need to add french language
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -23,16 +27,16 @@ Feature: Provide STORK Email for QC customer
 
   Scenario: Check create shopping cart
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9156969857113555176 |
 		# Email
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Check update shopping cart Api
     Given preconditions by user are selected
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value                            | Item                |
       | 9157151853413959580 | resourceid                       | 9156969931213555193 |
 			#resourceid
@@ -46,11 +50,11 @@ Feature: Provide STORK Email for QC customer
 			#Lastname
       | 9157178661213982944 | username                         | 9156969931213555193 |
 		#username
-    When user try to update Shopping Cart
+    When test user try to update Shopping Cart
 
   Scenario: Check update shopping cart Api with multiple child and chars
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9156969931213555193 | 9156969857113555176 |
 			# Mailbox 1
@@ -74,7 +78,7 @@ Feature: Provide STORK Email for QC customer
 		# Mailbox 10
       | 9156969931213555193 | 9156969857113555176 |
 		# Mailbox 11
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value                            | Item                | ItemNumber |
       | 9157151853413959580 | resourceid                       | 9156969931213555193 | 1          |
 			#resourceid
@@ -208,8 +212,8 @@ Feature: Provide STORK Email for QC customer
 			#Lastname
       | 9157178661213982944 | username                         | 9156969931213555193 | 11         |
 		#username
-    When user try to update Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is created successfully
 
   Scenario: Check Validate shopping cart
     Given preconditions by user are selected

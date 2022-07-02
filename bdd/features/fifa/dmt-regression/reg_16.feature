@@ -1,11 +1,15 @@
 @regression
 @Api
 @reg_16-keyword
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+
 Feature: Provide Wireless HSIA with IDU
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address based on entered data
+    When get address is: @lpdsid
     Then address id should be returned
 
 
@@ -39,18 +43,18 @@ Feature: Provide Wireless HSIA with IDU
 
   Scenario: Create SC with wHSIA
     Given preconditions by user are selected
-    And user select offers:
+    And test user select offers:
       | OfferId             |
       | 9159602850913498849 |
     # wHSIA Rural Internet - 100GB monthly data
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373076 | 9159602850913498849 |
 #      Delivery method - Pro Install
-    When user try to create Shopping Cart
-    Then validate shopping cart is created successfully
+    When test user try to create Shopping Cart
+    Then test validate shopping cart is created successfully
     And user validate cart item parameters should contain:
       | ParameterName |
       | name          |
@@ -66,13 +70,13 @@ Feature: Provide Wireless HSIA with IDU
 
   Scenario: Update SC, add child offer
     Given preconditions by user are selected
-    And user select child offer:
+    And  test user select child offer:
       | OfferId             | Parent              |
       | 9160503720413228868 | 9159602850913498849 |
       | 9159698239513542765 | 9159602850913498849 |
       # 5G Indoor Router
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Validate shopping cart (2)
@@ -82,17 +86,17 @@ Feature: Provide Wireless HSIA with IDU
 
   Scenario: Change delivery method (2)
     Given preconditions by user are selected
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value               | Item                |
       | 9157950816213373074 | 9157950816213373075 | 9159602850913498849 |
 #      Delivery method - Self Install
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
 
   Scenario: Update shopping cart and add shipping details
     Given preconditions by user are selected
-    And user set the chars for item:
+    And test user set the chars for item:
       | Name                | Value  			| Item                |
       | 9147912230013832655 | T7A1T3 			| 9147904372813829170 |
 			# Shipment.Postal Code = T7A1T3
@@ -104,8 +108,8 @@ Feature: Provide Wireless HSIA with IDU
 			# Shipment.Recipient First Name
       | 9147983057213907287 | LastName 		| 9147904372813829170 |
 			# Shipment.Recipient Last Name
-    When user try to update Shopping Cart
-    Then validate shopping cart is updated successfully
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart (3)
     Given preconditions by user are selected

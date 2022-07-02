@@ -3,15 +3,18 @@
 @Api
 @reg_22-keyword
 # Address Parameters
-@addressType=FIBER
-@addressPort=GPON
+
+@DBbootstrap=addressBootstrap
+@runTimes=1
+@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+
 Feature: Provide TOS Complete as a HSIA child, upgrade to TOS Ultimate
 
 	Scenario: Check precondition implementation
 		Given user has address with type FIBER
 		And technology type is GPON
 
-		And get address based on entered data
+        When get address is: @lpdsid
 		Then address id should be returned
 
     Scenario: Check service qualification api
@@ -29,26 +32,26 @@ Feature: Provide TOS Complete as a HSIA child, upgrade to TOS Ultimate
     Scenario: Provide HSIA
    # 9152406687013913547   TELUS Internet 750/750
    	    Given preconditions by user are selected
-		And user select offers:
+		And test user select offers:
 			| OfferId             |
 			| 9152406687013913547 |
 			# TELUS Internet 750/750
-        And user set the chars for item:
+        And test user set the chars for item:
             | Name                | Value               | Item                |
             | 9157950816213373074 | 9157950816213373076 | 9152406687013913547 |
             # Delivery Method HSIA - Pro Install
 	
-		When user try to create Shopping Cart
-		Then validate shopping cart is created successfully
+		When test user try to create Shopping Cart
+		Then test validate shopping cart is created successfully
 
     Scenario: Update shopping cart Api
 		Given preconditions by user are selected
-		And user select child offer:
+		And  test user select child offer:
 			| OfferId             | Parent              |
 			| 9157219081013187038 | 9152406687013913547 |
 		# TELUS Online Security - Complete
-		When user try to update Shopping Cart
-		Then validate shopping cart is updated successfully
+		When test user try to update Shopping Cart
+		Then test validate shopping cart is updated successfully
 
     Scenario: Validate shopping cart (1)
   	    Given preconditions by user are selected
@@ -72,8 +75,8 @@ Feature: Provide TOS Complete as a HSIA child, upgrade to TOS Ultimate
 
     Scenario: Create Shopping cart to remove child offers
         Given preconditions by user are selected
-        When user try to create Shopping Cart
-        Then validate shopping cart is created successfully
+        When test user try to create Shopping Cart
+        Then test validate shopping cart is created successfully
 
     Scenario: Update shopping cart to remove child offers in amend
         Given preconditions by user are selected
@@ -81,8 +84,8 @@ Feature: Provide TOS Complete as a HSIA child, upgrade to TOS Ultimate
             | OfferId             | Parent              |
             | 9157219081013187038 | 9152406687013913547 |
         # delete TELUS Online Security - Complete
-        When user try to update Shopping Cart
-        Then validate shopping cart is updated successfully
+        When test user try to update Shopping Cart
+        Then test validate shopping cart is updated successfully
 
     Scenario: Validate shopping cart for removed item
         Given preconditions by user are selected
@@ -91,12 +94,12 @@ Feature: Provide TOS Complete as a HSIA child, upgrade to TOS Ultimate
 
     Scenario: Update shopping cart to add child offers in amend
         Given preconditions by user are selected
-        And user select child offer:
+        And  test user select child offer:
             | OfferId             | Parent              |
             | 9157210884413137510 | 9152406687013913547 |
         # add TELUS Online Security - Ultimate
-        When user try to update Shopping Cart
-        Then validate shopping cart is updated successfully
+        When test user try to update Shopping Cart
+        Then test validate shopping cart is updated successfully
 
     Scenario: Validate shopping cart after add equipment
         Given preconditions by user are selected
