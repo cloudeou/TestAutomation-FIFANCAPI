@@ -154,9 +154,14 @@ export const FIFA_createShoppingCartSteps = ({
   });
 
   and('test user set the chars for item:', async (table) => {
-    let charMap = await Common.createCharMapFromTable(table);
-    shoppingCartContext().charMap = charMap;
-    shoppingCartContext().addingCharMap = true;
+    try {
+      let charMap = await Common.createCharMapFromTable(table);
+      shoppingCartContext().charMap = charMap;
+      shoppingCartContext().addingCharMap = true;
+    }
+    catch (e) {
+      console.log(e)
+    }
   });
 
   then('test user try to delete Shopping Cart context', async () => {
@@ -359,8 +364,8 @@ export const FIFA_createShoppingCartSteps = ({
 
         }
         catch (error) {
-          test('Error responseBody should not be received', true,AssertionModes.strict)
-            .is(false,'Error responseBody is received when try to update SC\n' + JSON.stringify(error, null, '\t'))
+          test('Error responseBody should not be received when try to update SC in validate shopping cart is created successfully', true,AssertionModes.strict)
+            .is(false,'Error responseBody is received when try to update SC in validate shopping cart is created successfully\n' + JSON.stringify(error, null, '\t'))
         }
 
       }

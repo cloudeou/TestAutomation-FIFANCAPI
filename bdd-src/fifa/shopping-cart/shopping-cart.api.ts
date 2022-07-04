@@ -93,7 +93,7 @@ export class ShoppingCartApi {
       this._shoppingCartId = response.data.id;
       return response;
     } catch (error) {
-      console.log(`Error while ${ShoppingCartActions.create} of SC: ${error}`);
+      console.log(`Error while create of SC: ${error}`);
       throw error;
     }
   }
@@ -113,7 +113,7 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error: any) {
-      console.log(`Error while ${ShoppingCartActions.create} of SC: ${error}`);
+      console.log(`Error while update of SC: ${error}`);
       throw error;
     }
   }
@@ -130,7 +130,7 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error: any) {
-      console.log(`Error while ${ShoppingCartActions.get} of SC: ${error}`);
+      console.log(`Error while get of SC: ${error}`);
       throw error;
     }
   }
@@ -147,7 +147,7 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error: any) {
-      console.log(`Error while ${ShoppingCartActions.delete} of SC: ${error}`);
+      console.log(`Error while delete of SC: ${error}`);
       throw error;
     }
   }
@@ -169,7 +169,7 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error: any) {
-      console.log(`Error while ${ShoppingCartActions.validate} of SC: ${error}`);
+      console.log(`Error while validate of SC: ${error}`);
       throw error;
     }
   }
@@ -189,7 +189,7 @@ export class ShoppingCartApi {
       });
       return response;
     } catch (error) {
-      console.log(`Error while ${ShoppingCartActions.submit} of SC: ${error}`);
+      console.log(`Error while submit of SC: ${error}`);
       throw error;
     }
   }

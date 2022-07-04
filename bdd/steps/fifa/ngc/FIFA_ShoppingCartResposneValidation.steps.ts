@@ -277,13 +277,19 @@ export const shoppingCartResponseValidationSteps = (
     })
 
 
-    and(/^test user validate shopping cart top level item should contain chars:$/, async (table) => {
-        let SCResponseBody: JSON;
-        let cartItems: Array<any>;
-        SCResponseBody = responseContext().shoppingCartResponse!
-        cartItems = bodyParser.getCartItemObjects(SCResponseBody)
-        let charMap = await Common.createCharMapFromTable(table);
-        Common.validateCartItemChars(cartItems, charMap)
+    and('test user validate shopping cart top level item should contain chars:', async (table) => {
+        try {
+            console.log('test user validate shopping cart top level item should contain char')
+            let SCResponseBody: JSON;
+            let cartItems: Array<any>;
+            SCResponseBody = responseContext().shoppingCartResponse!
+            cartItems = bodyParser.getCartItemObjects(SCResponseBody)
+            let charMap = await Common.createCharMapFromTable(table);
+            Common.validateCartItemChars(cartItems, charMap)
+        }
+        catch (e) {
+            console.log(e)
+        }
     })
 
     and(/^test user validate shopping cart chars should contain:$/, (table) => {
