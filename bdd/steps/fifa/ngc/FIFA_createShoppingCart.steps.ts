@@ -296,6 +296,7 @@ export const FIFA_createShoppingCartSteps = ({
       Common.validateAllOffersNotPresentInResponse(responseBody, offersDeleted);
 
       if (Common.checkIfHasShippmentOrder(responseBody)) {
+
         let table = [
           {
             Name: '9147912230013832655',
@@ -333,18 +334,22 @@ export const FIFA_createShoppingCartSteps = ({
         charMap = shoppingCartContext().charMap!;
         let customerAccountECID = preconditionContext().externalCustomerId;
         let response = responseContext().shoppingCartResponse;
-        let responseText = JSON.stringify(response?.responseText);
+        let responseText = JSON.stringify(response,replacerFunc());
+        let childOfferMap = shoppingCartContext().childOfferMap;
         if(customerAccountECID === null) {
           throw new Error('customerAccountECID is null while validate shopping cart is created successfully')
         }
+        if (responseText.includes(customerAccountECID.toString())) {
+          customerAccountECID = null;
+        }
 
         const requestBody = {
-          prevResponse: null,
+          prevResponse: response,
           lpdsid: externalLocationId,
           customerCategory: customerCategory,
           distributionChannel,
           charMap,
-          childOfferMap: undefined,
+          childOfferMap,
           ecid: customerAccountECID,
           offersToAdd: selectedOffers,
           promotionMap: undefined
@@ -355,7 +360,7 @@ export const FIFA_createShoppingCartSteps = ({
           const response = await shoppingCartApi.updateShoppingCart(requestBody);
 
           Common.checkValidResponse(response, 200);
-          console.log(response);
+
           const responseText = JSON.stringify(response.data, replacerFunc(), '\t');
 
           // responseContext().setResponse("SC",responseBody);

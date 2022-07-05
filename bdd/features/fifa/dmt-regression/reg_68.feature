@@ -9,7 +9,7 @@ Feature: Provide Optik TV (immediate) + LW (Future date) + HSIA (Pro install)
     Given user has address with type GPON
     And distribution channel is CSR
     And customer category is RESIDENTIAL
-    When get address based on entered data: '5602461'
+    When test get address based on entered data: '5466381'
     Then address id should be returned
 
   Scenario: Check service qualification for an address
@@ -30,11 +30,11 @@ Feature: Provide Optik TV (immediate) + LW (Future date) + HSIA (Pro install)
       | OfferId             |
       | 9152915045113768337 |
       #TELUS Internet only Commitment
-      | 9160193837613204795 |
-      #TELUS Internet 2.5G
+      | 9152406687013913547 |
+      #TELUS Internet 750/750
       #
-      | 9162117984976263611 |
-      #Core
+      | 9153347723813004284 |
+      #4 Theme Packs & 1 Premium
       #
       | 9161360097813671797 |
       #LivingWell Commitment for 12 months
@@ -42,6 +42,15 @@ Feature: Provide Optik TV (immediate) + LW (Future date) + HSIA (Pro install)
       #LivingWell Companion Go
     When test user try to create Shopping Cart
     Then test validate shopping cart is created successfully
+
+  Scenario: Update SC, add HD PVR
+    Given preconditions by user are selected
+    And test user select child offer:
+      | OfferId             | Parent              |
+      | 9144579890813692873 | 9153347723813004284 |
+        #HD PVR
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
 
   Scenario: Validate shopping cart
     Given preconditions by user are selected
@@ -52,10 +61,10 @@ Feature: Provide Optik TV (immediate) + LW (Future date) + HSIA (Pro install)
     Given preconditions by user are selected
     And test user validate shopping cart top level item should contain chars:
       | Name                | Value               | Item                |
-      | 9157950816213373074 | 9157950816213373076 | 9160193837613204795 |
-      # TELUS Internet 2.5G Delivery Method - Pro Install
-      | 9158306682113553797 | 9158306751513553872 | 9162117984976263611 |
-      # TV Core Delivery Method - Pro Install
+      | 9157950816213373074 | 9157950816213373076 | 9152406687013913547 |
+      # TELUS Internet 750/750 Delivery Method - Pro Install
+      | 9158306682113553797 | 9158306751513553872 | 9153347723813004284 |
+      # 4 Theme Packs & 1 Premium Delivery Method - Pro Install
     #living well
     And test user set the chars for item:
       |Name                 |Value                | Item                |
@@ -69,8 +78,6 @@ Feature: Provide Optik TV (immediate) + LW (Future date) + HSIA (Pro install)
       | 9157582505713018514 | 9161482788965984291 |
 			# add Emergency Contact
 			# duplicated because there are two sets of emergency contact
-      | 9161599819519854106 | 9162117984976263611 |
-        #TELUS TV Digital Box
     And test user set the chars for item:
       | Name                | Value      | Item                | ItemNumber |
       | 9157669257013588259 | Contact 1  | 9157582505713018514 | 1          |
@@ -100,7 +107,7 @@ Feature: Provide Optik TV (immediate) + LW (Future date) + HSIA (Pro install)
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
 
-  Scenario: Validate shopping cart
+  Scenario: Validate shopping cart (2)
     Given preconditions by user are selected
     When test user try to validate shopping cart
     Then test no error messages should be in shopping cart
@@ -117,9 +124,9 @@ Feature: Provide Optik TV (immediate) + LW (Future date) + HSIA (Pro install)
     And validate that all orders are completed successfully
     And check present order statuses
       | objectTypeId        | Status     |
-      | 9160193837613204795 | Completed  |
-     		 # TELUS Internet 2.5G Order
-      | 9162117984976263611 | Completed  |
-     		 # tv Core Order
+      | 9152406687013913547 | Completed  |
+     		 # TELUS Internet 750/750
+      | 9153347723813004284 | Completed  |
+     		 # 4 Theme Packs & 1 Premium Order
       | 9161482788965984291 | Completed  |
      		 # LivingWell Companion Go order
