@@ -154,9 +154,14 @@ export const FIFA_createShoppingCartSteps = ({
   });
 
   and('test user set the chars for item:', async (table) => {
-    let charMap = await Common.createCharMapFromTable(table);
-    shoppingCartContext().charMap = charMap;
-    shoppingCartContext().addingCharMap = true;
+    try {
+      let charMap = await Common.createCharMapFromTable(table);
+      shoppingCartContext().charMap = charMap;
+      shoppingCartContext().addingCharMap = true;
+    }
+    catch (e) {
+      console.log(e)
+    }
   });
 
   then('test user try to delete Shopping Cart context', async () => {
@@ -291,6 +296,7 @@ export const FIFA_createShoppingCartSteps = ({
       Common.validateAllOffersNotPresentInResponse(responseBody, offersDeleted);
 
       if (Common.checkIfHasShippmentOrder(responseBody)) {
+
         let table = [
           {
             Name: '9147912230013832655',
@@ -328,18 +334,22 @@ export const FIFA_createShoppingCartSteps = ({
         charMap = shoppingCartContext().charMap!;
         let customerAccountECID = preconditionContext().externalCustomerId;
         let response = responseContext().shoppingCartResponse;
-        let responseText = JSON.stringify(response?.responseText);
+        let responseText = JSON.stringify(response,replacerFunc());
+        let childOfferMap = shoppingCartContext().childOfferMap;
         if(customerAccountECID === null) {
           throw new Error('customerAccountECID is null while validate shopping cart is created successfully')
         }
+        if (responseText.includes(customerAccountECID.toString())) {
+          customerAccountECID = null;
+        }
 
         const requestBody = {
-          prevResponse: null,
+          prevResponse: response,
           lpdsid: externalLocationId,
           customerCategory: customerCategory,
           distributionChannel,
           charMap,
-          childOfferMap: undefined,
+          childOfferMap,
           ecid: customerAccountECID,
           offersToAdd: selectedOffers,
           promotionMap: undefined
@@ -350,7 +360,7 @@ export const FIFA_createShoppingCartSteps = ({
           const response = await shoppingCartApi.updateShoppingCart(requestBody);
 
           Common.checkValidResponse(response, 200);
-          console.log(response);
+
           const responseText = JSON.stringify(response.data, replacerFunc(), '\t');
 
           // responseContext().setResponse("SC",responseBody);
@@ -359,8 +369,8 @@ export const FIFA_createShoppingCartSteps = ({
 
         }
         catch (error) {
-          test('Error responseBody should not be received', true,AssertionModes.strict)
-            .is(false,'Error responseBody is received when try to update SC\n' + JSON.stringify(error, null, '\t'))
+          test('Error responseBody should not be received when try to update SC in validate shopping cart is created successfully', true,AssertionModes.strict)
+            .is(false,'Error responseBody is received when try to update SC in validate shopping cart is created successfully\n' + JSON.stringify(error, null, '\t'))
         }
 
       }
