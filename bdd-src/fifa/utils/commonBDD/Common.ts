@@ -749,4 +749,18 @@ export class Common {
         });
         return productOfferingList;
     }
+
+    static getChildOffersForPromotionFromTable(table: any) {
+        let productOfferingList: Array<any> = [];
+        table.forEach(function (row: any) {
+            let offerId = Common.getBootstrapIfExists(row.OfferId);
+            let price = row.Price
+            let offer = {
+                offerId,
+                price
+            }
+            productOfferingList.push(offer)
+        });
+        return productOfferingList;
+    }
 }
