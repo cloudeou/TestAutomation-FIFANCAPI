@@ -9,9 +9,8 @@ Feature: Provide Wireless HSIA with IDU
 
   Scenario: Check address
     Given user has address with type LTE
-    When get address is: @lpdsid
+    When test get address is: @lpdsid
     Then address id should be returned
-
 
   Scenario: Check service qualification for an address
     Given preconditions by user are selected
@@ -49,42 +48,58 @@ Feature: Provide Wireless HSIA with IDU
     # wHSIA Rural Internet - 100GB monthly data
       | 9159621605313507298 |
      # $5 off plus free Rental for 2 years.
-    And test user set the chars for item:
-      | Name                | Value               | Item                |
-      | 9157950816213373074 | 9157950816213373076 | 9159602850913498849 |
-#      Delivery method - Pro Install
     When test user try to create Shopping Cart
     Then test validate shopping cart is created successfully
-    And user validate cart item parameters should contain:
+    And test user validate cart item parameters should contain:
       | ParameterName |
       | name          |
-    And user validate cart at least one item should contain price
-    And user validate shopping cart should contain top offers:
+    And test user validate cart at least one item should contain price
+    And test user validate shopping cart should contain top offers:
       | OfferId             |
       | 9159602850913498849 |
 
   Scenario: Validate shopping cart (1)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then error messages should be in shopping cart: 'A minimum of one 5G Outdoor Router or 5G Indoor Router must be selected.'
+    When test user try to validate shopping cart
+    Then test error messages should be in shopping cart: 'A minimum of one 5G Outdoor Router or 5G Indoor Router must be selected.'
 
   Scenario: Update SC, add child offer
     Given preconditions by user are selected
-    And  test user select child offer:
+    And test user select child offer:
       | OfferId             | Parent              |
-      | 9160503720413228868 | 9159602850913498849 |
+      | 9160503693613228831 | 9159602850913498849 |
       | 9159698239513542765 | 9159602850913498849 |
-      # 5G Indoor Router
+      # 5G Indoor Router Purchase
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
-    And user validate at least one cart item should contain price alteration
+    And test user validate at least one cart item should contain price alteration
+    And user validate shopping cart promotion price in $ for child offers should be: 
+        | OfferId             | Price | Name                         |
+        | 9163039825409415152 |  50   | Wireless HSIA Connection Fee |
+        # Wireless HSIA Connection Fee
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then error messages should be in shopping cart: 'The requested delivery type for the added Internet equipment does not allign with your Internet delivery method. Please align your delivery method before proceeding.'
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
-  Scenario: Change delivery method (2)
+  Scenario: Update SC, add delivery method
+    Given preconditions by user are selected
+      And test user set the chars for item:
+      | Name                | Value               | Item                |
+      | 9157950816213373074 | 9157950816213373076 | 9159602850913498849 |
+      #   Delivery method - Pro Install
+    When test user try to update Shopping Cart
+    Then test validate shopping cart is updated successfully
+    And test user validate at least one cart item should contain price alteration
+
+  Scenario: Validate shopping cart (3)
+    Given preconditions by user are selected
+    When test user try to validate shopping cart
+    Then test error messages should be in shopping cart: 'The requested delivery type for the added Internet equipment does not allign with your Internet delivery method. Please align your delivery method before proceeding.'
+#todo: check Validate errors
+
+  Scenario: Change delivery method 
     Given preconditions by user are selected
     And test user set the chars for item:
       | Name                | Value               | Item                |
@@ -92,7 +107,11 @@ Feature: Provide Wireless HSIA with IDU
 #      Delivery method - Self Install
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
-    And user validate at least one cart item should contain price alteration
+    # And user validate at least one cart item should contain price alteration
+    # And user validate shopping cart top level item should contain chars:
+    #   | Name                | Value    | Item                |
+    #   | 9163159338933151737 | GEOFENCE | 9159602850913498849 |
+    #   # Geo Type Code = GEOFENCE for Smart Hub Rural Internet 25/10 - 100 GB Monthly Data
 
   Scenario: Update shopping cart and add shipping details
     Given preconditions by user are selected
@@ -111,15 +130,15 @@ Feature: Provide Wireless HSIA with IDU
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
 
-  Scenario: Validate shopping cart (3)
+  Scenario: Validate shopping cart (4)
     Given preconditions by user are selected
-    When user try to validate shopping cart
-    Then no error messages should be in shopping cart
+    When test user try to validate shopping cart
+    Then test no error messages should be in shopping cart
 
   Scenario: Submit SC
     Given preconditions by user are selected
-    When user try to submit shopping cart
-    Then sales order id should be returned
+    When test user try to submit shopping cart
+    Then test sales order id should be returned
 
   Scenario: Check backend orders validation
     Given preconditions by user are selected
@@ -128,6 +147,12 @@ Feature: Provide Wireless HSIA with IDU
     And validate that all orders are completed successfully
     And validate that all billing actions completed successfully
 
+    And check present order statuses
+      | objectTypeId        | Status     |
+      # | 9154571915913717019 | Completed  |
+      # New Wireless Connectivity RFS Order 
+      | 9154572125913717135 | Completed  |
+      # New TELUS Wireless Internet Product Order 
 
 
 

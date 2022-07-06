@@ -741,9 +741,11 @@ export class Common {
         table.forEach(function (row: any) {
             let offerId = Common.getBootstrapIfExists(row.OfferId);
             let price = row.Price
+            let offerName = row.Name
             let offer = {
                 offerId,
-                price
+                price,
+                offerName
             }
             productOfferingList.push(offer)
         });

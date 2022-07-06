@@ -430,6 +430,9 @@ export const shoppingCartResponseValidationSteps = (
                             let priceValue = itemPrice.price.dutyFreeAmount.value
                             test('Check promotion price', Number(priceValue) === Number(offer.price), AssertionModes.strict)
                             .is(true, `Promotion price doesnot equal price`)
+                            test('Check promotion name', cartItem.productOffering.name === offer.offerName, AssertionModes.strict)
+                            .is(true, `Promotion name doesnot equal real name`)
+
                         }
                     }
                 });

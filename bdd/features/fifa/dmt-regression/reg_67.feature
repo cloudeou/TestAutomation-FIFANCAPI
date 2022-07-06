@@ -8,6 +8,8 @@ Feature: Provide LWC MPERS
 
   Scenario: Check address
     Given user has address with type LTE
+    And distribution channel is Project3RT
+    And customer category is RESIDENTIAL
     When get address based on entered data: '3295797'
     Then address id should be returned
 
@@ -18,7 +20,7 @@ Feature: Provide LWC MPERS
 
   Scenario: Check product offerings under the livingwell category
     Given preconditions by user are selected
-    And distribution channel is CSR
+    And distribution channel is Project3RT
     And customer category is RESIDENTIAL
     And user filter by the following categories:
         | CategoryId          |
@@ -65,8 +67,8 @@ Feature: Provide LWC MPERS
         | 9163227219112647539 |
         # LivingWell Companion Go- DASH Device
     And user validate shopping cart promotion price in $ for child offers should be: 
-        | OfferId             | Price |
-        | 9161508882306984319 |  35   |
+        | OfferId             | Price | Name                                  |
+        | 9161508882306984319 |  35   | LivingWell Companion – Activation Fee |
         # LivingWell Companion – Activation Fee
 
   Scenario: Validate shopping cart(1)
@@ -137,15 +139,13 @@ Feature: Provide LWC MPERS
       # New API CMS Integration RFS Order
       | 9157420868813350351 | Completed  |
       # New Living Well CFS Order
-      | 9157420868813350351 | Completed  |
-      # New Living Well CFS Order
       | 9150380965513139161 | Completed  |
       # New ADC Platform RFS Order
       | 9147982277913906943 | Completed  |
       # New Shipment Product Order
     And validate that all billing actions completed successfully
-    # And check that the letters was received:
-    #   | subject                                     | body                    |
-    #   | Your TELUS Home Services order is confirmed | Thank=>TELUS=>confirmed |
+    And check that the letters was received:
+      | subject                 | body                                                                   |
+      | TELUS Service Agreement | Order summary=>Your order includes=>LivingWell Companion Go - With App |
 
 #todo: check letters
