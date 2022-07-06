@@ -5,7 +5,7 @@
 @addressPort=GPON
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Add New  on existing active SHSHP
   Scenario: Get addess

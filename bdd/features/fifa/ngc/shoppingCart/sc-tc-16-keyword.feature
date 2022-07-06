@@ -4,7 +4,7 @@
 @sc-type-16-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: FIFA TC#16
 

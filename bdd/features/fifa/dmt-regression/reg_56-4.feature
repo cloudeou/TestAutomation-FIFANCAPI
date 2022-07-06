@@ -4,7 +4,7 @@
 @reg_56-4-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Create customer without any services
 

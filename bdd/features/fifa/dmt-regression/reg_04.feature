@@ -5,7 +5,7 @@
 # Address Parameters
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide Secure with guard response add on, check a streamline pop-up
 

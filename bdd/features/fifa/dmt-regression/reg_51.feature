@@ -4,7 +4,7 @@
 @reg_51-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"GPON"}
 Feature: Add a MR STB to an active OptikTV
 
   Scenario: Check address

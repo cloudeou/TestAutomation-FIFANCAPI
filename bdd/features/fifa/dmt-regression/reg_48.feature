@@ -3,7 +3,7 @@
 @reg_48-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Check TV with Telus TV Digital Boxes (via CLS)
 

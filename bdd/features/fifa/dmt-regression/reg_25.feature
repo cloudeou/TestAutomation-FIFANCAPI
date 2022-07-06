@@ -4,7 +4,7 @@
 @reg_25-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide Nintendo, add/remove devices, disconnect before financing term is over
 

@@ -4,7 +4,7 @@
 @sc-type-12-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Shopping cart 12 (Create SC with Channel Info, Product Offerings)
 

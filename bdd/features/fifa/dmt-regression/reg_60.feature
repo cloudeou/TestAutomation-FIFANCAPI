@@ -3,7 +3,7 @@
 @reg_60-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"wHSIA","suiteName":"regression"}
+@DBbootstrapParams={"type":"wHSIA"}
 
 Feature: Check fees for a customer with wHSIA, a commitment and Easy Pay equipment
 

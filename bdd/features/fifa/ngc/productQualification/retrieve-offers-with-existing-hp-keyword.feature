@@ -3,7 +3,7 @@
 @retrieve-offers-with-existing-hp-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"productQualification"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Retrieve Offers with exiting Home Phone
 

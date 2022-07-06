@@ -3,7 +3,7 @@
 @reg_14-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Provide Home Phone (HDM Enabled = yes for the OLT)
 

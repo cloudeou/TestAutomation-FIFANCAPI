@@ -3,7 +3,7 @@
 @sc-tc-18-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Shopping cart 18 (Create SC with WHSIA, SHS and Equipment)
 

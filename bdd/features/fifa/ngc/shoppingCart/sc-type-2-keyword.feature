@@ -3,7 +3,7 @@
 @sc-type-2-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Shopping cart 2 (Create SC with Channel Info, Product Offerings and Coupon Code Offerings) TC 8,13,7,3
 

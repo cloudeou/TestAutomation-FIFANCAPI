@@ -3,7 +3,7 @@
 @existing-hs-optik-tv-add-com-tv-change-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Existing customer with active HS+Optik TV change TLO
 

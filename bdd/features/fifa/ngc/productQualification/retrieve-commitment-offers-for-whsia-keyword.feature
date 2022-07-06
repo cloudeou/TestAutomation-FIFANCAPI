@@ -3,7 +3,7 @@
 @retrieve-commitment-offers-for-whsia-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Retrieve Commitment Offers for WHSIA
 

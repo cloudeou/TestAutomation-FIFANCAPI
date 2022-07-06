@@ -4,7 +4,7 @@
 @reg_23-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide VAS TOS
 

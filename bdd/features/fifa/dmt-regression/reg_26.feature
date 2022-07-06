@@ -4,7 +4,7 @@
 @reg_26-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
   #todo catch error in shipment order (01). need to check on another itn
 
 Feature: Provide Personal Safety, add, swap, remove device, disconnect service

@@ -3,7 +3,7 @@
 @reg_52-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide wHSIA with IDU + SHS with multiple equipments (Self-Install)
 

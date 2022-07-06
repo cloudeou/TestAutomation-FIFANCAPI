@@ -3,7 +3,7 @@
 @reg_61-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"regression"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Provide TV Premium 4.0 on term with 5 Telus TV Digital Boxes
 

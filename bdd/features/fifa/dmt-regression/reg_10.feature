@@ -4,7 +4,7 @@
 @reg_10-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Provide Optik TV with Calm, add STB
 

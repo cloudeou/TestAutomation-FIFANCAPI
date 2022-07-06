@@ -5,7 +5,7 @@
 # Address Parameters
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Billing and CSAg enhansements validation
 

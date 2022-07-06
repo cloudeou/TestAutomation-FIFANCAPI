@@ -4,7 +4,7 @@
 @reg_24-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide VAS TOS for Non-ILEC Quebec
 #TODO: check language and check notification

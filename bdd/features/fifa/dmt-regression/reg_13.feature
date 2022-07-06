@@ -6,7 +6,7 @@
 
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Provide Home Phone without Call Control, add Call Control manually
 

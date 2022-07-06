@@ -3,7 +3,7 @@
 @retrieve-all-child-offers-per-prod-offering-without-co-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Retrieve all child offers per selected product offering without commitment offerings
     

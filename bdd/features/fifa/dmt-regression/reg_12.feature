@@ -4,7 +4,7 @@
 @reg_12-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Provide Home Phone, activate Smart Speaker, deactivate Smart Speaker
 

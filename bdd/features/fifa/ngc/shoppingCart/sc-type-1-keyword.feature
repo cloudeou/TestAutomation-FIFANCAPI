@@ -4,7 +4,7 @@
 @sc-type-4-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Shopping cart 4 (Create SC with Channel Info, Product Offerings)
 

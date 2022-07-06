@@ -3,7 +3,7 @@
 @retrieve-commitment-offers-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"productQualification"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Retrieve Commitment Offers
 

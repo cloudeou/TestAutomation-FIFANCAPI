@@ -4,7 +4,7 @@
 @hisa-provide-HSIA-with-Pik-TV-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"GPON"}
 Feature: Provide HSIA with Pik TV
 
   Scenario: Check address

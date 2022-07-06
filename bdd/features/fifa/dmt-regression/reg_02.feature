@@ -6,7 +6,7 @@
 
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide Secure plus Video, change to Smart Automation, change to Control, check integration
 

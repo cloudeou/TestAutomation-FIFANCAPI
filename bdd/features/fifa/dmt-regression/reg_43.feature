@@ -3,7 +3,7 @@
 @reg_43-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide Smart Automation Plus, check bundle, upgrade to Secure, upgrade TOS to Utimate
 

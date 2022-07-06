@@ -3,7 +3,7 @@
 @retrieve-whsia-commitment-offers-keyword
 #@DBbootstrap=addressBootstrap
 #@runTimes=1
-#@DBbootstrapParams={"type":"WHSIA-STANDARD","suiteName":"productQualification"}
+#@DBbootstrapParams={"type":"WHSIA-STANDARD"}
 #VALID ADDRESS 4905944
 Feature: Retrieve WHSIA commitment offers
 

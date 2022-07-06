@@ -4,7 +4,7 @@
 @reg_30-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
   #todo cancel return
 
 Feature: Reverse Logistics: Provide Secure with self install, disconnect Secure, cancel Reverse Logistics order

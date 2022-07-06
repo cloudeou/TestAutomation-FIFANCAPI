@@ -6,7 +6,7 @@
 
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 Feature: Provide Control Plus Video with 24/7 recording feature
 
 	#todo 24/7 - Dormant, need check email

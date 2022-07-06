@@ -3,7 +3,7 @@
 @retrieve-offers-with-existing-lw-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"productQualification"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Retrieve Offers with exiting LivingWell
 

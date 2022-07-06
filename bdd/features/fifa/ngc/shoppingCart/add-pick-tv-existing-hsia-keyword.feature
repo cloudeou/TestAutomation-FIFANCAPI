@@ -3,7 +3,7 @@
 @add-pick-tv-existing-hsia-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Add New Pik TV on existing active HSIA
   Scenario: Check address

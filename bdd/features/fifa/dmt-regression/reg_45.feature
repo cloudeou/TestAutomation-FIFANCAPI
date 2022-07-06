@@ -3,7 +3,7 @@
 @reg_45-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
   #todo Go to BE, complete the provision sending the FFO SIM Scan SOAP request, check decomposition.
 
 Feature: Provide of wHSIA IDU BYOD with TSS (multipe accounts option)

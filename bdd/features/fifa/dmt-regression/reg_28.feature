@@ -4,7 +4,7 @@
 @reg_28-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Check SWT Engine Override (special projects) functionality
 

@@ -3,7 +3,7 @@
 @existing-hsia-add-com-tlo-change-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Existing active HSIA plan, Add Commintment, Change TLO
 

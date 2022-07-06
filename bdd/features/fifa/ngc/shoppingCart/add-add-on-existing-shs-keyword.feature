@@ -3,7 +3,7 @@
 @add-add-on-existing-shs-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Add New Add On Equipment on existing SHS
   Scenario: Check address

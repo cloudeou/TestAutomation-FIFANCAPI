@@ -3,7 +3,7 @@
 @add-hp-existing-optick-tv-hsia-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Add New HP on existing active Optik TV & HSIA
 

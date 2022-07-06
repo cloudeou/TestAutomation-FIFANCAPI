@@ -3,7 +3,7 @@
 @reg_21-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide STORK Email for QC customer
 #todo need to add french language

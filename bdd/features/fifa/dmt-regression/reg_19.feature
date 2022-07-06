@@ -3,7 +3,7 @@
 @reg_19-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
   #todo need to complete order on be
 Feature: Add P2P Gaming APN add-on to an active wHSIA service

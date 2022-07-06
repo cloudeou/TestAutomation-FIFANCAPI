@@ -3,7 +3,7 @@
 @existing-whsia-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"WHSIA-STANDARD","suiteName":"productQualification"}
+@DBbootstrapParams={"type":"WHSIA-STANDARD"}
 
 Feature: Retrieve Offers With Existing internet
 

@@ -4,7 +4,7 @@
 @reg_01-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Provide Smart Camera with retail supplied delivery method, check Equipment views, try to change top offer
 

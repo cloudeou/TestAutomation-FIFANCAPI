@@ -4,7 +4,7 @@
 @existing-triple-no-change-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"GPON","suiteName":"shoppingCart"}
+@DBbootstrapParams={"type":"GPON"}
 
 Feature: Existing commitment in Regular Period Triple Play no change
 

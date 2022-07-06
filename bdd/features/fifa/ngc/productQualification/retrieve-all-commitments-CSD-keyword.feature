@@ -3,7 +3,7 @@
 @retrieve-all-commitments-CSD-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"productQualification"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Retrieve all commitment offers for CSD users
 

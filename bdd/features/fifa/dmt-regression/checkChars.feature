@@ -4,7 +4,7 @@
 @reg_55-keyword
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 
 Feature: Check characteristic Geo Type Code under all wHSIA offers
 

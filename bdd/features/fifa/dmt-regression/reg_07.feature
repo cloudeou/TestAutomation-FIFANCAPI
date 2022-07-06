@@ -6,7 +6,7 @@
 
 @DBbootstrap=addressBootstrap
 @runTimes=1
-@DBbootstrapParams={"type":"LTE","suiteName":"dmt-regression"}
+@DBbootstrapParams={"type":"LTE"}
 Feature: Provide LWC, check the Security Information page
 
 	Scenario: Check address

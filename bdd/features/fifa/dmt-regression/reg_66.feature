@@ -3,7 +3,7 @@
 @reg_66-keyword
 # @DBbootstrap=addressBootstrap
 # @runTimes=1
-# @DBbootstrapParams={"type":"LTE","suiteName":"regression"}
+# @DBbootstrapParams={"type":"LTE"}
 Feature: Provide HomePro
 
   Scenario: Check address
