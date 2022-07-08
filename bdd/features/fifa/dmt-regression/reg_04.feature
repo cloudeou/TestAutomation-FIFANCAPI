@@ -56,16 +56,20 @@ Feature: Provide Secure with guard response add on, check a streamline pop-up
 			 #Guard Response – Monthly Add On Legacy
 		When test user try to update Shopping Cart
 		Then test validate shopping cart is updated successfully
+		And user validate price in $ for child offers should be: 
+      		| OfferId             | Price | Name               				|
+      		| 9159964940013727890 |  5    | Guard Response – Monthly Add On |
+      		# Guard Response – Monthly Add On
 
 	Scenario: Validate shopping cart (1)
 		Given preconditions by user are selected
-		When user try to validate shopping cart
-		And warning messages should be in shopping cart: 'Please double check if customer needs to install old equipment in Takeover Equipment Section'
+		When test user try to validate shopping cart
+		And test warning messages should be in shopping cart: 'Please double check if customer needs to install old equipment in Takeover Equipment Section'
 
 	Scenario: Check Submit Shopping Cart Api(1)
     	Given preconditions by user are selected
-   		When user try to submit shopping cart
-    	Then sales order id should be returned
+   		When test user try to submit shopping cart
+    	Then test sales order id should be returned
 
   	Scenario: Check backend orders validation(1)
     	Given preconditions by user are selected

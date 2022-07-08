@@ -117,6 +117,10 @@ Feature: Add P2P Gaming APN add-on to an active wHSIA service
       # P2P Gaming APN
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
+    And user validate price in $ for child offers should be: 
+      | OfferId             | Price | Name                |
+      | 9161879593566731513 |  5    | P2P Gaming APN      |
+      # P2P Gaming APN
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected
@@ -135,3 +139,15 @@ Feature: Add P2P Gaming APN add-on to an active wHSIA service
     Then validate that no errors created on BE
     And validate that all orders are completed successfully
   #  And validate that all billing actions completed successfully
+    And check present order statuses
+      | objectTypeId        | Status     |
+      | 9154572125913717135 | Completed  |
+      # Modify TELUS Wireless Internet ProductOrder
+      | 9134835023613240611 | Completed  |
+      # New HSIA CFS Order
+      | 9154571915913717019 | Completed  |
+      # New Wireless Connectivity RFS Order 
+      | 9148281172813805597 | Completed  |
+      # New NSN Mediation RFS Order
+      | 9154572125913717135 | Completed  |
+      # New TELUS Wireless Internet Product Order 

@@ -100,6 +100,11 @@ Feature: Provide Personal Safety, add, swap, remove device, disconnect service
      # Gold Chain Necklace Easy Payment
       | 9161316511013682124 |
  # Gold Replacement Charm Easy Payment
+    And user validate price in $ for top offers should be: 
+      | OfferId             | Price |
+      | 9160902650913677200 |  15   |
+        #  SmartWear Security - Monthly
+
 
   Scenario: Fill parameters for security subscriber
     Given preconditions by user are selected

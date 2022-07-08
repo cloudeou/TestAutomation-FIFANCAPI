@@ -79,6 +79,12 @@ Feature: Provide of wHSIA IDU BYOD with TSS (multipe accounts option)
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
     And user validate at least one cart item should contain price alteration
+    And user validate price in $ for child offers should be: 
+        | OfferId             | Price | Name     |
+        | 9162193374812538335 |  0    | IDU BYOD |
+        # IDU BYOD
+        | 9163039825409415152 |  50   | Wireless HSIA Connection Fee |
+        # Wireless HSIA Connection Fee
 
   Scenario: Validate shopping cart (2)
     Given preconditions by user are selected

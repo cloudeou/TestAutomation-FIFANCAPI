@@ -117,6 +117,10 @@ Feature: Provide, change, cease TV with Netflix
       | OfferId             |
       | 9159960387513725198 |
       # Netflix Standard
+    And user validate price in $ for child offers should be: 
+      | OfferId             | Price | Name                           |
+      | 9161879593566731513 |  4    | Netflix Premium Surcharge      |
+      # Netflix Premium Surcharge
 
   Scenario: Check Validate shopping cart (2)
     Given preconditions by user are selected

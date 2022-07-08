@@ -33,7 +33,7 @@ Feature: Check fees for a customer with wHSIA, a commitment and Easy Pay equipme
     And test user select commitments in trial period:
       | OfferId             |
       | 9159621605313507298 |
-    # $5 off plus free Rental for 2 years
+    # $10/24 months & Equipment Promo
     And test user set the chars for item:
       | Name                | Value               | Item                |
       # | 9157950816213373074 | 9157950816213373076 | 9159602850913498849 |

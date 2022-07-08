@@ -111,5 +111,9 @@ Feature: Provide Home Phone without Call Control, add Call Control manually
         Then validate that no errors created on BE
         And validate that all orders are completed successfully
         And validate that all billing actions completed successfully
+        And check present order statuses
+            | objectTypeId        | Status     |
+            | 9153800090113435286 | Completed  |
+            # New CVAS RFS Order
 
         #todo: clarify about insight
