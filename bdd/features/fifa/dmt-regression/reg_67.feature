@@ -66,10 +66,14 @@ Feature: Provide LWC MPERS
         # LivingWell Companion – Activation Fee
         | 9163227219112647539 |
         # LivingWell Companion Go- DASH Device
-    And user validate shopping cart promotion price in $ for child offers should be: 
+    And user validate price in $ for child offers should be: 
         | OfferId             | Price | Name                                  |
         | 9161508882306984319 |  35   | LivingWell Companion – Activation Fee |
         # LivingWell Companion – Activation Fee
+    And user validate price in $ for top offers should be: 
+        | OfferId             | Price |
+        | 9163210145801646781 |  60   |
+        # Livingwell companion Go - With App
 
   Scenario: Validate shopping cart(1)
     Given preconditions by user are selected

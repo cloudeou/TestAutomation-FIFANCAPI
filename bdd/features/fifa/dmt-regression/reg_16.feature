@@ -73,7 +73,7 @@ Feature: Provide Wireless HSIA with IDU
     When test user try to update Shopping Cart
     Then test validate shopping cart is updated successfully
     And test user validate at least one cart item should contain price alteration
-    And user validate shopping cart promotion price in $ for child offers should be: 
+    And user validate price in $ for child offers should be: 
         | OfferId             | Price | Name                         |
         | 9163039825409415152 |  50   | Wireless HSIA Connection Fee |
         # Wireless HSIA Connection Fee

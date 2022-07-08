@@ -50,7 +50,7 @@ Feature: Provide HomePro
         | OfferId             |
         | 9163686059545645182 |
         #HomePro
-    And user validate shopping cart promotion price in $ for top offers should be: 
+    And user validate price in $ for top offers should be: 
         | OfferId             | Price |
         | 9163686059545645182 |  30   |
         # HomePro
